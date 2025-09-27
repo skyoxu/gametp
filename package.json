@@ -241,7 +241,7 @@
                             "lint-staged":  "^16.1.5",
                             "prettier":  "^3.6.2",
                             "rollup-plugin-visualizer":  "^6.0.3",
-                            "snyk":  "^1.1296.0",
+                            "snyk":  "^1.1299.1",
                             "tailwindcss":  "^4.0.0",
                             "tsconfig-paths":  "^4.2.0",
                             "tsx":  "^4.19.2",
