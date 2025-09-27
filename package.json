@@ -172,7 +172,7 @@
                          "@sentry/browser":  "^10.5.0",
                          "@sentry/electron":  "^6.10.0",
                          "@sentry/integrations":  "^7.120.4",
-                         "@sentry/node":  "^10.5.0",
+                         "@sentry/node":  "^10.15.0",
                          "@types/js-yaml":  "^4.0.9",
                          "@upstash/context7-mcp":  "^1.0.14",
                          "@zilliz/claude-context-mcp":  "0.1.3",
