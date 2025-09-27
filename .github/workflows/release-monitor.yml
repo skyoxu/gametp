@@ -1,0 +1,97 @@
+name: Release Monitor
+
+permissions:
+  contents: read
+  actions: write
+
+defaults:
+  run:
+    shell: pwsh
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Monitor application version (leave empty to use environment variable)'
+        required: false
+        type: string
+      force_check:
+        description: 'Force check (ignore time limits)'
+        required: false
+        type: boolean
+        default: false
+
+env:
+  SENTRY_ORG: ${{ vars.SENTRY_ORG || 'your-org' }}
+  SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT || 'vitegame' }}
+  APP_VERSION: ${{ inputs.version || vars.APP_VERSION || github.ref_name }}
+  PREV_GA_VERSION: ${{ vars.PREV_GA_VERSION || '0.0.9' }}
+  THRESHOLD_CF_USERS: ${{ vars.THRESHOLD_CF_USERS || '0.995' }}
+  THRESHOLD_CF_SESSIONS: ${{ vars.THRESHOLD_CF_SESSIONS || '0.995' }}
+  WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  monitor:
+    runs-on: windows-latest
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        uses: ./.github/actions/npm-install
+        env:
+          NPM_CONFIG_PRODUCTION: 'true'
+
+      - name: Ensure jq installed (Windows)
+        run: node scripts/ci/install-jq-windows.mjs
+
+      - name: Evaluate monitoring conditions
+        id: conditions
+        run: node scripts/ci/release-monitor-conditions.mjs
+        env:
+          FORCE_CHECK: ${{ inputs.force_check }}
+
+      - name: Release health monitor
+        id: health_monitor
+        if: steps.conditions.outputs.should_monitor == 'true'
+        run: node scripts/ci/release-health-monitor.mjs
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Write monitoring status file
+        if: steps.conditions.outputs.should_monitor == 'true'
+        run: node scripts/ci/write-monitoring-status.mjs
+        env:
+          APP_VERSION: ${{ env.APP_VERSION }}
+          STAGING_PERCENTAGE: ${{ steps.conditions.outputs.staging_percentage }}
+          HEALTH_STATUS: ${{ steps.health_monitor.outputs.monitor_status }}
+          HEALTH_RESULT: ${{ steps.health_monitor.outputs.health_result }}
+
+      - name: Notify webhook on unhealthy
+        if: steps.health_monitor.outputs.monitor_status == 'unhealthy'
+        run: node scripts/ci/post-webhook-alert.mjs
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          APP_VERSION: ${{ env.APP_VERSION }}
+          STAGING_PERCENTAGE: ${{ steps.conditions.outputs.staging_percentage }}

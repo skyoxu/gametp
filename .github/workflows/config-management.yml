@@ -1,0 +1,129 @@
+name: Configuration Management
+
+permissions:
+  contents: read
+  actions: read
+
+defaults:
+  run:
+    shell: pwsh
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'docs/architecture/**'
+      - 'src/**'
+      - 'package.json'
+      - '.github/workflows/config-management.yml'
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+  RELEASE_PREFIX: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  config-validation-and-docs:
+    name: Config Validation and Docs
+    runs-on: windows-latest
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate config layers
+        env:
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: npm run config:layers:validate
+
+      - name: Generate config report
+        run: npm run config:layers:report > config-report.json
+
+      - name: Validate config substitution (non-main)
+        if: github.ref != 'refs/heads/main'
+        run: npm run config:substitute:validate
+
+      - name: Generate config docs
+        env:
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        run: npm run config:substitute:docs
+
+      - name: Validate package.json
+        run: node scripts/ci/validate-package-json.mjs
+
+      - name: Upload config reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: config-management-report
+          path: |
+            logs/
+            config-report.json
+
+  documentation-build:
+    name: Docs Build and Publish Readiness
+    needs: config-validation-and-docs
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Process config and docs
+        env:
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          NODE_ENV: production
+          RELEASE_PREFIX: prod
+        run: node scripts/ci/process-config-and-docs.mjs
+
+      - name: Verify generated files
+        run: node scripts/ci/verify-generated-files.mjs
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@v4
+        with:
+          name: processed-documentation
+          path: |
+            docs/architecture/
+            dist/config*
+            src/generated/config*
+            .env.production
+          retention-days: 7

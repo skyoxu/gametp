@@ -1,0 +1,174 @@
+name: Validate Workflows & Guards
+
+on:
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - '.github/workflows/**'
+      - 'scripts/ci/workflow-consistency-check.mjs'
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Manual trigger reason'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  actionlint:
+    name: Lint workflow YAML (actionlint)
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run actionlint
+        uses: raven-actions/actionlint@v2
+
+  actionlint-windows:
+    name: Lint workflow YAML (actionlint, Windows)
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run actionlint (Windows)
+        uses: raven-actions/actionlint@v2
+
+  needs-guard:
+    name: Check jobs/needs consistency
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs: [actionlint, actionlint-windows]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20'
+      - name: Step
+        run: node scripts/ci/workflow-consistency-check.mjs
+
+  encoding-guard:
+    name: Enforce UTF-8 + LF for workflows
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs: [actionlint, actionlint-windows]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20'
+      - name: Check workflow encodings and EOL
+        run: node scripts/ci/check-workflows-encoding.mjs
+
+  encoding-guard-windows:
+    name: Enforce UTF-8 + LF for workflows (Windows)
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs: [actionlint, actionlint-windows]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20'
+      - name: Check workflow encodings and EOL (Windows)
+        run: node scripts/ci/check-workflows-encoding.mjs
+
+  shell-guard:
+    name: Enforce Windows-only shell policy
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs:
+      [actionlint, actionlint-windows, encoding-guard, encoding-guard-windows]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20'
+      - name: Check pwsh defaults on Windows jobs and POSIX test misuse
+        run: node scripts/ci/workflow-shell-guard.mjs
+
+  windows-only-guard:
+    name: Enforce Windows-only guard (no bash/.sh/non-Windows runners)
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs:
+      [shell-guard]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20'
+      - name: Scan for bash/shell scripts/non-Windows runners
+        run: node scripts/ci/windows-only-guard.mjs
+        env:
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          PR_LABELS: ${{ github.event.pull_request && join(github.event.pull_request.labels.*.name, ',') || '' }}
+          WINDOWS_ONLY_GUARD_WAIVE_LABELS: windows-guard-waive,size-waive
+
+  ascii-guard:
+    name: ASCII Guard for Workflows
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs:
+      [actionlint, actionlint-windows, encoding-guard, encoding-guard-windows]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20'
+      - name: Check non-ASCII characters in workflow files
+        run: node scripts/ci/guard-workflows-ascii.mjs
+
+  docs-shell-scan:
+    name: Docs shell scanner (bash fences)
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs: [shell-guard]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20'
+      - name: Scan docs for bash code fences
+        run: node scripts/ci/docs-shell-scan.mjs
+
+  docs-shell-pr-gate:
+    name: Docs shell PR light gate
+    runs-on: windows-latest
+    if: github.event_name == 'pull_request'
+    defaults:
+      run:
+        shell: pwsh
+    needs: [shell-guard]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20'
+      - name: Run docs shell light gate (PR)
+        run: node scripts/ci/docs-shell-pr-gate.mjs

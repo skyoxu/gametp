@@ -1,0 +1,206 @@
+name: Release Ramp
+
+permissions:
+  contents: write
+  actions: write
+
+defaults:
+  run:
+    shell: pwsh
+
+on:
+  workflow_run:
+    workflows: ['Release Prepare']
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: 'Gradual rollout percentage'
+        required: true
+        type: choice
+        options: ['5', '25', '50', '100']
+        default: '5'
+      feed_file:
+        description: 'Feed file path'
+        required: false
+        type: choice
+        options:
+          - 'dist/latest.yml'
+        default: 'dist/latest.yml'
+      skip_health_check:
+        description: 'Skip health check (testing only)'
+        required: false
+        type: boolean
+        default: false
+
+env:
+  SENTRY_ORG: ${{ vars.SENTRY_ORG || 'your-org' }}
+  SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT || 'vitegame' }}
+  APP_VERSION: ${{ vars.APP_VERSION || github.ref_name }}
+  PREV_GA_VERSION: ${{ vars.PREV_GA_VERSION || '0.0.9' }}
+  THRESHOLD_CF_USERS: ${{ vars.THRESHOLD_CF_USERS || '0.995' }}
+  THRESHOLD_CF_SESSIONS: ${{ vars.THRESHOLD_CF_SESSIONS || '0.995' }}
+  WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  ramp:
+    runs-on: windows-latest
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      actions: read
+
+    outputs:
+      stage: ${{ inputs.stage || '5' }}
+      health_passed: ${{ steps.health_check.outcome == 'success' }}
+      rollback_executed: ${{ steps.rollback.outcome == 'success' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        uses: ./.github/actions/npm-install
+        # Must install devDependencies (scripts depend on js-yaml, etc.); do not prune for production
+        env:
+          NODE_ENV: development
+          NPM_CONFIG_PRODUCTION: 'false'
+
+      - name: Ensure jq installed (Windows)
+        run: node scripts/ci/install-jq-windows.mjs
+
+      - name: Determine latest version from manifest
+        id: version
+        run: |
+          if (Test-Path "artifacts/manifest.json") {
+            $manifest = Get-Content "artifacts/manifest.json" | ConvertFrom-Json
+            $versions = $manifest.PSObject.Properties.Name | Sort-Object {[version]$_} -Descending
+            $latestVersion = $versions[0]
+            Write-Output "latest_version=$latestVersion" >> $env:GITHUB_OUTPUT
+            Write-Output "Using version: $latestVersion"
+          } else {
+            Write-Output "latest_version=${{ env.APP_VERSION }}" >> $env:GITHUB_OUTPUT
+            Write-Output "Using fallback version: ${{ env.APP_VERSION }}"
+          }
+
+      - name: Generate electron-updater feed files
+        run: node scripts/ci/create-electron-feeds.mjs
+        env:
+          VERSION: ${{ steps.version.outputs.latest_version }}
+
+      - name: Validate inputs and manifest
+        run: node scripts/ci/release-ramp-validate-inputs.mjs
+        env:
+          FEED_FILE: ${{ inputs.feed_file || 'dist/latest.yml' }}
+
+      - name: Append context summary
+        run: node scripts/ci/release-ramp-summary.mjs
+        env:
+          STAGE: ${{ inputs.stage || '5' }}
+          FEED_FILE: ${{ inputs.feed_file || 'dist/latest.yml' }}
+          APP_VERSION: ${{ env.APP_VERSION }}
+          PREV_GA_VERSION: ${{ env.PREV_GA_VERSION }}
+          SENTRY_ORG: ${{ env.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ env.SENTRY_PROJECT }}
+          THRESHOLD_CF_USERS: ${{ env.THRESHOLD_CF_USERS }}
+          THRESHOLD_CF_SESSIONS: ${{ env.THRESHOLD_CF_SESSIONS }}
+
+      - name: Verify feed file exists
+        run: |
+          $feedFile = "${{ inputs.feed_file || 'dist/latest.yml' }}"
+          if (-not (Test-Path "$feedFile")) {
+            Write-Output "ERROR: Feed file not found: $feedFile"
+            Write-Output "Available files in dist/:"
+            if (Test-Path "dist/") { Get-ChildItem "dist/" -Name }
+            Write-Output "Attempting to regenerate feed file..."
+            $env:VERSION = "${{ steps.version.outputs.latest_version }}"
+            node scripts/ci/create-electron-feeds.mjs
+            if (-not (Test-Path "$feedFile")) {
+              Write-Output "ERROR: Failed to generate feed file after retry"
+              exit 1
+            }
+          }
+          Write-Output "SUCCESS: Feed file verified: $feedFile"
+
+      - name: Patch staging percentage
+        id: staging
+        run: node scripts/ci/release-ramp-patch-staging.mjs
+        env:
+          FEED_FILE: ${{ inputs.feed_file || 'dist/latest.yml' }}
+          STAGE: ${{ inputs.stage || '5' }}
+
+      - name: Wait for health signals
+        if: ${{ (inputs.stage || '5') != '5' && !(inputs.skip_health_check || false) }}
+        run: node scripts/ci/release-ramp-wait-window.mjs
+        env:
+          STAGE: ${{ inputs.stage || '5' }}
+
+      - name: Health check
+        id: health_check
+        if: ${{ (inputs.stage || '5') != '5' && !(inputs.skip_health_check || false) }}
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: node scripts/ci/release-ramp-health-check.mjs
+
+      - name: Execute rollback if needed
+        id: rollback
+        if: failure() && steps.health_check.outputs.health_exit_code == '42'
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          FEED_FILE: ${{ inputs.feed_file || 'dist/latest.yml' }}
+          PREV_GA_VERSION: ${{ env.PREV_GA_VERSION }}
+        run: node scripts/ci/release-ramp-rollback.mjs
+
+      - name: Commit feed changes
+        id: commit
+        run: node scripts/ci/git-conditional-commit-single-file.mjs
+        env:
+          FILE_PATH: ${{ inputs.feed_file || 'dist/latest.yml' }}
+          MESSAGE: "Release ramp: ${{ inputs.feed_file || 'dist/latest.yml' }} to ${{ inputs.stage || '5' }}% staging"
+
+      - name: Push changes
+        if: steps.commit.outputs.committed == 'true'
+        run: node scripts/ci/git-push-current-branch.mjs
+
+      - name: Ramp summary
+        run: node scripts/ci/release-ramp-append-summary.mjs
+        env:
+          STAGE: ${{ inputs.stage || '5' }}
+          HEALTH_RESULT: ${{ steps.health_check.outputs.health_result }}
+          HEALTH_STATUS: ${{ steps.health_check.outputs.health_status }}
+
+  post_actions:
+    needs: ramp
+    if: always()
+    runs-on: windows-latest
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
+    steps:
+      - name: Notify webhook
+        if: env.WEBHOOK_URL != ''
+        run: node scripts/ci/release-ramp-notify-webhook.mjs
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          STAGE: ${{ needs.ramp.outputs.stage }}
+          HEALTH_PASSED: ${{ needs.ramp.outputs.health_passed }}
+          ROLLBACK_EXECUTED: ${{ needs.ramp.outputs.rollback_executed }}
+          APP_VERSION: ${{ env.APP_VERSION }}
+          REPOSITORY: ${{ github.repository }}
+          WORKFLOW: ${{ github.workflow }}

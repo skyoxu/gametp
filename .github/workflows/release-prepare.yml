@@ -1,0 +1,99 @@
+name: Release Prepare
+
+permissions:
+  contents: write
+  actions: read
+
+defaults:
+  run:
+    shell: pwsh
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (semantic version)'
+        required: true
+        type: string
+      artifact_path:
+        description: 'Application artifact path'
+        required: false
+        type: string
+        default: 'dist/app.exe'
+      create_feeds:
+        description: 'Create electron-updater feed files'
+        required: false
+        type: boolean
+        default: true
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: windows-latest
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
+    timeout-minutes: 10
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        uses: ./.github/actions/npm-install
+        env:
+          NPM_CONFIG_PRODUCTION: 'true'
+
+      - name: Ensure jq installed (Windows)
+        run: node scripts/ci/install-jq-windows.mjs
+
+      - name: Validate version format
+        run: node scripts/ci/validate-semver-input.mjs
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+
+      - name: Update artifact manifest
+        id: manifest
+        run: node scripts/ci/update-artifact-manifest.mjs
+        env:
+          VERSION: ${{ inputs.version }}
+          ARTIFACT_PATH: ${{ inputs.artifact_path }}
+
+      - name: Create electron-updater feed files
+        if: inputs.create_feeds
+        run: node scripts/ci/create-electron-feeds.mjs
+        env:
+          VERSION: ${{ inputs.version }}
+
+      - name: Validate manifest
+        run: node scripts/release/manage-manifest.mjs validate
+
+      - name: Append release summary
+        run: node scripts/ci/release-prepare-summary.mjs
+        env:
+          VERSION: ${{ inputs.version }}
+          ARTIFACT_PATH: ${{ inputs.artifact_path }}
+          CREATE_FEEDS: ${{ inputs.create_feeds }}
+
+      - name: Commit changes
+        run: node scripts/ci/git-commit-release-prep.mjs
+        env:
+          CREATE_FEEDS: ${{ inputs.create_feeds }}
+          VERSION: ${{ inputs.version }}
+          ARTIFACT_PATH: ${{ inputs.artifact_path }}
+
+      - name: Push changes
+        run: node scripts/ci/git-push-current-branch.mjs

@@ -1,0 +1,40 @@
+name: Configure Branch Protection (encoding-guard)
+
+on:
+  workflow_dispatch:
+    inputs:
+      branches:
+        description: 'Comma-separated branches to protect (e.g., main,develop)'
+        required: false
+        default: 'main,develop'
+
+permissions:
+  contents: read
+
+jobs:
+  protect:
+    name: Set required checks for encoding-guard
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Parse branches
+        id: parse
+        run: node scripts/ci/parse-branches.mjs
+        env:
+          INPUT_BRANCHES: ${{ github.event.inputs.branches }}
+
+      - name: Update branch protection (require encoding-guard)
+        run: node scripts/ci/update-branch-protection.mjs
+        env:
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          BRANCHES: ${{ steps.parse.outputs.branches }}
+          REQUIRED_CONTEXT: Validate Workflows & Guards / Enforce UTF-8 + LF for workflows
+
+      - name: Update branch protection (require docs-shell-pr-gate)
+        run: node scripts/ci/update-branch-protection.mjs
+        env:
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          BRANCHES: ${{ steps.parse.outputs.branches }}
+          REQUIRED_CONTEXT: Validate Workflows & Guards / Docs shell PR light gate

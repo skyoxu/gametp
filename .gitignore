@@ -1,0 +1,31 @@
+# Node/Electron build artifacts
+dist/
+dist-electron/
+electron-dist/
+build/
+coverage/
+reports/
+logs/
+
+# Dependencies & caches
+node_modules/
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+
+# Env & local config
+.env
+.env.*.local
+.DS_Store
+Thumbs.db
+
+# Test artifacts
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Editor/OS
+.vscode/
+.idea/
+*.swp
+

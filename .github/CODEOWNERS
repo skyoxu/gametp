@@ -1,0 +1,17 @@
+# Code owners for reviews and governance
+
+# Default owners
+*       @ViteGameStudio/maintainers
+
+# CI workflows
+.github/workflows/* @ViteGameStudio/ci-admins
+
+# Electron main/preload
+electron/** @ViteGameStudio/electron
+
+# App source
+src/** @ViteGameStudio/frontend @ViteGameStudio/gameplay
+
+# Tests
+tests/** @ViteGameStudio/qa
+

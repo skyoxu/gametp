@@ -1,0 +1,53 @@
+name: Observability Gate (Unified)
+
+permissions:
+  contents: read
+  actions: read
+
+defaults:
+  run:
+    shell: pwsh
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'config/**'
+      - 'src/**'
+      - 'electron/**'
+      - 'scripts/observability-config-validation.js'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'config/**'
+      - 'src/**'
+      - 'electron/**'
+      - 'scripts/observability-config-validation.js'
+
+env:
+  NODE_VERSION: '20.x'
+
+jobs:
+  observability-gate:
+    name: Observability Config Validation
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    timeout-minutes: 10
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v5.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      - run: node scripts/ci/run-observability-validation.mjs
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: observability-validation-report
+          path: logs/observability-validation-report.json
+          retention-days: 30

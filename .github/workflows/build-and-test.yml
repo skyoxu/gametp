@@ -1,0 +1,318 @@
+name: Build & Test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build-artifacts:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    outputs:
+      artifacts-available: ${{ steps.build-check.outputs.artifacts-available }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v5.0.0
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Build application
+        env:
+          VITE_E2E_SMOKE: 'true'
+        run: npm run build
+      - name: Verify build outputs
+        id: build-check
+        run: |
+          if ((Test-Path -LiteralPath 'dist') -and (Test-Path -LiteralPath 'dist-electron')) {
+            Write-Host "Build artifacts verified: dist/ and dist-electron/ directories exist"
+            echo "artifacts-available=true" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Error "[FAIL] Build artifacts missing: dist/ or dist-electron/ not found"
+            echo "artifacts-available=false" >> $env:GITHUB_OUTPUT
+            exit 1
+          }
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            dist/
+            dist-electron/
+          retention-days: 1
+          compression-level: 6
+          include-hidden-files: false
+
+  build-and-unit:
+    needs: build-artifacts
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v5.0.0
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Unit tests with coverage gate
+        env:
+          COVERAGE_MODE: development
+          NODE_ENV: test
+        run: npm run test:coverage:gate
+      - name: Publish coverage summary
+        if: always()
+        run: |
+          if (Test-Path -LiteralPath 'coverage/coverage-summary.json') {
+            $summary = Get-Content -Raw -LiteralPath 'coverage/coverage-summary.json' | ConvertFrom-Json
+            $t = $summary.total
+            $lines = """
+            ## Coverage Summary
+            - Lines: $($t.lines.pct)%
+            - Statements: $($t.statements.pct)%
+            - Functions: $($t.functions.pct)%
+            - Branches: $($t.branches.pct)%
+            """
+            Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $lines
+          } else {
+            Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value "Coverage summary not found."
+          }
+
+  e2e-perf-smoke:
+    needs: [build-artifacts, build-and-unit]
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      CI: 'true'
+      VITE_E2E_SMOKE: 'true'
+      ELECTRON_ENABLE_LOGGING: '1'
+      ELECTRON_DISABLE_GPU: '1'
+      E2E_SECURITY_TIMEOUT_MS: 300000
+      CI_ARTIFACTS_AVAILABLE: 'true'
+      E2E_AUTO_START: '1'
+      PERF_GATE_MODE: ${{ github.event_name == 'pull_request' && 'soft' || '' }}
+      PERF_SAMPLE_COUNT: ${{ github.event_name == 'pull_request' && '10' || '20' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v5.0.0
+        with:
+          node-version: 20
+          cache: 'npm'
+      - name: Detect changes for E2E
+        id: changes-e2e
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+            src/**
+            tests/e2e/**
+            playwright.config.ts
+      - name: Install deps (npm ci)
+        if: steps.changes-e2e.outputs.any_changed == 'true'
+        run: npm ci
+      - name: Download build artifacts
+        if: steps.changes-e2e.outputs.any_changed == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: .
+      - name: Verify downloaded artifacts
+        if: steps.changes-e2e.outputs.any_changed == 'true'
+        run: |
+          Write-Host "Verifying downloaded build artifacts..."
+          if ((Test-Path -LiteralPath 'dist') -and (Test-Path -LiteralPath 'dist-electron')) {
+            Write-Host "Build artifacts downloaded successfully:"
+            Write-Host "   - dist/ directory exists"
+            Write-Host "   - dist-electron/ directory exists"
+            if (Test-Path -LiteralPath 'dist-electron/electron/main.js') {
+              Write-Host "   - main.js entry point found"
+            } else {
+              Write-Error "[FAIL] main.js entry point not found in dist-electron/"
+              exit 1
+            }
+          } else {
+            Write-Error "[FAIL] Downloaded artifacts missing: dist/ or dist-electron/ not found"
+            exit 1
+          }
+      - name: Validate E2E timeout config (fail-fast)
+        if: steps.changes-e2e.outputs.any_changed == 'true'
+        run: |
+          $raw = $env:E2E_SECURITY_TIMEOUT_MS
+          if ([string]::IsNullOrWhiteSpace($raw)) {
+            Write-Error "E2E_SECURITY_TIMEOUT_MS is not set"
+            exit 1
+          }
+          $val = 0
+          if (-not [int]::TryParse($raw, [ref]$val)) {
+            Write-Error "E2E_SECURITY_TIMEOUT_MS is not a valid integer: $raw"
+            exit 1
+          }
+          if ($val -lt 60000 -or $val -gt 900000) {
+            Write-Error "E2E_SECURITY_TIMEOUT_MS out of range [60000,900000]: $val"
+            exit 1
+          }
+          Write-Host "[config-check] E2E_SECURITY_TIMEOUT_MS=$val (valid)"
+      - name: Cache Playwright browsers
+        if: steps.changes-e2e.outputs.any_changed == 'true'
+        uses: actions/cache@v4.2.4
+        with:
+          path: ~\AppData\Local\ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+      - name: Dependency Probe (Electron + Playwright)
+        if: steps.changes-e2e.outputs.any_changed == 'true'
+        run: |
+          pwsh -File scripts/ci/electron-deps-probe.ps1
+      - name: Install Playwright browsers
+        if: steps.changes-e2e.outputs.any_changed == 'true'
+        run: npx playwright install --with-deps
+      - name: Run perf smoke (Electron)
+        if: steps.changes-e2e.outputs.any_changed == 'true'
+        run: npm run test:e2e:perf-smoke
+      - name: Run scene-transition (Electron)
+        if: steps.changes-e2e.outputs.any_changed == 'true'
+        run: npm run test:e2e:scene-transition
+      - name: Collect Playwright traces
+        if: always()
+        run: npm run collect:traces
+      - name: Upload perf logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: perf-logs
+          path: |
+            logs/perf/
+            logs/playwright-traces/
+          retention-days: 7
+      - name: Publish E2E perf P95 summary
+        if: always() && steps.changes-e2e.outputs.any_changed == 'true'
+        shell: pwsh
+        run: |
+          if (Test-Path -LiteralPath 'test-results/test-results.json') {
+            $json = Get-Content -Raw -LiteralPath 'test-results/test-results.json' | ConvertFrom-Json
+            $durations = New-Object System.Collections.Generic.List[double]
+            function Collect($n) {
+              if ($null -ne $n.suites) { foreach ($s in $n.suites) { Collect $s } }
+              if ($null -ne $n.specs) {
+                foreach ($sp in $n.specs) {
+                  foreach ($t in $sp.tests) {
+                    foreach ($res in $t.results) {
+                      if ($null -ne $res.duration) { [void]$durations.Add([double]$res.duration) }
+                    }
+                  }
+                }
+              }
+            }
+            Collect $json
+            if ($durations.Count -gt 0) {
+              $durations.Sort()
+              function Pct([double[]]$arr, [double]$p) { $idx=[math]::Floor(($arr.Length-1)*$p); return [int]$arr[$idx] }
+              $p50 = Pct $durations 0.5
+              $p90 = Pct $durations 0.9
+              $p95 = Pct $durations 0.95
+              $p99 = Pct $durations 0.99
+              $avg = [math]::Round(($durations | Measure-Object -Average).Average,2)
+              $max = [int]($durations[-1])
+              $lines = """
+              ## E2E Perf (Playwright)
+              - samples: $($durations.Count)
+              - p50: $p50 ms
+              - p90: $p90 ms
+              - p95: $p95 ms
+              - p99: $p99 ms
+              - avg: $avg ms
+              - max: $max ms
+              """
+              Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $lines
+            } else {
+              Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value "No E2E durations found to compute P95."
+            }
+          } else {
+            Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value "No Playwright JSON report at test-results/test-results.json."
+          }
+
+      - name: Collect Playwright traces to logs/
+        if: always() && steps.changes-e2e.outputs.any_changed == 'true'
+        run: npm run collect:traces
+
+      - name: Upload Playwright traces (logs/playwright-traces)
+        if: always() && steps.changes-e2e.outputs.any_changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces
+          path: logs/playwright-traces/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Comment PR with Playwright traces summary
+        if: always() && steps.changes-e2e.outputs.any_changed == 'true' && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const base = path.join(process.cwd(), 'logs', 'playwright-traces');
+            function latestDateDir() {
+              if (!fs.existsSync(base)) return null;
+              const dirs = fs.readdirSync(base).filter(d => {
+                try { return fs.statSync(path.join(base, d)).isDirectory(); } catch { return false; }
+              }).sort().reverse();
+              return dirs[0] ? path.join(base, dirs[0]) : null;
+            }
+            function loadManifest(dir) {
+              if (!dir) return null;
+              const file = path.join(dir, 'trace-manifest.json');
+              if (!fs.existsSync(file)) return null;
+              try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch { return null; }
+            }
+            const dir = latestDateDir();
+            const manifest = loadManifest(dir);
+            if (!manifest || !Array.isArray(manifest.entries) || !manifest.entries.length) {
+              core.notice('No trace manifest found to comment');
+              return;
+            }
+            const rel = p => path.relative(process.cwd(), p).replace(/\\/g, '/');
+            const head = manifest.entries.slice(0, 10).map((e, i) => `- ${i+1}. ${rel(e.target)} (${Math.round((e.size||0)/1024)} kB)`);
+            const example = rel(manifest.entries[0].target);
+            const body = [
+              '### [TRACE] Playwright Traces (auto-collected)',
+              '',
+              '**How to replay (locally):**',
+              '1. Download the "playwright-traces" artifact from this workflow run',
+              `2. Run: \`npx playwright show-trace ${example}\``,
+              '',
+              '**Latest traces (top 10):**',
+              ...head,
+            ].join('\n');
+            const pr = context.payload.pull_request?.number;
+            if (!pr) { core.notice('No PR context available'); return; }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr,
+              body,
+            });
+      - name: Upload Playwright artifacts
+        if: failure() && steps.changes-e2e.outputs.any_changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: |
+            test-results/**
+            test-results/playwright-report/**
+          if-no-files-found: warn
+      - name: Skip E2E (no changes detected)
+        if: steps.changes-e2e.outputs.any_changed != 'true'
+        run: |
+          Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value "E2E perf smoke skipped: no relevant changes (src/**, tests/e2e/**, playwright.config.ts)."

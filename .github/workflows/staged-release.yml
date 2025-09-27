@@ -1,0 +1,82 @@
+name: Staged Release with Health Gates (Simplified)
+
+permissions:
+  contents: write
+  actions: write
+  packages: write
+
+defaults:
+  run:
+    shell: pwsh
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_e2e:
+        description: 'Run optional E2E perf smoke after build'
+        required: false
+        default: false
+        type: boolean
+      staging_percentage:
+        description: 'Release percentage (5, 25, 50, 100)'
+        required: true
+        default: '5'
+        type: choice
+        options: ['5', '25', '50', '100']
+      version:
+        description: 'Release version number'
+        required: true
+        type: string
+      skip_health_check:
+        description: 'Skip health check (temporary only)'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  pre-check:
+    name: Pre-flight Check
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    outputs:
+      can_proceed: ${{ steps.validation.outputs.can_proceed }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: validation
+        run: node scripts/ci/precheck-can-proceed.mjs
+
+  e2e-perf-smoke:
+    name: E2E Perf Smoke (Optional)
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    if: ${{ inputs.run_e2e == 'true' }}
+    needs: pre-check
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npx playwright install
+      - run: npm run build
+        env:
+          VITE_E2E_SMOKE: 'true'
+      - run: npm run test:e2e:perf-smoke
+      - if: always()
+        run: npm run collect:traces
+
+  health-check:
+    name: Release Health Check
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs: pre-check
+    steps:
+      - run: Write-Output "Health check placeholder"
+# Cache refresh trigger - fix phantom L403 error

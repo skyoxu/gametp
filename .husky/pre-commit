@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo 'Running pre-commit checks...'
+
+# lint-staged
+npx lint-staged
+
+# TypeScript typecheck
+echo 'Typechecking...'
+npm run typecheck
+
+# Security checks (best-effort)
+echo 'Running security checks...'
+npm run security:check || true
+
+# Artifact guard (non-blocking)
+echo 'Guard artifacts (non-blocking)'
+node scripts/ci/guard-artifacts.mjs || true
+
+echo 'Pre-commit checks completed'
+

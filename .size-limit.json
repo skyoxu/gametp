@@ -1,0 +1,32 @@
+[
+  {
+    "name": "total js (gz)",
+    "path": "dist/assets/*.js",
+    "limit": "820 KB"
+  },
+  {
+    "name": "phaser (gz)",
+    "path": "dist/assets/phaser-*.js",
+    "limit": "380 KB"
+  },
+  {
+    "name": "react-vendor (gz)",
+    "path": "dist/assets/react-vendor-*.js",
+    "limit": "115 KB"
+  },
+  {
+    "name": "antd-vendor (gz)",
+    "path": "dist/assets/antd-vendor-*.js",
+    "limit": "330 KB"
+  },
+  {
+    "name": "sentry (gz)",
+    "path": "dist/assets/sentry-*.js",
+    "limit": "150 KB"
+  },
+  {
+    "name": "vendor (misc, gz)",
+    "path": "dist/assets/vendor-*.js",
+    "limit": "110 KB"
+  }
+]

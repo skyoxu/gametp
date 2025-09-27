@@ -1,0 +1,96 @@
+﻿#!/usr/bin/env node
+// English-only comments and logs. No emoji.
+// Purpose: Fast local gate to validate template health with minimal steps.
+// References: ADR-0005 (quality gates), ADR-0003 (observability/release health), ADR-0002 (Electron security)
+
+import { spawn } from 'node:child_process';
+import { existsSync, mkdirSync, createWriteStream } from 'node:fs';
+import { join } from 'node:path';
+
+function now() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
+}
+
+function ensureLogs(subdir) {
+  const dateDir = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  const base = join(process.cwd(), 'logs', dateDir, subdir);
+  if (!existsSync(base)) mkdirSync(base, { recursive: true });
+  return base;
+}
+
+function runStep(name, cmd, args, logStream) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(cmd, args, {
+      stdio: ['ignore', 'pipe', 'pipe'],
+      shell: process.platform === 'win32',
+    });
+    logStream.write(`\n[STEP] ${name}: ${cmd} ${args.join(' ')}\n`);
+    child.stdout.on('data', d => logStream.write(d));
+    child.stderr.on('data', d => logStream.write(d));
+    child.on('close', code => {
+      logStream.write(`[RESULT] ${name}: exitCode=${code}\n`);
+      if (code === 0) resolve();
+      else reject(new Error(`${name} failed with code ${code}`));
+    });
+  });
+}
+
+async function main() {
+  const logsDir = ensureLogs('fast');
+  const logFile = join(logsDir, `guard-fast-${now()}.log`);
+  const log = createWriteStream(logFile, { flags: 'a' });
+  console.log(`[fast] Writing logs to: ${logFile}`);
+
+  const steps = [
+    { name: 'Typecheck', cmd: 'npm', args: ['run', '-s', 'typecheck'] },
+    { name: 'lint:src', cmd: 'npm', args: ['run', '-s', 'lint:src'] },
+    { name: 'Unit', cmd: 'npm', args: ['run', '-s', 'test:unit'] },
+  ];
+
+  // Try e2e only if Playwright is installed
+  let hasPlaywright = true;
+  try {
+    // eslint-disable-next-line import/no-extraneous-dependencies
+    require.resolve('@playwright/test');
+  } catch {
+    hasPlaywright = false;
+  }
+  if (hasPlaywright) {
+    steps.push({
+      name: 'ASCII Gate (e2e scope)',
+      cmd: 'npm',
+      args: ['run', '-s', 'guard:tests:ascii:e2e'],
+    });
+    steps.push({
+      name: 'E2E Smoke',
+      cmd: 'npx',
+      args: [
+        'playwright',
+        'test',
+        '-c',
+        'playwright.config.ts',
+        '--grep',
+        '@smoke',
+        '--reporter',
+        'line',
+      ],
+    });
+  } else {
+    console.log('[fast] @playwright/test not detected. Skipping e2e steps.');
+  }
+
+  for (const s of steps) {
+    await runStep(s.name, s.cmd, s.args, log);
+  }
+
+  log.end();
+  console.log('[fast] All steps passed.');
+}
+
+main().catch(err => {
+  console.error(`[fast] Failed: ${err.message}`);
+  process.exit(1);
+});
+

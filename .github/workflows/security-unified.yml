@@ -1,0 +1,730 @@
+name: Security Gate (Unified)
+
+# Minimal permissions principle
+permissions:
+  contents: read
+  actions: read
+  security-events: write
+  pull-requests: write
+  issues: write
+  id-token: write
+
+defaults:
+  run:
+    shell: pwsh
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'src/**'
+      - 'electron/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig*.json'
+      - 'vite.config.ts'
+      - '.github/workflows/security-unified.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'src/**'
+      - 'electron/**'
+      - 'scripts/**'
+      - '.github/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig*.json'
+      - 'vite.config.ts'
+
+  # Support manual trigger
+  workflow_dispatch:
+
+# Concurrency control: only one instance per branch
+# Differential concurrency strategy: main branch ensures complete security test execution, feature branches maintain fast feedback
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Only use cancellation mechanism on non-main branches, ensuring main branch security tests execute completely
+  cancel-in-progress: ${{ !contains(github.ref, 'refs/heads/main') }}
+
+env:
+  NODE_VERSION: '20.x'
+
+jobs:
+  # Stage 1: Static Security Scan (fast, parallel execution)
+  # Compatibility: Keep job names compatible with existing branch protection rules
+  security-scan:
+    name: Static Security Scan (Unified)
+    runs-on: windows-latest
+    # P0 fix: job-level env vars ensure devDependencies install correctly
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
+      E2E_SECURITY_TIMEOUT_MS: 300000
+    timeout-minutes: 15
+
+    outputs:
+      scan-status: ${{ steps.static-scan.outputs.status }}
+      critical-count: ${{ steps.static-scan.outputs.critical-count }}
+      high-count: ${{ steps.static-scan.outputs.high-count }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate E2E timeout config (skip if empty)
+        run: |
+          $raw = $env:E2E_SECURITY_TIMEOUT_MS
+          if ([string]::IsNullOrWhiteSpace($raw)) {
+            Write-Host "[config-check] E2E_SECURITY_TIMEOUT_MS not set, skipping validation"
+            exit 0
+          }
+          $val = 0
+          if (-not [int]::TryParse($raw, [ref]$val)) {
+            Write-Host "[config-check] E2E_SECURITY_TIMEOUT_MS is not a valid integer: $raw, using default"
+            exit 0
+          }
+          if ($val -lt 60000 -or $val -gt 900000) {
+            Write-Host "[config-check] E2E_SECURITY_TIMEOUT_MS out of range [60000,900000]: $val, using default"
+            exit 0
+          }
+          Write-Host "[config-check] E2E_SECURITY_TIMEOUT_MS=$val (valid)"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        uses: ./.github/actions/npm-install
+
+      - name: Install jq tool
+        shell: pwsh
+        run: |
+          # P0 fix: Windows runner uses PowerShell package management instead of Linux apt-get
+          if (-not (Get-Command jq -ErrorAction SilentlyContinue)) {
+            Write-Host "Installing jq tool..."
+            if (Get-Command choco -ErrorAction SilentlyContinue) {
+              choco install jq -y --no-progress
+            } else {
+              Write-Host "Chocolatey not available, trying winget..."
+              winget install stedolan.jq --accept-source-agreements --accept-package-agreements
+            }
+          } else {
+            Write-Host "jq already available"
+          }
+
+      - name: Install static security scan tools
+        run: |
+          npm install -g @doyensec/electronegativity@1.10.3
+          npm install -g snyk
+          npm install -g audit-ci
+
+      - name: Run Electronegativity scan (Windows)
+        id: electronegativity
+        run: |
+          Write-Host "Running Electronegativity security scan..."
+          $ErrorActionPreference = 'Continue'
+          electronegativity --input . --output electronegativity-scan.csv --verbose false --electron-version 37.0.0
+          if (Test-Path "electronegativity-scan.csv") {
+            Write-Host "Electronegativity scan completed"
+            "electronegativity-status=success" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding UTF8
+          } else {
+            Write-Host "Electronegativity scan failed"
+            "electronegativity-status=failed" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding UTF8
+          }
+
+      - name: Run npm audit (Windows)
+        id: npm-audit
+        run: |
+          Write-Host "Running npm audit..."
+          $ErrorActionPreference = 'Continue'
+          npm audit --audit-level high --json | Out-File -FilePath npm-audit-results.json -Encoding UTF8
+          if (Test-Path "npm-audit-results.json") {
+            Write-Host "npm audit completed"
+            "npm-audit-status=success" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding UTF8
+          } else {
+            Write-Host "npm audit failed"
+            "npm-audit-status=failed" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding UTF8
+          }
+
+      - name: Run Snyk scan (if token available)
+        id: snyk-scan
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          if ($env:SNYK_TOKEN) {
+            Write-Host "Running Snyk scan..."
+            $ErrorActionPreference = 'Continue'
+            snyk test --json | Out-File -FilePath snyk-results.json -Encoding UTF8
+            snyk monitor | Out-Null
+            Write-Host "Snyk scan completed"
+            "snyk-status=success" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding UTF8
+          } else {
+            Write-Host "Skipping Snyk scan (no SNYK_TOKEN)"
+            "snyk-status=skipped" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding UTF8
+          }
+
+      - name: Install TruffleHog tool (Windows native)
+        shell: pwsh
+        run: |
+          Write-Host "Installing TruffleHog via Chocolatey..."
+          choco install trufflehog -y --no-progress
+          trufflehog --version
+          Write-Host "TruffleHog installation completed"
+
+      - name: Check for secret leaks (Windows native)
+        shell: pwsh
+        run: |
+          Write-Host "Running TruffleHog secret scan..."
+
+          # PR scenario: use git incremental scan (faster and more accurate)
+          if ($env:GITHUB_EVENT_NAME -eq "pull_request") {
+            Write-Host "PR mode: performing incremental git scan (base: ${{ github.event.pull_request.base.sha }} -> head: ${{ github.sha }})"
+            # Windows-only: invoke TruffleHog directly without bash wrapper
+            trufflehog git file://. --since-commit=${{ github.event.pull_request.base.sha }} --only-verified --fail --json | Out-File -FilePath "trufflehog-pr.json" -Encoding UTF8
+            $scanFile = "trufflehog-pr.json"
+          } else {
+            Write-Host "Main branch mode: performing full filesystem scan"
+            # 1) Reduce noise: use exclusion list to skip binary files and build artifacts
+            # 2) Fail only on verified secrets
+            trufflehog filesystem . `
+              --exclude-paths .trufflehog-exclude.txt `
+              --only-verified `
+              --fail `
+              --json | Out-File -FilePath "trufflehog-scan.json" -Encoding UTF8
+            $scanFile = "trufflehog-scan.json"
+          }
+
+          # Strict exit code handling
+          $code = $LASTEXITCODE
+          if ($code -eq 0) {
+            Write-Host "No verified secrets found"
+          } elseif ($code -eq 183) {
+            Write-Host "Verified secrets found, see$scanFile"
+            # Output found content for debugging
+            if (Test-Path $scanFile) {
+              $content = Get-Content $scanFile -Raw
+              if ($content -and $content.Trim() -ne "") {
+                Write-Host "Detected verified secret leaks"
+              }
+            }
+            exit 1
+          } else {
+            Write-Host "TruffleHog scan error (exit$code)"
+            exit $code
+          }
+
+      - name: Aggregate static scan results
+        id: static-scan
+        run: node scripts/ci/static-security-summary.mjs
+
+      - name: Upload static scan reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: static-security-reports
+          path: |
+            electronegativity-scan.csv
+            npm-audit-results.json
+            snyk-results.json
+            trufflehog-scan.json
+            trufflehog-pr.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  # Stage 2: Build and Package Application (separate from tests for artifact reuse)
+  build-and-package:
+    name: Build & Package
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
+    needs: security-scan
+    if: needs.security-scan.outputs.critical-count == '0'
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        uses: ./.github/actions/npm-install
+
+      - name: Build Electron application (Windows)
+        run: |
+          # Clean platform-specific dependencies to avoid Sharp conflicts
+          Get-ChildItem "node_modules/@img/" -Filter "sharp-darwin-*" -Directory -ErrorAction SilentlyContinue | ForEach-Object { Remove-Item $_.FullName -Recurse -Force -ErrorAction SilentlyContinue }
+          Get-ChildItem "node_modules/@img/" -Filter "sharp-linux-*" -Directory -ErrorAction SilentlyContinue | ForEach-Object { Remove-Item $_.FullName -Recurse -Force -ErrorAction SilentlyContinue }
+
+          # Build application
+          npm run build
+          npx tsc -p electron
+          npx electron-builder --dir
+
+          # Adapt artifact path for GitHub Actions compatibility
+          # electron-builder outputs to release/${version}/win-unpacked/
+          # GitHub Actions expects dist/win-unpacked/
+          $dir = Get-ChildItem -Path release -Recurse -Directory -Filter "win-unpacked" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if ($dir) {
+            Write-Host "Found electron-builder output: $($dir.FullName)"
+            New-Item -ItemType Directory -Force -Path "dist/win-unpacked" | Out-Null
+            Copy-Item -Path (Join-Path $dir.FullName '*') -Destination "dist/win-unpacked" -Recurse -Force
+            Write-Host "Adapted artifact path for GitHub Actions: dist/win-unpacked/"
+          } else {
+            Write-Host "electron-builder output not found in release/ directory"
+            Get-ChildItem -Path release -Recurse -Include *.exe -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.FullName }
+            exit 1
+          }
+
+      - name: Upload application artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: electron-app-windows
+          # Following citest/ciinfo.md rules, use standard output path
+          path: dist/win-unpacked/
+          if-no-files-found: error
+          retention-days: 1 # Short-term artifact, only for current workflow
+
+  # Stage 3: E2E Security Tests (downloads pre-built artifact)
+  e2e-security-test-sharded:
+    name: E2E Security Tests (Shard ${{ matrix.shard }})
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs: build-and-package
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate E2E timeout config (skip if empty)
+        run: |
+          $raw = $env:E2E_SECURITY_TIMEOUT_MS
+          if ([string]::IsNullOrWhiteSpace($raw)) {
+            Write-Host "[config-check] E2E_SECURITY_TIMEOUT_MS not set, skipping validation"
+            exit 0
+          }
+          $val = 0
+          if (-not [int]::TryParse($raw, [ref]$val)) {
+            Write-Host "[config-check] E2E_SECURITY_TIMEOUT_MS is not a valid integer: $raw, using default"
+            exit 0
+          }
+          if ($val -lt 60000 -or $val -gt 900000) {
+            Write-Host "[config-check] E2E_SECURITY_TIMEOUT_MS out of range [60000,900000]: $val, using default"
+            exit 0
+          }
+          Write-Host "[config-check] E2E_SECURITY_TIMEOUT_MS=$val (valid)"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dev dependencies (for Playwright)
+        uses: ./.github/actions/npm-install
+
+      - name: Install Playwright browsers
+        run: npx playwright install
+
+      - name: Download pre-built application
+        uses: actions/download-artifact@v4
+        with:
+          name: electron-app-windows
+          path: dist/win-unpacked/
+        continue-on-error: true
+
+      - name: Fallback build if artifact missing (Windows)
+        run: |
+          $hasExe = Test-Path "dist/win-unpacked/ViteGame.exe"
+          $hasJs = Test-Path "dist-electron/electron/main.js"
+          if (-not $hasExe -and -not $hasJs) {
+            Write-Host "No pre-built artifact found, running complete build process..."
+            Write-Host "Running npm run build (includes TypeScript, Vite, and post-build steps)..."
+            npm run build
+          } else {
+            Write-Host "Pre-built artifact or fallback main.js found, skipping build"
+          }
+
+      - name: Verify and set Electron entry path
+        run: |
+          # electron-builder uses asar; verify executable instead of main.js
+          # Windows: ViteGame Studio.exe
+          # macOS: ViteGame Studio.app/Contents/MacOS/ViteGame Studio
+          # Linux: ViteGame Studio (AppImage/deb)
+          node scripts/ci/set-electron-env.mjs
+
+      - name: Run E2E security tests (PR Smoke, sharded)
+        if: github.event_name == 'pull_request'
+        run: >-
+          node scripts/ci/run-tests.mjs
+          --test-type security
+          --shard "${{ matrix.shard }}/4"
+          --grep "@smoke"
+      - name: Run E2E security tests (Full, sharded)
+        if: github.event_name != 'pull_request'
+        run: >-
+          node scripts/ci/run-tests.mjs
+          --test-type security
+          --shard "${{ matrix.shard }}/4"
+
+      - name: Collect Playwright traces to logs/
+        if: always()
+        run: npm run collect:traces
+
+      - name: Upload Playwright traces (logs/playwright-traces)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces-shard-${{ matrix.shard }}
+          path: logs/playwright-traces/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Upload E2E test reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-security-test-results-shard-${{ matrix.shard }}
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: warn
+          retention-days: 30
+
+  # Stage 3: Aggregate E2E shards
+  e2e-security-aggregate:
+    name: E2E Security Aggregate
+    runs-on: windows-latest
+    needs: [e2e-security-test-sharded]
+    outputs:
+      e2e-status: ${{ steps.set.outputs.e2e_status }}
+    steps:
+      - name: Set aggregated E2E status
+        id: set
+        run: |
+          if ('${{ needs.e2e-security-test-sharded.result }}' -ne 'success') {
+            "e2e_status=failed" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding UTF8
+            exit 0
+          }
+          "e2e_status=pass" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding UTF8
+
+  # Stage 4: Unified Security Gate Decision
+  unified-security-gate:
+    name: Unified Security Gate
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    # P0 fix: job-level env vars ensure devDependencies install correctly
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
+    needs: [security-scan, e2e-security-aggregate]
+    if: always()
+
+    # This job needs permissions to create Issues
+    permissions:
+      contents: read
+      issues: write
+      actions: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        uses: ./.github/actions/npm-install
+
+      - name: Ensure logs directory exists
+        run: |
+          New-Item -ItemType Directory -Force -Path logs | Out-Null
+
+      - name: Execute unified security gate check
+        continue-on-error: false
+        run: |
+          Write-Host "Starting unified security gate check..."
+
+          # ADR-0002 hard failure check: static scan must pass
+          if ('${{ needs.security-scan.result }}' -ne 'success') {
+            Write-Host "[Hard Failure] Static security scan failed, violates ADR-0002 security baseline"
+            exit 1
+          }
+
+          # Do NOT rerun E2E here. Use previous job outputs.
+          if ('${{ needs.e2e-security-aggregate.outputs.e2e-status }}' -eq 'failed') {
+            Write-Host "[Hard Failure] E2E security tests failed (from previous job outputs)"
+            exit 1
+          }
+
+          Write-Host "Unified security gate pre-checks passed (static scan + E2E outputs)"
+
+      - name: Download E2E results (merged)
+        uses: actions/download-artifact@v4
+        with:
+          pattern: e2e-security-test-results-shard-*
+          merge-multiple: true
+          path: artifacts/e2e-results
+
+      - name: Download Playwright traces (merged)
+        uses: actions/download-artifact@v4
+        with:
+          pattern: playwright-traces-shard-*
+          merge-multiple: true
+          path: artifacts/playwright-traces
+
+      - name: Download static scan reports
+        uses: actions/download-artifact@v4
+        with:
+          name: static-security-reports
+          path: artifacts/static
+
+      - name: Generate unified security report
+        run: node scripts/ci/generate-unified-security-report.mjs
+        env:
+          CRITICAL_COUNT: ${{ needs.security-scan.outputs.critical-count }}
+          HIGH_COUNT: ${{ needs.security-scan.outputs.high-count }}
+          SCAN_STATUS: ${{ needs.security-scan.outputs.scan-status }}
+          E2E_STATUS: ${{ needs.e2e-security-aggregate.outputs.e2e-status }}
+          E2E_EXECUTED: ${{ needs.e2e-security-aggregate.result != 'skipped' }}
+          GIT_SHA: ${{ github.sha }}
+          GIT_REF: ${{ github.ref_name }}
+          RUN_ID: ${{ github.run_id }}
+
+      - name: Upload unified security report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: unified-security-report
+          path: |
+            logs/security-gate-report.json
+            logs/unified-security-report.json
+            logs/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: E2E Gate Mode Notice (Top)
+        run: |
+          if ('${{ github.event_name }}' -eq 'pull_request') {
+            @"
+## Security Notice
+This PR uses a SOFT gate for E2E security checks (non-blocking).
+Please review smoke results and fix before merging to main where HARD gate applies.
+"@ | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding UTF8
+          } else {
+            @"
+## Security Notice
+This branch uses a HARD gate for E2E security checks (blocking on failure).
+"@ | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding UTF8
+          }
+
+      - name: Security gate results summary
+        run: |
+          $scan_result    = '${{ needs.security-scan.result }}'
+          $e2e_status     = '${{ needs.e2e-security-aggregate.outputs.e2e-status }}'
+          $critical_count = '${{ needs.security-scan.outputs.critical-count }}'
+          $high_count     = '${{ needs.security-scan.outputs.high-count }}'
+
+          $isPR = '${{ github.event_name }}' -eq 'pull_request'
+          $gate_label = if ($isPR) { 'Soft' } else { 'Hard' }
+
+          $title  = ''
+          $detail = @()
+          $exitCode = 0
+
+          if ($scan_result -ne 'success') {
+            $title = '### Security Gate Hard Failure'
+            $detail += '**ADR-0002 Violation**: Static security scan failed baseline requirements'
+            $detail += "- Critical security issues: ${critical_count} (required: 0)"
+            $detail += "- High security issues: ${high_count} (required: 3)"
+            $detail += ''
+            $detail += '**This PR is hard-blocked from merging, must fix all security issues**'
+            $exitCode = 1
+          } elseif ($e2e_status -eq 'failed') {
+            $title = '### Security Gate Hard Failure'
+            $detail += '**ADR-0002 Violation**: E2E security tests failed'
+            $detail += 'Please check Electron security configuration:'
+            $detail += '- nodeIntegration=false'
+            $detail += '- contextIsolation=true'
+            $detail += '- sandbox=true'
+            $detail += ''
+            $detail += '**This PR is hard-blocked from merging, must fix Electron security config**'
+            $exitCode = 1
+          } else {
+            $title = '### Security Gate Passed'
+            $detail += '**ADR-0002 Compliant**: All security checks passed, meets strict security baseline requirements'
+            $detail += '- Critical security issues: 0'
+            $detail += "- High security issues: ${high_count} (3)"
+            $detail += '- E2E security tests: Passed'
+            $exitCode = 0
+          }
+
+          @"
+## Unified Security Gate Results
+
+### Check Summary
+| Check Item | Status | Result |
+|---------|------|------|
+| Static Security Scan | ${{ needs.security-scan.outputs.scan-status }} | Critical: ${critical_count}, High: ${high_count} |
+| E2E Security Tests | ${e2e_status} | $(if ('${{ needs.e2e-security-aggregate.result }}' -ne 'skipped') { 'Executed' } else { 'Skipped (Critical issues exist)' }) |
+| E2E Gate | ${gate_label} | Mode: PR=Soft / Main=Hard |
+
+$title
+$(($detail -join "`n"))
+"@ | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding UTF8
+
+          if ($exitCode -ne 0) { exit 1 }
+
+      - name: Create Issue on failure
+        uses: actions/github-script@v7
+        if: failure() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false)
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            // Fix: limit title length to avoid GitHub API 256-char search limit
+            const rawTitle = context.payload.head_commit?.message ||
+                           context.payload.pull_request?.title ||
+                           'Security Check';
+            const truncatedTitle = rawTitle.length > 100 ? 
+                                 rawTitle.substring(0, 97) + '...' : rawTitle;
+            const title = `Unified Security Gate Failure - ${truncatedTitle}`;
+
+            const body = `
+            ## Unified Security Gate Failure Report
+
+            **Commit**: ${context.sha}
+            **Branch**: ${context.ref}
+            **Workflow**: ${context.workflow}
+            **Run ID**: ${context.runId}
+
+            ### Check Results
+            - **Static scan status**: ${{ needs.security-scan.outputs.scan-status }}
+            - **Critical issues**: ${{ needs.security-scan.outputs.critical-count }}
+            - **High issues**: ${{ needs.security-scan.outputs.high-count }}
+            - **E2E test status**: ${{ needs.e2e-security-aggregate.outputs.e2e-status }}
+
+            ### Items to check
+            - [ ] Fix all Critical-level security issues
+            - [ ] Check Electron security config (nodeIntegration=false, contextIsolation=true)
+            - [ ] Verify CSP security policy
+            - [ ] Check IPC channel security
+            - [ ] Verify preload script security
+
+            ### Related links
+            - [View detailed logs](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            - [Download security reports](${context.payload.repository.html_url}/actions/runs/${context.runId}#artifacts)
+
+            ### Notice
+            **Security gate failure means the application has security risks, please fix immediately before release!**
+
+            > This Issue was auto-created by GitHub Actions - based on ADR-0002 unified security gate standards
+            `;
+
+            // 1) First ensure labels exist (labels must pre-exist in repository)
+            const wantedLabels = ['security', 'bug', 'urgent', 'P0'];
+            const existing = await github.paginate(
+              github.rest.issues.listLabelsForRepo,
+              { owner, repo, per_page: 100 }
+            );
+            const existingLabelNames = new Set(existing.map(l => l.name));
+
+            for (const labelName of wantedLabels) {
+              if (!existingLabelNames.has(labelName)) {
+                try {
+                  await github.rest.issues.createLabel({
+                    owner,
+                    repo,
+                    name: labelName,
+                    color: labelName === 'security' ? 'ff0000' : 
+                           labelName === 'bug' ? 'd73a4a' :
+                           labelName === 'urgent' ? 'b60205' : '000000'
+                  });
+                } catch (error) {
+                  console.log(`Note: Cannot create label ${labelName}: ${error.message}`);
+                }
+              }
+            }
+
+            // 2) Fix: avoid duplicate Issues, use simplest query string to prevent GitHub API limits
+            try {
+              // Use shortest query to avoid 256-char limit
+              const simpleQuery = `repo:${owner}/${repo} is:open label:security`;
+              console.log(`Search query: ${simpleQuery}`);
+              
+              const { data: search } = await github.rest.search.issuesAndPullRequests({
+                q: simpleQuery,
+                sort: 'updated',
+                order: 'desc',
+                per_page: 1
+              });
+
+              if (search.total_count > 0) {
+                const issue_number = search.items[0].number;
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number,
+                  body: `### New security gate failure\n\n**Time**: ${new Date().toISOString()}\n**Commit**: ${context.sha.substring(0, 8)}\n**Branch**: ${context.ref.replace('refs/heads/', '')}\n\nFor details see [run logs](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+                });
+                console.log(`Added comment to existing Issue #${issue_number}`);
+              } else {
+                const newIssue = await github.rest.issues.create({
+                  owner,
+                  repo,
+                  title,
+                  body,
+                  labels: wantedLabels
+                });
+                console.log(`Created new security Issue #${newIssue.data.number}`);
+              }
+            } catch (searchError) {
+              console.log(`Issue search failed, creating new Issue directly: ${searchError.message}`);
+              // If search fails, create new Issue directly to avoid blocking
+              try {
+                const newIssue = await github.rest.issues.create({
+                  owner,
+                  repo,
+                  title,
+                  body,
+                  labels: wantedLabels
+                });
+                console.log(`Created new security Issue #${newIssue.data.number}`);
+              } catch (createError) {
+                console.error(`Issue creation also failed: ${createError.message}`);
+                // Log error but don't block workflow
+              }
+            }

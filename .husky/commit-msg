@@ -1,0 +1,41 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "📝 验证提交信息格式..."
+
+# 如果本地已安装 commitlint，则运行严格校验；否则跳过但给出提示
+if node -e "require.resolve('@commitlint/cli')" >/dev/null 2>&1; then
+  npx --no-install commitlint --edit "$1" || {
+    echo "❌ commitlint 校验失败，请按约定式提交修复提交信息"
+    exit 1
+  }
+else
+  echo "ℹ️  未检测到 @commitlint/cli，跳过严格校验（CI 会再次检查）"
+fi
+
+commit_msg=$(cat "$1")
+
+# 基本长度检查（兜底）
+if [ ${#commit_msg} -lt 10 ]; then
+  echo "⚠️ 提交信息过短，至少需要 10 个字符"
+  echo "💡 示例: feat: 添加用户登录功能"
+  exit 1
+fi
+
+# 简单前缀检查（辅助提醒）
+if echo "$commit_msg" | grep -qE "^(WIP|wip|fix|feat|docs|style|refactor|test|chore|perf|build|ci|revert)"; then
+  echo "✅ 提交信息格式基本通过"
+else
+  echo "⚠️ 建议使用约定式提交格式："
+  echo "   feat: 新功能"
+  echo "   fix: 修复 bug"
+  echo "   docs: 文档"
+  echo "   style: 代码风格"
+  echo "   refactor: 重构"
+  echo "   test: 测试"
+  echo "   chore: 构建/工具"
+  echo "   perf: 性能"
+fi
+
+echo "📝 提交信息验证完成"
+

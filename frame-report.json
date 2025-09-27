@@ -1,0 +1,28 @@
+{
+  "generatedAt": "2025-09-26T18:48:07.518Z",
+  "statistics": {
+    "sampleCount": 531,
+    "avgFPS": 59.86525244861294,
+    "p95FPS": 45.09582861160838,
+    "frameDropRate": 0.18832391713747645
+  },
+  "scenarios": {
+    "baseline": {
+      "frames": 118
+    },
+    "animation": {
+      "frames": 178
+    },
+    "interaction": {
+      "frames": 117
+    },
+    "stress": {
+      "frames": 118
+    }
+  },
+  "environment": {
+    "node": "v22.16.0",
+    "platform": "win32",
+    "arch": "x64"
+  }
+}

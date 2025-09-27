@@ -1,0 +1,818 @@
+﻿name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'src/**'
+      - 'electron/**'
+      - 'tests/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - 'vite.config.ts'
+      - 'vitest.config.ts'
+      - 'playwright.config.ts'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'src/**'
+      - 'electron/**'
+      - 'tests/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - 'vite.config.ts'
+      - 'vitest.config.ts'
+      - 'playwright.config.ts'
+      - '.github/workflows/ci.yml'
+  schedule:
+    # Daily check - UTC 02:00 (Beijing 10:00)
+    - cron: '0 2 * * *'
+
+env:
+  NODE_VERSION_MATRIX: '18.x, 20.x, 22.x'
+  COVERAGE_THRESHOLD: 90
+  # Disable Sentry ingestion in CI/PR by default (free SaaS safe defaults)
+  SENTRY_DSN: ''
+  SENTRY_TRACES_SAMPLE_RATE: '0'
+
+permissions:
+  contents: read
+  actions: read
+
+defaults:
+  run:
+    shell: pwsh
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ==================== Guardian Self-Check ====================
+  workflow-guardian:
+    name: Workflow Guardian Check
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    timeout-minutes: 5
+    # P0: ensure devDependencies installed for job
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Step
+        uses: raven-actions/actionlint@v2
+        with:
+          actionlint_flags: '-color'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Strip BOMs in config files
+        run: node scripts/ci/fix-bom.cjs
+
+      - name: Install dependencies
+        uses: ./.github/actions/npm-install
+
+      - name: Step
+        run: node scripts/ci/workflow-guardian.mjs
+
+      - name: Step
+        run: node scripts/ci/branch-protection-guardian.mjs
+        continue-on-error: true # Branch protection check is non-blocking; issues are logged
+
+  # ==================== Quality Gates ====================
+  quality-gates:
+    name: Quality Gates Check
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    timeout-minutes: 10
+    needs: workflow-guardian
+    # P0: ensure devDependencies installed for job
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - name: Strip BOMs in config files
+        run: node scripts/ci/fix-bom.cjs
+
+      - name: Install dependencies
+        uses: ./.github/actions/npm-install
+
+      - name: Step
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Step
+        run: npm run typecheck
+
+      - name: 
+
+      - name: Typecheck (services strict)
+        run: npm run typecheck:services
+        continue-on-error: true
+      - name: Typecheck (middleware strict)
+        run: npm run typecheck:middleware
+        continue-on-error: true
+      - name: Typecheck (events strict)
+        run: npm run typecheck:events
+        continue-on-error: true
+      - name: Typecheck (security strict)
+        run: npm run typecheck:security
+        continue-on-error: true
+
+
+      - name: Guard build artifacts are not tracked
+        run: node scripts/ci/guard-artifacts.mjs
+
+      - name: Commit message lint (push - last 20)
+        if: ${{ github.event_name != 'pull_request' }}
+        run: |
+          npx --no-install commitlint --from=HEAD~20 --to=HEAD --verbose
+        # 强制门禁：不允许提交信息不合规
+        continue-on-error: false
+      - name: Commit message lint (PR - last commit only)
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          npx --no-install commitlint --from=HEAD~1 --to=HEAD --verbose
+        continue-on-error: false
+
+      - name: Step
+        run: npm run ci:gate:sentry-up
+        timeout-minutes: 2
+        continue-on-error: true
+      - name: Renderer import guard
+        run: node scripts/ci/check-renderer-imports.mjs
+
+  # ==================== Security Scan Stage ====================
+  # Note: Security scans moved to unified gate (security-unified.yml)
+  # Workflow
+
+  # ==================== Stable Core Jobs (Required) ====================
+  unit-tests-core:
+    name: Unit Tests (windows-latest, Node 20)
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs: workflow-guardian
+    timeout-minutes:
+      15
+      # P0: ensure devDependencies installed for job
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        uses: ./.github/actions/npm-install
+
+      - name: Step
+        uses: ./.github/actions/run-tests
+        with:
+          test-type: coverage
+        env:
+          NODE_ENV: test
+      - name: Step
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-summary
+          path: coverage/coverage-summary.json
+          retention-days: 14
+
+  coverage-gate:
+    name: Coverage Gate
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs: unit-tests-core
+    timeout-minutes:
+      5
+      # P0: ensure devDependencies installed for job
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - name: Install dependencies
+        uses: ./.github/actions/npm-install
+      - name: Validate (coverage config)
+        run: node scripts/ci/coverage-config.cjs --verify-only
+      - name: Step
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-summary
+          path: coverage/
+      - name: Step
+        run: node scripts/ci/coverage-gate.cjs
+        env:
+          COVERAGE_MODE: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+          NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'test' }}
+
+  sonarcloud-analysis:
+    name: SonarCloud Analysis (Windows)
+    runs-on: windows-latest
+    needs: unit-tests-core
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false }}
+    permissions:
+      contents: read
+      pull-requests: read
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_HOST_URL: https://sonarcloud.io
+    timeout-minutes: 20
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - name: Setup Java (for SonarScanner)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests with coverage (lcov)
+        run: npm run test:coverage
+        env:
+          NODE_ENV: test
+      - name: SonarCloud Scan
+        if: ${{ env.SONAR_TOKEN != '' }}
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
+        with:
+          args: >-
+            -Dsonar.organization=${{ secrets.SONAR_ORG }}
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.sources=src
+            -Dsonar.tests=tests
+            -Dsonar.test.inclusions=**/*.spec.ts,**/*.test.ts
+      - name: Wait for Quality Gate (SonarCloud)
+        if: ${{ env.SONAR_TOKEN != '' }}
+        uses: SonarSource/sonarqube-quality-gate-action@v1.2.0
+        env:
+          SONAR_HOST_URL: https://sonarcloud.io
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          timeout-minutes: 10
+      - name: Sonar summary
+        if: always()
+        run: |
+          {
+            echo "## SonarCloud Summary";
+            echo "- Status: ${{ job.status }}";
+            echo "- Project: ${{ secrets.SONAR_PROJECT_KEY || 'not-set' }}";
+            echo "- Organization: ${{ secrets.SONAR_ORG || 'not-set' }}";
+            echo "- Runner: $env:RUNNER_OS";
+          } >> $env:GITHUB_STEP_SUMMARY
+
+  build-verification-core:
+    name: Build Verification (windows-latest)
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs: unit-tests-core
+    timeout-minutes: 10
+    # P0: ensure devDependencies installed for job
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - name: Install dependencies
+        uses: ./.github/actions/npm-install
+      - name: Build application
+        run: npm run build
+      - name: Perf smoke summary (Windows)
+        run: node scripts/ci/perf-smoke.mjs
+        continue-on-error: ${{ github.ref != 'refs/heads/main' }}
+        env:
+          START_TTI_WARN_MS: ${{ vars.START_TTI_WARN_MS || '2500' }}
+          START_TTI_FAIL_MS: ${{ vars.START_TTI_FAIL_MS || '4000' }}
+          SCENE_SWITCH_WARN_MS: ${{ vars.SCENE_SWITCH_WARN_MS || '300' }}
+          SCENE_SWITCH_FAIL_MS: ${{ vars.SCENE_SWITCH_FAIL_MS || '600' }}
+          # Keep perf sample size consistent across workflows
+          PERF_SAMPLE_COUNT: ${{ github.event_name == 'pull_request' && '10' || '20' }}
+      - name: Apply Electron fuses (dev)
+        if: ${{ github.ref != 'refs/heads/main' && (hashFiles('dist-electron/win-unpacked/electron.exe') != '' || hashFiles('dist-electron/electron.exe') != '') }}
+        run: npm run security:fuses:dev
+        continue-on-error: true
+      - name: Apply Electron fuses (prod)
+        if: ${{ github.ref == 'refs/heads/main' && (hashFiles('dist-electron/win-unpacked/electron.exe') != '' || hashFiles('dist-electron/electron.exe') != '') }}
+        run: npm run security:fuses:prod
+      - name: Size budget check (size-limit, push)
+        if: ${{ github.event_name != 'pull_request' }}
+        run: npm run size:ci
+      - name: Size budget check (size-limit, PR; blocking unless size-waive)
+        if: ${{ github.event_name == 'pull_request' }}
+        run: npm run size:ci
+        continue-on-error: ${{ contains(toJson(github.event.pull_request.labels), 'size-waive') }}
+
+      - name: Size summary
+        run: node scripts/ci/size-summary.mjs
+      - name: Upload bundle analysis report
+        if: ${{ success() && hashFiles('dist/bundle-analysis.html') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-analysis
+          path: dist/bundle-analysis.html
+          retention-days: 7
+      - name: Validate
+        run: node scripts/ci/verify-dist-build.mjs
+      - name: Upload dist-electron artifact
+        if: ${{ success() && hashFiles('dist-electron/**') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-electron
+          path: dist-electron/**
+          retention-days: 1
+
+  release-health-gate:
+    name: Release Health Gate
+    runs-on: windows-latest
+    needs: [unit-tests-core, coverage-gate, electron-security-gate]
+    timeout-minutes: 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - name: Install dependencies
+        uses: ./.github/actions/npm-install
+      - name: Setup Playwright browsers cache
+        uses: microsoft/playwright-github-action@v1
+      - name: Check Sentry token
+        id: sentry_check
+        run: node scripts/ci/sentry-verify.mjs
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG || 'default-org' }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT || 'bc660-desktop' }}
+      - name: Step
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG || 'default-org' }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT || 'bc660-desktop' }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENTRY_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'prod' || 'staging' }}
+          SENTRY_RELEASE: ${{ github.sha }}
+        if: steps.sentry_check.outputs.token_present == 'true'
+        shell: pwsh
+        run: node scripts/ci/release-health-gate.mjs
+
+  # ==================== Extended Tests Matrix ====================
+  extended-tests-matrix:
+    name: Extended Tests Matrix
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs: quality-gates
+    timeout-minutes: 20
+    if: |
+      contains(github.event.head_commit.message, '[skip-extended]') == false &&
+      github.event_name != 'schedule'
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ['18.x', '20.x', '22.x']
+        # Windows-focused strategy: single OS, multiple Node versions
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Step
+        uses: tj-actions/changed-files@v44
+        id: changed-files
+        with:
+          files: |
+            src/**
+            tests/**
+            *.js
+            *.ts
+            *.json
+            package*.json
+            vite.config.*
+            tsconfig.json
+            *.config.js
+            *.config.ts
+          files_ignore: |
+            docs/**
+            *.md
+            **/*.md
+
+      - name: Setup Node.js
+        if: steps.changed-files.outputs.any_changed == 'true'
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        if: steps.changed-files.outputs.any_changed == 'true'
+        uses: ./.github/actions/npm-install
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Step
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: npm test
+        env:
+          NODE_ENV: test
+
+  # ==================== Electron Security Gate ====================
+  electron-security-gate:
+    name: Electron Security Gate
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs: [quality-gates, build-verification-core]
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        uses: ./.github/actions/npm-install
+
+      - name: npm audit-ci (block on main)
+        run: npx --yes audit-ci --high --critical -c audit-ci.json
+        continue-on-error: ${{ github.ref != 'refs/heads/main' }}
+      - name: npm audit (json report)
+        run: |
+          npm audit --json > npm-audit.json
+        continue-on-error: true
+      - name: Upload npm audit report
+        if: ${{ always() && hashFiles('npm-audit.json') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-report
+          path: npm-audit.json
+          retention-days: 7
+
+      - name: Download dist-electron artifact (if available)
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: dist-electron
+          path: dist-electron
+
+      - name: Pre-build Electron artifacts (timeout 8m)
+        run: npm run build
+        timeout-minutes: 8
+
+      - name: Assert electron main entry exists
+        run: |
+          if (!(Test-Path 'dist-electron/electron/main.js')) {
+            Write-Error 'Missing dist-electron/electron/main.js after build or artifact download.'
+            exit 1
+          }
+
+      # Windows runner does not require xvfb for Electron
+      - name: Validate
+        run: |
+          Write-Host "Windows runner detected ($env:RUNNER_OS); Electron smoke runs without xvfb"
+          echo "Runner OS: $RUNNER_OS"
+
+      - name: Step
+        uses: ./.github/actions/run-tests
+        with:
+          test-type: security
+        env:
+          CI: true
+          RUN_TESTS_BUILD_TIMEOUT_MS: '600000'
+        timeout-minutes:
+          60
+          # Windows runner does not require xvfb for Electron
+      - name: Upload Playwright report
+        if: ${{ always() && hashFiles('playwright-report/**') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/**
+          retention-days: 7
+      - name: Upload Playwright traces
+        if: ${{ always() && hashFiles('test-results/**') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces
+          path: test-results/**
+          retention-days: 7
+      - name: Run Snyk scan
+        run: node scripts/ci/run-snyk-scan.mjs
+        continue-on-error: ${{ github.ref != 'refs/heads/main' }}
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          SNYK_BLOCK: ${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}
+          SNYK_REPORT: snyk-report.json
+      - name: Upload Snyk report
+        if: ${{ always() && hashFiles('snyk-report.json') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: snyk-report
+          path: snyk-report.json
+          retention-days: 7
+      - name: License summary
+        run: node scripts/ci/run-license-summary.mjs
+  # ==================== Observability Verification ====================
+  observability-verification:
+    name: Observability Verification
+    runs-on: windows-latest
+    needs: unit-tests-core
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        uses: ./.github/actions/npm-install
+
+      - name: Validate
+        id: observability
+        uses: ./.github/actions/run-tests
+        with:
+          test-type: observability
+
+      - name: Upload observability report
+        if: ${{ always() && hashFiles('logs/observability-verification.json') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: observability-report
+          path: logs/observability-verification.json
+          retention-days: 14
+
+  # ==================== Performance Benchmarks ====================
+  performance-benchmarks:
+    name: Performance Benchmarks
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs: build-verification-core
+    timeout-minutes: 15
+    if: |
+      contains(github.event.head_commit.message, '[skip-perf]') == false
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        uses: ./.github/actions/npm-install
+
+      - name: Event loop latency benchmark
+        run: node scripts/ci/run-event-loop-benchmark.mjs
+      - name: Collect performance metrics (placeholder)
+        run: node scripts/ci/perf-metrics-placeholder.mjs
+
+  performance-trend-weekly:
+    name: Performance Trend Weekly
+    runs-on: windows-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Run perf smoke and capture output
+        env:
+          START_TTI_WARN_MS: ${{ vars.START_TTI_WARN_MS || '2500' }}
+          START_TTI_FAIL_MS: ${{ vars.START_TTI_FAIL_MS || '4000' }}
+          SCENE_SWITCH_WARN_MS: ${{ vars.SCENE_SWITCH_WARN_MS || '300' }}
+          SCENE_SWITCH_FAIL_MS: ${{ vars.SCENE_SWITCH_FAIL_MS || '600' }}
+        run: |
+          node scripts/ci/perf-smoke.mjs | Tee-Object -FilePath perf-weekly.txt
+      - name: Parse perf results and compute trend
+        id: trend
+        env:
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $text = Get-Content -Raw -LiteralPath 'perf-weekly.txt'
+          $start = [int]([regex]::Match($text, 'Start -> first window DOMContentLoaded: (\d+) ms').Groups[1].Value)
+          $scene = [int]([regex]::Match($text, 'Scene switch .*: (\d+) ms').Groups[1].Value)
+          $now = [DateTime]::UtcNow.ToString('s')
+          $current = [pscustomobject]@{ timestamp=$now; start_ms=$start; scene_ms=$scene }
+          # Try fetch previous 'perf-weekly-latest' artifact
+          $prev = $null
+          try {
+            $api = "https://api.github.com/repos/$env:GH_REPO/actions/artifacts?per_page=100"
+            $resp = Invoke-RestMethod -Headers @{ Authorization = "Bearer $env:GH_TOKEN"; 'X-GitHub-Api-Version'='2022-11-28' } -Uri $api -Method GET
+            $cand = ($resp.artifacts | Where-Object { $_.name -eq 'perf-weekly-latest' -and $_.expired -eq $false } | Sort-Object -Property created_at -Descending | Select-Object -First 1)
+            if ($cand) {
+              $zip = Join-Path $PWD 'prev.zip'
+              Invoke-WebRequest -Headers @{ Authorization = "Bearer $env:GH_TOKEN" } -Uri $cand.archive_download_url -OutFile $zip
+              $dir = Join-Path $PWD 'prev'
+              New-Item -ItemType Directory -Path $dir | Out-Null
+              Expand-Archive -Path $zip -DestinationPath $dir -Force
+              $prevPath = Join-Path $dir 'perf-weekly.json'
+              if (Test-Path -LiteralPath $prevPath) { $prev = Get-Content -Raw -LiteralPath $prevPath | ConvertFrom-Json }
+            }
+          } catch {
+            Write-Warning "No previous artifact available: $_"
+          }
+          $deltaStart = $null; $deltaScene = $null
+          if ($prev -ne $null -and $prev.start_ms -gt 0) {
+            $deltaStart = [math]::Round((($start - $prev.start_ms) / [double]$prev.start_ms) * 100, 2)
+          }
+          if ($prev -ne $null -and $prev.scene_ms -gt 0) {
+            $deltaScene = [math]::Round((($scene - $prev.scene_ms) / [double]$prev.scene_ms) * 100, 2)
+          }
+          $out = [pscustomobject]@{ timestamp=$now; start_ms=$start; scene_ms=$scene; delta_start_pct=$deltaStart; delta_scene_pct=$deltaScene }
+          $json = $out | ConvertTo-Json -Depth 3
+          $json | Set-Content -LiteralPath perf-weekly.json -Encoding UTF8
+          # Step Summary
+          $lines = @()
+          $lines += '## Weekly Performance Trend (Windows)'
+          $lines += "- Start→DOMContentLoaded: ${start} ms" + ($(if($deltaStart -ne $null) {" (${deltaStart}% vs prev)"} else {''}))
+          $lines += "- Scene switch (hash): ${scene} ms" + ($(if($deltaScene -ne $null) {" (${deltaScene}% vs prev)"} else {''}))
+          $lines += "- Timestamp (UTC): $now"
+          $lines -join "`n" | Add-Content -Path $env:GITHUB_STEP_SUMMARY
+          echo "json=$json" >> $env:GITHUB_OUTPUT
+      - name: Upload weekly artifact (dated)
+        uses: actions/upload-artifact@v4
+        with:
+          name: perf-weekly-${{ github.run_id }}
+          path: perf-weekly.json
+          retention-days: 60
+      - name: Upload weekly latest marker
+        uses: actions/upload-artifact@v4
+        with:
+          name: perf-weekly-latest
+          path: perf-weekly.json
+          retention-days: 60
+
+  # ==================== Deployment Readiness ====================
+  deployment-readiness:
+    name: Deployment Readiness Check
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs:
+      [
+        build-verification-core,
+        electron-security-gate,
+        observability-verification,
+      ]
+    if: github.ref == 'refs/heads/main'
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deployment summary
+        run: echo "Deployment readiness checklist will be attached."
+
+      - name: Generate deployment checklist
+        run: node scripts/ci/generate-deployment-checklist.mjs
+
+      - name: Step
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-checklist
+          path: deployment-checklist.md
+          retention-days: 30
+
+  sbom:
+    name: Generate SBOM (CycloneDX)
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - name: Install (no scripts)
+        run: npm ci --ignore-scripts
+      - name: Generate CycloneDX SBOM
+        run: npx --yes @cyclonedx/cyclonedx-npm --output-file sbom.json --spec-version 1.5
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-cyclonedx
+          path: sbom.json
+          retention-days: 14
+
+  security-summary:
+    name: Security Summary
+    runs-on: windows-latest
+    needs: electron-security-gate
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download Snyk report
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: snyk-report
+          path: .
+      - name: Download npm audit report
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: npm-audit-report
+          path: .
+      - name: Generate summary
+        run: node scripts/ci/security-summary.mjs
+
+
+
+

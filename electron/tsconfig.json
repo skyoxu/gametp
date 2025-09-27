@@ -1,0 +1,38 @@
+{
+  "extends": "../tsconfig.node.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES2022",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "../dist-electron",
+    "rootDir": "..",
+    "declaration": false,
+    "sourceMap": false,
+    "verbatimModuleSyntax": false,
+    "noEmit": false,
+    "allowImportingTsExtensions": false
+  },
+  "include": [
+    "./**/*.ts",
+    "../src/shared/observability/sentry-main.ts",
+    "../src/shared/observability/metrics-integration.main.ts",
+    "../src/shared/observability/release-health.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "../dist-electron",
+    "../src/**/*.spec.ts",
+    "../src/**/*.spec.tsx",
+    "../src/**/*.test.ts",
+    "../src/**/*.test.tsx",
+    "../src/**/__tests__/**",
+    "../src/shared/adapters/sqlite.bak/**",
+    "../src/shared/observability/metrics-integration.renderer.ts",
+    "../src/shared/observability/monitoring-example.tsx"
+  ]
+}

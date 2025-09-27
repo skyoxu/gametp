@@ -1,0 +1,81 @@
+name: tasks-governance
+
+permissions:
+  contents: read
+  actions: read
+
+defaults:
+  run:
+    shell: pwsh
+
+# Infrastructure-level optimization: global environment variables
+env:
+  NODE_VERSION: '20.x'
+  CI_RETRY_COUNT: '3'
+  CI_TIMEOUT_MINUTES: '15'
+  CACHE_STRATEGY: 'aggressive'
+
+on:
+  pull_request:
+    paths:
+      - 'docs/architecture/overlays/**'
+      - 'scripts/overlay-map.json'
+      - '.taskmaster/tasks/tasks.json'
+      - 'scripts/**'
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-tasks:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: false
+      matrix:
+        retry_attempt: [1]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v5.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: |
+            package-lock.json
+            package.json
+
+      - name: Normalize npm config on Windows
+        run: node scripts/ci/npm-normalize-windows.mjs
+
+      - name: Install deps (include dev)
+        env:
+          NPM_CONFIG_PRODUCTION: 'false'
+          NODE_ENV: 'development'
+        run: npm ci --no-audit --no-fund
+
+      - name: Verify ESLint availability
+        run: npx -y eslint --version
+
+      - name: Configure Git line endings (Windows)
+        if: startsWith(runner.os, 'Windows')
+        run: git config --global core.autocrlf input
+
+      - name: Build overlay map
+        run: node scripts/build-overlay-map.mjs
+
+      - name: ensure overlay-map committed
+        run: node scripts/ci/ensure-file-unchanged.mjs scripts/overlay-map.json
+
+      - run: node scripts/enrich-tasks.mjs --tasks .taskmaster/tasks/tasks.json --map scripts/overlay-map.json
+      - run: node scripts/validate-task-links.mjs --tasks .taskmaster/tasks/tasks.json

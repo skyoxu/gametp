@@ -1,0 +1,178 @@
+﻿name: Release Pipeline - Dev to CI to Prod (Simplified)
+
+on:
+  push:
+    branches: [main, release/*]
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options: [staging, production]
+
+permissions:
+  contents: write
+  actions: read
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  prepare:
+    name: Prepare
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    outputs:
+      environment: ${{ steps.env.outputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: env
+        run: node scripts/ci/detect-release-environment.mjs
+        env:
+          INPUT_ENVIRONMENT: ${{ github.event.inputs.environment }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+
+  build:
+    name: Build
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs: prepare
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Initialize template (ensure builder config)
+        run: npm run init:template
+      - name: Build (renderer + electron)
+        run: npm run build
+        env:
+          NODE_ENV: ${{ needs.prepare.outputs.environment }}
+      - name: Package (dir, unpacked)
+        run: npm run build:win:dir
+      - name: Package (installer NSIS)
+        run: npm run build:win
+
+      # Windows Signing (Azure Trusted Signing / Key Vault) - Placeholder (disabled by default)
+      # Enable by setting SIGN_WINDOWS: true and provide the following secrets/envs:
+      #   AZURE_KV_VAULT_URL, AZURE_KV_TENANT_ID, AZURE_KV_CLIENT_ID, AZURE_KV_CLIENT_SECRET, AZURE_KV_CERT_NAME
+      - name: Install AzureSignTool (if signing enabled)
+        if: ${{ env.SIGN_WINDOWS == 'true' }}
+        run: dotnet tool update --global AzureSignTool
+      - name: Sign Windows artifacts (Azure Key Vault) [placeholder]
+        if: ${{ env.SIGN_WINDOWS == 'true' }}
+        shell: pwsh
+        env:
+          AZURE_KV_VAULT_URL: ${{ secrets.AZURE_KV_VAULT_URL }}
+          AZURE_KV_TENANT_ID: ${{ secrets.AZURE_KV_TENANT_ID }}
+          AZURE_KV_CLIENT_ID: ${{ secrets.AZURE_KV_CLIENT_ID }}
+          AZURE_KV_CLIENT_SECRET: ${{ secrets.AZURE_KV_CLIENT_SECRET }}
+          AZURE_KV_CERT_NAME: ${{ secrets.AZURE_KV_CERT_NAME }}
+          TSA_URL: ${{ vars.WINDOWS_TSA_URL || 'http://timestamp.digicert.com' }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $files = Get-ChildItem -Path "dist-electron" -Recurse -Include *.exe,*.msi | Select-Object -ExpandProperty FullName
+          if (!$files) { Write-Host "No Windows artifacts to sign"; exit 0 }
+          foreach ($f in $files) {
+            Write-Host "Signing $f"
+            AzureSignTool sign `
+              -kvu "$env:AZURE_KV_VAULT_URL" `
+              -kvi "$env:AZURE_KV_TENANT_ID" `
+              -kvc "$env:AZURE_KV_CLIENT_ID" `
+              -kvs "$env:AZURE_KV_CLIENT_SECRET" `
+              -kvcsp "$env:AZURE_KV_CERT_NAME" `
+              -tr "$env:TSA_URL" `
+              -td sha256 -fd sha256 `
+              "$f"
+          }
+      - name: Verify signatures (signtool)
+        if: ${{ env.SIGN_WINDOWS == 'true' }}
+        shell: pwsh
+        run: |
+          $files = Get-ChildItem -Path "dist-electron" -Recurse -Include *.exe,*.msi | Select-Object -ExpandProperty FullName
+          foreach ($f in $files) {
+            Write-Host "Verifying $f"
+            signtool.exe verify /pa /all "$f"
+          }
+      - name: Apply Electron fuses (release)
+        run: npm run security:fuses:prod
+      - name: Check Sentry credentials (optional)
+        id: sentry_check
+        run: node scripts/ci/sentry-verify.mjs
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+      - name: Compute release version
+        id: rel
+        shell: pwsh
+        run: |
+          $pkg = Get-Content package.json | ConvertFrom-Json
+          $version = if ($env:GITHUB_REF -like 'refs/tags/v*') {
+            ($env:GITHUB_REF.Split('/')[-1]).TrimStart('v')
+          } else { $pkg.version }
+          Write-Output "version=$version" >> $env:GITHUB_OUTPUT
+      - name: Create Sentry release and upload sourcemaps
+        if: ${{ steps.sentry_check.outputs.token_present == 'true' && (github.ref_type == 'tag' || github.ref == 'refs/heads/main') }}
+        shell: pwsh
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        run: |
+          $REL = "vitegame@${{ steps.rel.outputs.version }}"
+          echo "Sentry release: $REL"
+          node_modules/.bin/sentry-cli releases new "$REL"
+          node_modules/.bin/sentry-cli releases set-commits "$REL" --auto
+          # Upload renderer sourcemaps from Vite build output
+          node_modules/.bin/sentry-cli sourcemaps upload --org "$env:SENTRY_ORG" --project "$env:SENTRY_PROJECT" --release "$REL" --rewrite --url-prefix "~/" dist
+          node_modules/.bin/sentry-cli releases finalize "$REL"
+      - name: Generate CycloneDX SBOM (full)
+        run: npx --yes @cyclonedx/cyclonedx-npm --output-file sbom.json --spec-version 1.5
+      - name: Upload SBOM (CycloneDX)
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-cyclonedx
+          path: sbom.json
+          retention-days: 14
+      - name: Generate CycloneDX SBOM (runtime only)
+        run: npx --yes @cyclonedx/cyclonedx-npm --omit dev --output-file sbom-runtime.json --spec-version 1.5
+      - name: Upload SBOM (runtime)
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-runtime-cyclonedx
+          path: sbom-runtime.json
+          retention-days: 14
+      - run: node scripts/ci/archive-build-artifacts.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: artifacts/build.zip
+      - name: Upload packaged Electron artifacts
+        if: ${{ always() && hashFiles('dist-electron/**') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-electron
+          path: |
+            dist-electron/**
+          retention-days: 14
+  summary:
+    name: Summary
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    needs: build
+    steps:
+      - run: Write-Output "Release build completed"
+

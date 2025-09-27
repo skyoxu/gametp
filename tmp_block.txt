@@ -1,0 +1,67 @@
+        shell: bash
+        run: |
+          # Ensure UTF-8 encoding output
+          export LANG=C.UTF-8
+          export LC_ALL=C.UTF-8
+
+          # Generate security gate results summary
+          scan_result="${{ needs.security-scan.result }}"
+          e2e_status="${{ needs.e2e-security-aggregate.outputs.e2e-status }}"
+          critical_count="${{ needs.security-scan.outputs.critical-count }}"
+          high_count="${{ needs.security-scan.outputs.high-count }}"
+
+          # Determine result status and message
+          if [ "$scan_result" != "success" ]; then
+            result_title="### Security Gate Hard Failure"
+            {
+              echo "**ADR-0002 Violation**: Static security scan failed baseline requirements"
+              echo "- Critical security issues: ${critical_count} (required: 0)"
+              echo "- High security issues:${high_count}(required: 3)"
+              echo ""
+              echo "**This PR is hard-blocked from merging, must fix all security issues**"
+            } > /tmp/result_msg.txt
+            result_message=$(cat /tmp/result_msg.txt)
+            exit_code=1
+          elif [ "$e2e_status" = "failed" ]; then
+            result_title="### Security Gate Hard Failure"
+            {
+              echo "**ADR-0002 Violation**: E2E security tests failed"
+              echo "Please check Electron security configuration:"
+              echo "- nodeIntegration=false"
+              echo "- contextIsolation=true"
+              echo "- sandbox=true"
+              echo ""
+              echo "**This PR is hard-blocked from merging, must fix Electron security config**"
+            } > /tmp/result_msg.txt
+            result_message=$(cat /tmp/result_msg.txt)
+            exit_code=1
+          else
+            result_title="### Security Gate Passed"
+            {
+              echo "**ADR-0002 Compliant**: All security checks passed, meets strict security baseline requirements"
+              echo "- Critical security issues: 0"
+              echo "- High security issues:${high_count}(3)"
+              echo "- E2E security tests: Passed"
+            } > /tmp/result_msg.txt
+            result_message=$(cat /tmp/result_msg.txt)
+            exit_code=0
+          fi
+
+          # Write all content to Summary at once
+          {
+            echo "## Unified Security Gate Results"
+            echo ""
+            echo "### Check Summary"
+            echo "| Check Item | Status | Result |"
+            echo "|---------|------|------|"
+            echo "| Static Security Scan | ${{ needs.security-scan.outputs.scan-status }} | Critical: ${critical_count}, High: ${high_count} |"
+            echo "| E2E Security Tests | ${e2e_status} | ${{ needs.e2e-security-aggregate.result != 'skipped' && 'Executed' || 'Skipped (Critical issues exist)' }} |"
+            gate_label=$([ "${{ github.event_name }}" = "pull_request" ] && echo "Soft" || echo "Hard")
+            echo "| E2E Gate | ${gate_label} | Mode: PR=Soft / Main=Hard |"
+            echo ""
+            echo "$result_title"
+            echo "$result_message"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          # ADR-0002 mandatory hard failure decision
+          if [ "$exit_code" -eq 1 ]; then

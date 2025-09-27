@@ -1,0 +1,8 @@
+{
+  "allowlist": [
+    /* Add package identifiers to temporarily allow, e.g.:
+       "GHSA-xxxx-xxxx-xxxx",
+       "npm:package@version" */
+  ]
+}
+
