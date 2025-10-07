@@ -157,8 +157,7 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         run: |
           npx --no-install commitlint --from=HEAD~20 --to=HEAD --verbose
-        # 强制门禁：不允许提交信息不合规
-        continue-on-error: false
+        # enforce commit message policy: disallow non-compliant messages        continue-on-error: false
       - name: Commit message lint (PR - last commit only)
         if: ${{ github.event_name == 'pull_request' }}
         run: |
@@ -719,7 +718,7 @@ jobs:
           # Step Summary
           $lines = @()
           $lines += '## Weekly Performance Trend (Windows)'
-          $lines += "- Start→DOMContentLoaded: ${start} ms" + ($(if($deltaStart -ne $null) {" (${deltaStart}% vs prev)"} else {''}))
+          $lines += "- Start DOMContentLoaded: ${start} ms" + ($(if($deltaStart -ne $null) {" (${deltaStart}% vs prev)"} else {''}))
           $lines += "- Scene switch (hash): ${scene} ms" + ($(if($deltaScene -ne $null) {" (${deltaScene}% vs prev)"} else {''}))
           $lines += "- Timestamp (UTC): $now"
           $lines -join "`n" | Add-Content -Path $env:GITHUB_STEP_SUMMARY
