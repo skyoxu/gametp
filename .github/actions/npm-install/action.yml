@@ -118,7 +118,13 @@ runs:
         $verificationErrors = 0
         $tools = @('eslint','tsc','vitest','playwright','tsx')
         foreach ($t in $tools) {
-          if (Test-Path (Join-Path 'node_modules/.bin' $t) -or Test-Path (Join-Path 'node_modules/.bin' ("{0}.cmd" -f $t))) {
+          $binPath = Join-Path 'node_modules/.bin' $t
+          $binCmdPath = Join-Path 'node_modules/.bin' ("{0}.cmd" -f $t)
+          $hasTool = Test-Path $binPath
+          if (-not $hasTool) {
+            $hasTool = Test-Path $binCmdPath
+          }
+          if ($hasTool) {
             Write-Host ("SUCCESS: {0} available in node_modules/.bin" -f $t)
           } elseif ((npm list $t | Out-Null) -ne $true) {
             Write-Warning ("{0} not detected in node_modules" -f $t)
@@ -130,7 +136,9 @@ runs:
         node -e "require('@rollup/rollup-win32-x64-msvc')" 2>$null
         if ($LASTEXITCODE -eq 0) { Write-Host "SUCCESS: rollup native ok" } else { Write-Warning "rollup native package not found (non-critical)" }
 
-        if (Test-Path 'node_modules' -and Test-Path 'node_modules/.bin') {
+        $hasNodeModules = Test-Path 'node_modules'
+        $hasNodeModulesBin = Test-Path 'node_modules/.bin'
+        if ($hasNodeModules -and $hasNodeModulesBin) {
           $pkgCount = (Get-ChildItem 'node_modules' -Directory | Measure-Object).Count
           Write-Host ("SUCCESS: node_modules verification passed ({0} top-level packages)" -f $pkgCount)
         } else {
