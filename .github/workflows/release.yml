@@ -1,4 +1,4 @@
-﻿name: Release Pipeline - Dev to CI to Prod (Simplified)
+name: Release Pipeline - Dev to CI to Prod (Simplified)
 
 on:
   push:
