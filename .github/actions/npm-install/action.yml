@@ -60,9 +60,15 @@ runs:
         $env:NPM_CONFIG_AUDIT = 'false'
         $env:NPM_CONFIG_PROGRESS = 'false'
 
+        $npmExecutable = (Get-Command npm -ErrorAction Stop).Source
+        if (-not $npmExecutable) {
+          throw 'npm executable not found on PATH (required for npm ci)'
+        }
+
         function Invoke-NpmCiAttempt([int]$timeoutSec, [string]$extraArgs) {
           $psi = New-Object System.Diagnostics.ProcessStartInfo
-          $psi.FileName = 'npm'
+          $psi.FileName = $npmExecutable
+          $psi.WorkingDirectory = (Get-Location).Path
           $psi.Arguments = "ci $extraArgs"
           $psi.RedirectStandardOutput = $true
           $psi.RedirectStandardError = $true
