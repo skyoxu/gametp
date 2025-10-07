@@ -587,19 +587,27 @@ jobs:
             $exitCode = 0
           }
 
-          @"
-## Unified Security Gate Results
+          $e2eResultText = if ('${{ needs.e2e-security-aggregate.result }}' -ne 'skipped') {
+            'Executed'
+          } else {
+            'Skipped (Critical issues exist)'
+          }
 
-### Check Summary
-| Check Item | Status | Result |
-|---------|------|------|
-| Static Security Scan | ${{ needs.security-scan.outputs.scan-status }} | Critical: ${critical_count}, High: ${high_count} |
-| E2E Security Tests | ${e2e_status} | $(if ('${{ needs.e2e-security-aggregate.result }}' -ne 'skipped') { 'Executed' } else { 'Skipped (Critical issues exist)' }) |
-| E2E Gate | ${gate_label} | Mode: PR=Soft / Main=Hard |
+          $summaryLines = @(
+            '## Unified Security Gate Results',
+            '',
+            '### Check Summary',
+            '| Check Item | Status | Result |',
+            '|---------|------|------|',
+            "| Static Security Scan | ${{ needs.security-scan.outputs.scan-status }} | Critical: ${critical_count}, High: ${high_count} |",
+            "| E2E Security Tests | ${e2e_status} | $e2eResultText |",
+            "| E2E Gate | ${gate_label} | Mode: PR=Soft / Main=Hard |",
+            '',
+            $title
+          )
 
-$title
-$(($detail -join "`n"))
-"@ | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding UTF8
+          $outputLines = $summaryLines + $detail
+          $outputLines -join "`n" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding UTF8
 
           if ($exitCode -ne 0) { exit 1 }
 
