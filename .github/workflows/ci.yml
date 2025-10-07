@@ -132,7 +132,9 @@ jobs:
       - name: Step
         run: npm run typecheck
 
-      - name: 
+      - name: Typecheck (shared strict)
+        run: npm run typecheck:shared
+        continue-on-error: true
 
       - name: Typecheck (services strict)
         run: npm run typecheck:services

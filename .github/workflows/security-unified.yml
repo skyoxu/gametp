@@ -536,18 +536,15 @@ jobs:
 
       - name: E2E Gate Mode Notice (Top)
         run: |
+          $lines = @('## Security Notice')
           if ('${{ github.event_name }}' -eq 'pull_request') {
-            @"
-## Security Notice
-This PR uses a SOFT gate for E2E security checks (non-blocking).
-Please review smoke results and fix before merging to main where HARD gate applies.
-"@ | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding UTF8
+            $lines += 'This PR uses a SOFT gate for E2E security checks (non-blocking).'
+            $lines += 'Please review smoke results and fix before merging to main where HARD gate applies.'
           } else {
-            @"
-## Security Notice
-This branch uses a HARD gate for E2E security checks (blocking on failure).
-"@ | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding UTF8
+            $lines += 'This branch uses a HARD gate for E2E security checks (blocking on failure).'
           }
+          $lines += ''
+          $lines -join "`n" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding UTF8
 
       - name: Security gate results summary
         run: |
