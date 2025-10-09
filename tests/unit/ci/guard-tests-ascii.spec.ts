@@ -55,4 +55,3 @@ describe('ASCII gate for tests', () => {
     rmSync(base, { recursive: true, force: true });
   });
 });
-

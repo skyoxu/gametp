@@ -1,16 +1,37 @@
-import { describe, it, expect, vi, beforeAll } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
+import type { BrowserWindow } from 'electron';
 
-// Mock electron module to avoid requiring a real Electron runtime
-vi.mock('electron', () => {
-  return {
-    BrowserWindow: class {},
-    session: { defaultSession: { webRequest: { onHeadersReceived: vi.fn(), onBeforeRequest: vi.fn() } } },
-    app: { on: vi.fn() },
-    shell: { openExternal: vi.fn() },
+vi.mock('electron', () => ({
+  BrowserWindow: class {},
+  session: {
+    defaultSession: {
+      webRequest: { onHeadersReceived: vi.fn(), onBeforeRequest: vi.fn() },
+    },
+  },
+  app: { on: vi.fn() },
+  shell: { openExternal: vi.fn() },
+}));
+
+import {
+  _isAllowedNavigation,
+  validateSecurityConfig,
+  getSecurityHealthCheck,
+} from '../../../electron/security';
+
+interface BrowserWindowLike {
+  webContents: {
+    browserWindowOptions: {
+      webPreferences: {
+        nodeIntegration: boolean;
+        contextIsolation: boolean;
+        sandbox: boolean;
+        webSecurity: boolean;
+        allowRunningInsecureContent: boolean;
+        experimentalFeatures: boolean;
+      };
+    };
   };
-});
-
-import { _isAllowedNavigation, validateSecurityConfig, getSecurityHealthCheck } from '../../../electron/security';
+}
 
 describe('electron/security', () => {
   it('allows only app://, file://, and localhost/127.0.0.1', () => {
@@ -22,7 +43,7 @@ describe('electron/security', () => {
   });
 
   it('validates secure BrowserWindow preferences', () => {
-    const fakeWindow = {
+    const fakeWindow: BrowserWindowLike = {
       webContents: {
         browserWindowOptions: {
           webPreferences: {
@@ -35,9 +56,9 @@ describe('electron/security', () => {
           },
         },
       },
-    } as any;
+    };
 
-    const cfg = validateSecurityConfig(fakeWindow);
+    const cfg = validateSecurityConfig(fakeWindow as unknown as BrowserWindow);
     expect(cfg.nodeIntegration).toBe(false);
     expect(cfg.contextIsolation).toBe(true);
     expect(cfg.sandbox).toBe(true);
@@ -46,7 +67,7 @@ describe('electron/security', () => {
   });
 
   it('computes compliant security health check', () => {
-    const fakeWindow = {
+    const fakeWindow: BrowserWindowLike = {
       webContents: {
         browserWindowOptions: {
           webPreferences: {
@@ -59,12 +80,13 @@ describe('electron/security', () => {
           },
         },
       },
-    } as any;
+    };
 
-    const report = getSecurityHealthCheck(fakeWindow);
+    const report = getSecurityHealthCheck(
+      fakeWindow as unknown as BrowserWindow
+    );
     expect(report.compliant).toBe(true);
     expect(report.violations.length).toBe(0);
     expect(report.score).toBe(100);
   });
 });
-

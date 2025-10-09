@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { launchApp } from '../../helpers/launch';
 import { ensureDomReady } from '../../helpers/ensureDomReady';
+import type { RendererWindow } from '../../helpers/renderer-types';
 
 /*
   Electron smoke demo using _electron.launch()
@@ -49,19 +50,18 @@ test.describe('Electron basic functionality', () => {
 
     // Renderer must not expose Node globals
     const nodeAccessBlocked = await firstWindow.evaluate(() => {
-      return (
-        typeof (globalThis as any).require === 'undefined' &&
-        typeof (globalThis as any).process === 'undefined' &&
-        typeof (globalThis as any).Buffer === 'undefined'
-      );
+      const win = window as RendererWindow;
+      const forbiddenNodes = [win.require, win.process, win.Buffer];
+      return forbiddenNodes.every(entry => typeof entry === 'undefined');
     });
     expect(nodeAccessBlocked).toBe(true);
 
     // ContextBridge API may or may not exist depending on preload
     const bridgeAvailable = await firstWindow.evaluate(() => {
+      const win = window as RendererWindow;
       return (
-        typeof (window as any).electronApi !== 'undefined' ||
-        typeof (window as any).electron !== 'undefined'
+        typeof win.electronAPI !== 'undefined' ||
+        typeof win.electron !== 'undefined'
       );
     });
     if (bridgeAvailable) {
@@ -78,13 +78,14 @@ test.describe('Electron basic functionality', () => {
     const { app: electronApp, page: firstWindow } = await launchApp();
 
     const inlineBlocked = await firstWindow.evaluate(async () => {
-      (window as any).testCSP = undefined;
+      const win = window as RendererWindow;
+      win.testCSP = undefined;
       return new Promise<boolean>(resolve => {
         const script = document.createElement('script');
         script.innerHTML = 'window.testCSP = true;';
 
         const timeout = setTimeout(() => {
-          resolve((window as any).testCSP !== true);
+          resolve(win.testCSP !== true);
         }, 1000);
 
         script.onload = () => {
@@ -110,11 +111,14 @@ test.describe('Electron basic functionality', () => {
     console.log('[INFO] Verifying renderer environment...');
     const { app: electronApp, page: firstWindow } = await launchApp();
 
-    const rendererInfo = await firstWindow.evaluate(() => ({
-      userAgent: navigator.userAgent,
-      isElectron: navigator.userAgent.includes('Electron'),
-      hasNodeIntegration: typeof (globalThis as any).require !== 'undefined',
-    }));
+    const rendererInfo = await firstWindow.evaluate(() => {
+      const win = window as RendererWindow;
+      return {
+        userAgent: navigator.userAgent,
+        isElectron: navigator.userAgent.includes('Electron'),
+        hasNodeIntegration: typeof win.require !== 'undefined',
+      };
+    });
 
     expect(rendererInfo.isElectron).toBe(true);
     expect(rendererInfo.hasNodeIntegration).toBe(false);

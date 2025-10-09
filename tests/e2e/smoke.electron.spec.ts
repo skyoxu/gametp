@@ -5,6 +5,13 @@
 
 import { test, expect, ElectronApplication, Page } from '@playwright/test';
 import { launchApp } from '../helpers/launch';
+import type {
+  RendererWindow,
+  RendererNodeGlobalsSnapshot,
+  RendererDiagnostics,
+  AppStatusInfo,
+  RuntimeEnvironmentInfo,
+} from '../helpers/renderer-types';
 
 let app: ElectronApplication;
 let page: Page;
@@ -36,15 +43,15 @@ test.describe('Electron baseline validation', () => {
   });
 
   test('Security: Node.js globals isolated', async () => {
-    const nodeGlobals = await page.evaluate(() => {
+    const nodeGlobals = await page.evaluate<RendererNodeGlobalsSnapshot>(() => {
+      const win = window as RendererWindow;
       return {
-        hasRequire: typeof (window as any).require !== 'undefined',
-        hasProcess: typeof (window as any).process !== 'undefined',
-        hasBuffer: typeof (window as any).Buffer !== 'undefined',
-        hasGlobal: typeof (window as any).global !== 'undefined',
-        hasSetImmediate: typeof (window as any).setImmediate !== 'undefined',
-        hasClearImmediate:
-          typeof (window as any).clearImmediate !== 'undefined',
+        hasRequire: typeof win.require !== 'undefined',
+        hasProcess: typeof win.process !== 'undefined',
+        hasBuffer: typeof win.Buffer !== 'undefined',
+        hasGlobal: typeof win.global !== 'undefined',
+        hasSetImmediate: typeof win.setImmediate !== 'undefined',
+        hasClearImmediate: typeof win.clearImmediate !== 'undefined',
       };
     });
     expect(
@@ -93,9 +100,10 @@ test.describe('Electron baseline validation', () => {
   });
 
   test('Preload diagnostics (allowlist exposure)', async () => {
-    const diag = await page.evaluate(() => {
-      const windowKeys = Object.keys(window);
-      const apiKeys = windowKeys.filter(
+    const diag = await page.evaluate<RendererDiagnostics>(() => {
+      const win = window as RendererWindow;
+      const windowEntries = Object.keys(win);
+      const apiKeys = windowEntries.filter(
         key =>
           key.includes('API') ||
           key.includes('Api') ||
@@ -103,21 +111,19 @@ test.describe('Electron baseline validation', () => {
           key.includes('electron') ||
           key.includes('__CUSTOM')
       );
-      const electronAPIType = typeof (window as any).electronAPI;
-      const customAPIType = typeof (window as any).__CUSTOM_API__;
-      const electronKeys = (window as any).electronAPI
-        ? Object.keys((window as any).electronAPI)
-        : [];
-      const customKeys = (window as any).__CUSTOM_API__
-        ? Object.keys((window as any).__CUSTOM_API__)
-        : [];
+      const collectKeys = (value: unknown): string[] => {
+        if (value && typeof value === 'object') {
+          return Object.keys(value as Record<string, unknown>);
+        }
+        return [];
+      };
       return {
-        allWindowKeys: windowKeys.slice(0, 20),
+        allWindowKeys: windowEntries.slice(0, 20),
         exposedApiKeys: apiKeys,
-        electronAPIType,
-        customAPIType,
-        electronKeys,
-        customKeys,
+        electronAPIType: typeof win.electronAPI,
+        customAPIType: typeof win.__CUSTOM_API__,
+        electronKeys: collectKeys(win.electronAPI),
+        customKeys: collectKeys(win.__CUSTOM_API__),
       };
     });
     console.log('[DIAG] Exposed API keys:', diag.exposedApiKeys);
@@ -150,13 +156,13 @@ test.describe('Electron baseline validation', () => {
   });
 
   test('App status sanity', async () => {
-    const appStatus = await app.evaluate(async ({ app, BrowserWindow }) => {
-      return {
+    const appStatus = await app.evaluate<AppStatusInfo>(
+      ({ app, BrowserWindow }) => ({
         isReady: app.isReady(),
         isPackaged: app.isPackaged,
         windowCount: BrowserWindow.getAllWindows().length,
-      };
-    });
+      })
+    );
     expect(appStatus.isReady, 'App should be ready').toBe(true);
     expect(
       appStatus.windowCount,
@@ -168,20 +174,18 @@ test.describe('Electron baseline validation', () => {
 
 test.describe('Build/runtime details', () => {
   test('Runtime environment details', async () => {
-    const info = await app.evaluate(async ({ app }) => {
-      return {
-        appName: app.getName(),
-        appVersion: app.getVersion(),
-        isReady: app.isReady(),
-        isPackaged: app.isPackaged,
-        processVersion: process.versions.electron,
-        nodeVersion: process.versions.node,
-        platform: process.platform,
-        arch: process.arch,
-        nodeEnv: process.env.NODE_ENV || 'unknown',
-        checkedAt: new Date().toISOString(),
-      };
-    });
+    const info = await app.evaluate<RuntimeEnvironmentInfo>(({ app }) => ({
+      appName: app.getName(),
+      appVersion: app.getVersion(),
+      isReady: app.isReady(),
+      isPackaged: app.isPackaged,
+      processVersion: process.versions.electron,
+      nodeVersion: process.versions.node,
+      platform: process.platform,
+      arch: process.arch,
+      nodeEnv: process.env.NODE_ENV || 'unknown',
+      checkedAt: new Date().toISOString(),
+    }));
     console.log('[INFO] Runtime info:', info);
     expect(info.appName).toBeTruthy();
     expect(info.appVersion).toBeTruthy();

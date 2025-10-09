@@ -1,13 +1,21 @@
+import { expect, test } from '@playwright/test';
 import { launchApp } from '../helpers/launch';
+import type { RendererWindow } from '../helpers/renderer-types';
 
-test('IPC \u5f80\u8fd4\u57fa\u7ebf\uff08\u5f00\u53d1\u673a\uff09', async () => {
-  const { app, page: win } = await launchApp();
+test('IPC 往返基线（开发机）', async () => {
+  const { app, page } = await launchApp();
   const samples: number[] = [];
+
   for (let i = 0; i < 200; i++) {
-    const t0 = Date.now();
-    await win.evaluate(() => (window as any).api?.ping?.());
-    samples.push(Date.now() - t0);
+    const started = Date.now();
+    await page.evaluate(() => {
+      const win = window as RendererWindow;
+      const api = win.electronAPI as { ping?: () => unknown } | undefined;
+      return api?.ping?.();
+    });
+    samples.push(Date.now() - started);
   }
+
   samples.sort((a, b) => a - b);
   const p95 = samples[Math.floor(samples.length * 0.95)];
   const p99 = samples[Math.floor(samples.length * 0.99)];

@@ -9,6 +9,7 @@ import { existsSync, writeFileSync, readFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { ensureDomReady } from './ensureDomReady';
+import type { RendererWindow } from './renderer-types';
 
 // Default entry path constant - dist-electron/package.json specifies commonjs type
 const DEFAULT_ENTRY_PATH = resolve(
@@ -131,7 +132,7 @@ export async function launchApp(
   process.env.CI = 'true';
 
   buildApp();
-  const main = validateEntryPath(entry);
+  validateEntryPath(entry);
   const app = await electron.launch({
     // Launch by project root so Electron uses package.json.main; more robust on Windows
     args: ['.'],
@@ -158,7 +159,7 @@ export async function launchAppAndPage(
   process.env.CI = 'true';
 
   buildApp();
-  const main = validateEntryPath(entry);
+  validateEntryPath(entry);
   const app = await electron.launch({
     args: ['.'],
     env: {
@@ -183,10 +184,10 @@ export async function launchAppWithArgs(
   buildApp();
   let args: string[];
   if (Array.isArray(entryOrArgs)) {
-    const main = validateEntryPath();
+    validateEntryPath();
     args = ['.', ...entryOrArgs];
   } else {
-    const main = validateEntryPath(entryOrArgs);
+    validateEntryPath(entryOrArgs);
     args = extraArgs ? ['.', ...extraArgs] : ['.'];
   }
   const app = await electron.launch({
@@ -210,7 +211,7 @@ export async function launchAppWithPage(
   process.env.CI = 'true';
 
   buildApp();
-  const main = validateEntryPath(entry);
+  validateEntryPath(entry);
   const app = await (electronOverride || electron).launch({
     args: ['.'],
     env: {
@@ -266,7 +267,7 @@ export async function prepareWindowForInteraction(page: Page): Promise<Page> {
 
   if (process.env.CI === 'true' || process.env.NODE_ENV === 'test') {
     await page.evaluate(() => {
-      (window as any).electronAPI?.bringToFront?.();
+      (window as RendererWindow).electronAPI?.bringToFront?.();
     });
     await page.evaluate(
       () =>

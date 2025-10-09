@@ -37,4 +37,3 @@ test.describe('app:// protocol fallback and traversal guard', () => {
     await app.close();
   });
 });
-

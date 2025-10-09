@@ -1,5 +1,36 @@
 // Lightweight Sentry scrubbing helpers for unit tests and reuse.
-// No Electron imports; keep types as any to avoid heavy deps in test env.
+// No Electron imports; keep types strict to avoid lint suppressions.
+
+export interface SentryHeaders extends Record<string, string | undefined> {}
+
+export interface SentryUser {
+  id?: string;
+  email?: string;
+  ip_address?: string;
+}
+
+export interface SentryExceptionValue {
+  message?: string;
+}
+
+export interface SentryEvent {
+  user?: SentryUser;
+  request?: {
+    headers?: SentryHeaders;
+  };
+  exception?: {
+    values?: SentryExceptionValue[];
+  };
+}
+
+export interface SentryBreadcrumb {
+  category?: string;
+  level?: string;
+  data?: Record<string, unknown>;
+  message?: string;
+  timestamp?: number;
+  type?: string;
+}
 
 export function sanitizeMessage(message: string): string {
   return (message || '')
@@ -7,35 +38,64 @@ export function sanitizeMessage(message: string): string {
     .replace(/token[=:]\s*[^\s]+/gi, 'token=[REDACTED]')
     .replace(/key[=:]\s*[^\s]+/gi, 'key=[REDACTED]')
     .replace(/secret[=:]\s*[^\s]+/gi, 'secret=[REDACTED]')
-    .replace(/\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b/g, '[CARD_NUMBER]');
+    .replace(/\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}/g, '[CARD_NUMBER]');
 }
 
-export function filterPIIWithOTelSemantics(event: any, _hint?: any): any {
-  const e = event || {};
-  if (e.request?.headers) {
-    delete e.request.headers['authorization'];
-    delete e.request.headers['cookie'];
-    delete e.request.headers['x-api-key'];
+export function filterPIIWithOTelSemantics(
+  event: SentryEvent,
+  _hint?: unknown
+): SentryEvent {
+  const scrubbed: SentryEvent = {
+    ...event,
+    request: event.request ? { ...event.request } : event.request,
+    user: event.user ? { ...event.user } : event.user,
+    exception: event.exception
+      ? {
+          ...event.exception,
+          values: event.exception.values
+            ? [...event.exception.values]
+            : event.exception.values,
+        }
+      : event.exception,
+  };
+
+  if (scrubbed.request?.headers) {
+    const headers: SentryHeaders = { ...scrubbed.request.headers };
+    delete headers.authorization;
+    delete headers.cookie;
+    delete headers['x-api-key'];
+    scrubbed.request.headers = headers;
   }
-  if (e.user) {
-    delete e.user.email;
-    delete e.user.ip_address;
-    if (e.user.id) e.user.id = 'anonymous';
+
+  if (scrubbed.user) {
+    const user: SentryUser = { ...scrubbed.user };
+    delete user.email;
+    delete user.ip_address;
+    if (user.id) {
+      user.id = 'anonymous';
+    }
+    scrubbed.user = user;
   }
-  if (e.exception?.values) {
-    e.exception.values.forEach((ex: any) => {
-      if (ex && typeof ex.message === 'string') {
-        ex.message = sanitizeMessage(ex.message);
+
+  if (scrubbed.exception?.values) {
+    scrubbed.exception.values = scrubbed.exception.values.map(value => {
+      if (value && typeof value.message === 'string') {
+        return { ...value, message: sanitizeMessage(value.message) };
       }
+      return value;
     });
   }
-  return e;
+
+  return scrubbed;
 }
 
-export function filterSensitiveBreadcrumb(breadcrumb: any): any {
-  const b = { ...(breadcrumb || {}) };
-  if (b.category === 'http' && b.data?.url) {
-    const url: string = b.data.url;
+export function filterSensitiveBreadcrumb(
+  breadcrumb: SentryBreadcrumb
+): SentryBreadcrumb | null {
+  const result: SentryBreadcrumb = { ...breadcrumb };
+
+  if (result.category === 'http' && typeof result.data?.url === 'string') {
+    const url = result.data.url;
     if (
       url.includes('password') ||
       url.includes('token') ||
@@ -44,12 +104,14 @@ export function filterSensitiveBreadcrumb(breadcrumb: any): any {
       return null;
     }
   }
+
   if (
-    b.category === 'ui.input' &&
-    typeof b.message === 'string' &&
-    b.message.includes('password')
+    result.category === 'ui.input' &&
+    typeof result.message === 'string' &&
+    result.message.includes('password')
   ) {
     return null;
   }
-  return b;
+
+  return result;
 }

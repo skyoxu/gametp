@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { launchApp } from '../../helpers/launch';
+import type { RendererWindow } from '../../helpers/renderer-types';
 
 test.describe('Error page leakage guards (Windows)', () => {
   test('no absolute path leakage on missing resource', async () => {
@@ -31,7 +32,12 @@ test.describe('Error page leakage guards (Windows)', () => {
 
     // Trigger a renderer error and check that the DOM does not dump a stack
     await page.evaluate(() => {
-      try { (window as any).__force_error__(); } catch {}
+      const win = window as RendererWindow;
+      try {
+        win.__force_error__?.();
+      } catch {
+        /* ignore forced error */
+      }
     });
     await page.waitForTimeout(300);
 
