@@ -1,4 +1,4 @@
-// Lightweight Sentry scrubbing helpers for unit tests and reuse.
+﻿// Lightweight Sentry scrubbing helpers for unit tests and reuse.
 // No Electron imports; keep types strict to avoid lint suppressions.
 
 export type SentryHeaders = Record<string, string | undefined>;
@@ -33,12 +33,15 @@ export interface SentryBreadcrumb {
 }
 
 export function sanitizeMessage(message: string): string {
-  return (message || '')
-    .replace(/password[=:]\s*[^\s]+/gi, 'password=[REDACTED]')
-    .replace(/token[=:]\s*[^\s]+/gi, 'token=[REDACTED]')
-    .replace(/key[=:]\s*[^\s]+/gi, 'key=[REDACTED]')
-    .replace(/secret[=:]\s*[^\s]+/gi, 'secret=[REDACTED]')
-    .replace(/\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b/g, '[CARD_NUMBER]');
+  return (
+    (message || '')
+      .replace(/password[=:]\s*[^\s]+/gi, 'password=[REDACTED]')
+      .replace(/token[=:]\s*[^\s]+/gi, 'token=[REDACTED]')
+      .replace(/key[=:]\s*[^\s]+/gi, 'key=[REDACTED]')
+      .replace(/secret[=:]\s*[^\s]+/gi, 'secret=[REDACTED]')
+      // Use explicit word boundaries to avoid control character escapes.
+      .replace(/\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b/g, '[CARD_NUMBER]')
+  );
 }
 
 export function filterPIIWithOTelSemantics(
