@@ -1,7 +1,7 @@
 // Lightweight Sentry scrubbing helpers for unit tests and reuse.
 // No Electron imports; keep types strict to avoid lint suppressions.
 
-export interface SentryHeaders extends Record<string, string | undefined> {}
+export type SentryHeaders = Record<string, string | undefined>;
 
 export interface SentryUser {
   id?: string;
@@ -38,7 +38,7 @@ export function sanitizeMessage(message: string): string {
     .replace(/token[=:]\s*[^\s]+/gi, 'token=[REDACTED]')
     .replace(/key[=:]\s*[^\s]+/gi, 'key=[REDACTED]')
     .replace(/secret[=:]\s*[^\s]+/gi, 'secret=[REDACTED]')
-    .replace(/\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}/g, '[CARD_NUMBER]');
+    .replace(/\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b/g, '[CARD_NUMBER]');
 }
 
 export function filterPIIWithOTelSemantics(
