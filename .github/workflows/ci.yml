@@ -39,6 +39,8 @@ env:
   # Disable Sentry ingestion in CI/PR by default (free SaaS safe defaults)
   SENTRY_DSN: ''
   SENTRY_TRACES_SAMPLE_RATE: '0'
+  CL: '/std:c++20 /EHsc'
+  CXXFLAGS: '-std=c++20'
 
 permissions:
   contents: read
