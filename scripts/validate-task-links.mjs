@@ -5,6 +5,7 @@ import path from 'node:path';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import addKeywords from 'ajv-keywords';
+import metaSchema from 'ajv/dist/refs/json-schema-2020-12.json' assert { type: 'json' };
 // Use addFormats to handle the draft 2020-12 schema support
 
 const TASKS = 'tasks/tasks.json';
@@ -73,6 +74,8 @@ const ajv = new Ajv({
   strict: false, // Disable strict mode for compatibility
 });
 addFormats(ajv);
+ajv.addMetaSchema(metaSchema);
+ajv.addKeyword('$id');
 addKeywords(ajv, ['uniqueItemProperties', 'transform']); // ajv-keywords 扩展。
 
 const schema = JSON.parse(await fs.readFile(SCHEMA, 'utf8'));
