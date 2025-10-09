@@ -1277,80 +1277,50 @@ export class OnboardingTracker {
 **鐜鎼缓鑷姩鍖?*
 
 ```powershell
-#!/bin/bash
-# scripts/setup-dev-environment.sh - 寮€鍙戠幆澧冭嚜鍔ㄥ寲鎼缓鑴氭湰
+# scripts/setup-dev-environment.ps1 - Windows 环境初始化脚本
+$ErrorActionPreference = 'Stop'
 
-set -e
+Write-Host "🚀 开始构建《公会管理》开发环境..."
 
-echo "馃殌 寮€濮嬫惌寤恒€婂叕浼氱粡鐞嗐€嬪紑鍙戠幆澧?.."
-
-# 妫€鏌ョ郴缁熻姹?check_system_requirements() {
-  echo "馃搵 妫€鏌ョ郴缁熻姹?.."
-
-  # 妫€鏌ode.js鐗堟湰
-  if ! command -v node &> /dev/null; then
-  # Windows (PowerShell 等效): if (-not (Get-Command node -ErrorAction SilentlyContinue)) { Write-Host "Node.js 未安装"; exit 1 }
-    echo "鉂?Node.js 鏈畨瑁咃紝璇峰畨瑁?Node.js 20.x"
-    exit 1
-  fi
-
-  NODE_VERSION=$(node -v | cut -d'.' -f1 | sed 's/v//')
-  # Windows (PowerShell 等效):
-  # $major = [int]((node --version).TrimStart('v').Split('.')[0]); if ($major -lt 20) { Write-Host "Node.js 20.x required"; exit 1 }
-  if [ "$NODE_VERSION" -lt 20 ]; then
-    echo "鉂?Node.js 鐗堟湰杩囦綆锛岄渶瑕?20.x锛屽綋鍓嶇増鏈細$(node -v)"
-    exit 1
-  fi
-
-  # 妫€鏌it
-  if ! command -v git &> /dev/null; then
-  # Windows (PowerShell 等效): if (-not (Get-Command git -ErrorAction SilentlyContinue)) { Write-Host "Git 未安装"; exit 1 }
-    echo "鉂?Git 鏈畨瑁咃紝璇峰畨瑁?Git"
-    exit 1
-  fi
-
-  # 妫€鏌ョ郴缁熸灦鏋?  ARCH=$(uname -m)
-  OS=$(uname -s)
-  echo "鉁?绯荤粺鐜锛?OS $ARCH, Node.js $(node -v), Git $(git --version | cut -d' ' -f3)"
-  # Windows (PowerShell 等效):
-  # $osArch = (Get-CimInstance Win32_OperatingSystem).OSArchitecture; $gitVer = (git --version).Split(' ')[2];
-  # Write-Host "系统环境：OS $osArch, Node.js $(node --version), Git $gitVer"
+function Test-SystemRequirements {
+  Write-Host "🔍 检查系统依赖..."
+  if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
+    throw "未检测到 Node.js，请安装 Node.js 20.x"
+  }
+  $nodeMajor = [int]((node --version).TrimStart('v').Split('.')[0])
+  if ($nodeMajor -lt 20) {
+    throw "Node.js 版本需 ≥ 20.x，当前为 $(node --version)"
+  }
+  if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+    throw "未检测到 Git，请安装 Git"
+  }
+  $os = Get-CimInstance Win32_OperatingSystem
+  $gitVersion = (git --version).Split(' ')[2]
+  Write-Host "✅ 系统环境：$($os.OSArchitecture)、Node.js $(node --version)、Git $gitVersion"
 }
 
-# 瀹夎椤圭洰渚濊禆
-install_dependencies() {
-  echo "馃摝 瀹夎椤圭洰渚濊禆..."
-
-  # 娓呯悊鏃х殑node_modules
-  if [ -d "node_modules" ]; then
-    echo "馃Ч 娓呯悊鏃х殑渚濊禆..."
-Remove-Item -Recurse -Force node_modules package-lock.json
-  fi
-
-  # 瀹夎渚濊禆
+function Install-Dependencies {
+  Write-Host "📦 安装项目依赖..."
+  if (Test-Path node_modules) {
+    Write-Host "🧹 清理旧依赖..."
+    Remove-Item -Recurse -Force node_modules
+  }
+  if (Test-Path package-lock.json) {
+    Remove-Item -Force package-lock.json
+  }
   npm ci
-
-  # 瀹夎Playwright娴忚鍣?  npx playwright install
-
-  echo "鉁?渚濊禆瀹夎瀹屾垚"
+  npx playwright install
+  Write-Host "✅ 依赖安装完成"
 }
 
-# 閰嶇疆寮€鍙戝伐鍏?setup_dev_tools() {
-  echo "馃敡 閰嶇疆寮€鍙戝伐鍏?.."
-
-  # 閰嶇疆Git hooks
-  if [ -d ".git" ]; then
-    echo "鈿欙笍 閰嶇疆Git hooks..."
+function Setup-DevTools {
+  Write-Host "🛠️ 配置开发工具..."
+  if (Test-Path .git) {
     npx husky install
-  fi
-
-  # 閰嶇疆VSCode璁剧疆锛堝鏋滃瓨鍦級
-  if command -v code &> /dev/null; then
-  # Windows (PowerShell 等效): if (Get-Command code -ErrorAction SilentlyContinue) { Write-Host "检测到 VS Code" }
-    echo "馃摑 閰嶇疆VSCode璁剧疆..."
-New-Item -ItemType Directory -Force -Path .vscode
-
-    # 鎺ㄨ崘鐨勬墿灞曞垪琛?    cat > .vscode/extensions.json << EOF
+  }
+  if (Get-Command code -ErrorAction SilentlyContinue) {
+    New-Item -ItemType Directory -Force -Path .vscode | Out-Null
+    @'
 {
   "recommendations": [
     "ms-vscode.vscode-typescript-next",
@@ -1362,9 +1332,9 @@ New-Item -ItemType Directory -Force -Path .vscode
     "gruntfuggly.todo-tree"
   ]
 }
-EOF
+'@ | Set-Content -Path .vscode/extensions.json -Encoding UTF8
 
-    # 宸ヤ綔鍖鸿缃?    cat > .vscode/settings.json << EOF
+    @'
 {
   "typescript.preferences.importModuleSpecifier": "relative",
   "editor.formatOnSave": true,
@@ -1375,103 +1345,82 @@ EOF
     "typescriptreact"
   ],
   "tailwindCSS.experimental.classRegex": [
-    ["clsx\\(([^)]*)\\)", "(?:'|\"|\\`)([^']*)(?:'|\"|\\`)"]
+    ["clsx\(([^)]*)\)", "(?:'|"|`)([^']*)(?:'|"|`)"]
   ]
 }
-EOF
-
-    echo "鉁?VSCode閰嶇疆瀹屾垚"
-  fi
+'@ | Set-Content -Path .vscode/settings.json -Encoding UTF8
+  }
+  Write-Host "✅ 工具配置完成"
 }
 
-# 鍒濆鍖栨暟鎹簱
-setup_database() {
-  echo "馃梽锔?鍒濆鍖栨暟鎹簱..."
-
-  # 鍒涘缓鏁版嵁搴撶洰褰?  mkdir -p data/database
-
-  # 杩愯鏁版嵁搴撹縼绉?  npm run db:migrate
-
-  # 鎻掑叆绉嶅瓙鏁版嵁
-  if [ "$1" = "--with-seed-data" ]; then
-    echo "馃尡 鎻掑叆绉嶅瓙鏁版嵁..."
+function Initialize-Database {
+  param([switch]$WithSeed)
+  Write-Host "🗄️ 初始化数据库..."
+  New-Item -ItemType Directory -Force -Path data/database | Out-Null
+  npm run db:migrate
+  if ($WithSeed) {
     npm run db:seed
-  fi
-
-  echo "鉁?鏁版嵁搴撳垵濮嬪寲瀹屾垚"
+  }
+  Write-Host "✅ 数据库就绪"
 }
 
-# 杩愯娴嬭瘯楠岃瘉
-run_verification_tests() {
-  echo "馃И 杩愯楠岃瘉娴嬭瘯..."
-
-  # 绫诲瀷妫€鏌?  echo "馃攳 TypeScript绫诲瀷妫€鏌?.."
-  npm run type-check
-
-  # 浠ｇ爜瑙勮寖妫€鏌?  echo "馃搹 浠ｇ爜瑙勮寖妫€鏌?.."
-  npm run lint
-
-  # 鍗曞厓娴嬭瘯
-  echo "馃幆 杩愯鍗曞厓娴嬭瘯..."
-  npm run test -- --run
-
-  # 鏋勫缓娴嬭瘯
-  echo "馃彈锔?鏋勫缓娴嬭瘯..."
-  npm run build
-
-  echo "鉁?鎵€鏈夐獙璇佹祴璇曢€氳繃"
-}
-
-# 鍒涘缓寮€鍙戠敤鎴烽厤缃?create_dev_config() {
-  echo "鈿欙笍 鍒涘缓寮€鍙戦厤缃?.."
-
-  # 鍒涘缓鐜鍙橀噺鏂囦欢
-  if [ ! -f ".env.local" ]; then
-    cat > .env.local << EOF
-# 寮€鍙戠幆澧冮厤缃?NODE_ENV=development
+function New-DevConfig {
+  Write-Host "📝 生成 .env.local ..."
+  if (-not (Test-Path '.env.local')) {
+@'
+# 开发环境配置
+NODE_ENV=development
 VITE_APP_ENV=development
 VITE_API_BASE_URL=http://localhost:3000
 VITE_ENABLE_DEBUG=true
 VITE_LOG_LEVEL=debug
 
-# 鏁版嵁搴撻厤缃?DB_PATH=./data/database/guild-manager-dev.db
+# 数据库配置
+DB_PATH=./data/database/guild-manager-dev.db
 
-# 寮€鍙戝伐鍏?VITE_DEVTOOLS=true
+# 开发工具
+VITE_DEVTOOLS=true
 VITE_REACT_STRICT_MODE=true
-EOF
-    echo "馃摑 鍒涘缓浜?.env.local 閰嶇疆鏂囦欢"
-  fi
+'@ | Set-Content -Path '.env.local' -Encoding UTF8
+  }
 }
 
-# 涓诲嚱鏁?main() {
-  echo "銆婂叕浼氱粡鐞嗐€嬪紑鍙戠幆澧冭嚜鍔ㄥ寲鎼缓鑴氭湰 v1.0"
-  echo "=================================================="
-
-  check_system_requirements
-  install_dependencies
-  setup_dev_tools
-  create_dev_config
-  setup_database $1
-  run_verification_tests
-
-  echo ""
-  echo "馃帀 寮€鍙戠幆澧冩惌寤哄畬鎴愶紒"
-  echo ""
-  echo "馃挕 鎺ヤ笅鏉ヤ綘鍙互锛?
-  echo "   npm run dev          # 鍚姩寮€鍙戞湇鍔″櫒"
-  echo "   npm run test         # 杩愯娴嬭瘯"
-  echo "   npm run build        # 鏋勫缓鐢熶骇鐗堟湰"
-  echo ""
-  echo "馃摎 鏇村淇℃伅璇锋煡鐪嬶細"
-  echo "   README.md           # 椤圭洰璇存槑"
-  echo "   docs/               # 鎶€鏈枃妗?
-  echo "   docs/onboarding/    # 鍏ヨ亴鎸囧崡"
-  echo ""
-  echo "馃啒 濡傛灉閬囧埌闂锛岃鑱旂郴鍥㈤槦鎴愬憳鎴栨煡鐪嬫晠闅滄帓闄ゆ枃妗?
+function Run-Verification {
+  Write-Host "🧪 执行验证流程..."
+  npm run type-check
+  npm run lint
+  npm run test -- --run
+  npm run build
+  Write-Host "✅ 核心验证通过"
 }
 
-# 杩愯涓诲嚱鏁?main $1
+param(
+  [switch]$WithSeedData
+)
+
+Write-Host "==============================================="
+Write-Host "《公会管理》开发环境初始化脚本 v1.0"
+Write-Host "==============================================="
+
+Test-SystemRequirements
+Install-Dependencies
+Setup-DevTools
+New-DevConfig
+Initialize-Database -WithSeed:$WithSeedData
+Run-Verification
+
+Write-Host ""
+Write-Host "🎉 开发环境已准备就绪"
+Write-Host "➡️ 接下来可执行："
+Write-Host "   npm run dev"
+Write-Host "   npm run test"
+Write-Host "   npm run build"
+Write-Host ""
+Write-Host "📚 参考资料：README.md、docs/、docs/onboarding/"
+Write-Host ""
+Write-Host "如遇问题请联系架构团队或查阅常见问题章节。"
 ```
+
 
 #### 7.4.2 鐭ヨ瘑浼犻€掓満鍒?(Knowledge Transfer)
 

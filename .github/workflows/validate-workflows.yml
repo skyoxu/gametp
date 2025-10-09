@@ -31,6 +31,33 @@ jobs:
         shell: pwsh
     steps:
       - uses: actions/checkout@v4
+      - name: Ensure shellcheck (Windows fallback)
+        if: runner.os == 'Windows'
+        shell: python
+        run: |
+          import os
+          import pathlib
+          import urllib.request
+          import zipfile
+
+          install_dir = pathlib.Path(os.environ["RUNNER_TEMP"]) / 'shellcheck'
+          target = install_dir / 'shellcheck.exe'
+          if not target.exists():
+              install_dir.mkdir(parents=True, exist_ok=True)
+              version = os.environ.get('SHELLCHECK_VERSION', 'v0.10.0')
+              url = f'https://github.com/koalaman/shellcheck/releases/download/{version}/shellcheck-{version}.zip'
+              archive_path = install_dir / 'shellcheck.zip'
+              urllib.request.urlretrieve(url, archive_path)
+              with zipfile.ZipFile(archive_path) as archive:
+                  candidate = next((name for name in archive.namelist() if name.lower().endswith('shellcheck.exe')), None)
+                  if candidate is None:
+                      raise RuntimeError('shellcheck.exe not found in archive')
+                  with archive.open(candidate) as source, open(target, 'wb') as dest:
+                      dest.write(source.read())
+              os.chmod(target, 0o755)
+          with open(os.environ['GITHUB_PATH'], 'a', encoding='utf-8') as path_file:
+              path_file.write(str(install_dir) + os.linesep)
+          print(f'shellcheck ready at {target}')
       - name: Run actionlint
         uses: raven-actions/actionlint@v2
 
@@ -42,6 +69,33 @@ jobs:
         shell: pwsh
     steps:
       - uses: actions/checkout@v4
+      - name: Ensure shellcheck (Windows fallback)
+        if: runner.os == 'Windows'
+        shell: python
+        run: |
+          import os
+          import pathlib
+          import urllib.request
+          import zipfile
+
+          install_dir = pathlib.Path(os.environ["RUNNER_TEMP"]) / 'shellcheck'
+          target = install_dir / 'shellcheck.exe'
+          if not target.exists():
+              install_dir.mkdir(parents=True, exist_ok=True)
+              version = os.environ.get('SHELLCHECK_VERSION', 'v0.10.0')
+              url = f'https://github.com/koalaman/shellcheck/releases/download/{version}/shellcheck-{version}.zip'
+              archive_path = install_dir / 'shellcheck.zip'
+              urllib.request.urlretrieve(url, archive_path)
+              with zipfile.ZipFile(archive_path) as archive:
+                  candidate = next((name for name in archive.namelist() if name.lower().endswith('shellcheck.exe')), None)
+                  if candidate is None:
+                      raise RuntimeError('shellcheck.exe not found in archive')
+                  with archive.open(candidate) as source, open(target, 'wb') as dest:
+                      dest.write(source.read())
+              os.chmod(target, 0o755)
+          with open(os.environ['GITHUB_PATH'], 'a', encoding='utf-8') as path_file:
+              path_file.write(str(install_dir) + os.linesep)
+          print(f'shellcheck ready at {target}')
       - name: Run actionlint (Windows)
         uses: raven-actions/actionlint@v2
 
