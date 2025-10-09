@@ -1,0 +1,19 @@
+{
+  "sentry": {
+    "release": "gametp@0.1.0",
+    "dsn": "https://dev123@sdkexample.ingest.sentry.io/1000001",
+    "environment": "development"
+  },
+  "logging": {
+    "level": "info",
+    "structured": true
+  },
+  "metrics": {
+    "enabled": true,
+    "exporter": "sentry"
+  },
+  "crashReporting": {
+    "enabled": true,
+    "provider": "sentry"
+  }
+}
