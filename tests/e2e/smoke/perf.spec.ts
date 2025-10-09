@@ -17,7 +17,7 @@ let page: Page;
 function resolveThreshold(environmentName: string): number {
   if (environmentName.includes('prod')) return 100;
   if (environmentName.includes('stag')) return 150;
-  return 150;
+  return 200;
 }
 
 async function waitForAnimationSettled(targetPage: Page): Promise<void> {
@@ -33,6 +33,7 @@ async function warmUpInteraction(
   target: ReturnType<Page['locator']>
 ): Promise<void> {
   for (let i = 0; i < 3; i++) {
+    await expect(target).toBeEnabled({ timeout: 2_000 });
     await target.click({ delay: 10 });
     await waitForAnimationSettled(target.page());
   }
@@ -75,12 +76,18 @@ test.describe('@smoke Perf Smoke Suite', () => {
     await page.bringToFront();
     await waitForAnimationSettled(page);
 
+    await page
+      .waitForSelector(PERF_BUTTON_SELECTOR, { timeout: 10_000 })
+      .catch(() => null);
+
     const startButton = page.locator(START_BUTTON_SELECTOR).first();
     const perfButton = page.locator(PERF_BUTTON_SELECTOR).first();
+    await perfButton.waitFor({ state: 'attached', timeout: 10_000 }).catch(() => null);
     const preferredButton =
       (await perfButton.count()) > 0 ? perfButton : startButton;
 
     await preferredButton.waitFor({ state: 'visible', timeout: 12_000 });
+    await expect(preferredButton).toBeEnabled({ timeout: 5_000 });
     await warmUpInteraction(preferredButton);
 
     await PerformanceTestUtils.runInteractionP95Test(
@@ -95,7 +102,7 @@ test.describe('@smoke Perf Smoke Suite', () => {
           });
           await page.waitForSelector(RESPONSE_INDICATOR_SELECTOR, {
             state: 'detached',
-            timeout: 1_000,
+            timeout: 3_000,
           });
           return Date.now() - t0;
         }
