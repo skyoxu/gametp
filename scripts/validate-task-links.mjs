@@ -55,7 +55,13 @@ function resolvePrdId(input, defs) {
     if ((d.aliases || []).some(a => a.toLowerCase() === s.toLowerCase()))
       return { canonical: d.canonical, chunk: null, matched: true };
     for (const p of d.patterns || []) {
-      const re = new RegExp(p);
+      let pattern = p;
+      let flags = '';
+      if (pattern.startsWith('(?i)')) {
+        pattern = pattern.slice(4);
+        flags = 'i';
+      }
+      const re = new RegExp(pattern, flags);
       const m = s.match(re);
       if (m)
         return {
