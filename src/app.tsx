@@ -95,7 +95,9 @@ function App() {
       const params = new URLSearchParams(window.location.search);
       if (params.get('vertical-slice') === 'auto') setMode('vertical-slice');
       if (params.get('auto-start') === '1') setGameStarted(true);
-    } catch {}
+    } catch (error) {
+      console.warn('[e2e] search params parse failed', error);
+    }
   }, []);
 
   // Perf: lazy-load non-critical components to keep initial load small
@@ -210,5 +212,3 @@ function App() {
 }
 
 export default App;
-
-

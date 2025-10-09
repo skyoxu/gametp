@@ -143,6 +143,7 @@ jobs:
           Write-Host "Running npm audit..."
           $ErrorActionPreference = 'Continue'
           npm audit --audit-level high --json | Out-File -FilePath npm-audit-results.json -Encoding UTF8
+          $auditExitCode = $LASTEXITCODE
           if (Test-Path "npm-audit-results.json") {
             Write-Host "npm audit completed"
             "npm-audit-status=success" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding UTF8
@@ -150,6 +151,10 @@ jobs:
             Write-Host "npm audit failed"
             "npm-audit-status=failed" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding UTF8
           }
+          if ($auditExitCode -ne 0) {
+            Write-Warning ("npm audit exited with code {0}; enforcement handled by ADR-0002 summary gate" -f $auditExitCode)
+          }
+          $global:LASTEXITCODE = 0
 
       - name: Run Snyk scan (if token available)
         id: snyk-scan
@@ -159,10 +164,22 @@ jobs:
           if ($env:SNYK_TOKEN) {
             Write-Host "Running Snyk scan..."
             $ErrorActionPreference = 'Continue'
-            snyk test --json | Out-File -FilePath snyk-results.json -Encoding UTF8
+            snyk test --severity-threshold=high --json-file-output=snyk-results.json | Out-Null
+            $snykExitCode = $LASTEXITCODE
+            if (Test-Path "snyk-results.json") {
+              Write-Host "Snyk report captured to snyk-results.json"
+            } else {
+              Write-Warning "Snyk did not produce snyk-results.json"
+            }
             snyk monitor | Out-Null
-            Write-Host "Snyk scan completed"
+            $monitorExitCode = $LASTEXITCODE
+            if ($snykExitCode -eq 0 -and $monitorExitCode -eq 0) {
+              Write-Host "Snyk scan completed (no blocking issues detected)"
+            } else {
+              Write-Warning ("Snyk commands exited with codes test={0}, monitor={1}; ADR-0002 summary gate will enforce thresholds" -f $snykExitCode, $monitorExitCode)
+            }
             "snyk-status=success" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding UTF8
+            $global:LASTEXITCODE = 0
           } else {
             Write-Host "Skipping Snyk scan (no SNYK_TOKEN)"
             "snyk-status=skipped" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding UTF8

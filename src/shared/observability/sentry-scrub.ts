@@ -36,13 +36,20 @@ export function filterSensitiveBreadcrumb(breadcrumb: any): any {
   const b = { ...(breadcrumb || {}) };
   if (b.category === 'http' && b.data?.url) {
     const url: string = b.data.url;
-    if (url.includes('password') || url.includes('token') || url.includes('secret')) {
+    if (
+      url.includes('password') ||
+      url.includes('token') ||
+      url.includes('secret')
+    ) {
       return null;
     }
   }
-  if (b.category === 'ui.input' && typeof b.message === 'string' && b.message.includes('password')) {
+  if (
+    b.category === 'ui.input' &&
+    typeof b.message === 'string' &&
+    b.message.includes('password')
+  ) {
     return null;
   }
   return b;
 }
-
