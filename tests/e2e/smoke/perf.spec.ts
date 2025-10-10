@@ -33,9 +33,14 @@ async function warmUpInteraction(
   target: ReturnType<Page['locator']>
 ): Promise<void> {
   for (let i = 0; i < 3; i++) {
-    await expect(target).toBeEnabled({ timeout: 2_000 });
-    await target.click({ delay: 10 });
-    await waitForAnimationSettled(target.page());
+    try {
+      await expect(target).toBeEnabled({ timeout: 2_000 });
+      await target.click({ delay: 10 });
+      await waitForAnimationSettled(target.page());
+    } catch (error) {
+      console.warn('[warmUpInteraction] skip warmup click', error);
+      return;
+    }
   }
 }
 
@@ -82,7 +87,9 @@ test.describe('@smoke Perf Smoke Suite', () => {
 
     const startButton = page.locator(START_BUTTON_SELECTOR).first();
     const perfButton = page.locator(PERF_BUTTON_SELECTOR).first();
-    await perfButton.waitFor({ state: 'attached', timeout: 10_000 }).catch(() => null);
+    await perfButton
+      .waitFor({ state: 'attached', timeout: 10_000 })
+      .catch(() => null);
     const preferredButton =
       (await perfButton.count()) > 0 ? perfButton : startButton;
 

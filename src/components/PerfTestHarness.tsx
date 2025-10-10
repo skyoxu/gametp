@@ -12,11 +12,29 @@ export default function PerfTestHarness() {
   console.log(`[PerfTestHarness] e2eSmoke=${e2eSmoke}`);
   const [responded, setResponded] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [isPending] = useTransition();
   const workerRef = useRef<ReturnType<typeof createComputationWorker> | null>(
     null
   );
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearAutoHideTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+
+  const startAutoHideTimer = useCallback(
+    (delay: number) => {
+      clearAutoHideTimer();
+      timerRef.current = setTimeout(() => {
+        setResponded(false);
+        timerRef.current = null;
+      }, delay);
+    },
+    [clearAutoHideTimer, setResponded]
+  );
 
   const ensureWorker = () => {
     if (!workerRef.current) workerRef.current = createComputationWorker();
@@ -28,19 +46,13 @@ export default function PerfTestHarness() {
     performance.mark('test_button_click_start');
 
     setResponded(true);
-
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
+    startAutoHideTimer(e2eSmoke ? 80 : 120);
 
     if (e2eSmoke) {
-      timerRef.current = setTimeout(() => {
-        setResponded(false);
-        timerRef.current = null;
-      }, 60);
       const t1 = performance.now();
-      console.log(`[PerfTestHarness] smoke-mode handler time=${(t1 - t0).toFixed(2)}ms`);
+      console.log(
+        `[PerfTestHarness] smoke-mode handler time=${(t1 - t0).toFixed(2)}ms`
+      );
       return;
     }
 
@@ -52,8 +64,8 @@ export default function PerfTestHarness() {
       console.log(
         `[PerfTestHarness] worker heavyTask duration=${res.duration.toFixed(2)}ms`
       );
-    } catch (e) {
-      console.warn('[PerfTestHarness] worker error', e);
+    } catch (error) {
+      console.warn('[PerfTestHarness] worker error', error);
     } finally {
       setBusy(false);
       const t1 = performance.now();
@@ -61,47 +73,54 @@ export default function PerfTestHarness() {
         `[PerfTestHarness] total handler time=${(t1 - t0).toFixed(2)}ms`
       );
     }
-  }, []);
+  }, [e2eSmoke, startAutoHideTimer]);
 
   // Manage response indicator visibility and auto-hide
   useLayoutEffect(() => {
     if (!responded) {
-      return () => {
-        if (timerRef.current) {
-          clearTimeout(timerRef.current);
-          timerRef.current = null;
+      clearAutoHideTimer();
+      return clearAutoHideTimer;
+    }
+
+    const autoHideDelay = e2eSmoke ? 80 : 120;
+    startAutoHideTimer(autoHideDelay);
+
+    const canMeasure =
+      typeof performance !== 'undefined' &&
+      typeof performance.mark === 'function' &&
+      typeof performance.measure === 'function';
+
+    if (canMeasure) {
+      performance.mark('response_indicator_visible');
+
+      try {
+        performance.measure(
+          'click_to_indicator',
+          'test_button_click_start',
+          'response_indicator_visible'
+        );
+        const measure = performance
+          .getEntriesByName('click_to_indicator')
+          .pop();
+        if (measure) {
+          console.log(
+            `[PerfTestHarness] click_to_indicator=${measure.duration.toFixed(2)}ms`
+          );
         }
-      };
-    }
-
-    performance.mark('response_indicator_visible');
-    performance.measure(
-      'click_to_indicator',
-      'test_button_click_start',
-      'response_indicator_visible'
-    );
-
-    const measure = performance.getEntriesByName('click_to_indicator').pop();
-    if (measure) {
-      console.log(
-        `[PerfTestHarness] click_to_indicator=${measure.duration.toFixed(2)}ms`
-      );
-    }
-
-    if (!e2eSmoke) {
-      timerRef.current = setTimeout(() => {
-        setResponded(false);
-        timerRef.current = null;
-      }, 120);
-    }
-
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
+      } catch (error) {
+        console.warn('[PerfTestHarness] performance.measure failed', error);
+      } finally {
+        if (typeof performance.clearMarks === 'function') {
+          performance.clearMarks('response_indicator_visible');
+        }
+        if (typeof performance.clearMeasures === 'function') {
+          performance.clearMeasures('click_to_indicator');
+        }
       }
-    };
-  }, [responded, e2eSmoke]);
+    }
+
+    return clearAutoHideTimer;
+  }, [responded, e2eSmoke, clearAutoHideTimer, startAutoHideTimer]);
 
   return (
     <div className="mt-6 flex items-center gap-3" data-testid="perf-harness">
@@ -111,14 +130,14 @@ export default function PerfTestHarness() {
         onClick={onClick}
         disabled={busy}
       >
-        {busy ? 'Workingâ€? : 'Test Interaction'}
+        {busy ? 'Working...' : 'Test Interaction'}
       </button>
       {responded && (
         <span data-testid="response-indicator" className="text-green-400">
           OK
         </span>
       )}
-      {isPending && <span className="text-yellow-400">â€?/span>}
+      {isPending && <span className="text-yellow-400">...</span>}
     </div>
   );
 }
