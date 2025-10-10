@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Minimal stub of the OpenTelemetry API so builds can succeed when the real
  * packages are not installed. Runtime code falls back to no-op spans.
  */
