@@ -64,6 +64,7 @@
                     "critical:check":  "node scripts/critical_conditions_checklist.mjs",
                     "pretest:e2e":  "node scripts/write-cache-bust.js",
                     "validate:cache":  "node scripts/validate-cache-system.js",
+                    "postinstall":  "node scripts/ci/patch-tree-sitter.js",
                     "test:e2e":  "playwright test -c playwright.config.ts --grep @smoke",
                     "test:e2e:perf-smoke":  "playwright test -c playwright.config.ts tests/e2e/smoke/perf.spec.ts --workers=1 --retries=0 --reporter=line,json",
                     "test:e2e:smoke":  "playwright test -c playwright.config.ts --grep @smoke --reporter=line",
