@@ -38,7 +38,14 @@ export enum SpanKind {
 export const trace = {
   getTracer(_name: string, _version?: string) {
     return {
-      startSpan(_spanName: string, _options?: { kind?: SpanKind; attributes?: SpanAttributes; parentContext?: unknown }) {
+      startSpan(
+        _spanName: string,
+        _options?: {
+          kind?: SpanKind;
+          attributes?: SpanAttributes;
+          parentContext?: unknown;
+        }
+      ) {
         return new NoopSpan();
       },
     };
