@@ -23,6 +23,8 @@ env:
   CXXFLAGS: '-std=c++20'
   GYP_MSVS_ARGS: '/std:c++20'
   GYP_CXXFLAGS: '-std=c++20'
+  GYP_MSVS_VERSION: '2022'
+  npm_config_msvs_version: '2022'
 
 defaults:
   run:
