@@ -3,7 +3,9 @@
  */
 
 export class BatchSpanProcessor {
-  constructor(private readonly _exporter: unknown) {}
+  constructor(_exporter?: unknown) {
+    void _exporter;
+  }
 
   async forceFlush(): Promise<void> {
     return;

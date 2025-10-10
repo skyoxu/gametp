@@ -5,6 +5,12 @@
 
 type SpanAttributes = Record<string, unknown>;
 
+type SpanStatusCodeLiteral = 0 | 1 | 2;
+export type SpanStatusCode = SpanStatusCodeLiteral;
+
+type SpanKindLiteral = 0 | 1 | 2;
+export type SpanKind = SpanKindLiteral;
+
 type SpanStatus = {
   code: SpanStatusCode;
   message?: string;
@@ -23,17 +29,18 @@ class NoopSpan {
 
 const activeSpan = new NoopSpan();
 
-export enum SpanStatusCode {
-  UNSET = 0,
-  OK = 1,
-  ERROR = 2,
-}
+export const SpanStatusCode: Record<'UNSET' | 'OK' | 'ERROR', SpanStatusCode> =
+  {
+    UNSET: 0,
+    OK: 1,
+    ERROR: 2,
+  };
 
-export enum SpanKind {
-  INTERNAL = 0,
-  SERVER = 1,
-  CLIENT = 2,
-}
+export const SpanKind: Record<'INTERNAL' | 'SERVER' | 'CLIENT', SpanKind> = {
+  INTERNAL: 0,
+  SERVER: 1,
+  CLIENT: 2,
+};
 
 export const trace = {
   getTracer(_name: string, _version?: string) {
