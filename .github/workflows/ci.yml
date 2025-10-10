@@ -156,13 +156,13 @@ jobs:
         run: node scripts/ci/guard-artifacts.mjs
 
       - name: Commit message lint (push - last 20)
-        if: ${{ github.event_name != 'pull_request' && github.actor != 'dependabot[bot]' }}
+        if: ${{ github.event_name != 'pull_request' && github.actor != 'dependabot[bot]' && !startsWith(github.ref, 'refs/heads/dependabot/') }}
         run: |
           npx --no-install commitlint --from=HEAD~20 --to=HEAD --verbose
         # enforce commit message policy: disallow non-compliant messages
         continue-on-error: false
       - name: Commit message lint (PR - last commit only)
-        if: ${{ github.event_name == 'pull_request' && github.actor != 'dependabot[bot]' }}
+        if: ${{ github.event_name == 'pull_request' && github.actor != 'dependabot[bot]' && !startsWith(github.head_ref || '', 'dependabot/') }}
         run: |
           npx --no-install commitlint --from=HEAD~1 --to=HEAD --verbose
         continue-on-error: false
@@ -816,5 +816,4 @@ jobs:
           path: .
       - name: Generate summary
         run: node scripts/ci/security-summary.mjs
-
 
