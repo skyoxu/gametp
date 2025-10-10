@@ -14,15 +14,23 @@ async function main() {
 
 
 
-  // Dynamic import to reuse test helper
-
-  const { launchApp } = await import('../../tests/helpers/launch.js').catch(async () => {
-
-    // Fallback to TS path
-
-    return import('../../tests/helpers/launch');
-
-  });
+  // Prefer test helper; if unavailable on runner, fallback to inline launcher
+  let launchApp;
+  try {
+    ({ launchApp } = await import('../../tests/helpers/launch.js'));
+  } catch (_) {
+    try {
+      ({ launchApp } = await import('../../tests/helpers/launch'));
+    } catch (_) {
+      const { _electron: electron } = await import('playwright');
+      launchApp = async () => {
+        const main = process.env.ELECTRON_MAIN_PATH || 'dist-electron/electron/main.js';
+        const app = await electron.launch({ args: [main] });
+        const page = await app.firstWindow();
+        return { app, page };
+      };
+    }
+  }
 
 
 
@@ -118,7 +126,6 @@ main().catch(e => {
   process.exit(0);
 
 });
-
 
 
 

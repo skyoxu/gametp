@@ -45,7 +45,7 @@
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
     "src/**/*.test.tsx",
-    "src/**/*.spec.tsx"
+    "src/**/*.spec.tsx",
+    "src/shared/adapters/sqlite.bak/**"
   ]
 }
-

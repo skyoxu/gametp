@@ -8,6 +8,8 @@
   },
   "include": [
     "src/shared/**/*"
+  ],
+  "exclude": [
+    "src/shared/adapters/sqlite.bak/**"
   ]
 }
-
