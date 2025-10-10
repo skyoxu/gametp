@@ -388,11 +388,14 @@ jobs:
 
       - name: Fallback build if artifact missing (Windows)
         run: |
-          $hasExe = Test-Path "dist/win-unpacked/ViteGame.exe"
-          $hasJs = Test-Path "dist-electron/electron/main.js"
+          # Compute expected exe name from package.json productName (fallback to name)
+          $pkg = Get-Content -Raw -LiteralPath 'package.json' | ConvertFrom-Json
+          $product = if ($pkg.productName) { $pkg.productName } elseif ($pkg.name) { $pkg.name } else { 'App' }
+          $exePath = Join-Path 'dist/win-unpacked' ("{0}.exe" -f $product)
+          $hasExe = Test-Path -LiteralPath $exePath
+          $hasJs = Test-Path -LiteralPath 'dist-electron/electron/main.js'
           if (-not $hasExe -and -not $hasJs) {
-            Write-Host "No pre-built artifact found, running complete build process..."
-            Write-Host "Running npm run build (includes TypeScript, Vite, and post-build steps)..."
+            Write-Host "No pre-built artifact found at $exePath and no main.js; running complete build process..."
             npm run build
           } else {
             Write-Host "Pre-built artifact or fallback main.js found, skipping build"
@@ -762,4 +765,3 @@ jobs:
                 // Log error but don't block workflow
               }
             }
-
