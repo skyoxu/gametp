@@ -296,16 +296,21 @@ jobs:
           # Adapt artifact path for GitHub Actions compatibility
           # electron-builder outputs to release/${version}/win-unpacked/
           # GitHub Actions expects dist/win-unpacked/
-          $dir = Get-ChildItem -Path release -Recurse -Directory -Filter "win-unpacked" -ErrorAction SilentlyContinue | Select-Object -First 1
-          if ($dir) {
-            Write-Host "Found electron-builder output: $($dir.FullName)"
-            New-Item -ItemType Directory -Force -Path "dist/win-unpacked" | Out-Null
-            Copy-Item -Path (Join-Path $dir.FullName '*') -Destination "dist/win-unpacked" -Recurse -Force
-            Write-Host "Adapted artifact path for GitHub Actions: dist/win-unpacked/"
+          $target = "dist/win-unpacked"
+          if (Test-Path $target) {
+            Write-Host "Electron builder output already present at $target"
           } else {
-            Write-Host "electron-builder output not found in release/ directory"
-            Get-ChildItem -Path release -Recurse -Include *.exe -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.FullName }
-            exit 1
+            $dir = Get-ChildItem -Path release -Recurse -Directory -Filter "win-unpacked" -ErrorAction SilentlyContinue | Select-Object -First 1
+            if ($dir) {
+              Write-Host "Found electron-builder output: $($dir.FullName)"
+              New-Item -ItemType Directory -Force -Path $target | Out-Null
+              Copy-Item -Path (Join-Path $dir.FullName '*') -Destination $target -Recurse -Force
+              Write-Host "Adapted artifact path for GitHub Actions: $target/"
+            } else {
+              Write-Host "electron-builder output not found in release/ directory"
+              Get-ChildItem -Path release -Recurse -Include *.exe -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.FullName }
+              exit 1
+            }
           }
 
       - name: Upload application artifact
@@ -750,3 +755,4 @@ jobs:
                 // Log error but don't block workflow
               }
             }
+
