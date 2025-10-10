@@ -433,6 +433,10 @@ jobs:
         shell: pwsh
     needs: quality-gates
     timeout-minutes: 20
+    # Ensure devDependencies are installed for matrix jobs
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
     if: |
       contains(github.event.head_commit.message, '[skip-extended]') == false &&
       github.event_name != 'schedule'
@@ -816,4 +820,3 @@ jobs:
           path: .
       - name: Generate summary
         run: node scripts/ci/security-summary.mjs
-
