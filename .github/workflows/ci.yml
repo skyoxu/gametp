@@ -157,7 +157,8 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         run: |
           npx --no-install commitlint --from=HEAD~20 --to=HEAD --verbose
-        # enforce commit message policy: disallow non-compliant messages        continue-on-error: false
+        # enforce commit message policy: disallow non-compliant messages
+        continue-on-error: false
       - name: Commit message lint (PR - last commit only)
         if: ${{ github.event_name == 'pull_request' }}
         run: |
@@ -813,7 +814,6 @@ jobs:
           path: .
       - name: Generate summary
         run: node scripts/ci/security-summary.mjs
-
 
 
 
