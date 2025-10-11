@@ -794,6 +794,8 @@ jobs:
       - name: Generate CycloneDX SBOM
         # Use production tree to avoid dev-only invalid packages on Windows (e.g., dmg-license)
         run: npx --yes @cyclonedx/cyclonedx-npm --output-file sbom.json --spec-version 1.5
+        env:
+          npm_config_omit: dev
       - name: Upload SBOM
         uses: actions/upload-artifact@v4
         with:
