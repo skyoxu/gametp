@@ -52,7 +52,8 @@ defaults:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Avoid cancelling in-progress PR runs (keeps long jobs stable)
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 jobs:
   # ==================== Guardian Self-Check ====================
@@ -432,8 +433,7 @@ jobs:
       run:
         shell: pwsh
     needs: quality-gates
-    timeout-minutes: 25
-    continue-on-error: ${{ matrix.node-version != '20.x' }}
+    timeout-minutes: 20
     # Ensure devDependencies are installed for matrix jobs
     env:
       NODE_ENV: development
@@ -445,8 +445,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: ['18.x', '20.x', '22.x']
-        # Windows-focused strategy: single OS, multiple Node versions
+        node-version: ['20.x']
+        # Align with engines: Node >=20 <21
 
     steps:
       - name: Checkout code
