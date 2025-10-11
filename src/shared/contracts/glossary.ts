@@ -52,7 +52,7 @@ export const GlossaryTerms = {
   },
   contextBridge: {
     'en-US': 'Context Bridge',
-    'zh-CN': '上下文桥接',
+    'zh-CN': '上下文桥',
   },
   contextIsolation: {
     'en-US': 'Context Isolation',
@@ -60,33 +60,33 @@ export const GlossaryTerms = {
   },
   nodeIntegration: {
     'en-US': 'Node Integration',
-    'zh-CN': 'Node集成',
+    'zh-CN': 'Node 集成',
   },
   sandboxMode: {
     'en-US': 'Sandbox Mode',
-    'zh-CN': '沙箱模式',
+    'zh-CN': '沙盒模式',
   },
   sentryPlatform: {
     'en-US': 'Sentry Platform',
-    'zh-CN': 'Sentry平台',
+    'zh-CN': 'Sentry 平台',
   },
   traceIdentifier: {
     'en-US': 'Trace Identifier',
-    'zh-CN': '追踪标识',
+    'zh-CN': '追踪标识符',
   },
   webView: {
     'en-US': 'Web View',
-    'zh-CN': 'Web视图',
+    'zh-CN': 'Web 视图',
   },
 
   // Domain Terms (domain)
   crashFreeSessions: {
     'en-US': 'Crash-Free Sessions',
-    'zh-CN': '无崩溃会话率',
+    'zh-CN': '无崩溃会话',
   },
   crashFreeUsers: {
     'en-US': 'Crash-Free Users',
-    'zh-CN': '无崩溃用户率',
+    'zh-CN': '无崩溃用户',
   },
   domainEvent: {
     'en-US': 'Domain Event',
@@ -102,7 +102,7 @@ export const GlossaryTerms = {
   },
   releaseHealth: {
     'en-US': 'Release Health',
-    'zh-CN': '发布健康度',
+    'zh-CN': '发布健康',
   },
   repositoryPattern: {
     'en-US': 'Repository Pattern',
@@ -128,7 +128,7 @@ export const GlossaryTerms = {
   },
   esm: {
     'en-US': 'ECMAScript Modules',
-    'zh-CN': 'ES模块',
+    'zh-CN': 'ECMAScript 模块',
   },
   hmr: {
     'en-US': 'Hot Module Replacement',
@@ -144,15 +144,15 @@ export const GlossaryTerms = {
   },
   slo: {
     'en-US': 'Service Level Objective',
-    'zh-CN': '服务级别目标',
+    'zh-CN': '服务等级目标',
   },
   ssot: {
     'en-US': 'Single Source of Truth',
-    'zh-CN': '单一可信来源',
+    'zh-CN': '单一事实来源',
   },
   tp95: {
     'en-US': '95th Percentile',
-    'zh-CN': '95百分位',
+    'zh-CN': '第95百分位',
   },
 } as const;
 

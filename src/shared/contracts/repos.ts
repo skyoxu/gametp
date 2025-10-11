@@ -368,7 +368,7 @@ export class RepositoryError extends Error {
     message: string,
     public readonly entityType?: string,
     public readonly entityId?: string,
-    public readonly cause?: Error
+    public override readonly cause?: unknown
   ) {
     super(message);
     this.name = 'RepositoryError';
@@ -402,7 +402,7 @@ export class MigrationError extends Error {
   constructor(
     message: string,
     public readonly version: string,
-    public readonly cause?: Error
+    public override readonly cause?: unknown
   ) {
     super(message);
     this.name = 'MigrationError';

@@ -1,25 +1,25 @@
-﻿/* 预加载脚本API类型定义 */
+/* Preload script API type definitions */
 import { ElectronAPI } from '@electron-toolkit/preload';
 
 declare global {
   interface Window {
     electronAPI: ElectronAPI & {
-      // 基础系统信息
+      // Basic system info
       platform: NodeJS.Platform;
       version: string;
       isSandboxed: boolean;
       contextIsolated: boolean;
     };
 
-    // 应用版本信息
+    // Application version info
     __APP_VERSION__: string;
 
-    // 测试API标识
+    // Minimal custom API marker
     __CUSTOM_API__: {
       preloadExposed: boolean;
     };
 
-    // 安全配置验证API（仅测试模式）
+    // Security validation API (test mode only)
     __SECURITY_VALIDATION__?: {
       isSandboxed: boolean;
       contextIsolated: boolean;
@@ -30,3 +30,4 @@ declare global {
 }
 
 export {};
+

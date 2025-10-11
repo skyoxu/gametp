@@ -1,0 +1,34 @@
+﻿2025-10-10T16:38:02.8805212Z Current runner version: '2.328.0'
+2025-10-10T16:38:02.8855022Z ##[group]Runner Image Provisioner
+2025-10-10T16:38:02.8855804Z Hosted Compute Agent
+2025-10-10T16:38:02.8856383Z Version: 20250912.392
+2025-10-10T16:38:02.8856970Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-10T16:38:02.8857604Z Build Date: 2025-09-12T15:23:14Z
+2025-10-10T16:38:02.8858194Z ##[endgroup]
+2025-10-10T16:38:02.8858659Z ##[group]Operating System
+2025-10-10T16:38:02.8859200Z Microsoft Windows Server 2025
+2025-10-10T16:38:02.8859694Z 10.0.26100
+2025-10-10T16:38:02.8860166Z Datacenter
+2025-10-10T16:38:02.8860558Z ##[endgroup]
+2025-10-10T16:38:02.8860986Z ##[group]Runner Image
+2025-10-10T16:38:02.8861455Z Image: windows-2025
+2025-10-10T16:38:02.8861965Z Version: 20250929.44.1
+2025-10-10T16:38:02.8862937Z Included Software: https://github.com/actions/runner-images/blob/win25/20250929.44/images/windows/Windows2025-Readme.md
+2025-10-10T16:38:02.8864205Z Image Release: https://github.com/actions/runner-images/releases/tag/win25%2F20250929.44
+2025-10-10T16:38:02.8865386Z ##[endgroup]
+2025-10-10T16:38:02.8866500Z ##[group]GITHUB_TOKEN Permissions
+2025-10-10T16:38:02.8868229Z Contents: read
+2025-10-10T16:38:02.8868798Z Metadata: read
+2025-10-10T16:38:02.8869256Z PullRequests: read
+2025-10-10T16:38:02.8870170Z ##[endgroup]
+2025-10-10T16:38:02.8872309Z Secret source: Actions
+2025-10-10T16:38:02.8872956Z Prepare workflow directory
+2025-10-10T16:38:02.9538202Z Prepare all required actions
+2025-10-10T16:38:02.9575427Z Getting action download info
+2025-10-10T16:38:03.2353649Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-10T16:38:03.3710660Z Download action repository 'actions/setup-node@v5.0.0' (SHA:a0853c24544627f65ddf259abe73b1d18a591444)
+2025-10-10T16:38:03.5405497Z Download action repository 'actions/setup-java@v4' (SHA:c5195efecf7bdfc987ee8bae7a71cb8b11521c00)
+2025-10-10T16:38:03.9709790Z Download action repository 'SonarSource/sonarcloud-github-action@v2' (SHA:e44258b109568baa0df60ed515909fc6c72cba92)
+2025-10-10T16:38:04.2938946Z Download action repository 'SonarSource/sonarqube-quality-gate-action@v1.2.0' (SHA:cf038b0e0cdecfa9e56c198bbb7d21d751d62c3b)
+2025-10-10T16:38:04.6743753Z Container action is only supported on Linux, skip pull and build docker images.
+2025-10-10T16:38:04.6784437Z Complete job name: SonarCloud Analysis (Windows)

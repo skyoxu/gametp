@@ -4,7 +4,7 @@
  * ,:
  * -
  * -
- * - P×I
+ * - P I
  * -
  * -
  */
@@ -60,10 +60,10 @@ export interface RiskEntry {
   readonly category: RiskCategory;
   readonly subcategory: string;
 
-  // P×I
+  // P I
   readonly probability: RiskProbability;
   readonly impact: RiskImpact;
-  readonly riskScore: number; // probability × impact (1-25)
+  readonly riskScore: number; // probability impact (1-25)
   readonly riskLevel: RiskSeverity;
 
   //
@@ -163,7 +163,7 @@ interface StatusChange {
 }
 
 // =============================================================================
-// P×I
+// P I
 // =============================================================================
 
 export interface RiskAssessmentResult {
@@ -678,14 +678,14 @@ export const PROBABILITY_SCALE: Record<
   }
 > = {
   1: {
-    label: '极低',
-    description: '理论上可能但极不可能发生',
+    label: '',
+    description: '',
     threshold: 0.001,
   },
-  2: { label: '低', description: '在类似系统中很少发生', threshold: 0.01 },
-  3: { label: '中', description: '在类似系统中偶尔发生', threshold: 0.05 },
-  4: { label: '高', description: '在类似系统中经常发生', threshold: 0.2 },
-  5: { label: '极高', description: '在当前条件下几乎肯定发生', threshold: 0.5 },
+  2: { label: '', description: '', threshold: 0.01 },
+  3: { label: '', description: '', threshold: 0.05 },
+  4: { label: '', description: '', threshold: 0.2 },
+  5: { label: '', description: '', threshold: 0.5 },
 };
 
 export const IMPACT_SCALE: Record<
@@ -698,34 +698,34 @@ export const IMPACT_SCALE: Record<
   }
 > = {
   1: {
-    label: '轻微',
+    label: '',
     sloViolationThreshold: 0.05,
-    businessImpact: '无明显业务损失',
-    recoveryTime: '< 1小时',
+    businessImpact: '',
+    recoveryTime: '< 1',
   },
   2: {
-    label: '较低',
+    label: '',
     sloViolationThreshold: 0.1,
-    businessImpact: '轻微用户流失',
-    recoveryTime: '1-4小时',
+    businessImpact: '',
+    recoveryTime: '1-4',
   },
   3: {
-    label: '中等',
+    label: '',
     sloViolationThreshold: 0.25,
-    businessImpact: '中等业务损失',
-    recoveryTime: '4-12小时',
+    businessImpact: '',
+    recoveryTime: '4-12',
   },
   4: {
-    label: '严重',
+    label: '',
     sloViolationThreshold: 0.5,
-    businessImpact: '严重业务损失',
-    recoveryTime: '12-24小时',
+    businessImpact: '',
+    recoveryTime: '12-24',
   },
   5: {
-    label: '灾难性',
+    label: '',
     sloViolationThreshold: 1.0,
-    businessImpact: '重大业务损失',
-    recoveryTime: '> 24小时',
+    businessImpact: '',
+    recoveryTime: '> 24',
   },
 };
 

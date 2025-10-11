@@ -25,6 +25,7 @@ function App() {
   const [mode, setMode] = useState<AppMode>('normal');
   const [verticalSliceCompleted, setVerticalSliceCompleted] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const isPerfSmoke = (() => {
     const byFlag = (import.meta as any)?.env?.VITE_E2E_SMOKE === 'true';
     try {
@@ -147,6 +148,16 @@ function App() {
               <span className="ml-2 text-green-300">OK</span>
             )}
           </button>
+          {/* Settings trigger for E2E i18n switching */}
+          <button
+            data-testid="open-settings"
+            className="px-4 py-2 rounded bg-gray-700 text-gray-200"
+            onClick={() => setShowSettings(true)}
+            title="Settings"
+            aria-label="Settings"
+          >
+            Settings
+          </button>
         </div>
       </header>
 
@@ -207,6 +218,30 @@ function App() {
       <footer className="text-center mt-8 text-gray-500">
         <p>Electron + React 19 + Vite + Phaser 3 + Tailwind + TypeScript</p>
       </footer>
+
+      {/* Settings overlay */}
+      <Suspense fallback={null}>
+        {showSettings && (
+          <div>
+            {/** Lazy import to avoid initial bundle bloat */}
+            {(() => {
+              const Comp = React.lazy(() =>
+                import('./components/game/GameSettingsPanel').then(m => ({
+                  default: m.GameSettingsPanel,
+                }))
+              );
+              return (
+                <Suspense fallback={null}>
+                  <Comp
+                    isVisible={true}
+                    onClose={() => setShowSettings(false)}
+                  />
+                </Suspense>
+              );
+            })()}
+          </div>
+        )}
+      </Suspense>
     </div>
   );
 }

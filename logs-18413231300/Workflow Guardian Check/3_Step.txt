@@ -1,0 +1,550 @@
+﻿2025-10-10T17:04:49.5709872Z ##[warning]Unexpected input(s) 'actionlint_flags', valid inputs are ['version', 'matcher', 'files', 'flags', 'json', 'shellcheck', 'pyflakes', 'fail-on-error', 'group-result', 'cache', 'working-directory', 'token', 'github-token']
+2025-10-10T17:04:49.5723556Z ##[group]Run raven-actions/actionlint@v2
+2025-10-10T17:04:49.5723815Z with:
+2025-10-10T17:04:49.5723990Z   actionlint_flags: -color
+2025-10-10T17:04:49.5724188Z   version: latest
+2025-10-10T17:04:49.5724382Z   matcher: true
+2025-10-10T17:04:49.5724533Z   json: false
+2025-10-10T17:04:49.5724688Z   shellcheck: true
+2025-10-10T17:04:49.5724851Z   pyflakes: true
+2025-10-10T17:04:49.5725011Z   fail-on-error: true
+2025-10-10T17:04:49.5725186Z   group-result: true
+2025-10-10T17:04:49.5725343Z   cache: true
+2025-10-10T17:04:49.5725516Z   working-directory: D:\a\gametp\gametp
+2025-10-10T17:04:49.5725924Z   token: ***
+2025-10-10T17:04:49.5726188Z   github-token: ***
+2025-10-10T17:04:49.5726356Z env:
+2025-10-10T17:04:49.5726508Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:04:49.5726781Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:04:49.5726962Z   SENTRY_DSN: 
+2025-10-10T17:04:49.5727128Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:04:49.5727330Z   CL: /std:c++20 /EHsc
+2025-10-10T17:04:49.5727507Z   CXXFLAGS: -std=c++20
+2025-10-10T17:04:49.5727689Z   NODE_ENV: development
+2025-10-10T17:04:49.5727878Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:04:49.5728075Z ##[endgroup]
+2025-10-10T17:04:49.5969993Z ##[group]Run actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+2025-10-10T17:04:49.5970350Z with:
+2025-10-10T17:04:49.5970735Z   github-token: ***
+2025-10-10T17:04:49.5979203Z   script: // input envs
+const { INPUT_TOOL_NAME, INPUT_TOOL_SEMVER, INPUT_REPO_OWNER, INPUT_REPO_NAME, RUNNER_TEMP } = process.env
+
+// define tool platform and arch
+const processPlatform = process.platform // https://nodejs.org/api/process.html#processplatform
+const processArch = process.arch // https://nodejs.org/api/process.html#processarch
+
+let toolOs = ''
+let toolArch = ''
+let toolExt = ''
+let toolExecutable = `${INPUT_TOOL_NAME}`
+
+switch (processPlatform) {
+  case 'darwin':
+    toolOs = 'darwin'
+    toolExt = 'tar.gz'
+    break;
+  case 'freebsd':
+    toolOs = 'freebsd'
+    toolExt = 'tar.gz'
+    break;
+  case 'linux':
+    toolOs = 'linux'
+    toolExt = 'tar.gz'
+    break;
+  case 'win32':
+    toolOs = 'windows'
+    toolExt = 'zip'
+    toolExecutable = `${INPUT_TOOL_NAME}.exe`
+    break;
+  default:
+    core.setFailed(`[${INPUT_TOOL_NAME}] Unsupported platform: ${processPlatform}`)
+    process.exit(core.ExitCode.Failure)
+}
+
+switch (processArch) {
+  case 'x64':
+    toolArch = 'amd64'
+    break;
+  case 'arm64':
+    toolArch = 'arm64'
+    break;
+  case 'arm':
+    toolArch = 'armv6'
+    break;
+  case 'ia32':
+    toolArch = '386'
+    break;
+  default:
+    core.setFailed(`[${INPUT_TOOL_NAME}] Unsupported architecture: ${processArch}`)
+    process.exit(core.ExitCode.Failure)
+}
+
+// helpers
+async function getToolReleaseLatest() {
+  const response = await github.rest.repos.getLatestRelease({
+    owner: INPUT_REPO_OWNER,
+    repo: INPUT_REPO_NAME
+  })
+  return response.data
+}
+
+async function getToolReleaseByTag(versionTag) {
+  const response = await github.rest.repos.getReleaseByTag({
+    owner: INPUT_REPO_OWNER,
+    repo: INPUT_REPO_NAME,
+    tag: versionTag
+  })
+  return response.data
+}
+
+// get tool release data
+const release =
+  INPUT_TOOL_SEMVER === 'latest' || INPUT_TOOL_SEMVER === '' || INPUT_TOOL_SEMVER === undefined || INPUT_TOOL_SEMVER === null
+    ? await getToolReleaseLatest()
+    : await getToolReleaseByTag(`v${INPUT_TOOL_SEMVER}`)
+
+const versionTag = release.tag_name
+const versionSemVer = versionTag.replace(/^v/, '')
+const toolDirPath = core.toPlatformPath(`${RUNNER_TEMP}/${INPUT_TOOL_NAME}-${versionSemVer}`)
+const toolDownloadUrl = release.assets.find(asset => asset.name === `${INPUT_TOOL_NAME}_${versionSemVer}_${toolOs}_${toolArch}.${toolExt}`).browser_download_url.trim()
+const matcherDownloadUrl = `https://raw.githubusercontent.com/${INPUT_REPO_OWNER}/${INPUT_REPO_NAME}/${versionTag}/.github/actionlint-matcher.json`
+const matcherPath = core.toPlatformPath(`${toolDirPath}/actionlint-matcher.json`)
+
+// set outputs
+core.setOutput('tool-name', INPUT_TOOL_NAME)
+core.setOutput('tool-version-semver', versionSemVer)
+core.setOutput('tool-version-tag', versionTag)
+core.setOutput('tool-dir-path', toolDirPath)
+core.setOutput('tool-download-url', toolDownloadUrl)
+core.setOutput('matcher-download-url', matcherDownloadUrl)
+core.setOutput('matcher-path', matcherPath)
+core.setOutput('tool-executable', toolExecutable)
+core.setOutput('tool-executable-path', core.toPlatformPath(`${toolDirPath}/${toolExecutable}`))
+
+2025-10-10T17:04:49.5989868Z   debug: false
+2025-10-10T17:04:49.5990060Z   user-agent: actions/github-script
+2025-10-10T17:04:49.5990292Z   result-encoding: json
+2025-10-10T17:04:49.5990467Z   retries: 0
+2025-10-10T17:04:49.5990726Z   retry-exempt-status-codes: 400,401,403,404,422
+2025-10-10T17:04:49.5990990Z env:
+2025-10-10T17:04:49.5991150Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:04:49.5991374Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:04:49.5991552Z   SENTRY_DSN: 
+2025-10-10T17:04:49.5991741Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:04:49.5991937Z   CL: /std:c++20 /EHsc
+2025-10-10T17:04:49.5992123Z   CXXFLAGS: -std=c++20
+2025-10-10T17:04:49.5992297Z   NODE_ENV: development
+2025-10-10T17:04:49.5992490Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:04:49.5992705Z   INPUT_TOOL_NAME: actionlint
+2025-10-10T17:04:49.5992919Z   INPUT_REPO_OWNER: rhysd
+2025-10-10T17:04:49.5993106Z   INPUT_REPO_NAME: actionlint
+2025-10-10T17:04:49.5993309Z   INPUT_TOOL_SEMVER: latest
+2025-10-10T17:04:49.5993494Z ##[endgroup]
+2025-10-10T17:04:50.2003500Z ##[group]Run actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+2025-10-10T17:04:50.2003815Z with:
+2025-10-10T17:04:50.2003985Z   path: D:\a\_temp\actionlint-1.7.7
+2025-10-10T17:04:50.2004209Z   key: actionlint-1.7.7-Windows-X64
+2025-10-10T17:04:50.2004430Z   enableCrossOsArchive: false
+2025-10-10T17:04:50.2005064Z   fail-on-cache-miss: false
+2025-10-10T17:04:50.2005274Z   lookup-only: false
+2025-10-10T17:04:50.2005456Z   save-always: false
+2025-10-10T17:04:50.2005620Z env:
+2025-10-10T17:04:50.2005779Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:04:50.2006004Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:04:50.2006187Z   SENTRY_DSN: 
+2025-10-10T17:04:50.2006346Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:04:50.2006545Z   CL: /std:c++20 /EHsc
+2025-10-10T17:04:50.2006738Z   CXXFLAGS: -std=c++20
+2025-10-10T17:04:50.2006916Z   NODE_ENV: development
+2025-10-10T17:04:50.2007100Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:04:50.2007295Z ##[endgroup]
+2025-10-10T17:04:50.9148749Z Cache hit for: actionlint-1.7.7-Windows-X64
+2025-10-10T17:04:51.9485072Z Received 2185453 of 2185453 (100.0%), 2.9 MBs/sec
+2025-10-10T17:04:51.9487816Z Cache Size: ~2 MB (2185453 B)
+2025-10-10T17:04:51.9638700Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/f3b540c7-f6ab-4007-841f-70df38241e5c/cache.tzst -P -C D:/a/gametp/gametp --force-local --use-compress-program "zstd -d"
+2025-10-10T17:04:52.1794137Z Cache restored successfully
+2025-10-10T17:04:52.1927398Z Cache restored from key: actionlint-1.7.7-Windows-X64
+2025-10-10T17:04:52.2192186Z ##[group]Run actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+2025-10-10T17:04:52.2192540Z with:
+2025-10-10T17:04:52.2193255Z   github-token: ***
+2025-10-10T17:04:52.2197180Z   script: // input envs
+const { INPUT_PYFLAKES, INPUT_SHELLCHECK } = process.env
+
+// helpers
+async function checkTool(toolBinary) {
+  try {
+    const toolPath = await io.which(toolBinary, true)
+    core.debug(`${toolBinary} path: ${toolPath}`)
+    return true
+  } catch (err) {
+    return false
+  }
+}
+
+// pyflakes
+if (INPUT_PYFLAKES === 'true') {
+  let pyflakesBinary = 'pyflakes'
+  if (process.platform === 'win32') {
+    pyflakesBinary = 'pyflakes.exe'
+  }
+  const pyflakesExists = await checkTool(pyflakesBinary)
+  core.debug(`${pyflakesBinary} exists: ${pyflakesExists}`)
+
+  if (pyflakesExists === false) {
+    await exec.exec('pipx', ['install', 'pyflakes'])
+  }
+}
+
+// shellcheck
+if (INPUT_SHELLCHECK === 'true') {
+  let shellcheckBinary = 'shellcheck'
+  if (process.platform === 'win32') {
+    shellcheckBinary = 'shellcheck.exe'
+  }
+  const shellcheckExists = await checkTool(shellcheckBinary)
+  core.debug(`${shellcheckBinary} exists: ${shellcheckExists}`)
+  if (shellcheckExists === false) {
+    switch (process.platform) {
+      case 'darwin':
+        await exec.exec('brew', ['install',  'shellcheck'])
+        break;
+      case 'linux':
+        core.exportVariable('DEBIAN_FRONTEND', 'noninteractive')
+        await exec.exec('sudo apt-get update')
+        await exec.exec('sudo apt-get install shellcheck')
+        break;
+      case 'win32':
+        await exec.exec('choco', ['install', 'shellcheck'])
+        break;
+      default:
+        core.setFailed(`[shellcheck] Unsupported platform: ${process.platform}`)
+        process.exit(core.ExitCode.Failure)
+    }
+  }
+}
+
+2025-10-10T17:04:52.2202294Z   debug: false
+2025-10-10T17:04:52.2202509Z   user-agent: actions/github-script
+2025-10-10T17:04:52.2202755Z   result-encoding: json
+2025-10-10T17:04:52.2202933Z   retries: 0
+2025-10-10T17:04:52.2203130Z   retry-exempt-status-codes: 400,401,403,404,422
+2025-10-10T17:04:52.2203387Z env:
+2025-10-10T17:04:52.2203546Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:04:52.2203784Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:04:52.2203971Z   SENTRY_DSN: 
+2025-10-10T17:04:52.2204152Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:04:52.2204357Z   CL: /std:c++20 /EHsc
+2025-10-10T17:04:52.2204538Z   CXXFLAGS: -std=c++20
+2025-10-10T17:04:52.2204727Z   NODE_ENV: development
+2025-10-10T17:04:52.2204921Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:04:52.2205119Z   INPUT_PYFLAKES: true
+2025-10-10T17:04:52.2205302Z   INPUT_SHELLCHECK: true
+2025-10-10T17:04:52.2205490Z ##[endgroup]
+2025-10-10T17:04:52.5636702Z [command]C:\hostedtoolcache\windows\Python\3.9.13\x64\Scripts\pipx.exe install pyflakes
+2025-10-10T17:04:55.1090723Z Found a space in the pipx home path. We heavily discourage this, due to
+2025-10-10T17:04:55.1091476Z     multiple incompatibilities. Please check our docs for more information on
+2025-10-10T17:04:55.1092085Z     this, as well as some pointers on how to migrate to a different home path.
+2025-10-10T17:04:56.3899627Z creating virtual environment...
+2025-10-10T17:04:56.8921492Z installing pyflakes...
+2025-10-10T17:05:06.1951147Z done! 
+2025-10-10T17:05:06.1954593Z   installed package pyflakes 3.4.0, installed using Python 3.9.13
+2025-10-10T17:05:06.1955546Z   These apps are now globally available
+2025-10-10T17:05:06.1956002Z     - pyflakes.exe
+2025-10-10T17:05:06.5374663Z [command]C:\ProgramData\Chocolatey\bin\choco.exe install shellcheck
+2025-10-10T17:05:10.8231401Z Chocolatey v2.5.1
+2025-10-10T17:05:11.2719192Z Installing the following packages:
+2025-10-10T17:05:11.2726253Z shellcheck
+2025-10-10T17:05:11.2732957Z By installing, you accept licenses for the packages.
+2025-10-10T17:05:26.2633810Z Downloading package from source 'https://community.chocolatey.org/api/v2/'
+2025-10-10T17:05:26.5618349Z 
+2025-10-10T17:05:26.5620117Z Progress: Downloading shellcheck 0.9.0... 4%
+2025-10-10T17:05:26.5622260Z Progress: Downloading shellcheck 0.9.0... 13%
+2025-10-10T17:05:26.5623238Z Progress: Downloading shellcheck 0.9.0... 21%
+2025-10-10T17:05:26.5624592Z Progress: Downloading shellcheck 0.9.0... 30%
+2025-10-10T17:05:26.5626400Z Progress: Downloading shellcheck 0.9.0... 37%
+2025-10-10T17:05:26.5627437Z Progress: Downloading shellcheck 0.9.0... 46%
+2025-10-10T17:05:26.5628629Z Progress: Downloading shellcheck 0.9.0... 54%
+2025-10-10T17:05:26.5629497Z Progress: Downloading shellcheck 0.9.0... 63%
+2025-10-10T17:05:26.5630164Z Progress: Downloading shellcheck 0.9.0... 72%
+2025-10-10T17:05:26.5630846Z Progress: Downloading shellcheck 0.9.0... 80%
+2025-10-10T17:05:26.5631587Z Progress: Downloading shellcheck 0.9.0... 89%
+2025-10-10T17:05:26.5632273Z Progress: Downloading shellcheck 0.9.0... 97%
+2025-10-10T17:05:26.5633297Z Progress: Downloading shellcheck 0.9.0... 100%
+2025-10-10T17:05:26.8712302Z 
+2025-10-10T17:05:26.8712857Z shellcheck v0.9.0 [Approved]
+2025-10-10T17:05:26.8937278Z shellcheck package files install completed. Performing other installation steps.
+2025-10-10T17:05:29.7394463Z Downloading shellcheck 
+2025-10-10T17:05:29.7395262Z   from 'https://github.com/koalaman/shellcheck/releases/download/v0.9.0/shellcheck-v0.9.0.zip'
+2025-10-10T17:05:29.8517069Z 
+2025-10-10T17:05:29.8536442Z Progress: 10% - Saving 160 KB of 1.55 MB
+2025-10-10T17:05:29.8554111Z Progress: 19% - Saving 313.81 KB of 1.55 MB
+2025-10-10T17:05:29.8626481Z Progress: 29% - Saving 473.81 KB of 1.55 MB
+2025-10-10T17:05:29.8644535Z Progress: 39% - Saving 633.81 KB of 1.55 MB
+2025-10-10T17:05:29.8661313Z Progress: 49% - Saving 793.81 KB of 1.55 MB
+2025-10-10T17:05:29.8680122Z Progress: 59% - Saving 948.81 KB of 1.55 MB
+2025-10-10T17:05:29.8697012Z Progress: 69% - Saving 1.08 MB of 1.55 MB
+2025-10-10T17:05:29.8715695Z Progress: 79% - Saving 1.24 MB of 1.55 MB
+2025-10-10T17:05:29.8738528Z Progress: 89% - Saving 1.39 MB of 1.55 MB
+2025-10-10T17:05:29.8753067Z Progress: 99% - Saving 1.55 MB of 1.55 MB
+2025-10-10T17:05:29.8759961Z Progress: 100% - Completed download of C:\Users\runneradmin\AppData\Local\Temp\chocolatey\shellcheck\0.9.0\shellcheck-v0.9.0.zip (1.55 MB).
+2025-10-10T17:05:29.8788393Z Download of shellcheck-v0.9.0.zip (1.55 MB) completed.
+2025-10-10T17:05:35.4615375Z Hashes match.
+2025-10-10T17:05:35.5249546Z Extracting C:\Users\runneradmin\AppData\Local\Temp\chocolatey\shellcheck\0.9.0\shellcheck-v0.9.0.zip to C:\ProgramData\chocolatey\lib\shellcheck\content...
+2025-10-10T17:05:36.1588039Z C:\ProgramData\chocolatey\lib\shellcheck\content
+2025-10-10T17:05:37.4324651Z  ShimGen has successfully created a shim for shellcheck.exe
+2025-10-10T17:05:37.4676813Z  The install of shellcheck was successful.
+2025-10-10T17:05:37.4681684Z   Deployed to 'C:\ProgramData\chocolatey\lib\shellcheck\content'
+2025-10-10T17:05:37.5435594Z 
+2025-10-10T17:05:37.5436196Z Chocolatey installed 1/1 packages. 
+2025-10-10T17:05:37.5436892Z  See the log for details (C:\ProgramData\chocolatey\logs\chocolatey.log).
+2025-10-10T17:05:37.6090705Z ##[group]Run actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+2025-10-10T17:05:37.6091370Z with:
+2025-10-10T17:05:37.6091755Z   github-token: ***
+2025-10-10T17:05:37.6101743Z   script: // input envs
+const { INPUT_FILES, INPUT_FLAGS, INPUT_TOOL_NAME, INPUT_TOOL_DIR_PATH, INPUT_MATCHER, INPUT_MATCHER_PATH, INPUT_TOOL_EXECUTABLE, INPUT_JSON, INPUT_FAIL_ON_ERROR, INPUT_PYFLAKES, INPUT_SHELLCHECK, INPUT_GROUP_RESULT, DEBUG } = process.env
+
+// helpers
+function niceHeader(label, color, emoji, group = false) {
+  const colors = {
+    red: '\x1b[31m',
+    green: '\x1b[32m',
+    yellow: '\x1b[33m',
+    blue: '\x1b[34m'
+  }
+  const emojis = {
+    arrowDown: '⬇️',
+    warning: '⚠️',
+    error: '❌',
+    check: '✅'
+  }
+  const reset = '\x1b[0m'
+
+  let expand = ''
+  if (group) {
+    expand = ' expand for details...'
+  }
+
+  return `${colors[color]}${emojis[emoji]} [${INPUT_TOOL_NAME}] ${label}${reset}${expand}`
+}
+
+// set search path
+core.addPath(INPUT_TOOL_DIR_PATH)
+
+// set matcher
+if (INPUT_MATCHER === 'true') {
+  core.info(`##[add-matcher]${INPUT_MATCHER_PATH}`)
+}
+
+// set default tool flags
+const toolFlags = ['-verbose']
+if(DEBUG === 'true') {
+  toolFlags.push('-debug')
+}
+if(INPUT_PYFLAKES === 'false') {
+  toolFlags.push('-pyflakes', '')
+}
+if(INPUT_SHELLCHECK === 'false') {
+  toolFlags.push('-shellcheck', '')
+}
+
+// set user tool flags
+if(INPUT_FLAGS !== '') {
+  const userFlags = INPUT_FLAGS.match(/(?:[^\s"]+|"[^"]*")+/g)
+  userFlags.forEach(flag => {
+    toolFlags.push(flag.trim())
+  })
+}
+
+// set files
+if(INPUT_FILES !== '') {
+  const patterns = INPUT_FILES.split(',').map(s => s.trim()).join('\n')
+  const globber = await glob.create(patterns)
+  let files = await globber.glob()
+  files = files.map(p => core.toPlatformPath(p))
+  files.forEach(file => { toolFlags.push(file) })
+}
+
+// run tool
+const { exitCode, stdout, stderr } = await exec.getExecOutput(INPUT_TOOL_EXECUTABLE, toolFlags, { silent: true, ignoreReturnCode: true })
+
+//if (INPUT_JSON === 'true') {
+//  const fs = require('fs')
+//   const path = require('path')
+//   const jsonPath = path.join(process.env.GITHUB_WORKSPACE, 'actionlint.json')
+//   fs.writeFileSync(jsonPath, stdout)
+//   core.info(`##[add-annotation]file=${jsonPath},title=actionlint.json`)
+// }
+
+let exitMessage = ''
+switch (exitCode) {
+  case 1:
+    exitMessage = 'The command ran successfully and no problem was found'
+    exitMessage = 'The command ran successfully and some problem was found'
+    break;
+  case 2:
+    exitMessage = 'The command failed due to invalid command line option'
+    break;
+  case 3:
+    exitMessage = 'The command failed due to some fatal error'
+    break;
+  default:
+    exitMessage = 'The command ran successfully and no problem was found'
+}
+core.setOutput('exit-code', exitCode)
+core.setOutput('exit-message', exitMessage)
+core.debug(`[${INPUT_TOOL_NAME}] ${exitMessage} (exit code: ${exitCode})`)
+
+if (exitCode !== 0) {
+  if (INPUT_GROUP_RESULT === 'true') {
+    await core.group(niceHeader(`Results`, 'red', 'error', true), async () => {
+      core.info(`${stdout.trim()}`)
+    })
+  } else {
+    core.info(niceHeader(`Results`, 'red', 'error'))
+    core.info(`${stdout.trim()}`)
+  }
+}
+
+const outputVerbose = stderr.trim()
+await core.group(niceHeader(`Verbose`, 'blue', 'arrowDown', true), async () => {
+  core.info(`${outputVerbose}`)
+})
+
+const matchErrors = outputVerbose.match(/Found (\d+) errors in (\d+) files/)
+const totalErrors = matchErrors ? matchErrors[1] : 0
+const totalFiles = matchErrors ? matchErrors[2] : 0
+
+core.setOutput('total-errors', totalErrors)
+core.setOutput('total-files', totalFiles)
+
+switch (exitCode) {
+  case 0:
+    core.info(niceHeader(`${exitMessage} (linted ${totalFiles} files)`, 'green', 'check'))
+    process.exit(core.ExitCode.Success)
+    break;
+  default:
+    if (INPUT_FAIL_ON_ERROR === 'true') {
+      core.setFailed(niceHeader(`${exitMessage} (found ${totalErrors} errors, linted ${totalFiles} files), exit code: ${exitCode}`, 'red', 'error'))
+      process.exit(core.ExitCode.Failure)
+    }
+    else {
+      core.warning(niceHeader(`${exitMessage} (found ${totalErrors} errors, linted ${totalFiles} files), exit code: ${exitCode}`, 'yellow', 'warning'))
+      process.exit(core.ExitCode.Success)
+    }
+}
+
+2025-10-10T17:05:37.6112595Z   debug: false
+2025-10-10T17:05:37.6112810Z   user-agent: actions/github-script
+2025-10-10T17:05:37.6113058Z   result-encoding: json
+2025-10-10T17:05:37.6113249Z   retries: 0
+2025-10-10T17:05:37.6113457Z   retry-exempt-status-codes: 400,401,403,404,422
+2025-10-10T17:05:37.6113705Z env:
+2025-10-10T17:05:37.6113876Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:05:37.6114110Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:05:37.6114293Z   SENTRY_DSN: 
+2025-10-10T17:05:37.6114471Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:05:37.6114679Z   CL: /std:c++20 /EHsc
+2025-10-10T17:05:37.6114860Z   CXXFLAGS: -std=c++20
+2025-10-10T17:05:37.6115060Z   NODE_ENV: development
+2025-10-10T17:05:37.6115261Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:05:37.6115476Z   INPUT_TOOL_NAME: actionlint
+2025-10-10T17:05:37.6115710Z   INPUT_TOOL_DIR_PATH: D:\a\_temp\actionlint-1.7.7
+2025-10-10T17:05:37.6116027Z   INPUT_TOOL_EXECUTABLE: actionlint.exe
+2025-10-10T17:05:37.6116259Z   INPUT_MATCHER: true
+2025-10-10T17:05:37.6116532Z   INPUT_MATCHER_PATH: D:\a\_temp\actionlint-1.7.7\actionlint-matcher.json
+2025-10-10T17:05:37.6117025Z   INPUT_JSON: false
+2025-10-10T17:05:37.6117213Z   INPUT_FAIL_ON_ERROR: true
+2025-10-10T17:05:37.6117410Z   INPUT_PYFLAKES: true
+2025-10-10T17:05:37.6117598Z   INPUT_SHELLCHECK: true
+2025-10-10T17:05:37.6117782Z   INPUT_FILES: 
+2025-10-10T17:05:37.6117937Z   INPUT_FLAGS: 
+2025-10-10T17:05:37.6118109Z   INPUT_GROUP_RESULT: true
+2025-10-10T17:05:37.6118302Z ##[endgroup]
+2025-10-10T17:05:38.3302078Z ##[group][34m⬇️ [actionlint] Verbose[0m expand for details...
+2025-10-10T17:05:38.3304301Z verbose: Linting all workflow files in repository: D:\a\gametp\gametp
+2025-10-10T17:05:38.3304802Z verbose: Detected project: D:\a\gametp\gametp
+2025-10-10T17:05:38.3305149Z verbose: Collected 20 YAML files
+2025-10-10T17:05:38.3305426Z verbose: Linting 20 files
+2025-10-10T17:05:38.3305757Z verbose: Linting .github\workflows\agents-lock.yml
+2025-10-10T17:05:38.3306209Z verbose: Linting .github\workflows\validate-workflows.yml
+2025-10-10T17:05:38.3306642Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3306988Z verbose: Linting .github\workflows\ci.yml
+2025-10-10T17:05:38.3307352Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3307845Z verbose: Linting .github\workflows\branch-protection-encoding-guard.yml
+2025-10-10T17:05:38.3308324Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3308768Z verbose: Linting .github\workflows\build-and-test.yml
+2025-10-10T17:05:38.3309330Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3310408Z verbose: Found 0 parse errors in 1 ms for .github\workflows\branch-protection-encoding-guard.yml
+2025-10-10T17:05:38.3311137Z verbose: Found 0 parse errors in 1 ms for .github\workflows\validate-workflows.yml
+2025-10-10T17:05:38.3311905Z verbose: Found 0 parse errors in 1 ms for .github\workflows\build-and-test.yml
+2025-10-10T17:05:38.3312640Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3314508Z verbose: Found 0 parse errors in 2 ms for .github\workflows\agents-lock.yml
+2025-10-10T17:05:38.3315480Z verbose: Found 0 parse errors in 4 ms for .github\workflows\ci.yml
+2025-10-10T17:05:38.3315998Z verbose: Linting .github\workflows\codeql.yml
+2025-10-10T17:05:38.3317266Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3318921Z verbose: Found 0 parse errors in 0 ms for .github\workflows\codeql.yml
+2025-10-10T17:05:38.3319969Z verbose: Found total 0 errors in 15 ms for .github\workflows\branch-protection-encoding-guard.yml
+2025-10-10T17:05:38.3320966Z verbose: Found total 0 errors in 15 ms for .github\workflows\build-and-test.yml
+2025-10-10T17:05:38.3321782Z verbose: Linting .github\workflows\config-management.yml
+2025-10-10T17:05:38.3322431Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3323070Z verbose: Linting .github\workflows\release-prepare.yml
+2025-10-10T17:05:38.3323690Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3324242Z verbose: Linting .github\workflows\release-ramp.yml
+2025-10-10T17:05:38.3324830Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3325452Z verbose: Linting .github\workflows\nightly-scene-transition.yml
+2025-10-10T17:05:38.3326053Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3326840Z verbose: Found 0 parse errors in 1 ms for .github\workflows\nightly-scene-transition.yml
+2025-10-10T17:05:38.3327708Z verbose: Found 0 parse errors in 2 ms for .github\workflows\release-ramp.yml
+2025-10-10T17:05:38.3328589Z verbose: Found total 0 errors in 27 ms for .github\workflows\agents-lock.yml
+2025-10-10T17:05:38.3329645Z verbose: Linting .github\workflows\tasks-governance.yml
+2025-10-10T17:05:38.3330300Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3330787Z verbose: Found 0 parse errors in 3 ms for .github\workflows\tasks-governance.yml
+2025-10-10T17:05:38.3331250Z verbose: Linting .github\workflows\security-unified.yml
+2025-10-10T17:05:38.3331614Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3332309Z verbose: Found 0 parse errors in 15 ms for .github\workflows\security-unified.yml
+2025-10-10T17:05:38.3332842Z verbose: Found total 0 errors in 17 ms for .github\workflows\tasks-governance.yml
+2025-10-10T17:05:38.3333374Z verbose: Found 0 parse errors in 2 ms for .github\workflows\release-prepare.yml
+2025-10-10T17:05:38.3333896Z verbose: Found total 0 errors in 21 ms for .github\workflows\release-ramp.yml
+2025-10-10T17:05:38.3334323Z verbose: Linting .github\workflows\soft-gates.yml
+2025-10-10T17:05:38.3334659Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3335207Z verbose: Found 0 parse errors in 21 ms for .github\workflows\soft-gates.yml
+2025-10-10T17:05:38.3335682Z verbose: verbose: Linting .github\workflows\staged-release.yml
+2025-10-10T17:05:38.3336055Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3336406Z verbose: Linting .github\workflows\release-monitor.yml
+2025-10-10T17:05:38.3337131Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3337506Z Linting .github\workflows\observability-gate.yml
+2025-10-10T17:05:38.3337843Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3338284Z verbose: Found 0 parse errors in 31 ms for .github\workflows\staged-release.yml
+2025-10-10T17:05:38.3338842Z verbose: Found 0 parse errors in 32 ms for .github\workflows\observability-gate.yml
+2025-10-10T17:05:38.3339386Z verbose: Found total 0 errors in 38 ms for .github\workflows\soft-gates.yml
+2025-10-10T17:05:38.3339927Z verbose: Found total 0 errors in 41 ms for .github\workflows\release-prepare.yml
+2025-10-10T17:05:38.3340441Z verbose: Linting .github\workflows\release-emergency-rollback.yml
+2025-10-10T17:05:38.3340848Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3341331Z verbose: Found 0 parse errors in 40 ms for .github\workflows\release-emergency-rollback.yml
+2025-10-10T17:05:38.3341938Z verbose: Found total 0 errors in 46 ms for .github\workflows\observability-gate.yml
+2025-10-10T17:05:38.3342713Z verbose: Linting .github\workflows\pr-gatekeeper.yml
+2025-10-10T17:05:38.3343074Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3343544Z verbose: Found 0 parse errors in 17 ms for .github\workflows\pr-gatekeeper.yml
+2025-10-10T17:05:38.3344138Z verbose: Linting .github\workflows\release.yml
+2025-10-10T17:05:38.3344478Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3344914Z verbose: Found 0 parse errors in 54 ms for .github\workflows\release.yml
+2025-10-10T17:05:38.3345695Z verbose: Found 0 parse errors in 58 ms for .github\workflows\config-management.yml
+2025-10-10T17:05:38.3346584Z verbose: Found 0 parse errors in 32 ms for .github\workflows\release-monitor.yml
+2025-10-10T17:05:38.3347191Z verbose: Found total 0 errors in 56 ms for .github\workflows\security-unified.yml
+2025-10-10T17:05:38.3347734Z verbose: Found total 0 errors in 60 ms for .github\workflows\staged-release.yml
+2025-10-10T17:05:38.3348216Z verbose: Linting .github\workflows\pr-performance-check.yml
+2025-10-10T17:05:38.3348610Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T17:05:38.3349117Z verbose: Found total 0 errors in 60 ms for .github\workflows\release-emergency-rollback.yml
+2025-10-10T17:05:38.3349671Z verbose: Found total 0 errors in 74 ms for .github\workflows\release.yml
+2025-10-10T17:05:38.3350223Z verbose: Found 0 parse errors in 76 ms for .github\workflows\pr-performance-check.yml
+2025-10-10T17:05:38.3350794Z verbose: Found total 0 errors in 89 ms for .github\workflows\config-management.yml
+2025-10-10T17:05:38.3351342Z verbose: Found total 0 errors in 59 ms for .github\workflows\pr-gatekeeper.yml
+2025-10-10T17:05:38.3351900Z verbose: Found total 0 errors in 106 ms for .github\workflows\pr-performance-check.yml
+2025-10-10T17:05:38.3352425Z verbose: Found total 0 errors in 173 ms for .github\workflows\ci.yml
+2025-10-10T17:05:38.3352912Z verbose: Found total 0 errors in 166 ms for .github\workflows\codeql.yml
+2025-10-10T17:05:38.3353466Z verbose: Found total 0 errors in 150 ms for .github\workflows\nightly-scene-transition.yml
+2025-10-10T17:05:38.3354784Z verbose: Found total 0 errors in 150 ms for .github\workflows\release-monitor.yml
+2025-10-10T17:05:38.3355357Z verbose: Found total 0 errors in 473 ms for .github\workflows\validate-workflows.yml
+2025-10-10T17:05:38.3355776Z verbose: Found 0 errors in 20 files
+2025-10-10T17:05:38.3356182Z ##[endgroup]
+2025-10-10T17:05:38.3357397Z [32m✅ [actionlint] The command ran successfully and no problem was found (linted 20 files)[0m

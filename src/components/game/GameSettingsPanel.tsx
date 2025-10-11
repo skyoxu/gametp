@@ -10,90 +10,15 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useGameEvents } from '../../hooks/useGameEvents';
 import './GameSettingsPanel.css';
+import { useI18n, useLang } from '@/i18n';
 
-// Centralized UI strings (English, ASCII-only)
-const TEXT = {
-  title: 'Game Settings',
-  tabs: {
-    graphics: { name: 'Graphics', icon: '*' },
-    audio: { name: 'Audio', icon: '#' },
-    gameplay: { name: 'Gameplay', icon: '+' },
-    controls: { name: 'Controls', icon: '>' },
-    ui: { name: 'Interface', icon: '=' },
-  },
-  actions: {
-    close: 'Close',
-    resetToDefault: 'Reset to Default',
-    cancel: 'Cancel',
-    save: 'Save Changes',
-    rebinding: 'Binding...',
-  },
-  graphics: {
-    quality: 'Quality',
-    low: 'Low',
-    medium: 'Medium',
-    high: 'High',
-    fullscreen: 'Fullscreen',
-    vsync: 'VSync',
-    showFPS: 'Show FPS',
-  },
-  audio: {
-    muted: 'Muted',
-    masterVolume: 'Master Volume',
-    musicVolume: 'Music Volume',
-    sfxVolume: 'SFX Volume',
-  },
-  gameplay: {
-    difficulty: 'Difficulty',
-    easy: 'Easy',
-    medium: 'Medium',
-    hard: 'Hard',
-    autoSave: 'Auto Save',
-    autoSaveInterval: 'Auto Save Interval (s)',
-    showNotifications: 'Show Notifications',
-    showTutorials: 'Show Tutorials',
-  },
-  controls: {
-    keyboard: 'Keyboard Controls',
-    labelForAction(action: string): string {
-      switch (action) {
-        case 'moveUp':
-          return 'Move Up';
-        case 'moveDown':
-          return 'Move Down';
-        case 'moveLeft':
-          return 'Move Left';
-        case 'moveRight':
-          return 'Move Right';
-        case 'action':
-          return 'Action';
-        case 'pause':
-          return 'Pause';
-        default:
-          return action;
-      }
-    },
-    mouseSensitivity: 'Mouse Sensitivity',
-  },
-  ui: {
-    theme: 'Theme',
-    themeDark: 'Dark',
-    themeLight: 'Light',
-    themeAuto: 'Auto',
-    language: 'Language',
-    langEN: 'English (US)',
-    langZH: 'Chinese (Simplified)',
-    notificationPosition: 'Notification Position',
-    posTR: 'Top Right',
-    posTL: 'Top Left',
-    posBR: 'Bottom Right',
-    posBL: 'Bottom Left',
-    showAdvancedStats: 'Show Advanced Stats',
-  },
-  notify: {
-    saved: 'Settings have been saved',
-    saveFailed: 'Failed to save settings',
-  },
+// 使用 i18n 文本资源
+const ICONS = {
+  graphics: '*',
+  audio: '#',
+  gameplay: '+',
+  controls: '>',
+  ui: '=',
 } as const;
 
 export interface GameSettings {
@@ -203,6 +128,8 @@ export function GameSettingsPanel({
   onClose,
   onSettingsChange,
 }: GameSettingsPanelProps) {
+  const t = useI18n();
+  const { lang, setLang } = useLang();
   const [settings, setSettings] = useState<GameSettings>(defaultSettings);
   const [activeTab, setActiveTab] = useState<
     'graphics' | 'audio' | 'gameplay' | 'controls' | 'ui'
@@ -238,7 +165,7 @@ export function GameSettingsPanel({
       gameEvents.publish({
         type: 'game.ui.notification.shown',
         data: {
-          message: TEXT.notify.saved,
+          message: t('settingsPanel.notify.saved'),
           type: 'success',
         },
       });
@@ -247,20 +174,20 @@ export function GameSettingsPanel({
       gameEvents.publish({
         type: 'game.ui.notification.shown',
         data: {
-          message: TEXT.notify.saveFailed,
+          message: t('settingsPanel.notify.saveFailed'),
           type: 'error',
         },
       });
     }
-  }, [settings, onSettingsChange, gameEvents]);
+  }, [settings, onSettingsChange, gameEvents, t]);
 
   // Reset settings to defaults (client-side)
   const resetSettings = useCallback(() => {
-    if (confirm('Reset all settings to defaults?')) {
+    if (confirm(t('settingsPanel.actions.confirmReset'))) {
       setSettings(defaultSettings);
       setHasChanges(true);
     }
-  }, []);
+  }, [t]);
 
   // Update settings with strong typing per category and key
   const updateSettings = useCallback(
@@ -326,21 +253,21 @@ export function GameSettingsPanel({
   const tabs = [
     {
       id: 'graphics',
-      name: TEXT.tabs.graphics.name,
-      icon: TEXT.tabs.graphics.icon,
+      name: t('settingsPanel.tabs.graphics'),
+      icon: ICONS.graphics,
     },
-    { id: 'audio', name: TEXT.tabs.audio.name, icon: TEXT.tabs.audio.icon },
+    { id: 'audio', name: t('settingsPanel.tabs.audio'), icon: ICONS.audio },
     {
       id: 'gameplay',
-      name: TEXT.tabs.gameplay.name,
-      icon: TEXT.tabs.gameplay.icon,
+      name: t('settingsPanel.tabs.gameplay'),
+      icon: ICONS.gameplay,
     },
     {
       id: 'controls',
-      name: TEXT.tabs.controls.name,
-      icon: TEXT.tabs.controls.icon,
+      name: t('settingsPanel.tabs.controls'),
+      icon: ICONS.controls,
     },
-    { id: 'ui', name: TEXT.tabs.ui.name, icon: TEXT.tabs.ui.icon },
+    { id: 'ui', name: t('settingsPanel.tabs.ui'), icon: ICONS.ui },
   ] as const;
 
   if (!isVisible) {
@@ -366,6 +293,8 @@ export function GameSettingsPanel({
         value={value}
         onChange={e => onChange(Number(e.target.value))}
         className="game-settings-panel__slider"
+        aria-label={label}
+        title={label}
       />
     </div>
   );
@@ -382,6 +311,8 @@ export function GameSettingsPanel({
         value={value}
         onChange={e => onChange(e.target.value as T)}
         className="game-settings-panel__select"
+        aria-label={label}
+        title={label}
       >
         {options.map(option => (
           <option key={option.value} value={option.value}>
@@ -403,6 +334,8 @@ export function GameSettingsPanel({
         checked={checked}
         onChange={e => onChange(e.target.checked)}
         className="game-settings-panel__checkbox"
+        aria-label={label}
+        title={label}
       />
       <label className="game-settings-panel__checkbox-label">{label}</label>
     </div>
@@ -421,7 +354,7 @@ export function GameSettingsPanel({
       <div className="game-settings-panel__dialog">
         {/* Sidebar */}
         <div className="game-settings-panel__sidebar">
-          <h2 className="game-settings-panel__sidebar-title">{TEXT.title}</h2>
+          <h2 className="game-settings-panel__sidebar-title">{t('settingsPanel.title')}</h2>
 
           {tabs.map(tab => (
             <button
@@ -430,6 +363,8 @@ export function GameSettingsPanel({
               className={`game-settings-panel__tab ${
                 activeTab === tab.id ? 'game-settings-panel__tab--active' : ''
               }`}
+              title={tab.name}
+              aria-label={tab.name}
             >
               <span>{tab.icon}</span>
               {tab.name}
@@ -449,8 +384,10 @@ export function GameSettingsPanel({
             <button
               onClick={onClose}
               className="game-settings-panel__close-btn"
+              title={t('settingsPanel.actions.close')}
+              aria-label={t('settingsPanel.actions.close')}
             >
-              {TEXT.actions.close}
+              {t('settingsPanel.actions.close')}
             </button>
           </div>
 
@@ -460,30 +397,30 @@ export function GameSettingsPanel({
             {activeTab === 'graphics' && (
               <div>
                 {renderSelect(
-                  TEXT.graphics.quality,
+                  t('settingsPanel.graphics.quality'),
                   settings.graphics.quality,
                   [
-                    { value: 'low', label: TEXT.graphics.low },
-                    { value: 'medium', label: TEXT.graphics.medium },
-                    { value: 'high', label: TEXT.graphics.high },
+                    { value: 'low', label: t('settingsPanel.graphics.low') },
+                    { value: 'medium', label: t('settingsPanel.graphics.medium') },
+                    { value: 'high', label: t('settingsPanel.graphics.high') },
                   ],
                   value => updateSettings('graphics', 'quality', value)
                 )}
 
                 {renderCheckbox(
-                  TEXT.graphics.fullscreen,
+                  t('settingsPanel.graphics.fullscreen'),
                   settings.graphics.fullscreen,
                   checked => updateSettings('graphics', 'fullscreen', checked)
                 )}
 
                 {renderCheckbox(
-                  TEXT.graphics.vsync,
+                  t('settingsPanel.graphics.vsync'),
                   settings.graphics.vsync,
                   checked => updateSettings('graphics', 'vsync', checked)
                 )}
 
                 {renderCheckbox(
-                  TEXT.graphics.showFPS,
+                  t('settingsPanel.graphics.showFPS'),
                   settings.graphics.showFPS,
                   checked => updateSettings('graphics', 'showFPS', checked)
                 )}
@@ -494,25 +431,25 @@ export function GameSettingsPanel({
             {activeTab === 'audio' && (
               <div>
                 {renderCheckbox(
-                  TEXT.audio.muted,
+                  t('settingsPanel.audio.muted'),
                   settings.audio.muted,
                   checked => updateSettings('audio', 'muted', checked)
                 )}
 
                 {renderSlider(
-                  TEXT.audio.masterVolume,
+                  t('settingsPanel.audio.masterVolume'),
                   settings.audio.masterVolume,
                   value => updateSettings('audio', 'masterVolume', value)
                 )}
 
                 {renderSlider(
-                  TEXT.audio.musicVolume,
+                  t('settingsPanel.audio.musicVolume'),
                   settings.audio.musicVolume,
                   value => updateSettings('audio', 'musicVolume', value)
                 )}
 
                 {renderSlider(
-                  TEXT.audio.sfxVolume,
+                  t('settingsPanel.audio.sfxVolume'),
                   settings.audio.sfxVolume,
                   value => updateSettings('audio', 'sfxVolume', value)
                 )}
@@ -523,25 +460,25 @@ export function GameSettingsPanel({
             {activeTab === 'gameplay' && (
               <div>
                 {renderSelect(
-                  TEXT.gameplay.difficulty,
+                  t('settingsPanel.gameplay.difficulty'),
                   settings.gameplay.difficulty,
                   [
-                    { value: 'easy', label: TEXT.gameplay.easy },
-                    { value: 'medium', label: TEXT.gameplay.medium },
-                    { value: 'hard', label: TEXT.gameplay.hard },
+                    { value: 'easy', label: t('settingsPanel.gameplay.easy') },
+                    { value: 'medium', label: t('settingsPanel.gameplay.medium') },
+                    { value: 'hard', label: t('settingsPanel.gameplay.hard') },
                   ],
                   value => updateSettings('gameplay', 'difficulty', value)
                 )}
 
                 {renderCheckbox(
-                  TEXT.gameplay.autoSave,
+                  t('settingsPanel.gameplay.autoSave'),
                   settings.gameplay.autoSave,
                   checked => updateSettings('gameplay', 'autoSave', checked)
                 )}
 
                 {settings.gameplay.autoSave &&
                   renderSlider(
-                    TEXT.gameplay.autoSaveInterval,
+                    t('settingsPanel.gameplay.autoSaveInterval'),
                     settings.gameplay.autoSaveInterval,
                     value =>
                       updateSettings('gameplay', 'autoSaveInterval', value),
@@ -550,14 +487,14 @@ export function GameSettingsPanel({
                   )}
 
                 {renderCheckbox(
-                  TEXT.gameplay.showNotifications,
+                  t('settingsPanel.gameplay.showNotifications'),
                   settings.gameplay.showNotifications,
                   checked =>
                     updateSettings('gameplay', 'showNotifications', checked)
                 )}
 
                 {renderCheckbox(
-                  TEXT.gameplay.showTutorials,
+                  t('settingsPanel.gameplay.showTutorials'),
                   settings.gameplay.showTutorials,
                   checked =>
                     updateSettings('gameplay', 'showTutorials', checked)
@@ -570,7 +507,7 @@ export function GameSettingsPanel({
               <div>
                 <div className="game-settings-panel__controls-section">
                   <h4 className="game-settings-panel__controls-title">
-                    {TEXT.controls.keyboard}
+                    {t('settingsPanel.controls.keyboard')}
                   </h4>
 
                   {Object.entries(settings.controls.keyboardControls).map(
@@ -580,7 +517,7 @@ export function GameSettingsPanel({
                         className="game-settings-panel__key-binding-row"
                       >
                         <span className="game-settings-panel__key-binding-label">
-                          {TEXT.controls.labelForAction(action)}
+                          {t(`settingsPanel.controls.labels.${action}`)}
                         </span>
 
                         <button
@@ -592,7 +529,7 @@ export function GameSettingsPanel({
                           }`}
                         >
                           {isKeyBinding === action
-                            ? TEXT.actions.rebinding
+                            ? t('settingsPanel.actions.rebinding')
                             : key}
                         </button>
                       </div>
@@ -601,7 +538,7 @@ export function GameSettingsPanel({
                 </div>
 
                 {renderSlider(
-                  TEXT.controls.mouseSensitivity,
+                  t('settingsPanel.controls.mouseSensitivity'),
                   settings.controls.mouseSensitivity,
                   value => updateSettings('controls', 'mouseSensitivity', value)
                 )}
@@ -612,40 +549,44 @@ export function GameSettingsPanel({
             {activeTab === 'ui' && (
               <div>
                 {renderSelect(
-                  TEXT.ui.theme,
+                  t('settingsPanel.ui.theme'),
                   settings.ui.theme,
                   [
-                    { value: 'dark', label: TEXT.ui.themeDark },
-                    { value: 'light', label: TEXT.ui.themeLight },
-                    { value: 'auto', label: TEXT.ui.themeAuto },
+                    { value: 'dark', label: t('settingsPanel.ui.themeDark') },
+                    { value: 'light', label: t('settingsPanel.ui.themeLight') },
+                    { value: 'auto', label: t('settingsPanel.ui.themeAuto') },
                   ],
                   value => updateSettings('ui', 'theme', value)
                 )}
 
                 {renderSelect(
-                  TEXT.ui.language,
+                  t('settingsPanel.ui.language'),
                   settings.ui.language,
                   [
-                    { value: 'en-US', label: TEXT.ui.langEN },
-                    { value: 'zh-CN', label: TEXT.ui.langZH },
+                    { value: 'en-US', label: t('settingsPanel.ui.langEN') },
+                    { value: 'zh-CN', label: t('settingsPanel.ui.langZH') },
                   ],
-                  value => updateSettings('ui', 'language', value)
+                  value => {
+                    updateSettings('ui', 'language', value as any);
+                    // 同步更新全局语言
+                    if (value === 'en-US' || value === 'zh-CN') setLang(value);
+                  }
                 )}
 
                 {renderSelect(
-                  TEXT.ui.notificationPosition,
+                  t('settingsPanel.ui.notificationPosition'),
                   settings.ui.notificationPosition,
                   [
-                    { value: 'top-right', label: TEXT.ui.posTR },
-                    { value: 'top-left', label: TEXT.ui.posTL },
-                    { value: 'bottom-right', label: TEXT.ui.posBR },
-                    { value: 'bottom-left', label: TEXT.ui.posBL },
+                    { value: 'top-right', label: t('settingsPanel.ui.posTR') },
+                    { value: 'top-left', label: t('settingsPanel.ui.posTL') },
+                    { value: 'bottom-right', label: t('settingsPanel.ui.posBR') },
+                    { value: 'bottom-left', label: t('settingsPanel.ui.posBL') },
                   ],
                   value => updateSettings('ui', 'notificationPosition', value)
                 )}
 
                 {renderCheckbox(
-                  TEXT.ui.showAdvancedStats,
+                  t('settingsPanel.ui.showAdvancedStats'),
                   settings.ui.showAdvancedStats,
                   checked => updateSettings('ui', 'showAdvancedStats', checked)
                 )}
@@ -658,16 +599,20 @@ export function GameSettingsPanel({
             <button
               onClick={resetSettings}
               className="game-settings-panel__reset-btn"
+              title={t('settingsPanel.actions.resetToDefault')}
+              aria-label={t('settingsPanel.actions.resetToDefault')}
             >
-              {TEXT.actions.resetToDefault}
+              {t('settingsPanel.actions.resetToDefault')}
             </button>
 
             <div className="game-settings-panel__footer-actions">
               <button
                 onClick={onClose}
                 className="game-settings-panel__cancel-btn"
+                title={t('settingsPanel.actions.cancel')}
+                aria-label={t('settingsPanel.actions.cancel')}
               >
-                {TEXT.actions.cancel}
+                {t('settingsPanel.actions.cancel')}
               </button>
 
               <button
@@ -678,8 +623,10 @@ export function GameSettingsPanel({
                     ? 'game-settings-panel__save-btn--enabled'
                     : 'game-settings-panel__save-btn--disabled'
                 }`}
+                title={t('settingsPanel.actions.save')}
+                aria-label={t('settingsPanel.actions.save')}
               >
-                {TEXT.actions.save}
+                {t('settingsPanel.actions.save')}
               </button>
             </div>
           </div>

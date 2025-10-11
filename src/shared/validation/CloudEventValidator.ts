@@ -1,6 +1,6 @@
 /**
- * CloudEvents 1.0 运行时验证器
- * 确保事件符合最新标准规范
+ * CloudEvents 1.0
+ * Note
  */
 
 import type { CloudEvent } from '../contracts/cloudevents-core';
@@ -36,7 +36,7 @@ export class CloudEventValidator {
   ];
 
   /**
-   * 验证CloudEvent是否符合1.0标准
+   * CloudEvent 1.0
    */
   static validate(event: unknown): {
     isValid: boolean;
@@ -59,7 +59,7 @@ export class CloudEventValidator {
 
     const cloudEvent = event as Partial<CloudEvent>;
 
-    // 检查必需字段
+    // Note
     for (const field of this.REQUIRED_FIELDS) {
       if (!cloudEvent[field]) {
         errors.push({
@@ -70,7 +70,7 @@ export class CloudEventValidator {
       }
     }
 
-    // 验证specversion
+    // Validate specversion
     if (
       cloudEvent.specversion &&
       cloudEvent.specversion !== this.VALID_SPEC_VERSION
@@ -82,7 +82,7 @@ export class CloudEventValidator {
       });
     }
 
-    // 验证事件类型
+    // Note
     if (
       cloudEvent.type &&
       !this.GUILD_MANAGER_EVENT_TYPES.includes(
@@ -96,7 +96,7 @@ export class CloudEventValidator {
       });
     }
 
-    // 验证source格式
+    // Validate source format
     if (cloudEvent.source && !this.isValidSource(cloudEvent.source)) {
       errors.push({
         field: 'source',
@@ -105,7 +105,7 @@ export class CloudEventValidator {
       });
     }
 
-    // 验证时间戳格式
+    // Note
     if (cloudEvent.time && !this.isValidTimestamp(cloudEvent.time)) {
       errors.push({
         field: 'time',
@@ -121,20 +121,20 @@ export class CloudEventValidator {
   }
 
   /**
-   * 验证source字段格式
+   * source
    */
   private static isValidSource(source: string): boolean {
     try {
       new URL(source);
       return true;
     } catch {
-      // 允许URI-reference格式 (如 "gm://turn-system")
+      // Allow URI-reference format (e.g., "gm://turn-system")
       return /^[a-z][a-z0-9+.-]*:\/\/[\w-]+$/.test(source);
     }
   }
 
   /**
-   * 验证时间戳格式 (RFC 3339)
+   * (RFC 3339)
    */
   private static isValidTimestamp(time: string): boolean {
     const rfc3339Regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?$/;
@@ -145,7 +145,7 @@ export class CloudEventValidator {
   }
 
   /**
-   * 创建标准CloudEvent
+   * CloudEvent
    */
   static createEvent(
     type: GuildManagerEventType,
@@ -173,14 +173,14 @@ export class CloudEventValidator {
   }
 
   /**
-   * 生成事件ID
+   * ID
    */
   private static generateId(): string {
     return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
   }
 
   /**
-   * 创建验证装饰器用于事件处理器
+   * Note
    */
   static validateEventHandler<T extends CloudEvent>(
     handler: (event: T) => Promise<unknown>
@@ -200,7 +200,8 @@ export class CloudEventValidator {
   }
 }
 
-// 类型守卫
+// Note
 export function isValidCloudEvent(event: unknown): event is CloudEvent {
   return CloudEventValidator.validate(event).isValid;
 }
+

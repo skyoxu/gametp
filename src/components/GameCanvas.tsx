@@ -1,6 +1,7 @@
 /**
- * Phaser游戏画布组件 - 使用新的游戏引擎架构
- * 符合 CLAUDE.md 技术栈要求：Phaser 3 WebGL渲染 & 场景管理
+ * Phaser game canvas component
+ * Hosts the Phaser 3 WebGL renderer and scene lifecycle under React.
+ * References: ADR-0001 (tech stack), ADR-0004 (events/contracts)
  */
 
 import { useRef, useEffect, useState, useCallback, useTransition } from 'react';
@@ -13,7 +14,16 @@ import { createComputationWorker } from '@/shared/workers/workerBridge';
 import './GameCanvas.css';
 import { scheduleNonBlocking } from '@/shared/performance/idle';
 import { startTransaction } from '@/shared/observability/sentry-perf';
+import { useI18n } from '@/i18n';
 
+/**
+ * Component props for GameCanvas
+ * - width/height: canvas size in pixels
+ * - className: additional class names for the container
+ * - onGameEvent: callback for published domain events
+ * - onGameStateChange: callback when game state updates
+ * - autoStart: start the game session automatically after init
+ */
 interface GameCanvasProps {
   width?: number;
   height?: number;
@@ -23,6 +33,16 @@ interface GameCanvasProps {
   autoStart?: boolean;
 }
 
+/**
+ * GameCanvas component
+ * @param props.width canvas width (px)
+ * @param props.height canvas height (px)
+ * @param props.className extra class names on root container
+ * @param props.onGameEvent callback invoked for each domain event
+ * @param props.onGameStateChange callback invoked when game state updates
+ * @param props.autoStart if true, starts the game session after initialization
+ * @returns React component that mounts/unmounts a Phaser game instance
+ */
 export function GameCanvas({
   width = 800,
   height = 600,
@@ -31,6 +51,7 @@ export function GameCanvas({
   onGameStateChange,
   autoStart = true,
 }: GameCanvasProps) {
+  const t = useI18n();
   const gameEngineRef = useRef<GameEngineAdapter | null>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [gameState, setGameState] = useState<GameState | null>(null);
@@ -40,18 +61,18 @@ export function GameCanvas({
   const [interactionLoading, setInteractionLoading] = useState(false);
   const [interactionDone, setInteractionDone] = useState(false);
 
-  // 使用EventBus进行React-Phaser通信
+  // Bridge React <-> Phaser via EventBus
   const gameEvents = useGameEvents({
     context: 'game-canvas',
     enableAutoCleanup: true,
   });
 
-  // 处理游戏事件
+  // Handle game events
   const handleGameEvent = useCallback(
     (event: DomainEvent) => {
       console.log('Game Event:', event);
 
-      // 只处理游戏域事件
+      // Filter non-game domain events
       if (
         !event.type.startsWith('game.') &&
         !event.type.startsWith('phaser.') &&
@@ -62,7 +83,7 @@ export function GameCanvas({
 
       const gameEvent = event as unknown as GameDomainEvent;
 
-      // 更新游戏状态（使用并发更新降级避免阻塞交互）
+      // Update state with low-priority transition to keep UI responsive
       if (
         gameEvent.type === 'game.state.updated' ||
         gameEvent.type === 'game.state.changed'
@@ -76,7 +97,7 @@ export function GameCanvas({
         });
       }
 
-      // 处理错误事件
+      // Error and warning routing
       if (
         gameEvent.type === 'game.error' &&
         gameEvent.data &&
@@ -88,13 +109,13 @@ export function GameCanvas({
         gameEvent.data &&
         'warning' in gameEvent.data
       ) {
-        // 非关键日志放入空闲帧，避免阻塞交互
+        // Non-critical logs off the critical path
         scheduleNonBlocking(() => {
           console.warn('Game warning:', (gameEvent.data as any).warning);
         });
       }
 
-      // 转发事件给父组件（非关键路径亦延后）
+      // Forward events
       if (onGameEvent) {
         scheduleNonBlocking(() => onGameEvent(event));
       }
@@ -102,7 +123,7 @@ export function GameCanvas({
     [onGameEvent, onGameStateChange]
   );
 
-  // 初始化游戏引擎
+  // Initialize game engine
   useEffect(() => {
     if (!canvasRef.current) return;
 
@@ -111,17 +132,17 @@ export function GameCanvas({
         setIsLoading(true);
         setError(null);
 
-        // 创建游戏引擎实例
+        // Create engine instance
         const gameEngine = new GameEngineAdapter();
         gameEngineRef.current = gameEngine;
 
-        // 设置游戏容器
+        // Note
         gameEngine.setContainer(canvasRef.current!);
 
-        // 订阅游戏事件
+        // Subscribe to game events
         gameEngine.onGameEvent(handleGameEvent);
 
-        // 初始化游戏配置
+        // Initialize game config
         const gameConfig: GameConfig = {
           maxLevel: 50,
           initialHealth: 100,
@@ -130,11 +151,11 @@ export function GameCanvas({
           difficulty: 'medium',
         };
 
-        // 初始化游戏
+        // Initialize game
         const initialState = await gameEngine.initializeGame(gameConfig);
         setGameState(initialState);
 
-        // 自动开始游戏
+        // Note
         if (autoStart) {
           await gameEngine.startGame();
         }
@@ -149,7 +170,7 @@ export function GameCanvas({
 
     initGame();
 
-    // 清理函数
+    // Note
     return () => {
       if (gameEngineRef.current) {
         gameEngineRef.current.destroy();
@@ -158,7 +179,7 @@ export function GameCanvas({
     };
   }, [width, height, autoStart, handleGameEvent]);
 
-  // 使用EventBus监听游戏状态变化
+  // EventBus
   useEffect(() => {
     const subscriptions = gameEvents.onGameStateChange(event => {
       console.log('Game state changed via EventBus:', event);
@@ -171,7 +192,7 @@ export function GameCanvas({
     };
   }, [gameEvents, onGameStateChange]);
 
-  // 监听游戏错误事件
+  // Listen for error/warning events
   useEffect(() => {
     const subscriptions = gameEvents.onGameError(event => {
       console.error('Game error via EventBus:', event);
@@ -187,7 +208,7 @@ export function GameCanvas({
     };
   }, [gameEvents]);
 
-  // 监听Phaser响应
+  // Listen for Phaser responses
   useEffect(() => {
     const subscriptions = gameEvents.onPhaserResponse(event => {
       console.log('Phaser response:', event);
@@ -201,7 +222,7 @@ export function GameCanvas({
     };
   }, [gameEvents]);
 
-  // 游戏控制函数 - 现在使用EventBus命令
+  // - EventBus
   const pauseGame = useCallback(() => {
     gameEvents.sendCommandToPhaser('pause');
   }, [gameEvents]);
@@ -225,26 +246,26 @@ export function GameCanvas({
     gameEvents.sendCommandToPhaser('restart');
   }, [gameEvents]);
 
-  // 渲染加载状态
+  // Render loading state
   if (isLoading) {
     return (
       <div
         className={`game-canvas loading ${className}`}
         style={{ width, height }}
       >
-        <div className="game-canvas__loading-text">正在加载游戏引擎...</div>
+        <div className="game-canvas__loading-text">{t('interface.loading')}</div>
       </div>
     );
   }
 
-  // 渲染错误状态
+  // Render error state
   if (error) {
     return (
       <div
         className={`game-canvas error ${className}`}
         style={{ width, height }}
       >
-        <div className="game-canvas__error-title">游戏引擎初始化失败</div>
+        <div className="game-canvas__error-title">{t('notifications.errorTitle')}</div>
         <div className="game-canvas__error-details">{error}</div>
       </div>
     );
@@ -258,40 +279,48 @@ export function GameCanvas({
         style={{ width, height }}
       />
 
-      {/* 游戏状态显示（可选） */}
+      {/* Game status panel (optional) */}
       {gameState && (
         <div className="game-canvas__status-panel">
-          <div>分数: {gameState.score}</div>
-          <div>等级: {gameState.level}</div>
-          <div>生命值: {gameState.health}</div>
+          <div>{t('statusPanel.score')}: {gameState.score}</div>
+          <div>{t('statusPanel.level')}: {gameState.level}</div>
+          <div>{t('statusPanel.health')}: {gameState.health}</div>
         </div>
       )}
 
-      {/* 游戏控制按钮（开发时可见） */}
+      {/* Game control buttons */}
       <div className="game-canvas__controls">
         <button
           onClick={pauseGame}
           className="game-canvas__control-btn game-canvas__control-btn--pause"
+          title={t('controlPanel.titlePause')}
+          aria-label={t('controlPanel.ariaPause')}
         >
-          暂停
+          {t('controlPanel.pause')}
         </button>
         <button
           onClick={resumeGame}
           className="game-canvas__control-btn game-canvas__control-btn--resume"
+          title={t('controlPanel.titleResume')}
+          aria-label={t('controlPanel.ariaResume')}
         >
-          继续
+          {t('controlPanel.resume')}
         </button>
         <button
           onClick={saveGame}
           className="game-canvas__control-btn game-canvas__control-btn--save"
+          title={t('controlPanel.titleSave')}
+          aria-label={t('controlPanel.ariaSave')}
         >
-          保存
+          {t('controlPanel.save')}
         </button>
         <button
           onClick={restartGame}
           className="game-canvas__control-btn game-canvas__control-btn--restart"
+          title={t('controlPanel.titleRestart')}
+          aria-label={t('controlPanel.ariaRestart')}
         >
-          重启
+          {t('controlPanel.restart')}
         </button>
         <button
           data-testid="test-button"
@@ -335,7 +364,7 @@ export function GameCanvas({
           }}
           className="game-canvas__control-btn game-canvas__control-btn--test"
         >
-          {interactionLoading ? '处理中…' : '测试交互(Worker)'}
+          {interactionLoading ? '' : t('interface.debug')}
         </button>
       </div>
 

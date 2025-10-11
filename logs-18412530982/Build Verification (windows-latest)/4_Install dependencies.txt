@@ -1,0 +1,193 @@
+﻿2025-10-10T16:39:08.4139401Z Prepare all required actions
+2025-10-10T16:39:08.4210561Z ##[group]Run ./.github/actions/npm-install
+2025-10-10T16:39:08.4210830Z with:
+2025-10-10T16:39:08.4210991Z   working-directory: .
+2025-10-10T16:39:08.4211184Z   node-version: 20.x
+2025-10-10T16:39:08.4211357Z env:
+2025-10-10T16:39:08.4211513Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:39:08.4211744Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:39:08.4211928Z   SENTRY_DSN: 
+2025-10-10T16:39:08.4212099Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:39:08.4212329Z   CL: /std:c++20 /EHsc
+2025-10-10T16:39:08.4212510Z   CXXFLAGS: -std=c++20
+2025-10-10T16:39:08.4212694Z   NODE_ENV: development
+2025-10-10T16:39:08.4212883Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:39:08.4213083Z ##[endgroup]
+2025-10-10T16:39:08.4406898Z ##[group]Run Write-Host "Validating Node.js environment setup..."
+2025-10-10T16:39:08.4407374Z [36;1mWrite-Host "Validating Node.js environment setup..."[0m
+2025-10-10T16:39:08.4408015Z [36;1mif (-not (Get-Command node -ErrorAction SilentlyContinue)) {[0m
+2025-10-10T16:39:08.4408483Z [36;1m  Write-Error "Node.js not found. Ensure actions/setup-node has run."[0m
+2025-10-10T16:39:08.4408806Z [36;1m  exit 1[0m
+2025-10-10T16:39:08.4408976Z [36;1m}[0m
+2025-10-10T16:39:08.4409227Z [36;1mif (-not (Get-Command npm -ErrorAction SilentlyContinue)) {[0m
+2025-10-10T16:39:08.4409647Z [36;1m  Write-Error "npm not found. Node.js installation may be incomplete."[0m
+2025-10-10T16:39:08.4409972Z [36;1m  exit 1[0m
+2025-10-10T16:39:08.4410138Z [36;1m}[0m
+2025-10-10T16:39:08.4410374Z [36;1mWrite-Host ("Node.js version: {0}" -f (node --version))[0m
+2025-10-10T16:39:08.4410721Z [36;1mWrite-Host ("npm version: {0}" -f (npm --version))[0m
+2025-10-10T16:39:08.4846691Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:39:08.4847060Z env:
+2025-10-10T16:39:08.4847242Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:39:08.4847479Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:39:08.4847700Z   SENTRY_DSN: 
+2025-10-10T16:39:08.4847889Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:39:08.4848097Z   CL: /std:c++20 /EHsc
+2025-10-10T16:39:08.4848286Z   CXXFLAGS: -std=c++20
+2025-10-10T16:39:08.4848476Z   NODE_ENV: development
+2025-10-10T16:39:08.4848675Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:39:08.4848880Z ##[endgroup]
+2025-10-10T16:39:20.3625464Z Validating Node.js environment setup...
+2025-10-10T16:39:20.4466197Z Node.js version: v20.19.5
+2025-10-10T16:39:20.7219269Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:39:20.7367655Z npm version: 10.8.2
+2025-10-10T16:39:21.3843830Z ##[group]Run Write-Host "Validating critical environment variables..."
+2025-10-10T16:39:21.3844290Z [36;1mWrite-Host "Validating critical environment variables..."[0m
+2025-10-10T16:39:21.3844699Z [36;1mWrite-Host ("NODE_ENV: {0}" -f ($env:NODE_ENV ?? 'not set'))[0m
+2025-10-10T16:39:21.3845155Z [36;1mWrite-Host ("NPM_CONFIG_PRODUCTION: {0}" -f ($env:NPM_CONFIG_PRODUCTION ?? 'not set'))[0m
+2025-10-10T16:39:21.3845710Z [36;1mif ($env:NODE_ENV -ne 'development' -or $env:NPM_CONFIG_PRODUCTION -ne 'false') {[0m
+2025-10-10T16:39:21.3846404Z [36;1m  Write-Warning "Environment vars may prevent devDependencies installation. Recommended: NODE_ENV=development, NPM_CONFIG_PRODUCTION=false"[0m
+2025-10-10T16:39:21.3846960Z [36;1m}[0m
+2025-10-10T16:39:21.3903397Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:39:21.3903719Z env:
+2025-10-10T16:39:21.3903895Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:39:21.3904128Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:39:21.3904319Z   SENTRY_DSN: 
+2025-10-10T16:39:21.3904493Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:39:21.3904696Z   CL: /std:c++20 /EHsc
+2025-10-10T16:39:21.3904880Z   CXXFLAGS: -std=c++20
+2025-10-10T16:39:21.3905070Z   NODE_ENV: development
+2025-10-10T16:39:21.3905266Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:39:21.3905471Z ##[endgroup]
+2025-10-10T16:39:21.7496896Z Validating critical environment variables...
+2025-10-10T16:39:21.7509743Z NODE_ENV: development
+2025-10-10T16:39:21.7592742Z NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:39:21.8601376Z ##[group]Run Write-Host "Starting Windows-focused npm installation..."
+2025-10-10T16:39:21.8602235Z [36;1mWrite-Host "Starting Windows-focused npm installation..."[0m
+2025-10-10T16:39:21.8602870Z [36;1mWrite-Host ("Runner: {0}" -f $env:RUNNER_OS)[0m
+2025-10-10T16:39:21.8603422Z [36;1mWrite-Host "Current npm configuration (subset):"[0m
+2025-10-10T16:39:21.8604452Z [36;1mtry { npm config list | Select-String -Pattern 'fetch-retries|registry|fund|audit' -SimpleMatch | ForEach-Object { $_.Line } } catch {}[0m
+2025-10-10T16:39:21.8605378Z [36;1m[0m
+2025-10-10T16:39:21.8605706Z [36;1m# ESM-friendly npm environment variables[0m
+2025-10-10T16:39:21.8606171Z [36;1m$env:NPM_CONFIG_MAXSOCKETS = '8'[0m
+2025-10-10T16:39:21.8606599Z [36;1m$env:NPM_CONFIG_FUND = 'false'[0m
+2025-10-10T16:39:21.8607266Z [36;1m$env:NPM_CONFIG_AUDIT = 'false'[0m
+2025-10-10T16:39:21.8607720Z [36;1m$env:NPM_CONFIG_PROGRESS = 'false'[0m
+2025-10-10T16:39:21.8608136Z [36;1m[0m
+2025-10-10T16:39:21.8608618Z [36;1m$npmExecutable = (Get-Command npm -ErrorAction Stop).Source[0m
+2025-10-10T16:39:21.8609199Z [36;1mif (-not $npmExecutable) {[0m
+2025-10-10T16:39:21.8609750Z [36;1m  throw 'npm executable not found on PATH (required for npm ci)'[0m
+2025-10-10T16:39:21.8610293Z [36;1m}[0m
+2025-10-10T16:39:21.8610547Z [36;1m[0m
+2025-10-10T16:39:21.8611034Z [36;1mfunction Invoke-NpmCiAttempt([int]$timeoutSec, [string]$extraArgs) {[0m
+2025-10-10T16:39:21.8611804Z [36;1m  $psi = New-Object System.Diagnostics.ProcessStartInfo[0m
+2025-10-10T16:39:21.8612364Z [36;1m  $psi.FileName = $npmExecutable[0m
+2025-10-10T16:39:21.8612837Z [36;1m  $psi.WorkingDirectory = (Get-Location).Path[0m
+2025-10-10T16:39:21.8613314Z [36;1m  $psi.Arguments = "ci $extraArgs"[0m
+2025-10-10T16:39:21.8613781Z [36;1m  $psi.RedirectStandardOutput = $true[0m
+2025-10-10T16:39:21.8614306Z [36;1m  $psi.RedirectStandardError = $true[0m
+2025-10-10T16:39:21.8614849Z [36;1m  $psi.UseShellExecute = $false[0m
+2025-10-10T16:39:21.8615277Z [36;1m  $psi.CreateNoWindow = $true[0m
+2025-10-10T16:39:21.8615785Z [36;1m  $proc = New-Object System.Diagnostics.Process[0m
+2025-10-10T16:39:21.8616281Z [36;1m  $proc.StartInfo = $psi[0m
+2025-10-10T16:39:21.8616668Z [36;1m  [void]$proc.Start()[0m
+2025-10-10T16:39:21.8617136Z [36;1m  $completed = $proc.WaitForExit($timeoutSec * 1000)[0m
+2025-10-10T16:39:21.8617818Z [36;1m  $out = $proc.StandardOutput.ReadToEnd()[0m
+2025-10-10T16:39:21.8618210Z [36;1m  $err = $proc.StandardError.ReadToEnd()[0m
+2025-10-10T16:39:21.8618578Z [36;1m  ($out + $err) | Out-File -FilePath npm_install.log -Append -Encoding UTF8[0m
+2025-10-10T16:39:21.8619246Z [36;1m  if (-not $completed) { try { Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue } catch {}; return @{ Ok=$false; TimedOut=$true; Code=-1 } }[0m
+2025-10-10T16:39:21.8620291Z [36;1m  return @{ Ok = ($proc.ExitCode -eq 0); TimedOut=$false; Code=$proc.ExitCode }[0m
+2025-10-10T16:39:21.8620660Z [36;1m}[0m
+2025-10-10T16:39:21.8620811Z [36;1m[0m
+2025-10-10T16:39:21.8620970Z [36;1m$attempts = @([0m
+2025-10-10T16:39:21.8621181Z [36;1m  @{ Timeout=480; Args='' },[0m
+2025-10-10T16:39:21.8621436Z [36;1m  @{ Timeout=720; Args='--maxsockets=5' },[0m
+2025-10-10T16:39:21.8621709Z [36;1m  @{ Timeout=900; Args='--maxsockets=1' },[0m
+2025-10-10T16:39:21.8621963Z [36;1m  @{ Timeout=900; Args='' }[0m
+2025-10-10T16:39:21.8622169Z [36;1m)[0m
+2025-10-10T16:39:21.8622321Z [36;1m[0m
+2025-10-10T16:39:21.8622481Z [36;1m$success = $false[0m
+2025-10-10T16:39:21.8622723Z [36;1mfor ($i=0; $i -lt $attempts.Count; $i++) {[0m
+2025-10-10T16:39:21.8622981Z [36;1m  $a = $attempts[$i][0m
+2025-10-10T16:39:21.8623320Z [36;1m  Write-Host ("Attempt {0} (timeout={1}s args='{2}')" -f ($i+1), $a.Timeout, $a.Args)[0m
+2025-10-10T16:39:21.8623796Z [36;1m  $res = Invoke-NpmCiAttempt -timeoutSec $a.Timeout -extraArgs $a.Args[0m
+2025-10-10T16:39:21.8624963Z [36;1m  if ($res.Ok) { $success = $true; break } else {[0m
+2025-10-10T16:39:21.8625261Z [36;1m    if ($i -lt ($attempts.Count-1)) {[0m
+2025-10-10T16:39:21.8625517Z [36;1m      $sleep = 15 * ($i+1)[0m
+2025-10-10T16:39:21.8626001Z [36;1m      Write-Warning ("Attempt {0} failed (code={1}, timeout={2}). Sleeping {3}s before retry..." -f ($i+1), $res.Code, $res.TimedOut, $sleep)[0m
+2025-10-10T16:39:21.8626511Z [36;1m      Start-Sleep -Seconds $sleep[0m
+2025-10-10T16:39:21.8626747Z [36;1m    }[0m
+2025-10-10T16:39:21.8626909Z [36;1m  }[0m
+2025-10-10T16:39:21.8627062Z [36;1m}[0m
+2025-10-10T16:39:21.8627218Z [36;1m[0m
+2025-10-10T16:39:21.8627382Z [36;1mif (-not $success) {[0m
+2025-10-10T16:39:21.8627717Z [36;1m  Write-Error "CRITICAL FAILURE: All Windows installation attempts failed!"[0m
+2025-10-10T16:39:21.8628219Z [36;1m  if (Test-Path npm_install.log) { Get-Content npm_install.log -Tail 80 | Write-Host }[0m
+2025-10-10T16:39:21.8629079Z [36;1m  exit 1[0m
+2025-10-10T16:39:21.8629242Z [36;1m}[0m
+2025-10-10T16:39:21.8629384Z [36;1m[0m
+2025-10-10T16:39:21.8629566Z [36;1mWrite-Host "SUCCESS: npm ci completed"[0m
+2025-10-10T16:39:21.8629805Z [36;1m[0m
+2025-10-10T16:39:21.8629953Z [36;1m# Verification[0m
+2025-10-10T16:39:21.8630159Z [36;1m$verificationErrors = 0[0m
+2025-10-10T16:39:21.8630448Z [36;1m$tools = @('eslint','tsc','vitest','playwright','tsx')[0m
+2025-10-10T16:39:21.8630732Z [36;1mforeach ($t in $tools) {[0m
+2025-10-10T16:39:21.8631001Z [36;1m  $binPath = Join-Path 'node_modules/.bin' $t[0m
+2025-10-10T16:39:21.8631367Z [36;1m  $binCmdPath = Join-Path 'node_modules/.bin' ("{0}.cmd" -f $t)[0m
+2025-10-10T16:39:21.8631696Z [36;1m  $hasTool = Test-Path $binPath[0m
+2025-10-10T16:39:21.8631936Z [36;1m  if (-not $hasTool) {[0m
+2025-10-10T16:39:21.8632178Z [36;1m    $hasTool = Test-Path $binCmdPath[0m
+2025-10-10T16:39:21.8632418Z [36;1m  }[0m
+2025-10-10T16:39:21.8632588Z [36;1m  if ($hasTool) {[0m
+2025-10-10T16:39:21.8632873Z [36;1m    Write-Host ("SUCCESS: {0} available in node_modules/.bin" -f $t)[0m
+2025-10-10T16:39:21.8633237Z [36;1m  } elseif ((npm list $t | Out-Null) -ne $true) {[0m
+2025-10-10T16:39:21.8633577Z [36;1m    Write-Warning ("{0} not detected in node_modules" -f $t)[0m
+2025-10-10T16:39:21.8633877Z [36;1m    $verificationErrors++[0m
+2025-10-10T16:39:21.8634095Z [36;1m  }[0m
+2025-10-10T16:39:21.8634251Z [36;1m}[0m
+2025-10-10T16:39:21.8634394Z [36;1m[0m
+2025-10-10T16:39:21.8634664Z [36;1mWrite-Host "Verifying Rollup native platform package for Windows..."[0m
+2025-10-10T16:39:21.8635078Z [36;1mnode -e "require('@rollup/rollup-win32-x64-msvc')" 2>$null[0m
+2025-10-10T16:39:21.8635667Z [36;1mif ($LASTEXITCODE -eq 0) { Write-Host "SUCCESS: rollup native ok" } else { Write-Warning "rollup native package not found (non-critical)" }[0m
+2025-10-10T16:39:21.8636172Z [36;1m[0m
+2025-10-10T16:39:21.8636377Z [36;1m$hasNodeModules = Test-Path 'node_modules'[0m
+2025-10-10T16:39:21.8636703Z [36;1m$hasNodeModulesBin = Test-Path 'node_modules/.bin'[0m
+2025-10-10T16:39:21.8637030Z [36;1mif ($hasNodeModules -and $hasNodeModulesBin) {[0m
+2025-10-10T16:39:21.8637428Z [36;1m  $pkgCount = (Get-ChildItem 'node_modules' -Directory | Measure-Object).Count[0m
+2025-10-10T16:39:21.8637973Z [36;1m  Write-Host ("SUCCESS: node_modules verification passed ({0} top-level packages)" -f $pkgCount)[0m
+2025-10-10T16:39:21.8638377Z [36;1m} else {[0m
+2025-10-10T16:39:21.8638639Z [36;1m  Write-Error 'node_modules structure verification failed'[0m
+2025-10-10T16:39:21.8638947Z [36;1m  $verificationErrors++[0m
+2025-10-10T16:39:21.8639164Z [36;1m}[0m
+2025-10-10T16:39:21.8639315Z [36;1m[0m
+2025-10-10T16:39:21.8639455Z [36;1mtry {[0m
+2025-10-10T16:39:21.8639974Z [36;1m  $pkg = Get-Content package.json -Raw | ConvertFrom-Json[0m
+2025-10-10T16:39:21.8640494Z [36;1m  if ($pkg.type -eq 'module') { Write-Host 'SUCCESS: ESM module system verification passed' }[0m
+2025-10-10T16:39:21.8641002Z [36;1m} catch {}[0m
+2025-10-10T16:39:21.8641174Z [36;1m[0m
+2025-10-10T16:39:21.8641592Z [36;1mif ($verificationErrors -gt 0) { Write-Warning ("Found {0} verification issues (non-blocking)" -f $verificationErrors) }[0m
+2025-10-10T16:39:21.8699746Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:39:21.8700084Z env:
+2025-10-10T16:39:21.8700265Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:39:21.8700511Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:39:21.8700702Z   SENTRY_DSN: 
+2025-10-10T16:39:21.8700878Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:39:21.8701089Z   CL: /std:c++20 /EHsc
+2025-10-10T16:39:21.8701270Z   CXXFLAGS: -std=c++20
+2025-10-10T16:39:21.8701455Z   NODE_ENV: development
+2025-10-10T16:39:21.8701647Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:39:21.8701842Z ##[endgroup]
+2025-10-10T16:39:22.4295472Z Starting Windows-focused npm installation...
+2025-10-10T16:39:22.4303520Z Runner: Windows
+2025-10-10T16:39:22.4309765Z Current npm configuration (subset):
+2025-10-10T16:39:22.7156538Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:39:22.8329140Z Attempt 1 (timeout=480s args='')
+2025-10-10T16:40:33.1189795Z SUCCESS: npm ci completed
+2025-10-10T16:40:33.1296832Z SUCCESS: eslint available in node_modules/.bin
+2025-10-10T16:40:33.1310403Z SUCCESS: tsc available in node_modules/.bin
+2025-10-10T16:40:33.1322850Z SUCCESS: vitest available in node_modules/.bin
+2025-10-10T16:40:33.1884947Z SUCCESS: playwright available in node_modules/.bin
+2025-10-10T16:40:33.1894696Z SUCCESS: tsx available in node_modules/.bin
+2025-10-10T16:40:33.1901501Z Verifying Rollup native platform package for Windows...
+2025-10-10T16:40:33.2621745Z SUCCESS: rollup native ok
+2025-10-10T16:40:33.3204671Z SUCCESS: node_modules verification passed (1171 top-level packages)
+2025-10-10T16:40:33.3402645Z SUCCESS: ESM module system verification passed

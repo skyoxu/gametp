@@ -58,7 +58,7 @@ export class PerformanceDevTools {
     this.setupPerformanceMonitoring();
     this.injectStyles();
 
-    console.log('[PerformanceDevTools] 性能可视化已启用');
+    console.log('[PerformanceDevTools] ');
   }
 
   /**
@@ -73,7 +73,7 @@ export class PerformanceDevTools {
       this.visualizationPanel = null;
     }
 
-    console.log('[PerformanceDevTools] 性能可视化已禁用');
+    console.log('[PerformanceDevTools] ');
   }
 
   /**
@@ -86,33 +86,33 @@ export class PerformanceDevTools {
 
     this.visualizationPanel.innerHTML = `
       <div class="perf-devtools-header">
-        <h3>🚀 性能监控面板</h3>
+        <h3> </h3>
         <div class="perf-devtools-controls">
-          <button id="perf-toggle-recording" class="perf-btn">开始记录</button>
-          <button id="perf-clear-data" class="perf-btn">清除数据</button>
-          <button id="perf-export-data" class="perf-btn">导出数据</button>
-          <button id="perf-close-panel" class="perf-btn perf-btn-close">×</button>
+          <button id="perf-toggle-recording" class="perf-btn"></button>
+          <button id="perf-clear-data" class="perf-btn"></button>
+          <button id="perf-export-data" class="perf-btn"></button>
+          <button id="perf-close-panel" class="perf-btn perf-btn-close"></button>
         </div>
       </div>
       
       <div class="perf-devtools-content">
         <div class="perf-section">
-          <h4>⏱️ 实时性能指标</h4>
+          <h4> </h4>
           <div id="perf-metrics-grid" class="perf-metrics-grid"></div>
         </div>
         
         <div class="perf-section">
-          <h4>📊 P95阈值监控</h4>
+          <h4> P95</h4>
           <div id="perf-thresholds-list" class="perf-thresholds-list"></div>
         </div>
         
         <div class="perf-section">
-          <h4>📈 性能时间线</h4>
+          <h4> </h4>
           <canvas id="perf-timeline-chart" class="perf-timeline-chart"></canvas>
         </div>
         
         <div class="perf-section">
-          <h4>🔍 测量详情</h4>
+          <h4> </h4>
           <div id="perf-measurements-table" class="perf-measurements-table"></div>
         </div>
       </div>
@@ -175,7 +175,7 @@ export class PerformanceDevTools {
       try {
         observer.observe({ entryTypes: ['measure'] });
       } catch (error) {
-        console.warn('[PerformanceDevTools] PerformanceObserver不可用:', error);
+        console.warn('[PerformanceDevTools] PerformanceObserver:', error);
       }
     }
   }
@@ -263,8 +263,8 @@ export class PerformanceDevTools {
             <div class="perf-metric-name">${name}</div>
             <div class="perf-metric-values">
               <span class="perf-metric-value">P95: ${stats.p95 || 'N/A'}ms</span>
-              <span class="perf-metric-value">平均: ${stats.avg}ms</span>
-              <span class="perf-metric-value">计数: ${stats.count}</span>
+              <span class="perf-metric-value">: ${stats.avg}ms</span>
+              <span class="perf-metric-value">: ${stats.count}</span>
             </div>
             <div class="perf-metric-status perf-status-${stats.status}">${this.getStatusText(stats.status)}</div>
           </div>
@@ -442,13 +442,13 @@ export class PerformanceDevTools {
       <table class="perf-table">
         <thead>
           <tr class="perf-table-header">
-            <th class="perf-table-cell">测量名称</th>
-            <th class="perf-table-cell">次数</th>
-            <th class="perf-table-cell">平均值</th>
-            <th class="perf-table-cell">最小值</th>
-            <th class="perf-table-cell">最大值</th>
+            <th class="perf-table-cell"></th>
+            <th class="perf-table-cell"></th>
+            <th class="perf-table-cell"></th>
+            <th class="perf-table-cell"></th>
+            <th class="perf-table-cell"></th>
             <th class="perf-table-cell">P95</th>
-            <th class="perf-table-cell">状态</th>
+            <th class="perf-table-cell"></th>
           </tr>
         </thead>
         <tbody>
@@ -482,15 +482,15 @@ export class PerformanceDevTools {
   private getStatusText(status: string): string {
     switch (status) {
       case 'good':
-        return '良好';
+        return '';
       case 'warning':
-        return '警告';
+        return '';
       case 'elevated':
-        return '升高';
+        return '';
       case 'critical':
-        return '严重';
+        return '';
       default:
-        return '未知';
+        return '';
     }
   }
 
@@ -499,13 +499,13 @@ export class PerformanceDevTools {
    */
   private toggleRecording(button: HTMLButtonElement) {
     //
-    const isRecording = button.textContent === '停止记录';
+    const isRecording = button.textContent === '';
 
     if (isRecording) {
-      button.textContent = '开始记录';
+      button.textContent = '';
       button.classList.remove('perf-btn-recording');
     } else {
-      button.textContent = '停止记录';
+      button.textContent = '';
       button.classList.add('perf-btn-recording');
     }
   }
@@ -519,7 +519,7 @@ export class PerformanceDevTools {
     userTiming.clearMeasurements();
     this.updateVisualization();
 
-    console.log('[PerformanceDevTools] 性能数据已清除');
+    console.log('[PerformanceDevTools] ');
   }
 
   /**
@@ -547,7 +547,7 @@ export class PerformanceDevTools {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
-    console.log('[PerformanceDevTools] 性能数据已导出');
+    console.log('[PerformanceDevTools] ');
   }
 
   /**
@@ -779,6 +779,6 @@ if (typeof window !== 'undefined') {
 if (typeof window !== 'undefined') {
   (window as any).enablePerformanceDevTools = enablePerformanceDevTools;
   console.log(
-    '[PerformanceDevTools] 可用命令: enablePerformanceDevTools() 或 Ctrl+Shift+P'
+    '[PerformanceDevTools] : enablePerformanceDevTools()  Ctrl+Shift+P'
   );
 }

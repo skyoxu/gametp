@@ -1,0 +1,165 @@
+﻿/**
+ * Comment
+ * Comment
+ */
+
+import { GameEngineAdapter } from './GameEngineAdapter';
+import type { GameConfig } from '../ports/game-engine.port';
+import type { DomainEvent } from '../shared/contracts/events';
+
+/**
+ * Options for creating a game engine instance
+ * - container: HTML element to mount the Phaser canvas
+ * - width/height: canvas size in pixels (defaults: 800x600)
+ * - config: base GameConfig overrides
+ * - onEvent/onError: event pipeline hooks
+ * - autoStart: start session after initialization
+ */
+export interface GameEngineOptions {
+  container: HTMLElement;
+  width?: number;
+  height?: number;
+  config?: Partial<GameConfig>;
+  onEvent?: (event: DomainEvent) => void;
+  onError?: (error: Error) => void;
+  autoStart?: boolean;
+}
+
+/**
+ * Initialize game engine
+ */
+/**
+ * Create, initialize and optionally start the game engine
+ * @param options GameEngineOptions
+ * @returns initialized GameEngineAdapter instance
+ */
+export async function createGameEngine(
+  options: GameEngineOptions
+): Promise<GameEngineAdapter> {
+  const {
+    container,
+    width = 800,
+    height = 600,
+    config = {},
+    onEvent,
+    onError,
+    autoStart = true,
+  } = options;
+
+  // Create engine instance
+  const gameEngine = new GameEngineAdapter();
+
+  try {
+    // Comment
+    gameEngine.setContainer(container);
+
+    // Subscribe to events
+    if (onEvent) {
+      gameEngine.onGameEvent(onEvent);
+    }
+
+    // Comment
+    gameEngine.onGameEvent((event: DomainEvent) => {
+      if (
+        event.type === 'game.error' &&
+        onError &&
+        event.data &&
+        typeof event.data === 'object' &&
+        'error' in event.data
+      ) {
+        onError(new Error((event.data as { error: string }).error));
+      }
+    });
+
+    // Default game config
+    const defaultConfig: GameConfig = {
+      maxLevel: 50,
+      initialHealth: 100,
+      scoreMultiplier: 1.0,
+      autoSave: true,
+      difficulty: 'medium',
+      ...config,
+    };
+
+    // Initialize game
+    await gameEngine.initializeGame(defaultConfig);
+
+    // Comment
+    if (autoStart) {
+      await gameEngine.startGame();
+    }
+
+    return gameEngine;
+  } catch (error) {
+    // Cleanup on unmount
+    gameEngine.destroy();
+    throw error;
+  }
+}
+
+/**
+ * Preset game configurations
+ */
+export const gameConfigPresets = {
+  /**
+   * Easy mode preset
+   */
+  easy: {
+    maxLevel: 30,
+    initialHealth: 150,
+    scoreMultiplier: 0.8,
+    autoSave: true,
+    difficulty: 'easy' as const,
+  },
+
+  /**
+   * Medium mode preset
+   */
+  medium: {
+    maxLevel: 50,
+    initialHealth: 100,
+    scoreMultiplier: 1.0,
+    autoSave: true,
+    difficulty: 'medium' as const,
+  },
+
+  /**
+   * Hard mode preset
+   */
+  hard: {
+    maxLevel: 100,
+    initialHealth: 75,
+    scoreMultiplier: 1.5,
+    autoSave: false,
+    difficulty: 'hard' as const,
+  },
+
+  /**
+   * Comment
+   */
+  development: {
+    maxLevel: 999,
+    initialHealth: 9999,
+    scoreMultiplier: 10.0,
+    autoSave: true,
+    difficulty: 'easy' as const,
+  },
+} as const;
+/**
+ * Create engine with a named preset
+ * @param preset preset key
+ * @param options options without config (preset supplies it)
+ */
+
+/**
+ * Create engine with a named preset
+ */
+export async function createGameEngineWithPreset(
+  preset: keyof typeof gameConfigPresets,
+  options: Omit<GameEngineOptions, 'config'>
+): Promise<GameEngineAdapter> {
+  return createGameEngine({
+    ...options,
+    config: gameConfigPresets[preset],
+  });
+}

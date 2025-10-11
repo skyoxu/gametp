@@ -25,7 +25,7 @@ export class GameLoop {
       } catch (e) {
         this.onError?.(e);
       }
-      this.rafId = setTimeout(() => step(performance.now()), 16); // 约 60fps
+      this.rafId = setTimeout(() => step(performance.now()), 16); //  60fps
     };
     step(this.last);
   }

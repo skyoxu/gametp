@@ -1,0 +1,5 @@
+2025-10-10T17:07:55.7130000Z Requested labels: windows-latest
+2025-10-10T17:07:55.7130000Z Job defined at: skyoxu/gametp/.github/workflows/ci.yml@refs/pull/13/merge
+2025-10-10T17:07:55.7130000Z Waiting for a runner to pick up this job...
+2025-10-10T17:07:56.1940000Z Job is about to start running on the hosted runner: GitHub Actions 1000021113
+2025-10-10T17:07:56.1940000Z Job is waiting for a hosted runner to come online.

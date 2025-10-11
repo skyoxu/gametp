@@ -1,6 +1,6 @@
 /**
  * Runtime performance contracts for dual-loop coordination
- * Supports React UI + Phaser Game loop with 60fps≈16.7ms frame budget
+ * Supports React UI + Phaser Game loop with 60fps 16.7ms frame budget
  *
  * ADR References: ADR-0001, ADR-0005
  * Base-Clean: Uses placeholders for domain-specific terms

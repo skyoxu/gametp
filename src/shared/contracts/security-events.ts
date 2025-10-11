@@ -1,6 +1,6 @@
 /**
- * 安全事件类型定义
- * 用于Electron主进程和渲染进程之间的安全事件通信
+ * Note
+ * Electron
  */
 
 export type SecurityEvent =
@@ -8,12 +8,12 @@ export type SecurityEvent =
   | { type: 'POPUP_BLOCKED'; url: string };
 
 /**
- * 安全事件处理器类型
+ * Note
  */
 export type SecurityEventHandler = (event: SecurityEvent) => void;
 
 /**
- * 安全事件发射器接口
+ * Note
  */
 export interface SecurityEventEmitter {
   emit(event: SecurityEvent): void;

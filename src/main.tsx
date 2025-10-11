@@ -19,9 +19,12 @@ if (import.meta.env && import.meta.env.PROD) {
     });
 }
 import App from './app';
+import { I18nProvider } from './i18n';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <I18nProvider>
+      <App />
+    </I18nProvider>
   </StrictMode>
 );

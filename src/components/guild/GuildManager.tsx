@@ -1,6 +1,6 @@
 /**
- * Guild Manager - 最小化实现以满足E2E测试需求
- * 符合ADR-0002安全基线和citest/ciinfo.md规则
+ * Guild Manager (E2E-friendly)
+ * Lightweight UI scaffolding used by tests and demos
  */
 import React, { useState } from 'react';
 
@@ -15,11 +15,10 @@ const GuildManager: React.FC<GuildManagerProps> = ({ isVisible = true }) => {
 
   return (
     <div data-testid="guild-manager-root" className="guild-manager-container">
-      {/* 概览面板 */}
+      {/* Overview panel */}
       <div data-testid="guild-overview-panel" className="overview-panel">
         <h2>Guild Overview</h2>
-
-        {/* 资源面板 */}
+        {/* Resources */}
         <div data-testid="resource-panel" className="resource-section">
           <div data-testid="resource-gold" className="resource-item">
             1,000
@@ -32,7 +31,7 @@ const GuildManager: React.FC<GuildManagerProps> = ({ isVisible = true }) => {
           </div>
         </div>
 
-        {/* 导航菜单 */}
+        {/* Navigation */}
         <nav className="guild-navigation">
           <button
             data-testid="nav-overview"
@@ -72,7 +71,7 @@ const GuildManager: React.FC<GuildManagerProps> = ({ isVisible = true }) => {
         </nav>
       </div>
 
-      {/* 内容区域 */}
+      {/* Content sections */}
       <div className="guild-content">
         {currentSection === 'members' && (
           <div data-testid="member-management-root" className="member-section">
@@ -138,7 +137,7 @@ const GuildManager: React.FC<GuildManagerProps> = ({ isVisible = true }) => {
         )}
       </div>
 
-      {/* 错误消息和成功指示器 */}
+      {/* Status indicators */}
       <div data-testid="error-message" style={{ display: 'none' }}>
         Error occurred
       </div>

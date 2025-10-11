@@ -323,4 +323,27 @@ vi.mock('phaser', async () => {
   };
 });
 
+// 为需要原生绑定的 better-sqlite3 提供测试桩（在工厂内定义，避免 hoist 问题）
+vi.mock('better-sqlite3', () => {
+  class DatabaseStub {
+    file: string;
+    closed = false;
+    constructor(file: string) { this.file = file; }
+    pragma(sql: string, opts?: { simple?: boolean }): any {
+      const s = (sql || '').toLowerCase();
+      if (s.startsWith('journal_mode')) return opts?.simple ? 'wal' : ['wal'];
+      if (s.startsWith('wal_checkpoint')) return opts?.simple ? [0, 0, 0] : [[0, 0, 0]];
+      if (s.startsWith('cache_spill')) return -1;
+      if (s.startsWith('quick_check')) return ['ok'];
+      if (s.startsWith('foreign_key_check')) return [];
+      if (s.startsWith('page_count')) return [1000];
+      if (s.startsWith('page_size')) return [4096];
+      if (s.startsWith('freelist_count')) return [0];
+      return 1;
+    }
+    close() { this.closed = true; }
+  }
+  return { default: DatabaseStub };
+});
+
 console.log('🧪 Vitest 测试环境已初始化');

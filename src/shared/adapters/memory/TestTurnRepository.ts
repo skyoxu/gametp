@@ -1,5 +1,5 @@
 /**
- * 测试专用Turn仓库实现
+ * Turn
  */
 
 import { TestRepository } from './TestRepository';
@@ -17,7 +17,7 @@ export class TestTurnRepository
 {
   async getCurrentTurn(guildId: GuildId): Promise<GameTurn | null> {
     const allTurns = await this.findAll();
-    // 找到该公会最新的回合
+    // Find the latest turn for the given guild
     const guildTurns = allTurns
       .filter(turn => turn.guildId === guildId)
       .sort((a, b) => b.turnNumber - a.turnNumber);

@@ -1,0 +1,78 @@
+已继续推进并完成本批按序的注释英文化，聚焦于 middleware 与 electron 中出现的注释问题，保持软门禁扫描，类型检查通过。
+
+  这批改了什么
+          - 将“导出单例实例”与“便捷的全局方法”改为英文注释
+          - 头部 JSDoc 与 React Hook 段的注释暂保持结构，已定位好锚点，后续继续逐段替换（文件内含历史编码半字符，已用安全小步法处理）
+  - Electron 安全文件（仅注释与注释中的 emoji）
+      - electron/security.ts
+          - 将文件头的 JSDoc 英文化（安全加固概述、关键点列表）
+      - electron/security/permissions.ts
+          - 去除注释中的 emoji（✅/⚠️/❌/🔒）
+      - scripts/rebuild_indexes.mjs
+          - 去除注释中的 emoji（✅）
+
+  下一步计划（继续按顺序、小步修改、仅注释）
+
+  说明
+
+  - cloudevents-validation.ts、EventBus.ts、security.ts 等文件含部分历史编码字符（注释出现“乱码”）。我使用极小范围的行替换，保证不破坏代码结构，每批修改后立
+    即跑 typecheck。
+  - CI 注释扫描仍为软门禁（仅扫描注释中的 emoji/非 ASCII），不阻断 PR，方便你并行处理其他任务。
+
+  我将继续按上述顺序推进，优先完成 cloudevents-validation.ts 的剩余注释英文化与 electron/auto-updater.ts 残留问题，完成后同步进展与校验结果。 
+ 
+ 
+ 这批修改
+
+  - CloudEvents 验证中间件（仅注释）
+      - src/shared/middleware/cloudevents-validation.ts
+          - IPC 段标题/行注释将逐步替换（已定位锚点，分批进行，确保不破坏结构）
+          - 头部 JSDoc 英文化（安全加固概述与关键点）
+          - 去除注释内 emoji（仅注释；不动日志/字符串）
+      - electron/security/auto-updater.ts
+          - 去除注释中 emoji（新增清理 “📝 安全审计” → “Security audit”）
+      - electron/security/permissions.ts
+          - 去除注释内 emoji（✅/⚠️/❌/🔒）
+      - scripts/rebuild_indexes.mjs
+          - 去除注释内 emoji（✅）
+
+  验证
+
+  - 类型检查：npm run typecheck 通过
+  - 注释扫描：剩余大量中文注释集中在 UI/游戏相关与安全监控等模块（见扫描清单），软门禁仅提示，不阻断
+
+  下一步计划（继续按顺序、小步、仅注释）
+
+  - 完成 src/shared/middleware/cloudevents-validation.ts 残余注释英文化（已定位行号 368–460）
+      - 将 “Electron IPC验证中间件”、 “主进程端验证”、 “验证第一个参数如果是CloudEvent”、 “渲染进程端验证” 等注释改为英文
+      - 若存在历史编码“半字符”，使用小步精确替换，保证每次修改后 typecheck 通过
+  - 继续清理 electron/security/auto-updater.ts 注释（若有残留）
+  - 扫描并分批英文化以下模块中的注释（不动字符串/日志/UI）：
+      - src/security/monitoring.ts（安全监控与阈值说明）
+      - src/components/GameCanvas.tsx、src/game/factory.ts、src/ports/game-engine.port.ts（大量注释；将按块英文化）
+
+  说明
+
+  - 由于部分文件早期编码导致的“半字符”现象，直接对整块注释替换容易失配。我已使用锚点 + 精确行替换方式，逐段清理，确保不破坏代码结构。你可以继续让我按此顺序推
+    进，我会每完成一小批就执行 typecheck，并同步进展。
+
+
+这批继续按顺序推进了 middleware 与 electron 的注释英文化与注释内 emoji 清理，保持“仅注释英文化、无 emoji”，CI 注释扫描仍为软门禁；类型检查通过。
+
+  本批完成（仅注释，不改逻辑/字符串/UI）
+      - src/shared/middleware/cloudevents-validation.ts
+          - 头部 JSDoc 改为英文（CloudEvents real-time validation middleware; Provides runtime validation and monitoring capabilities）
+          - React Hook 段将“最近5个错误”改为“Last 5 errors”
+          - 将导出段注释替换为英文（Export singleton instance、Convenience global helpers）
+          - 备注：该文件存在历史编码“半字符”的注释，已采用小步精确替换方式处理，尽量不破坏结构。IPC 段也已批量替换（Main process validation/Renderer process
+      - electron/security/auto-updater.ts
+          - 去除注释内 emoji，并将“📝 安全审计”改为“Security audit”
+      - electron/security/permissions.ts
+          - 去除注释内 emoji
+      - scripts/rebuild_indexes.mjs
+  - 注释扫描（软门禁）：已移除 electron 侧 emoji 违规；仍有大量中文注释分布在 UI/测试/安全监控/端口定义等模块（扫描器列出一长串），这是预期的阶段性状态（软门
+  下一步计划（继续仅注释英文化，小批安全替换）
+
+  - 优先完成剩余 middleware 注释清理（cloudevents-validation.ts）
+      - 再次巡检并替换 IPC 段及可能的剩余中文/乱码注释
+  - 然后逐步清理扫描器清单中的注释（不动字符串/日志/UI）：

@@ -1,0 +1,528 @@
+﻿2025-10-10T16:38:02.8832114Z Current runner version: '2.328.0'
+2025-10-10T16:38:02.8855048Z ##[group]Runner Image Provisioner
+2025-10-10T16:38:02.8855809Z Hosted Compute Agent
+2025-10-10T16:38:02.8856386Z Version: 20250912.392
+2025-10-10T16:38:02.8856973Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-10T16:38:02.8857608Z Build Date: 2025-09-12T15:23:14Z
+2025-10-10T16:38:02.8858197Z ##[endgroup]
+2025-10-10T16:38:02.8858662Z ##[group]Operating System
+2025-10-10T16:38:02.8859203Z Microsoft Windows Server 2025
+2025-10-10T16:38:02.8859697Z 10.0.26100
+2025-10-10T16:38:02.8860169Z Datacenter
+2025-10-10T16:38:02.8860561Z ##[endgroup]
+2025-10-10T16:38:02.8860990Z ##[group]Runner Image
+2025-10-10T16:38:02.8861458Z Image: windows-2025
+2025-10-10T16:38:02.8861968Z Version: 20250929.44.1
+2025-10-10T16:38:02.8862940Z Included Software: https://github.com/actions/runner-images/blob/win25/20250929.44/images/windows/Windows2025-Readme.md
+2025-10-10T16:38:02.8864529Z Image Release: https://github.com/actions/runner-images/releases/tag/win25%2F20250929.44
+2025-10-10T16:38:02.8865390Z ##[endgroup]
+2025-10-10T16:38:02.8866504Z ##[group]GITHUB_TOKEN Permissions
+2025-10-10T16:38:02.8868244Z Contents: read
+2025-10-10T16:38:02.8868802Z Metadata: read
+2025-10-10T16:38:02.8869258Z PullRequests: read
+2025-10-10T16:38:02.8870179Z ##[endgroup]
+2025-10-10T16:38:02.8872323Z Secret source: Actions
+2025-10-10T16:38:02.8872960Z Prepare workflow directory
+2025-10-10T16:38:02.9538233Z Prepare all required actions
+2025-10-10T16:38:02.9575455Z Getting action download info
+2025-10-10T16:38:03.2353684Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-10T16:38:03.3710687Z Download action repository 'actions/setup-node@v5.0.0' (SHA:a0853c24544627f65ddf259abe73b1d18a591444)
+2025-10-10T16:38:03.5405533Z Download action repository 'actions/setup-java@v4' (SHA:c5195efecf7bdfc987ee8bae7a71cb8b11521c00)
+2025-10-10T16:38:03.9709863Z Download action repository 'SonarSource/sonarcloud-github-action@v2' (SHA:e44258b109568baa0df60ed515909fc6c72cba92)
+2025-10-10T16:38:04.2938984Z Download action repository 'SonarSource/sonarqube-quality-gate-action@v1.2.0' (SHA:cf038b0e0cdecfa9e56c198bbb7d21d751d62c3b)
+2025-10-10T16:38:04.6743790Z Container action is only supported on Linux, skip pull and build docker images.
+2025-10-10T16:38:04.6784463Z Complete job name: SonarCloud Analysis (Windows)
+2025-10-10T16:38:04.8575456Z ##[group]Run actions/checkout@v4
+2025-10-10T16:38:04.8577370Z with:
+2025-10-10T16:38:04.8578215Z   fetch-depth: 0
+2025-10-10T16:38:04.8579140Z   repository: skyoxu/gametp
+2025-10-10T16:38:04.8580475Z   token: ***
+2025-10-10T16:38:04.8581315Z   ssh-strict: true
+2025-10-10T16:38:04.8582179Z   ssh-user: git
+2025-10-10T16:38:04.8583073Z   persist-credentials: true
+2025-10-10T16:38:04.8583820Z   clean: true
+2025-10-10T16:38:04.8584509Z   sparse-checkout-cone-mode: true
+2025-10-10T16:38:04.8585329Z   fetch-tags: false
+2025-10-10T16:38:04.8586010Z   show-progress: true
+2025-10-10T16:38:04.8586714Z   lfs: false
+2025-10-10T16:38:04.8587326Z   submodules: false
+2025-10-10T16:38:04.8587998Z   set-safe-directory: true
+2025-10-10T16:38:04.8588922Z env:
+2025-10-10T16:38:04.8589538Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:04.8590381Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:04.8591082Z   SENTRY_DSN: 
+2025-10-10T16:38:04.8591771Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:04.8592533Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:04.8593257Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:04.8593987Z   SONAR_TOKEN: 
+2025-10-10T16:38:04.8594721Z   SONAR_HOST_URL: https://sonarcloud.io
+2025-10-10T16:38:04.8595940Z ##[endgroup]
+2025-10-10T16:38:05.0475128Z Syncing repository: skyoxu/gametp
+2025-10-10T16:38:05.0477498Z ##[group]Getting Git version info
+2025-10-10T16:38:05.0478473Z Working directory is 'D:\a\gametp\gametp'
+2025-10-10T16:38:05.1690709Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-10-10T16:38:05.6625614Z git version 2.51.0.windows.2
+2025-10-10T16:38:05.6678500Z ##[endgroup]
+2025-10-10T16:38:05.6698812Z Temporarily overriding HOME='D:\a\_temp\1658afca-96cc-41b4-98a6-acabd8b4a4b4' before making global git config changes
+2025-10-10T16:38:05.6699610Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-10T16:38:05.6710464Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\gametp\gametp
+2025-10-10T16:38:05.7281227Z Deleting the contents of 'D:\a\gametp\gametp'
+2025-10-10T16:38:05.7287712Z ##[group]Initializing the repository
+2025-10-10T16:38:05.7298024Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\gametp\gametp
+2025-10-10T16:38:05.8514215Z Initialized empty Git repository in D:/a/gametp/gametp/.git/
+2025-10-10T16:38:05.8555624Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/skyoxu/gametp
+2025-10-10T16:38:05.9346123Z ##[endgroup]
+2025-10-10T16:38:05.9357069Z ##[group]Disabling automatic garbage collection
+2025-10-10T16:38:05.9357610Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2025-10-10T16:38:05.9629791Z ##[endgroup]
+2025-10-10T16:38:05.9630555Z ##[group]Setting up auth
+2025-10-10T16:38:05.9644207Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-10-10T16:38:05.9924944Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-10-10T16:38:07.8163330Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-10T16:38:07.8456928Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-10-10T16:38:08.3549883Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2025-10-10T16:38:08.3836606Z ##[endgroup]
+2025-10-10T16:38:08.3837217Z ##[group]Fetching the repository
+2025-10-10T16:38:08.3859481Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +1a64442db4a5e073e50677e36ddf882284d88302:refs/remotes/pull/13/merge
+2025-10-10T16:38:10.0671371Z From https://github.com/skyoxu/gametp
+2025-10-10T16:38:10.0672534Z  * [new branch]      dependabot/npm_and_yarn/brave/brave-search-mcp-server-2.0.54 -> origin/dependabot/npm_and_yarn/brave/brave-search-mcp-server-2.0.54
+2025-10-10T16:38:10.0674037Z  * [new branch]      dependabot/npm_and_yarn/commitlint/cli-20.1.0 -> origin/dependabot/npm_and_yarn/commitlint/cli-20.1.0
+2025-10-10T16:38:10.0675508Z  * [new branch]      dependabot/npm_and_yarn/eslint-plugin-react-refresh-0.4.23 -> origin/dependabot/npm_and_yarn/eslint-plugin-react-refresh-0.4.23
+2025-10-10T16:38:10.0677026Z  * [new branch]      dependabot/npm_and_yarn/multi-1d6e8a99d3 -> origin/dependabot/npm_and_yarn/multi-1d6e8a99d3
+2025-10-10T16:38:10.0678162Z  * [new branch]      dependabot/npm_and_yarn/multi-dcae87122d -> origin/dependabot/npm_and_yarn/multi-dcae87122d
+2025-10-10T16:38:10.0679428Z  * [new branch]      dependabot/npm_and_yarn/playwright/test-1.56.0 -> origin/dependabot/npm_and_yarn/playwright/test-1.56.0
+2025-10-10T16:38:10.0680749Z  * [new branch]      dependabot/npm_and_yarn/size-limit/file-11.2.0 -> origin/dependabot/npm_and_yarn/size-limit/file-11.2.0
+2025-10-10T16:38:10.0681939Z  * [new branch]      dependabot/npm_and_yarn/snyk-1.1299.1    -> origin/dependabot/npm_and_yarn/snyk-1.1299.1
+2025-10-10T16:38:10.0683007Z  * [new branch]      dependabot/npm_and_yarn/tsx-4.20.6       -> origin/dependabot/npm_and_yarn/tsx-4.20.6
+2025-10-10T16:38:10.0683804Z  * [new branch]      dependabot/npm_and_yarn/typescript-5.9.3 -> origin/dependabot/npm_and_yarn/typescript-5.9.3
+2025-10-10T16:38:10.0685813Z  * [new branch]      dependabot/npm_and_yarn/vitejs/plugin-react-5.0.4 -> origin/dependabot/npm_and_yarn/vitejs/plugin-react-5.0.4
+2025-10-10T16:38:10.0686419Z  * [new branch]      dependabot/snyk-1.1299.1                 -> origin/dependabot/snyk-1.1299.1
+2025-10-10T16:38:10.0686874Z  * [new branch]      main                                     -> origin/main
+2025-10-10T16:38:10.0687264Z  * [new branch]      snyk-fix                                 -> origin/snyk-fix
+2025-10-10T16:38:10.0687643Z  * [new ref]         1a64442db4a5e073e50677e36ddf882284d88302 -> pull/13/merge
+2025-10-10T16:38:10.0989557Z ##[endgroup]
+2025-10-10T16:38:10.0990117Z ##[group]Determining the checkout info
+2025-10-10T16:38:10.0992259Z ##[endgroup]
+2025-10-10T16:38:10.1003768Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2025-10-10T16:38:10.1516373Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2025-10-10T16:38:10.1786781Z ##[group]Checking out the ref
+2025-10-10T16:38:10.1796093Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/13/merge
+2025-10-10T16:38:10.4368325Z Note: switching to 'refs/remotes/pull/13/merge'.
+2025-10-10T16:38:10.4370834Z 
+2025-10-10T16:38:10.4371446Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-10-10T16:38:10.4372166Z changes and commit them, and you can discard any commits you make in this
+2025-10-10T16:38:10.4372861Z state without impacting any branches by switching back to a branch.
+2025-10-10T16:38:10.4373253Z 
+2025-10-10T16:38:10.4373518Z If you want to create a new branch to retain commits you create, you may
+2025-10-10T16:38:10.4374124Z do so (now or later) by using -c with the switch command. Example:
+2025-10-10T16:38:10.4374484Z 
+2025-10-10T16:38:10.4374621Z   git switch -c <new-branch-name>
+2025-10-10T16:38:10.4374855Z 
+2025-10-10T16:38:10.4374977Z Or undo this operation with:
+2025-10-10T16:38:10.4375211Z 
+2025-10-10T16:38:10.4375308Z   git switch -
+2025-10-10T16:38:10.4375464Z 
+2025-10-10T16:38:10.4375758Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-10-10T16:38:10.4376204Z 
+2025-10-10T16:38:10.4376723Z HEAD is now at 1a64442 Merge 49a95a27bfbb9c910dbd39ede44caa8cbfdd17cb into e1a2702b992654c40fdf749cd29695642d416d4b
+2025-10-10T16:38:10.4414790Z ##[endgroup]
+2025-10-10T16:38:10.4945798Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2025-10-10T16:38:10.5189725Z 1a64442db4a5e073e50677e36ddf882284d88302
+2025-10-10T16:38:10.5651535Z ##[group]Run actions/setup-node@v5.0.0
+2025-10-10T16:38:10.5651827Z with:
+2025-10-10T16:38:10.5652005Z   node-version: 20.x
+2025-10-10T16:38:10.5652181Z   cache: npm
+2025-10-10T16:38:10.5652335Z   always-auth: false
+2025-10-10T16:38:10.5652501Z   check-latest: false
+2025-10-10T16:38:10.5652821Z   token: ***
+2025-10-10T16:38:10.5653001Z   package-manager-cache: true
+2025-10-10T16:38:10.5653205Z env:
+2025-10-10T16:38:10.5653358Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:10.5653570Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:10.5653741Z   SENTRY_DSN: 
+2025-10-10T16:38:10.5653894Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:10.5654082Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:10.5654237Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:10.5654402Z   SONAR_TOKEN: 
+2025-10-10T16:38:10.5654576Z   SONAR_HOST_URL: https://sonarcloud.io
+2025-10-10T16:38:10.5654806Z ##[endgroup]
+2025-10-10T16:38:10.7714655Z Found in cache @ C:\hostedtoolcache\windows\node\20.19.5\x64
+2025-10-10T16:38:10.7722327Z (node:840) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-10-10T16:38:10.7723171Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-10-10T16:38:10.7726439Z ##[group]Environment details
+2025-10-10T16:38:18.4347947Z node: v20.19.5
+2025-10-10T16:38:18.4348279Z npm: 10.8.2
+2025-10-10T16:38:18.4348924Z yarn: 1.22.22
+2025-10-10T16:38:18.4350175Z ##[endgroup]
+2025-10-10T16:38:18.5065739Z [command]C:\Windows\system32\cmd.exe /D /S /C "C:\hostedtoolcache\windows\node\20.19.5\x64\npm.cmd config get cache"
+2025-10-10T16:38:19.2039772Z C:\npm\cache
+2025-10-10T16:38:19.4715483Z Cache hit for: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee
+2025-10-10T16:38:19.4832999Z (node:840) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2025-10-10T16:38:20.5418759Z Received 163577856 of 315413375 (51.9%), 153.4 MBs/sec
+2025-10-10T16:38:21.3736510Z Received 315413375 of 315413375 (100.0%), 162.7 MBs/sec
+2025-10-10T16:38:21.3739611Z Cache Size: ~301 MB (315413375 B)
+2025-10-10T16:38:21.3863386Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/172a3ea5-d1ec-450a-9974-d7bdffab4f6e/cache.tzst -P -C D:/a/gametp/gametp --force-local --use-compress-program "zstd -d"
+2025-10-10T16:38:44.3615390Z Cache restored successfully
+2025-10-10T16:38:44.3825912Z Cache restored from key: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee
+2025-10-10T16:38:44.4140457Z ##[group]Run actions/setup-java@v4
+2025-10-10T16:38:44.4140758Z with:
+2025-10-10T16:38:44.4140930Z   distribution: temurin
+2025-10-10T16:38:44.4141117Z   java-version: 17
+2025-10-10T16:38:44.4141297Z   java-package: jdk
+2025-10-10T16:38:44.4141476Z   check-latest: false
+2025-10-10T16:38:44.4141641Z   server-id: github
+2025-10-10T16:38:44.4141823Z   server-username: GITHUB_ACTOR
+2025-10-10T16:38:44.4142067Z   server-password: GITHUB_TOKEN
+2025-10-10T16:38:44.4142269Z   overwrite-settings: true
+2025-10-10T16:38:44.4142461Z   job-status: success
+2025-10-10T16:38:44.4142760Z   token: ***
+2025-10-10T16:38:44.4142921Z env:
+2025-10-10T16:38:44.4143072Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:44.4143321Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:44.4143508Z   SENTRY_DSN: 
+2025-10-10T16:38:44.4143670Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:44.4143876Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:44.4144053Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:44.4144259Z   SONAR_TOKEN: 
+2025-10-10T16:38:44.4144437Z   SONAR_HOST_URL: https://sonarcloud.io
+2025-10-10T16:38:44.4144905Z ##[endgroup]
+2025-10-10T16:38:44.6739978Z ##[group]Installed distributions
+2025-10-10T16:38:44.7005333Z Resolved Java 17.0.16+8 from tool-cache
+2025-10-10T16:38:44.7005738Z Setting Java 17.0.16+8 as the default
+2025-10-10T16:38:44.7030459Z Creating toolchains.xml for JDK version 17 from temurin
+2025-10-10T16:38:44.7136555Z Writing to C:\Users\runneradmin\.m2\toolchains.xml
+2025-10-10T16:38:44.7170546Z 
+2025-10-10T16:38:44.7170765Z Java configuration:
+2025-10-10T16:38:44.7171731Z   Distribution: temurin
+2025-10-10T16:38:44.7172471Z   Version: 17.0.16+8
+2025-10-10T16:38:44.7173518Z   Path: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.16-8\x64
+2025-10-10T16:38:44.7174048Z 
+2025-10-10T16:38:44.7174434Z ##[endgroup]
+2025-10-10T16:38:44.7180222Z Creating settings.xml with server-id: github
+2025-10-10T16:38:44.7199646Z Writing to C:\Users\runneradmin\.m2\settings.xml
+2025-10-10T16:38:44.7437511Z ##[group]Run npm ci
+2025-10-10T16:38:44.7437776Z [36;1mnpm ci[0m
+2025-10-10T16:38:44.8622421Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:38:44.8622797Z env:
+2025-10-10T16:38:44.8623002Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:44.8623407Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:44.8623743Z   SENTRY_DSN: 
+2025-10-10T16:38:44.8623953Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:44.8624190Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:44.8624403Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:44.8624601Z   SONAR_TOKEN: 
+2025-10-10T16:38:44.8624829Z   SONAR_HOST_URL: https://sonarcloud.io
+2025-10-10T16:38:44.8625278Z   JAVA_HOME: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.16-8\x64
+2025-10-10T16:38:44.8626109Z   JAVA_HOME_17_X64: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.16-8\x64
+2025-10-10T16:38:44.8626517Z ##[endgroup]
+2025-10-10T16:39:02.2898463Z npm warn skipping integrity check for git dependency ssh://git@github.com/electron/node-gyp.git
+2025-10-10T16:39:12.2978347Z npm warn deprecated readdir-scoped-modules@1.1.0: This functionality has been moved to @npmcli/fs
+2025-10-10T16:39:12.3699409Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2025-10-10T16:39:12.3756095Z npm warn deprecated debuglog@1.0.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2025-10-10T16:39:12.4401740Z npm warn deprecated npmlog@5.0.1: This package is no longer supported.
+2025-10-10T16:39:12.4734818Z npm warn deprecated @npmcli/move-file@2.0.1: This functionality has been moved to @npmcli/fs
+2025-10-10T16:39:12.5991451Z npm warn deprecated @humanwhocodes/config-array@0.5.0: Use @eslint/config-array instead
+2025-10-10T16:39:12.6636316Z npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+2025-10-10T16:39:12.7557216Z npm warn deprecated read-package-json@2.1.2: This package is no longer supported. Please use @npmcli/package-json instead.
+2025-10-10T16:39:12.9103289Z npm warn deprecated read-package-tree@5.3.1: The functionality that this package provided is now in @npmcli/arborist
+2025-10-10T16:39:12.9707787Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported
+2025-10-10T16:39:13.2962892Z npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+2025-10-10T16:39:13.5790798Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:13.5792736Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:13.5795406Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:13.5797574Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:13.5862915Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:13.5887710Z npm warn deprecated glob@8.1.0: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:13.5972111Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:13.5976137Z npm warn deprecated glob@8.1.0: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:14.1794312Z npm warn deprecated are-we-there-yet@2.0.0: This package is no longer supported.
+2025-10-10T16:39:16.2845026Z npm warn deprecated @humanwhocodes/object-schema@1.2.1: Use @eslint/object-schema instead
+2025-10-10T16:39:17.1274566Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2025-10-10T16:39:17.3143312Z npm warn deprecated gauge@3.0.2: This package is no longer supported.
+2025-10-10T16:39:20.6247542Z npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+2025-10-10T16:39:38.8288331Z npm warn deprecated eslint@7.32.0: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+2025-10-10T16:40:02.1630205Z npm warn cleanup Failed to remove some directories [
+2025-10-10T16:40:02.1630788Z npm warn cleanup   [
+2025-10-10T16:40:02.1631398Z npm warn cleanup     'D:\\a\\gametp\\gametp\\node_modules\\dmg-license',
+2025-10-10T16:40:02.1635045Z npm warn cleanup     [Error: EPERM: operation not permitted, rmdir 'D:\a\gametp\gametp\node_modules\dmg-license\node_modules\ajv\lib'] {
+2025-10-10T16:40:02.1636073Z npm warn cleanup       errno: -4048,
+2025-10-10T16:40:02.1636542Z npm warn cleanup       code: 'EPERM',
+2025-10-10T16:40:02.1638190Z npm warn cleanup       syscall: 'rmdir',
+2025-10-10T16:40:02.1638705Z npm warn cleanup       path: 'D:\\a\\gametp\\gametp\\node_modules\\dmg-license\\node_modules\\ajv\\lib'
+2025-10-10T16:40:02.1639139Z npm warn cleanup     }
+2025-10-10T16:40:02.1639357Z npm warn cleanup   ]
+2025-10-10T16:40:02.1639563Z npm warn cleanup ]
+2025-10-10T16:40:02.6182993Z 
+2025-10-10T16:40:02.6183567Z > gametp@0.1.0 postinstall
+2025-10-10T16:40:02.6184156Z > node scripts/ci/patch-tree-sitter.js
+2025-10-10T16:40:02.6184476Z 
+2025-10-10T16:40:02.6837558Z [patch-tree-sitter] Updated C++ standard flag in node_modules/tree-sitter/binding.gyp
+2025-10-10T16:40:02.7290555Z 
+2025-10-10T16:40:02.7291614Z added 1927 packages, and audited 2176 packages in 1m
+2025-10-10T16:40:02.7291975Z 
+2025-10-10T16:40:02.7292195Z 414 packages are looking for funding
+2025-10-10T16:40:02.7292588Z   run `npm fund` for details
+2025-10-10T16:40:02.7450030Z 
+2025-10-10T16:40:02.7450539Z 15 vulnerabilities (5 low, 7 moderate, 3 high)
+2025-10-10T16:40:02.7450926Z 
+2025-10-10T16:40:02.7451091Z To address all issues, run:
+2025-10-10T16:40:02.7451437Z   npm audit fix
+2025-10-10T16:40:02.7451608Z 
+2025-10-10T16:40:02.7451753Z Run `npm audit` for details.
+2025-10-10T16:40:03.7367844Z ##[group]Run npm run test:coverage
+2025-10-10T16:40:03.7368185Z [36;1mnpm run test:coverage[0m
+2025-10-10T16:40:03.7427618Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:40:03.7427918Z env:
+2025-10-10T16:40:03.7428088Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:40:03.7428317Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:40:03.7428510Z   SENTRY_DSN: 
+2025-10-10T16:40:03.7428683Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:40:03.7428882Z   CL: /std:c++20 /EHsc
+2025-10-10T16:40:03.7429065Z   CXXFLAGS: -std=c++20
+2025-10-10T16:40:03.7429233Z   SONAR_TOKEN: 
+2025-10-10T16:40:03.7429426Z   SONAR_HOST_URL: https://sonarcloud.io
+2025-10-10T16:40:03.7429777Z   JAVA_HOME: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.16-8\x64
+2025-10-10T16:40:03.7430242Z   JAVA_HOME_17_X64: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.16-8\x64
+2025-10-10T16:40:03.7430573Z   NODE_ENV: test
+2025-10-10T16:40:03.7430786Z ##[endgroup]
+2025-10-10T16:40:04.3792614Z 
+2025-10-10T16:40:04.3793186Z > gametp@0.1.0 test:coverage
+2025-10-10T16:40:04.3793746Z > vitest run --coverage
+2025-10-10T16:40:04.3794105Z 
+2025-10-10T16:40:05.1686127Z 
+2025-10-10T16:40:05.1689069Z [1m[46m RUN [49m[22m [36mv3.2.4 [39m[90mD:/a/gametp/gametp[39m
+2025-10-10T16:40:05.1689695Z       [2mCoverage enabled with [22m[33mv8[39m
+2025-10-10T16:40:05.1689893Z 
+2025-10-10T16:40:06.8437448Z [90mstdout[2m | tests/unit/risk.spec.ts
+2025-10-10T16:40:06.8469917Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:06.8477439Z 
+2025-10-10T16:40:06.8521297Z [90mstdout[2m | tests/unit/metrics.spec.ts
+2025-10-10T16:40:06.8522383Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:06.8522966Z 
+2025-10-10T16:40:07.0276549Z [90mstdout[2m | src/shared/adapters/sqlite.bak/__tests__/config-manager.spec.ts
+2025-10-10T16:40:07.0277895Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:07.0278538Z 
+2025-10-10T16:40:07.2291444Z  [32m✓[39m tests/unit/risk.spec.ts [2m([22m[2m29 tests[22m[2m)[22m[32m 40[2mms[22m[39m
+2025-10-10T16:40:07.3044130Z  [32m✓[39m tests/unit/metrics.spec.ts [2m([22m[2m40 tests[22m[2m)[22m[32m 40[2mms[22m[39m
+2025-10-10T16:40:07.3413863Z  [32m✓[39m src/shared/adapters/sqlite.bak/__tests__/config-manager.spec.ts [2m([22m[2m33 tests[22m[2m)[22m[32m 39[2mms[22m[39m
+2025-10-10T16:40:08.8917649Z [90mstdout[2m | tests/unit/glossary.spec.ts
+2025-10-10T16:40:08.8930885Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:08.8943896Z 
+2025-10-10T16:40:08.9810944Z [90mstdout[2m | tests/unit/runtime.budget.spec.ts
+2025-10-10T16:40:08.9812554Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:08.9815465Z 
+2025-10-10T16:40:08.9904024Z [90mstdout[2m | tests/unit/release.feed.spec.ts
+2025-10-10T16:40:08.9904948Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:08.9905487Z 
+2025-10-10T16:40:09.1386043Z  [32m✓[39m tests/unit/glossary.spec.ts [2m([22m[2m40 tests[22m[2m)[22m[32m 43[2mms[22m[39m
+2025-10-10T16:40:09.1970912Z  [32m✓[39m tests/unit/runtime.budget.spec.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+2025-10-10T16:40:10.7414553Z [90mstdout[2m | src/shared/services/__tests__/event-bus.spec.ts
+2025-10-10T16:40:10.7418625Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:10.7419470Z 
+2025-10-10T16:40:10.7872012Z [90mstdout[2m | tests/unit/repos.contract.spec.ts
+2025-10-10T16:40:10.7872680Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:10.7872879Z 
+2025-10-10T16:40:10.9690645Z  [32m✓[39m tests/unit/repos.contract.spec.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+2025-10-10T16:40:10.9787604Z  [32m✓[39m src/shared/services/__tests__/event-bus.spec.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 32[2mms[22m[39m
+2025-10-10T16:40:11.4426531Z  [32m✓[39m tests/unit/release.feed.spec.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 2247[2mms[22m[39m
+2025-10-10T16:40:11.4430260Z    [33m[2m✓[22m[39m Release Feed Management[2m > [22mpatch-staging-percentage[2m > [22mshould handle percentage boundary values [33m 506[2mms[22m[39m
+2025-10-10T16:40:11.4453481Z    [33m[2m✓[22m[39m Release Feed Management[2m > [22mStaged Rollout Integration[2m > [22mshould handle full staged rollout lifecycle [33m 388[2mms[22m[39m
+2025-10-10T16:40:12.5985274Z [90mstdout[2m | src/game/__tests__/GameStateManager.test.ts
+2025-10-10T16:40:12.5990722Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:12.5991410Z 
+2025-10-10T16:40:12.6296072Z [90mstdout[2m | tests/unit/gates.spec.ts
+2025-10-10T16:40:12.6297708Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:12.6298777Z 
+2025-10-10T16:40:12.7549006Z  [32m✓[39m tests/unit/gates.spec.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+2025-10-10T16:40:12.9063486Z  [32m✓[39m src/game/__tests__/GameStateManager.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 133[2mms[22m[39m
+2025-10-10T16:40:13.0365897Z [90mstdout[2m | src/core/events/bus.test.ts
+2025-10-10T16:40:13.0375790Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:13.0388821Z 
+2025-10-10T16:40:13.4803972Z  [32m✓[39m src/core/events/bus.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 261[2mms[22m[39m
+2025-10-10T16:40:14.4308454Z [90mstdout[2m | tests/unit/middleware/cloudevents-validation.spec.ts
+2025-10-10T16:40:14.4309405Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:14.4309830Z 
+2025-10-10T16:40:14.5681928Z [90mstdout[2m | src/game/__tests__/GameEngineAdapter.test.ts
+2025-10-10T16:40:14.5686123Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:14.5686788Z 
+2025-10-10T16:40:14.6697316Z  [32m✓[39m tests/unit/middleware/cloudevents-validation.spec.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 38[2mms[22m[39m
+2025-10-10T16:40:15.1556809Z  [32m✓[39m src/game/__tests__/GameEngineAdapter.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 176[2mms[22m[39m
+2025-10-10T16:40:15.1703194Z [90mstdout[2m | tests/unit/db.checkpoint.spec.ts
+2025-10-10T16:40:15.1704033Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:15.1704373Z 
+2025-10-10T16:40:16.2951207Z [90mstdout[2m | src/shared/middleware/__tests__/cloud-events-validator.spec.ts
+2025-10-10T16:40:16.2952338Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:16.2952828Z 
+2025-10-10T16:40:16.3421681Z  [32m✓[39m tests/unit/db.checkpoint.spec.ts [2m([22m[2m7 tests[22m[2m | [22m[33m1 skipped[39m[2m)[22m[33m 1031[2mms[22m[39m
+2025-10-10T16:40:16.4707431Z  [32m✓[39m src/shared/middleware/__tests__/cloud-events-validator.spec.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+2025-10-10T16:40:16.7549847Z [90mstdout[2m | tests/unit/perf.budget.spec.ts
+2025-10-10T16:40:16.7646705Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:16.7724723Z 
+2025-10-10T16:40:16.9538371Z  [32m✓[39m tests/unit/perf.budget.spec.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+2025-10-10T16:40:18.0477813Z [90mstdout[2m | tests/unit/db.backup.spec.ts
+2025-10-10T16:40:18.0483151Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:18.0489727Z 
+2025-10-10T16:40:18.1233302Z [90mstdout[2m | src/game/__tests__/SceneManager.test.ts
+2025-10-10T16:40:18.1237956Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:18.1238611Z 
+2025-10-10T16:40:18.2400641Z  [2m[90m↓[39m[22m tests/unit/db.backup.spec.ts [2m([22m[2m6 tests[22m[2m | [22m[33m6 skipped[39m[2m)[22m
+2025-10-10T16:40:18.5573933Z [90mstdout[2m | tests/unit/contracts/cloudevents.spec.ts
+2025-10-10T16:40:18.5621072Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:18.5621813Z 
+2025-10-10T16:40:18.6199898Z  [32m✓[39m src/game/__tests__/SceneManager.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 298[2mms[22m[39m
+2025-10-10T16:40:18.7139391Z  [32m✓[39m tests/unit/contracts/cloudevents.spec.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+2025-10-10T16:40:19.8658541Z [90mstdout[2m | src/__tests__/p95-sampling-demo.test.ts
+2025-10-10T16:40:19.8661538Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:19.8662927Z 
+2025-10-10T16:40:20.2515916Z [90mstdout[2m | src/__tests__/performance-utils.test.ts
+2025-10-10T16:40:20.2517749Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:20.2578473Z 
+2025-10-10T16:40:20.3301768Z [90mstdout[2m | tests/unit/electron/security.spec.ts
+2025-10-10T16:40:20.3306416Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:20.3307155Z 
+2025-10-10T16:40:20.4801013Z  [32m✓[39m tests/unit/electron/security.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+2025-10-10T16:40:21.6388607Z  [32m✓[39m src/__tests__/p95-sampling-demo.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+2025-10-10T16:40:22.0360079Z [90mstdout[2m | tests/unit/fuses.verify.spec.ts
+2025-10-10T16:40:22.0361054Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:22.0361605Z 
+2025-10-10T16:40:22.2277997Z  [32m✓[39m tests/unit/fuses.verify.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 75[2mms[22m[39m
+2025-10-10T16:40:22.7477824Z  [32m✓[39m src/__tests__/performance-utils.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 736[2mms[22m[39m
+2025-10-10T16:40:22.7481973Z    [33m[2m✓[22m[39m P95 性能测试工具[2m > [22mPerformanceTestUtils 工厂方法[2m > [22mrunP95Test 应该执行指定次数的采样 [33m 510[2mms[22m[39m
+2025-10-10T16:40:23.1410345Z [90mstdout[2m | src/App.test.tsx
+2025-10-10T16:40:23.1411516Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:23.1474268Z 
+2025-10-10T16:40:23.7865856Z [90mstdout[2m | src/shared/contracts/events.spec.ts
+2025-10-10T16:40:23.7868715Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:23.7869499Z 
+2025-10-10T16:40:23.9242889Z  [32m✓[39m src/shared/contracts/events.spec.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+2025-10-10T16:40:24.0396963Z  [32m✓[39m src/App.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[32m 190[2mms[22m[39m
+2025-10-10T16:40:24.4418246Z [90mstdout[2m | tests/unit/ci/guard-tests-ascii.spec.ts
+2025-10-10T16:40:24.4424392Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:24.4425090Z 
+2025-10-10T16:40:24.7800129Z  [32m✓[39m tests/unit/ci/guard-tests-ascii.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 228[2mms[22m[39m
+2025-10-10T16:40:25.5965059Z [90mstdout[2m | tests/unit/fuses.evaluate.spec.ts
+2025-10-10T16:40:25.5986581Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:25.6046493Z 
+2025-10-10T16:40:25.8038741Z  [32m✓[39m tests/unit/fuses.evaluate.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 72[2mms[22m[39m
+2025-10-10T16:40:25.8619177Z [90mstdout[2m | tests/unit/ci/fix-bom-tests.spec.ts
+2025-10-10T16:40:25.8622535Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:25.8623536Z 
+2025-10-10T16:40:25.9864971Z  [32m✓[39m tests/unit/ci/fix-bom-tests.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 99[2mms[22m[39m
+2025-10-10T16:40:26.4790056Z [90mstdout[2m | tests/unit/observability/sentry-scrub.spec.ts
+2025-10-10T16:40:26.4791286Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:26.4795159Z 
+2025-10-10T16:40:26.6406617Z  [32m✓[39m tests/unit/observability/sentry-scrub.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+2025-10-10T16:40:27.4606409Z [90mstdout[2m | tests/unit/validation.spec.ts
+2025-10-10T16:40:27.4610159Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:27.4610828Z 
+2025-10-10T16:40:27.6336316Z  [32m✓[39m tests/unit/validation.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+2025-10-10T16:40:27.7105769Z [90mstdout[2m | tests/unit/security.params.spec.ts
+2025-10-10T16:40:27.7109701Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:27.7110396Z 
+2025-10-10T16:40:27.8434936Z  [32m✓[39m tests/unit/security.params.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+2025-10-10T16:40:28.2556132Z [90mstdout[2m | tests/unit/events/contracts.spec.ts
+2025-10-10T16:40:28.2557321Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:28.2557739Z 
+2025-10-10T16:40:28.2903099Z [90mstdout[2m | src/tests/docs-scorer-performance.test.mjs
+2025-10-10T16:40:28.2904125Z [22m[39mVitest test environment initialized
+2025-10-10T16:40:28.2904808Z 
+2025-10-10T16:40:28.3851922Z  [32m✓[39m tests/unit/events/contracts.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 6[2mms[22m[39m
+2025-10-10T16:40:28.9645461Z  [32m✓[39m src/tests/docs-scorer-performance.test.mjs [2m([22m[2m6 tests[22m[2m)[22m[33m 576[2mms[22m[39m
+2025-10-10T16:40:29.2881993Z 
+2025-10-10T16:40:29.2893056Z [2m  Snapshots [22m [1m[33m1 obsolete[39m[22m
+2025-10-10T16:40:29.2894195Z [2m            [22m [90m↳[39m [2msrc/[22m[1mApp[22m[2m.test.tsx[22m
+2025-10-10T16:40:29.2895403Z [2m            [22m   [90m·[39m App 组件 > 快照测试 > 应该匹配快照 1
+2025-10-10T16:40:29.2895888Z 
+2025-10-10T16:40:29.2896679Z [2m Test Files [22m [1m[32m32 passed[39m[22m[2m | [22m[33m1 skipped[39m[90m (33)[39m
+2025-10-10T16:40:29.2898979Z [2m      Tests [22m [1m[32m428 passed[39m[22m[2m | [22m[33m7 skipped[39m[90m (435)[39m
+2025-10-10T16:40:29.2900211Z [2m   Start at [22m 16:40:04
+2025-10-10T16:40:29.2906673Z [2m   Duration [22m 24.12s[2m (transform 1.28s, setup 10.39s, collect 5.44s, tests 6.52s, environment 30.43s, prepare 5.73s)[22m
+2025-10-10T16:40:29.2907293Z 
+2025-10-10T16:40:29.2959118Z [34m % [39m[2mCoverage report from [22m[33mv8[39m
+2025-10-10T16:40:29.3073034Z -------------------|---------|----------|---------|---------|-------------------
+2025-10-10T16:40:29.3074655Z File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+2025-10-10T16:40:29.3075516Z -------------------|---------|----------|---------|---------|-------------------
+2025-10-10T16:40:29.3083615Z All files          |   74.91 |    79.65 |   77.28 |   74.91 |                   
+2025-10-10T16:40:29.3084848Z  electron          |      22 |    42.85 |      30 |      22 |                   
+2025-10-10T16:40:29.3087765Z   security.ts      |      22 |    42.85 |      30 |      22 | ...17-318,321-322 
+2025-10-10T16:40:29.3088374Z  scripts           |    73.7 |    70.88 |      80 |    73.7 |                   
+2025-10-10T16:40:29.3093486Z   docs-scorer.mjs  |   75.32 |    72.85 |    87.5 |   75.32 | ...68-612,619-620 
+2025-10-10T16:40:29.3095770Z   fuses.js         |   66.66 |    55.55 |      50 |   66.66 | ...08-110,137-139 
+2025-10-10T16:40:29.3096385Z  src/core/events   |     100 |    93.33 |     100 |     100 |                   
+2025-10-10T16:40:29.3098275Z   bus.ts           |     100 |    93.33 |     100 |     100 | 41                
+2025-10-10T16:40:29.3099526Z  src/game          |   72.63 |    80.18 |   85.45 |   72.63 |                   
+2025-10-10T16:40:29.3103871Z   ...ineAdapter.ts |   65.09 |    79.54 |   74.19 |   65.09 | ...96-621,650-731 
+2025-10-10T16:40:29.3106579Z   SceneManager.ts  |    91.4 |    80.59 |     100 |    91.4 | ...53,272-273,325 
+2025-10-10T16:40:29.3107275Z  ...ts__/__mocks__ |     100 |      100 |      60 |     100 |                   
+2025-10-10T16:40:29.3108393Z   phaser.ts        |     100 |      100 |      60 |     100 |                   
+2025-10-10T16:40:29.3109090Z  src/game/assets   |   36.84 |      100 |       0 |   36.84 |                   
+2025-10-10T16:40:29.3109856Z   ...e-pipeline.ts |   36.84 |      100 |       0 |   36.84 | 26-38             
+2025-10-10T16:40:29.3110609Z  src/game/state    |   63.79 |    79.68 |   71.79 |   63.79 |                   
+2025-10-10T16:40:29.3113355Z   ...ateManager.ts |   84.53 |    83.67 |     100 |   84.53 | ...80-389,417-418 
+2025-10-10T16:40:29.3115874Z   ...nchronizer.ts |   42.08 |    66.66 |      45 |   42.08 | ...96-397,407-408 
+2025-10-10T16:40:29.3116709Z  src/runtime       |      96 |    71.42 |     100 |      96 |                   
+2025-10-10T16:40:29.3117373Z   loop.ts          |   93.75 |       70 |     100 |   93.75 | 26-27             
+2025-10-10T16:40:29.3118046Z   state.ts         |     100 |       75 |     100 |     100 | 17                
+2025-10-10T16:40:29.3118716Z  ...ers/sqlite.bak |   95.42 |     83.6 |     100 |   95.42 |                   
+2025-10-10T16:40:29.3122454Z   ...ig-manager.ts |   95.42 |     83.6 |     100 |   95.42 | ...13-416,421-422 
+2025-10-10T16:40:29.3122971Z  ...ared/contracts |   91.38 |    86.02 |   71.42 |   91.38 |                   
+2025-10-10T16:40:29.3123547Z   build.ts         |   98.16 |    71.42 |     100 |   98.16 | 236,244           
+2025-10-10T16:40:29.3125267Z   ...vents-core.ts |   64.63 |      100 |   44.44 |   64.63 | ...34-136,139-142 
+2025-10-10T16:40:29.3126574Z   events.ts        |   84.37 |    65.38 |   55.55 |   84.37 | ...73-375,383-385 
+2025-10-10T16:40:29.3128637Z   glossary.ts      |   99.09 |      100 |   85.71 |   99.09 | 372-373           
+2025-10-10T16:40:29.3131253Z   metrics.ts       |   95.43 |    85.18 |   83.33 |   95.43 | 263-267,272-280   
+2025-10-10T16:40:29.3131822Z   perf.ts          |     100 |      100 |     100 |     100 |                   
+2025-10-10T16:40:29.3133477Z   repos.ts         |   69.44 |      100 |      50 |   69.44 | ...52-359,403-409 
+2025-10-10T16:40:29.3134915Z   runtime.ts       |   95.23 |     82.6 |     100 |   95.23 | 214-215,223-224   
+2025-10-10T16:40:29.3136178Z   validation.js    |     100 |      100 |     100 |     100 |                   
+2025-10-10T16:40:29.3136923Z  ...ntracts/events |     100 |      100 |     100 |     100 |                   
+2025-10-10T16:40:29.3137664Z   GameEvents.ts    |     100 |      100 |     100 |     100 |                   
+2025-10-10T16:40:29.3138407Z  src/shared/events |   42.29 |    46.15 |   42.85 |   42.29 |                   
+2025-10-10T16:40:29.3140757Z   EventBus.ts      |   42.29 |    46.15 |   42.85 |   42.29 | ...43-345,351-353 
+2025-10-10T16:40:29.3141257Z  ...red/middleware |   73.47 |    85.57 |   86.84 |   73.47 |                   
+2025-10-10T16:40:29.3142621Z   ...-validator.ts |   93.98 |    88.13 |     100 |   93.98 | ...52-253,265-266 
+2025-10-10T16:40:29.3145481Z   ...validation.ts |   62.46 |    82.22 |      80 |   62.46 | ...27-472,479-503 
+2025-10-10T16:40:29.3145979Z  ...hared/services |   84.97 |    81.57 |     100 |   84.97 |                   
+2025-10-10T16:40:29.3147636Z   event-bus.ts     |   84.97 |    81.57 |     100 |   84.97 | ...11-212,292-303 
+2025-10-10T16:40:29.3148110Z  tests/utils       |   50.95 |    78.78 |   66.66 |   50.95 |                   
+2025-10-10T16:40:29.3149333Z   ...eTestUtils.ts |   50.95 |    78.78 |   66.66 |   50.95 | ...85-200,213-239 
+2025-10-10T16:40:29.3150398Z -------------------|---------|----------|---------|---------|-------------------
+2025-10-10T16:40:29.6579989Z ##[group]Run {
+2025-10-10T16:40:29.6580255Z [36;1m{[0m
+2025-10-10T16:40:29.6580441Z [36;1m  echo "## SonarCloud Summary";[0m
+2025-10-10T16:40:29.6581051Z [36;1m  echo "- Status: success";[0m
+2025-10-10T16:40:29.6581288Z [36;1m  echo "- Project: not-set";[0m
+2025-10-10T16:40:29.6581532Z [36;1m  echo "- Organization: not-set";[0m
+2025-10-10T16:40:29.6581775Z [36;1m  echo "- Runner: $env:RUNNER_OS";[0m
+2025-10-10T16:40:29.6582021Z [36;1m} >> $env:GITHUB_STEP_SUMMARY[0m
+2025-10-10T16:40:29.6641036Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:40:29.6641739Z env:
+2025-10-10T16:40:29.6641901Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:40:29.6642130Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:40:29.6642306Z   SENTRY_DSN: 
+2025-10-10T16:40:29.6642472Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:40:29.6642685Z   CL: /std:c++20 /EHsc
+2025-10-10T16:40:29.6642864Z   CXXFLAGS: -std=c++20
+2025-10-10T16:40:29.6643055Z   SONAR_TOKEN: 
+2025-10-10T16:40:29.6643235Z   SONAR_HOST_URL: https://sonarcloud.io
+2025-10-10T16:40:29.6643582Z   JAVA_HOME: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.16-8\x64
+2025-10-10T16:40:29.6644028Z   JAVA_HOME_17_X64: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.16-8\x64
+2025-10-10T16:40:29.6644350Z ##[endgroup]
+2025-10-10T16:40:30.2593114Z Post job cleanup.
+2025-10-10T16:40:30.4976455Z Post job cleanup.
+2025-10-10T16:40:30.6403955Z (node:8052) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-10-10T16:40:30.6404741Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-10-10T16:40:30.6410453Z Cache hit occurred on the primary key node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee, not saving cache.
+2025-10-10T16:40:30.6700824Z Post job cleanup.
+2025-10-10T16:40:30.8958623Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-10-10T16:40:30.9291107Z git version 2.51.0.windows.2
+2025-10-10T16:40:30.9375305Z Temporarily overriding HOME='D:\a\_temp\eb09219d-8142-4b03-ae6e-7842eddf0afe' before making global git config changes
+2025-10-10T16:40:30.9376629Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-10T16:40:30.9387273Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\gametp\gametp
+2025-10-10T16:40:30.9709583Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-10-10T16:40:31.0011949Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-10-10T16:40:31.4972669Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-10T16:40:31.5214628Z http.https://github.com/.extraheader
+2025-10-10T16:40:31.5263918Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+2025-10-10T16:40:31.5551846Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-10-10T16:40:32.0796075Z Cleaning up orphan processes

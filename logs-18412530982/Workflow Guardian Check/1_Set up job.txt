@@ -1,0 +1,34 @@
+﻿2025-10-10T16:32:10.2468779Z Current runner version: '2.328.0'
+2025-10-10T16:32:10.2546492Z ##[group]Runner Image Provisioner
+2025-10-10T16:32:10.2547379Z Hosted Compute Agent
+2025-10-10T16:32:10.2547883Z Version: 20250912.392
+2025-10-10T16:32:10.2548393Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-10T16:32:10.2549088Z Build Date: 2025-09-12T15:23:14Z
+2025-10-10T16:32:10.2549603Z ##[endgroup]
+2025-10-10T16:32:10.2550070Z ##[group]Operating System
+2025-10-10T16:32:10.2550969Z Microsoft Windows Server 2025
+2025-10-10T16:32:10.2551609Z 10.0.26100
+2025-10-10T16:32:10.2552032Z Datacenter
+2025-10-10T16:32:10.2552471Z ##[endgroup]
+2025-10-10T16:32:10.2552905Z ##[group]Runner Image
+2025-10-10T16:32:10.2553353Z Image: windows-2025
+2025-10-10T16:32:10.2553839Z Version: 20250929.44.1
+2025-10-10T16:32:10.2554812Z Included Software: https://github.com/actions/runner-images/blob/win25/20250929.44/images/windows/Windows2025-Readme.md
+2025-10-10T16:32:10.2556197Z Image Release: https://github.com/actions/runner-images/releases/tag/win25%2F20250929.44
+2025-10-10T16:32:10.2557609Z ##[endgroup]
+2025-10-10T16:32:10.2559359Z ##[group]GITHUB_TOKEN Permissions
+2025-10-10T16:32:10.2561902Z Actions: read
+2025-10-10T16:32:10.2562668Z Contents: read
+2025-10-10T16:32:10.2563433Z Metadata: read
+2025-10-10T16:32:10.2564226Z ##[endgroup]
+2025-10-10T16:32:10.2567014Z Secret source: Actions
+2025-10-10T16:32:10.2568051Z Prepare workflow directory
+2025-10-10T16:32:10.3012734Z Prepare all required actions
+2025-10-10T16:32:10.3051547Z Getting action download info
+2025-10-10T16:32:10.7027308Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-10T16:32:10.8361927Z Download action repository 'raven-actions/actionlint@v2' (SHA:3a24062651993d40fed1019b58ac6fbdfbf276cc)
+2025-10-10T16:32:11.4834529Z Download action repository 'actions/setup-node@v5.0.0' (SHA:a0853c24544627f65ddf259abe73b1d18a591444)
+2025-10-10T16:32:11.8468604Z Getting action download info
+2025-10-10T16:32:12.1235766Z Download action repository 'actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea' (SHA:60a0d83039c74a4aee543508d2ffcb1c3799cdea)
+2025-10-10T16:32:12.8234852Z Download action repository 'actions/cache@5a3ec84eff668545956fd18022155c47e93e2684' (SHA:5a3ec84eff668545956fd18022155c47e93e2684)
+2025-10-10T16:32:13.6842699Z Complete job name: Workflow Guardian Check

@@ -1,0 +1,31 @@
+﻿2025-10-10T17:07:58.3410328Z Current runner version: '2.328.0'
+2025-10-10T17:07:58.3456587Z ##[group]Runner Image Provisioner
+2025-10-10T17:07:58.3457658Z Hosted Compute Agent
+2025-10-10T17:07:58.3458497Z Version: 20250912.392
+2025-10-10T17:07:58.3459360Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-10T17:07:58.3460495Z Build Date: 2025-09-12T15:23:14Z
+2025-10-10T17:07:58.3461469Z ##[endgroup]
+2025-10-10T17:07:58.3462264Z ##[group]Operating System
+2025-10-10T17:07:58.3465230Z Microsoft Windows Server 2025
+2025-10-10T17:07:58.3466123Z 10.0.26100
+2025-10-10T17:07:58.3466953Z Datacenter
+2025-10-10T17:07:58.3467582Z ##[endgroup]
+2025-10-10T17:07:58.3468243Z ##[group]Runner Image
+2025-10-10T17:07:58.3469038Z Image: windows-2025
+2025-10-10T17:07:58.3469799Z Version: 20250929.44.1
+2025-10-10T17:07:58.3475541Z Included Software: https://github.com/actions/runner-images/blob/win25/20250929.44/images/windows/Windows2025-Readme.md
+2025-10-10T17:07:58.3476998Z Image Release: https://github.com/actions/runner-images/releases/tag/win25%2F20250929.44
+2025-10-10T17:07:58.3478566Z ##[endgroup]
+2025-10-10T17:07:58.3479665Z ##[group]GITHUB_TOKEN Permissions
+2025-10-10T17:07:58.3481840Z Actions: read
+2025-10-10T17:07:58.3482360Z Contents: read
+2025-10-10T17:07:58.3482884Z Metadata: read
+2025-10-10T17:07:58.3483667Z ##[endgroup]
+2025-10-10T17:07:58.3486407Z Secret source: Actions
+2025-10-10T17:07:58.3487199Z Prepare workflow directory
+2025-10-10T17:07:58.3935841Z Prepare all required actions
+2025-10-10T17:07:58.3974845Z Getting action download info
+2025-10-10T17:07:58.6468613Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-10T17:07:58.7947791Z Download action repository 'actions/setup-node@v5.0.0' (SHA:a0853c24544627f65ddf259abe73b1d18a591444)
+2025-10-10T17:07:58.9682894Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2025-10-10T17:07:59.2735347Z Complete job name: Unit Tests (windows-latest, Node 20)

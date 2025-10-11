@@ -1,0 +1,191 @@
+﻿2025-10-10T17:09:46.1288192Z ##[group]Run npm run lint
+2025-10-10T17:09:46.1288486Z [36;1mnpm run lint[0m
+2025-10-10T17:09:46.1355173Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:09:46.1355490Z env:
+2025-10-10T17:09:46.1355657Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:09:46.1355896Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:09:46.1356082Z   SENTRY_DSN: 
+2025-10-10T17:09:46.1356438Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:09:46.1356651Z   CL: /std:c++20 /EHsc
+2025-10-10T17:09:46.1356839Z   CXXFLAGS: -std=c++20
+2025-10-10T17:09:46.1357015Z   NODE_ENV: development
+2025-10-10T17:09:46.1357205Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:09:46.1357403Z ##[endgroup]
+2025-10-10T17:09:46.6785786Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T17:09:46.7294583Z 
+2025-10-10T17:09:46.7295018Z > gametp@0.1.0 lint
+2025-10-10T17:09:46.7295526Z > npm run lint:src && npm run lint:tests
+2025-10-10T17:09:46.7295853Z 
+2025-10-10T17:09:47.0624468Z npm WARN config production Use `--omit=dev` instead.
+2025-10-10T17:09:47.1481679Z 
+2025-10-10T17:09:47.1482213Z > gametp@0.1.0 lint:src
+2025-10-10T17:09:47.1482744Z > eslint "src/**/*.{ts,tsx}" --max-warnings 115
+2025-10-10T17:09:47.1483064Z 
+2025-10-10T17:09:54.5168200Z 
+2025-10-10T17:09:54.5169059Z D:\a\gametp\gametp\src\app.tsx
+2025-10-10T17:09:54.5204010Z ##[warning]  40:27  warning  'setShowPerfHarness' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5212685Z 
+2025-10-10T17:09:54.5213030Z D:\a\gametp\gametp\src\components\GameCanvas.tsx
+2025-10-10T17:09:54.5215669Z ##[warning]   39:10  warning  'isPending' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5218475Z ##[warning]  217:9   warning  'loadGame' is assigned a value but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5219816Z 
+2025-10-10T17:09:54.5220156Z D:\a\gametp\gametp\src\components\GameVerticalSlice.tsx
+2025-10-10T17:09:54.5221845Z ##[warning]  10:15  warning  'DomainEvent' is defined but never used. Allowed unused vars must match /^_/u                  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5224590Z ##[warning]  45:15  warning  'deferredSliceState' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5226010Z 
+2025-10-10T17:09:54.5226305Z D:\a\gametp\gametp\src\components\LazyGame.tsx
+2025-10-10T17:09:54.5227885Z ##[warning]  20:10  warning  'isPending' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5229225Z 
+2025-10-10T17:09:54.5229564Z D:\a\gametp\gametp\src\components\game\GameNotifications.tsx
+2025-10-10T17:09:54.5231435Z ##[warning]  268:15  warning  'colors' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5232831Z 
+2025-10-10T17:09:54.5233099Z D:\a\gametp\gametp\src\game\GameEngineAdapter.ts
+2025-10-10T17:09:54.5235308Z ##[warning]    6:29  warning  'SceneManagerConfig' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5238045Z ##[warning]  434:28  warning  'delta' is defined but never used. Allowed unused args must match /^_/u               @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5239422Z 
+2025-10-10T17:09:54.5239664Z D:\a\gametp\gametp\src\game\SceneManager.ts
+2025-10-10T17:09:54.5241098Z ##[warning]  200:31  warning  'event' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5243283Z ##[warning]  224:13  warning  Empty block statement                                                    no-empty
+2025-10-10T17:09:54.5245277Z ##[warning]  274:13  warning  Empty block statement                                                    no-empty
+2025-10-10T17:09:54.5250092Z ##[warning]  289:13  warning  Empty block statement                                                    no-empty
+2025-10-10T17:09:54.5251203Z 
+2025-10-10T17:09:54.5251532Z D:\a\gametp\gametp\src\game\__tests__\GameStateManager.test.ts
+2025-10-10T17:09:54.5253319Z ##[warning]  147:13  warning  'saveId1' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5256572Z ##[warning]  148:13  warning  'saveId2' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5257908Z 
+2025-10-10T17:09:54.5258221Z D:\a\gametp\gametp\src\game\__tests__\SceneManager.test.ts
+2025-10-10T17:09:54.5259793Z ##[warning]  49:13  warning  'mockError' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5261151Z 
+2025-10-10T17:09:54.5261446Z D:\a\gametp\gametp\src\game\__tests__\__mocks__\phaser.ts
+2025-10-10T17:09:54.5263095Z ##[warning]  98:15  warning  'config' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5264530Z 
+2025-10-10T17:09:54.5264766Z D:\a\gametp\gametp\src\game\factory.ts
+2025-10-10T17:09:54.5266236Z ##[warning]  28:5  warning  'width' is assigned a value but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5268876Z ##[warning]  29:5  warning  'height' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5270266Z 
+2025-10-10T17:09:54.5270531Z D:\a\gametp\gametp\src\game\scenes\BaseScene.ts
+2025-10-10T17:09:54.5272491Z ##[warning]    7:15  warning  'Phaser' is defined but never used. Allowed unused vars must match /^_/u                                                 @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5274337Z    15:41  warning  The `Function` type accepts any function-like value.
+2025-10-10T17:09:54.5275769Z Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+2025-10-10T17:09:54.5276853Z    53:57  warning  The `Function` type accepts any function-like value.
+2025-10-10T17:09:54.5277921Z Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+2025-10-10T17:09:54.5278965Z    63:59  warning  The `Function` type accepts any function-like value.
+2025-10-10T17:09:54.5280018Z Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+2025-10-10T17:09:54.5281930Z ##[warning]   99:13  warning  Empty block statement                                                                                                    no-empty
+2025-10-10T17:09:54.5284346Z ##[warning]  119:13  warning  Empty block statement                                                                                                    no-empty
+2025-10-10T17:09:54.5285545Z 
+2025-10-10T17:09:54.5285816Z D:\a\gametp\gametp\src\game\scenes\GameScene.ts
+2025-10-10T17:09:54.5287365Z ##[warning]   7:15  warning  'Phaser' is defined but never used. Allowed unused vars must match /^_/u       @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5289925Z ##[warning]  11:3   warning  'Position' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5292491Z ##[warning]  14:15  warning  'DomainEvent' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5293878Z 
+2025-10-10T17:09:54.5294135Z D:\a\gametp\gametp\src\game\scenes\MenuScene.ts
+2025-10-10T17:09:54.5295869Z ##[warning]  155:15  warning  'time' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5298431Z ##[warning]  155:29  warning  'delta' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5300797Z 
+2025-10-10T17:09:54.5301076Z D:\a\gametp\gametp\src\game\scenes\TestScene.ts
+2025-10-10T17:09:54.5302682Z ##[warning]    7:15  warning  'Phaser' is defined but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5306191Z ##[warning]    9:15  warning  'GameState' is defined but never used. Allowed unused vars must match /^_/u        @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5308879Z ##[warning]   10:15  warning  'GameDomainEvent' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5311668Z ##[warning]  523:15  warning  'time' is defined but never used. Allowed unused args must match /^_/u             @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5314338Z ##[warning]  523:29  warning  'delta' is defined but never used. Allowed unused args must match /^_/u            @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5315872Z 
+2025-10-10T17:09:54.5316110Z D:\a\gametp\gametp\src\game\state\StateSynchronizer.ts
+2025-10-10T17:09:54.5317149Z ##[warning]  339:9  warning  Unexpected lexical declaration in case block  no-case-declarations
+2025-10-10T17:09:54.5317901Z 
+2025-10-10T17:09:54.5318075Z D:\a\gametp\gametp\src\hooks\useEventLoopDelay.ts
+2025-10-10T17:09:54.5318812Z ##[warning]  32:15  warning  Empty block statement  no-empty
+2025-10-10T17:09:54.5319427Z 
+2025-10-10T17:09:54.5319613Z D:\a\gametp\gametp\src\hooks\useGameStateEvents.ts
+2025-10-10T17:09:54.5320570Z ##[warning]  10:15  warning  'GameDomainEvent' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5322062Z ##[warning]  91:13  warning  Unexpected lexical declaration in case block                                       no-case-declarations
+2025-10-10T17:09:54.5322821Z 
+2025-10-10T17:09:54.5322981Z D:\a\gametp\gametp\src\hooks\useWebVitals.ts
+2025-10-10T17:09:54.5323993Z ##[warning]   47:5   warning  'trackInteractions' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5325648Z ##[warning]  292:12  warning  Constraining the generic type `T` to `any` does nothing and is unnecessary                    @typescript-eslint/no-unnecessary-type-constraint
+2025-10-10T17:09:54.5327256Z ##[warning]  362:12  warning  Constraining the generic type `T` to `any` does nothing and is unnecessary                    @typescript-eslint/no-unnecessary-type-constraint
+2025-10-10T17:09:54.5328112Z 
+2025-10-10T17:09:54.5328259Z D:\a\gametp\gametp\src\preload\bridge.ts
+2025-10-10T17:09:54.5328938Z ##[warning]  27:9  warning  Empty block statement  no-empty
+2025-10-10T17:09:54.5329547Z 
+2025-10-10T17:09:54.5329827Z D:\a\gametp\gametp\src\shared\adapters\sqlite.bak\__tests__\config-manager.spec.ts
+2025-10-10T17:09:54.5331330Z ##[warning]  152:13  warning  'config' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5332188Z 
+2025-10-10T17:09:54.5332417Z D:\a\gametp\gametp\src\shared\devtools\performance-devtools.ts
+2025-10-10T17:09:54.5333552Z ##[warning]  346:11  warning  'startTime' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5335081Z ##[warning]  385:46  warning  'name' is defined but never used. Allowed unused args must match /^_/u                @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5336338Z 
+2025-10-10T17:09:54.5336642Z D:\a\gametp\gametp\src\shared\middleware\__tests__\cloud-events-validator.spec.ts
+2025-10-10T17:09:54.5338059Z ##[warning]   12:8   warning  'ValidationConfig' is defined but never used. Allowed unused vars must match /^_/u        @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5339679Z ##[warning]  143:13  warning  'validResult' is assigned a value but never used. Allowed unused vars must match /^_/u    @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5341535Z ##[warning]  144:13  warning  'invalidResult' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5342393Z 
+2025-10-10T17:09:54.5342626Z D:\a\gametp\gametp\src\shared\middleware\cloudevents-validation.ts
+2025-10-10T17:09:54.5343864Z ##[warning]  151:17  warning  'context' is defined but never used. Allowed unused args must match /^_/u                                                @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5344976Z   478:19  warning  The `Function` type accepts any function-like value.
+2025-10-10T17:09:54.5345615Z Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+2025-10-10T17:09:54.5346230Z   478:35  warning  The `Function` type accepts any function-like value.
+2025-10-10T17:09:54.5346849Z Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+2025-10-10T17:09:54.5347237Z 
+2025-10-10T17:09:54.5347511Z D:\a\gametp\gametp\src\shared\observability\__tests__\observability-test-suite.ts
+2025-10-10T17:09:54.5348914Z ##[warning]  369:13  warning  'degradationLevels' is assigned a value but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5350620Z ##[warning]  673:11  warning  'suspiciousPatterns' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5351490Z 
+2025-10-10T17:09:54.5351729Z D:\a\gametp\gametp\src\shared\observability\config-validator.main.ts
+2025-10-10T17:09:54.5353602Z ##[warning]  664:5   warning  'schema' is defined but never used. Allowed unused args must match /^_/u    @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5356540Z ##[warning]  822:28  warning  'endpoint' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5357949Z 
+2025-10-10T17:09:54.5358374Z D:\a\gametp\gametp\src\shared\observability\cost-optimization-manager.ts
+2025-10-10T17:09:54.5360113Z ##[warning]  367:13  warning  'trends' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5362730Z ##[warning]  643:5   warning  'recent' is defined but never used. Allowed unused args must match /^_/u           @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5365288Z ##[warning]  644:5   warning  'previous' is defined but never used. Allowed unused args must match /^_/u         @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5367860Z ##[warning]  863:5   warning  'recommendation' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5370451Z ##[warning]  872:5   warning  'recommendation' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5373508Z ##[warning]  879:5   warning  'recommendation' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5376238Z ##[warning]  886:5   warning  'recommendation' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5377619Z 
+2025-10-10T17:09:54.5378042Z D:\a\gametp\gametp\src\shared\observability\enterprise-alerting-system.ts
+2025-10-10T17:09:54.5379718Z ##[warning]  624:13  warning  'message' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5382295Z ##[warning]  672:5   warning  'resolution' is defined but never used. Allowed unused args must match /^_/u        @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5383660Z 
+2025-10-10T17:09:54.5384100Z D:\a\gametp\gametp\src\shared\observability\enterprise-monitoring-platform.ts
+2025-10-10T17:09:54.5386252Z ##[warning]   21:3   warning  'DistributedTracingManager' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5389052Z ##[warning]   25:3   warning  'ServiceMeshIntegration' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5392413Z ##[warning]   29:3   warning  'EnterpriseAlertingSystem' is defined but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5395283Z ##[warning]   33:3   warning  'CostOptimizationManager' is defined but never used. Allowed unused vars must match /^_/u    @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5398036Z ##[warning]  641:17  warning  'report' is assigned a value but never used. Allowed unused vars must match /^_/u            @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5400662Z ##[warning]  736:5   warning  'component' is defined but never used. Allowed unused args must match /^_/u                  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5403223Z ##[warning]  757:5   warning  'period' is defined but never used. Allowed unused args must match /^_/u                     @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5405780Z ##[warning]  769:5   warning  'period' is defined but never used. Allowed unused args must match /^_/u                     @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5408361Z ##[warning]  779:5   warning  'period' is defined but never used. Allowed unused args must match /^_/u                     @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5410886Z ##[warning]  793:5   warning  'period' is defined but never used. Allowed unused args must match /^_/u                     @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5413574Z ##[warning]  889:12  warning  'error' is defined but never used                                                            @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5414840Z 
+2025-10-10T17:09:54.5415202Z D:\a\gametp\gametp\src\shared\observability\longtask-monitor.ts
+2025-10-10T17:09:54.5416187Z ##[warning]  45:17  warning  Empty block statement  no-empty
+2025-10-10T17:09:54.5417698Z ##[warning]  56:15  warning  Empty block statement  no-empty
+2025-10-10T17:09:54.5418651Z 
+2025-10-10T17:09:54.5418965Z D:\a\gametp\gametp\src\shared\observability\sentry-main.ts
+2025-10-10T17:09:54.5419886Z ##[warning]  193:23  warning  Empty block statement  no-empty
+2025-10-10T17:09:54.5421381Z ##[warning]  199:19  warning  Empty block statement  no-empty
+2025-10-10T17:09:54.5422342Z 
+2025-10-10T17:09:54.5422655Z D:\a\gametp\gametp\src\shared\observability\sentry-perf.ts
+2025-10-10T17:09:54.5423564Z ##[warning]  23:17  warning  Empty block statement  no-empty
+2025-10-10T17:09:54.5424521Z 
+2025-10-10T17:09:54.5424852Z D:\a\gametp\gametp\src\shared\observability\sentry-renderer.ts
+2025-10-10T17:09:54.5426050Z ##[warning]  165:19  warning  Empty block statement                                                    no-empty
+2025-10-10T17:09:54.5428247Z ##[warning]  376:8   warning  'React' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5429543Z 
+2025-10-10T17:09:54.5429801Z D:\a\gametp\gametp\src\shared\performance\idle.ts
+2025-10-10T17:09:54.5431480Z ##[warning]  16:8   warning  'deadline' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T17:09:54.5434094Z ##[warning]  19:17  warning  Empty block statement                                                       no-empty
+2025-10-10T17:09:54.5436169Z ##[warning]  41:15  warning  Empty block statement                                                       no-empty
+2025-10-10T17:09:54.5438119Z ##[warning]  63:15  warning  Empty block statement                                                       no-empty
+2025-10-10T17:09:54.5439223Z 
+2025-10-10T17:09:54.5439806Z ✖ 87 problems (0 errors, 87 warnings)
+2025-10-10T17:09:54.5441017Z 
+2025-10-10T17:09:54.8944406Z npm WARN config production Use `--omit=dev` instead.
+2025-10-10T17:09:54.9796845Z 
+2025-10-10T17:09:54.9797828Z > gametp@0.1.0 lint:tests
+2025-10-10T17:09:54.9798842Z > eslint "tests/**/*.{ts,tsx,js,mjs}" --max-warnings 300
+2025-10-10T17:09:54.9799219Z 

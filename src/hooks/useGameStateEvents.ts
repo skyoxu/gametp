@@ -1,6 +1,6 @@
 /**
- * 游戏状态事件集成Hook
- * 结合useGameEvents和useGameState，提供完整的事件与状态管理集成
+ * Game state events integration hook
+ * Combines useGameEvents and useGameState to provide event/state management
  */
 
 import { useCallback, useEffect, useRef } from 'react';
@@ -11,9 +11,9 @@ import type { GameDomainEvent } from '../shared/contracts/events/GameEvents';
 
 export interface UseGameStateEventsOptions {
   context?: string;
-  autoSync?: boolean; // 自动同步EventBus事件到State
-  enableAutoSave?: boolean; // 启用自动保存
-  syncInterval?: number; // 状态同步间隔（毫秒）
+  autoSync?: boolean; // Auto-sync EventBus events to state
+  enableAutoSave?: boolean; // Enable auto-save
+  syncInterval?: number; // State sync interval (ms)
 }
 
 export function useGameStateEvents(options: UseGameStateEventsOptions = {}) {
@@ -38,7 +38,7 @@ export function useGameStateEvents(options: UseGameStateEventsOptions = {}) {
   const lastSyncTime = useRef<number>(Date.now());
   const autoSaveEnabled = useRef<boolean>(enableAutoSave);
 
-  // 自动启用/禁用自动保存
+  // Auto-enable/disable auto-save
   useEffect(() => {
     if (enableAutoSave && !autoSaveEnabled.current) {
       enableContextAutoSave();
@@ -49,7 +49,7 @@ export function useGameStateEvents(options: UseGameStateEventsOptions = {}) {
     }
   }, [enableAutoSave, enableContextAutoSave, disableContextAutoSave]);
 
-  // 监听Phaser的状态更新事件并同步到Context
+  // Listen to Phaser state updates and sync into React context
   useEffect(() => {
     if (!autoSync) return;
 
@@ -57,7 +57,7 @@ export function useGameStateEvents(options: UseGameStateEventsOptions = {}) {
       const { gameState: newState } = event.data;
       const now = Date.now();
 
-      // 节流同步，避免过于频繁的更新
+      // Throttle sync to avoid overly frequent updates
       if (now - lastSyncTime.current >= syncInterval) {
         updateGameState(newState);
         lastSyncTime.current = now;
@@ -69,16 +69,16 @@ export function useGameStateEvents(options: UseGameStateEventsOptions = {}) {
     };
   }, [gameEvents, updateGameState, autoSync, syncInterval]);
 
-  // 监听Context状态变化并同步到其他状态源
+  // Observe React context state changes and sync to other sources
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       syncStates();
-    }, 100); // 短延迟防抖
+    }, 100); // Short debounce delay
 
     return () => clearTimeout(timeoutId);
   }, [gameState, syncStates]);
 
-  // 增强的命令发送方法，同时更新Context状态
+  // Enhanced command sender that also updates React context state
   const sendCommandWithStateUpdate = useCallback(
     async (
       command: 'pause' | 'resume' | 'save' | 'load' | 'restart',
@@ -87,7 +87,7 @@ export function useGameStateEvents(options: UseGameStateEventsOptions = {}) {
       try {
         switch (command) {
           case 'save':
-            // 先保存Context状态，再通知Phaser
+            // Save context first, then notify Phaser
             const saveId = await saveGame();
             if (saveId) {
               gameEvents.sendCommandToPhaser('save', { saveId });
@@ -95,7 +95,7 @@ export function useGameStateEvents(options: UseGameStateEventsOptions = {}) {
             break;
 
           case 'load':
-            // 先从Context加载，再通知Phaser
+            // Load from context first, then notify Phaser
             if (data?.saveId) {
               const success = await loadGame(data.saveId);
               if (success) {
@@ -105,7 +105,7 @@ export function useGameStateEvents(options: UseGameStateEventsOptions = {}) {
             break;
 
           default:
-            // 其他命令直接转发
+            // Forward other commands directly
             gameEvents.sendCommandToPhaser(command, data);
             break;
         }
@@ -124,7 +124,7 @@ export function useGameStateEvents(options: UseGameStateEventsOptions = {}) {
     [gameEvents, saveGame, loadGame]
   );
 
-  // 智能状态更新：合并本地更新和远程更新
+  // Smart state update: merge local updates and remote updates
   const smartUpdateGameState = useCallback(
     (
       stateUpdates: Partial<GameState>,
@@ -138,17 +138,17 @@ export function useGameStateEvents(options: UseGameStateEventsOptions = {}) {
         timestamp: new Date(),
       };
 
-      // 本地更新：直接更新Context并发布事件
+      // Context
       if (source === 'local') {
         updateGameState(updatedState);
 
-        // 发布状态更新事件
+        // Note
         gameEvents.publish({
           type: 'game.state.updated',
           data: { gameState: updatedState, timestamp: new Date() },
         });
       }
-      // 远程更新：仅更新Context（避免循环）
+      // Remote update: only update context (avoid loops)
       else {
         updateGameState(updatedState);
       }
@@ -156,7 +156,7 @@ export function useGameStateEvents(options: UseGameStateEventsOptions = {}) {
     [gameState, updateGameState, gameEvents]
   );
 
-  // 批量状态更新
+  // Batch state updates
   const batchUpdateGameState = useCallback(
     (updates: Array<{ path: keyof GameState; value: any }>): void => {
       if (!gameState) return;
@@ -172,12 +172,12 @@ export function useGameStateEvents(options: UseGameStateEventsOptions = {}) {
     [gameState, updateGameState]
   );
 
-  // 游戏状态快照
+  // Create game state snapshot
   const createStateSnapshot = useCallback((): GameState | null => {
     return gameState ? { ...gameState } : null;
   }, [gameState]);
 
-  // 恢复状态快照
+  // Restore game state snapshot
   const restoreStateSnapshot = useCallback(
     (snapshot: GameState): void => {
       updateGameState(snapshot);
@@ -187,38 +187,38 @@ export function useGameStateEvents(options: UseGameStateEventsOptions = {}) {
   );
 
   return {
-    // 基础事件系统
+    // Base event system
     ...gameEvents,
 
-    // 当前状态
+    // Current state
     gameState,
 
-    // 增强的命令系统
+    // Enhanced command system
     sendCommand: sendCommandWithStateUpdate,
     sendCommandToPhaser: gameEvents.sendCommandToPhaser,
 
-    // 智能状态更新
+    // Smart state update
     updateState: smartUpdateGameState,
     batchUpdateState: batchUpdateGameState,
 
-    // 状态快照
+    // State snapshot
     createSnapshot: createStateSnapshot,
     restoreSnapshot: restoreStateSnapshot,
 
-    // 状态管理
+    // State management
     saveGame,
     loadGame,
     syncStates,
 
-    // 实用工具
+    // Utilities
     isStateReady: !!gameState,
     lastSyncTime: lastSyncTime.current,
   };
 }
 
 /**
- * 游戏状态变化监听Hook
- * 专门用于监听和响应游戏状态的特定变化
+ * Hook: watch specific fields in game state
+ * Useful for responding to targeted state changes
  */
 export function useGameStateWatcher<T extends keyof GameState>(
   field: T,
@@ -249,7 +249,7 @@ export function useGameStateWatcher<T extends keyof GameState>(
 }
 
 /**
- * 游戏状态性能监控Hook
+ * Hook: game state performance monitor
  */
 export function useGameStatePerformance() {
   const { gameState } = useGameState();

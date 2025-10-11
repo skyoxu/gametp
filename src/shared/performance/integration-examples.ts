@@ -1,17 +1,17 @@
 /**
- * User Timing API集成示例
- * 展示如何在应用关键路径中集成性能测点
+ * User Timing API
+ * Note
  */
 
 import React from 'react';
 import { userTiming, mark, measure, measureFunction } from './UserTiming.js';
 
 /**
- * React组件性能测量示例
+ * React
  */
 export class ReactPerformanceIntegration {
   /**
-   * 测量组件挂载时间
+   * Note
    */
   static wrapComponentMount<T>(Component: React.ComponentType<T>) {
     return class extends React.Component<T> {
@@ -35,7 +35,7 @@ export class ReactPerformanceIntegration {
   }
 
   /**
-   * 测量异步组件加载
+   * Note
    */
   static async measureAsyncComponent(loadComponent: () => Promise<any>) {
     return await measureFunction('react.component.async-load', loadComponent);
@@ -43,11 +43,11 @@ export class ReactPerformanceIntegration {
 }
 
 /**
- * 游戏引擎(Phaser)性能测量示例
+ * (Phaser)
  */
 export class PhaserPerformanceIntegration {
   /**
-   * 测量场景创建时间
+   * Note
    */
   static instrumentScene(scene: Phaser.Scene) {
     const originalCreate = (scene as any).create?.bind(scene);
@@ -77,7 +77,7 @@ export class PhaserPerformanceIntegration {
   }
 
   /**
-   * 测量游戏回合处理
+   * Note
    */
   static async measureTurnProcess(turnHandler: () => Promise<void>) {
     return await measureFunction('game.turn.process', turnHandler);
@@ -85,17 +85,17 @@ export class PhaserPerformanceIntegration {
 }
 
 /**
- * Electron IPC性能测量示例
+ * Electron IPC
  */
 export class ElectronIPCPerformance {
   /**
-   * 测量IPC调用时间
+   * IPC
    */
   static async measureIPCCall<T>(channel: string, args: any[]): Promise<T> {
     const result = await measureFunction(
       `electron.ipc.call.${channel}`,
       async () => {
-        // @ts-ignore - window.electronAPI通过preload脚本注入
+        // @ts-ignore - window.electronAPI preload
         return await window.electronAPI.invoke(channel, ...args);
       }
     );
@@ -103,7 +103,7 @@ export class ElectronIPCPerformance {
   }
 
   /**
-   * 批量测量多个IPC调用
+   * IPC
    */
   static async measureMultipleIPCCalls(
     calls: Array<{ channel: string; args: any[] }>
@@ -129,18 +129,18 @@ export class ElectronIPCPerformance {
 }
 
 /**
- * 数据持久化性能测量示例
+ * Note
  */
 export class DataPersistencePerformance {
   /**
-   * 测量数据保存操作
+   * Note
    */
   static async measureDataSave(saveOperation: () => Promise<void>) {
     return await measureFunction('data.save', saveOperation);
   }
 
   /**
-   * 测量数据加载操作
+   * Note
    */
   static async measureDataLoad<T>(loadOperation: () => Promise<T>): Promise<T> {
     const result = await measureFunction('data.load', loadOperation);
@@ -148,7 +148,7 @@ export class DataPersistencePerformance {
   }
 
   /**
-   * 测量批量数据操作
+   * Note
    */
   static async measureBatchOperation<T>(
     operationName: string,
@@ -178,13 +178,13 @@ export class DataPersistencePerformance {
 }
 
 /**
- * 应用启动性能测量
+ * Note
  */
 export class AppStartupPerformance {
   private static startupMarks: string[] = [];
 
   /**
-   * 标记启动阶段
+   * Note
    */
   static markStartupPhase(phase: string) {
     const markName = `app.startup.${phase}`;
@@ -193,11 +193,11 @@ export class AppStartupPerformance {
   }
 
   /**
-   * 计算启动总时间
+   * Note
    */
   static measureStartupComplete() {
     if (this.startupMarks.length < 2) {
-      console.warn('[UserTiming] 启动测量需要至少2个标记点');
+      console.warn('[UserTiming] 2');
       return null;
     }
 
@@ -208,7 +208,7 @@ export class AppStartupPerformance {
   }
 
   /**
-   * 获取启动阶段详细报告
+   * Note
    */
   static getStartupReport() {
     const report: any = {
@@ -216,7 +216,7 @@ export class AppStartupPerformance {
       totalTime: null,
     };
 
-    // 测量各阶段时间
+    // Note
     for (let i = 1; i < this.startupMarks.length; i++) {
       const phaseName = this.startupMarks[i].replace('app.startup.', '');
       const measurement = measure(
@@ -233,7 +233,7 @@ export class AppStartupPerformance {
       }
     }
 
-    // 测量总时间
+    // Note
     const totalMeasurement = this.measureStartupComplete();
     if (totalMeasurement) {
       report.totalTime = totalMeasurement.duration;
@@ -244,11 +244,11 @@ export class AppStartupPerformance {
 }
 
 /**
- * UI交互性能测量
+ * UI
  */
 export class UIInteractionPerformance {
   /**
-   * 测量模态框操作
+   * Note
    */
   static measureModalOperation(
     operation: 'open' | 'close',
@@ -258,14 +258,14 @@ export class UIInteractionPerformance {
   }
 
   /**
-   * 测量表单提交
+   * Note
    */
   static measureFormSubmit(formId: string, submitHandler: () => Promise<void>) {
     return measureFunction(`ui.form.submit.${formId}`, submitHandler);
   }
 
   /**
-   * 测量导航变化
+   * Note
    */
   static measureNavigation(
     from: string,
@@ -277,25 +277,25 @@ export class UIInteractionPerformance {
 }
 
 /**
- * 性能报告生成器
+ * Note
  */
 export class PerformanceReporter {
   /**
-   * 生成性能报告
+   * Note
    */
   static generateReport() {
     return userTiming.getPerformanceReport();
   }
 
   /**
-   * 检查P95阈值
+   * P95
    */
   static checkThresholds() {
     return userTiming.assertP95Thresholds();
   }
 
   /**
-   * 生成CSV格式报告
+   * CSV
    */
   static generateCSVReport(): string {
     const report = this.generateReport();
@@ -322,22 +322,22 @@ export class PerformanceReporter {
   }
 
   /**
-   * 输出控制台报告
+   * Note
    */
   static logReport() {
     const report = this.generateReport();
-    console.group('📊 User Timing Performance Report');
+    console.group(' User Timing Performance Report');
 
     for (const [name, stats] of Object.entries(report)) {
       if (typeof stats === 'object' && stats.count) {
         const statusIcon =
           stats.status === 'good'
-            ? '✅'
+            ? ''
             : stats.status === 'warning'
-              ? '⚠️'
+              ? ''
               : stats.status === 'critical'
-                ? '🔴'
-                : '❓';
+                ? ''
+                : '';
 
         console.log(
           `${statusIcon} ${name}: P95=${stats.p95}ms (${stats.count} samples)`

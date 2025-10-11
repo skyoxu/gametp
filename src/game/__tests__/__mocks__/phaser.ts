@@ -4,7 +4,7 @@
 
 import { vi } from 'vitest';
 
-// 模拟 Phaser.Scene 基类
+// Phaser.Scene
 export class MockScene {
   events = {
     emit: vi.fn(),
@@ -96,7 +96,7 @@ export class MockScene {
   };
 
   constructor(config?: any) {
-    // 模拟构造函数
+    // Note
   }
 
   init() {}
@@ -104,7 +104,7 @@ export class MockScene {
   create() {}
   update() {}
 
-  // 游戏状态相关方法（用于GameScene）
+  // GameScene
   private mockGameState: any = {
     level: 1,
     score: 0,
@@ -123,7 +123,7 @@ export class MockScene {
   }
 }
 
-// 模拟 Phaser.Game
+// Phaser.Game
 export class MockGame {
   events = {
     on: vi.fn(),
@@ -152,14 +152,14 @@ export class MockGame {
   destroy = vi.fn();
 
   constructor(config?: any) {
-    // 模拟构造函数 - 立即触发postBoot回调
+    // - postBoot
     setTimeout(() => {
       config?.callbacks?.postBoot?.();
     }, 10);
   }
 }
 
-// 模拟主要的 Phaser 常量和类
+// Phaser
 const Phaser = {
   Scene: MockScene,
   Game: MockGame,

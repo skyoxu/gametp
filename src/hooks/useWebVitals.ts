@@ -1,11 +1,11 @@
 /**
- * React Hook for Web Vitals监控
+ * React Hook for Web Vitals monitoring
  *
- * 提供React组件级别的性能监控能力：
- * 1. 组件渲染时间监控
- * 2. 用户交互事件监控
- * 3. 路由切换监控
- * 4. 自定义性能埋点
+ * Provides component-level performance monitoring:
+ * 1. Component render timing
+ * 2. User interaction events
+ * 3. Route transition timing
+ * 4. Custom performance markers
  */
 
 import React, { useEffect, useRef, useCallback, useState } from 'react';
@@ -35,7 +35,7 @@ export interface WebVitalsHookReturn {
 }
 
 /**
- * Web Vitals监控Hook
+ * Web Vitals monitoring hook
  */
 export function useWebVitals(
   options: UseWebVitalsOptions = {}
@@ -58,7 +58,7 @@ export function useWebVitals(
     enabled ? getWebVitalsCollector(collectorConfig) : null
   );
 
-  // 订阅Web Vitals数据更新
+  // Subscribe to Web Vitals data updates
   useEffect(() => {
     if (!enabled || !monitor.current) return;
 
@@ -67,14 +67,14 @@ export function useWebVitals(
       setIsLoading(false);
     });
 
-    // 初始化时获取已有数据
+    // Get existing metrics on init
     setMetrics(monitor.current.getMetrics());
     setIsLoading(false);
 
     return unsubscribe;
   }, [enabled]);
 
-  // 组件渲染性能监控
+  // Component render performance monitoring
   useEffect(() => {
     if (!enabled || !trackRender || !monitor.current) return;
 
@@ -91,18 +91,18 @@ export function useWebVitals(
           `${componentName}_render_end`
         );
 
-        // 记录渲染时间
+        // Record render duration
         if (renderDuration > 50) {
-          // 超过50ms的渲染才记录
+          // Only record renders over 50ms
           console.log(
-            `[WebVitals] 组件"${componentName}"渲染耗时: ${renderDuration.toFixed(2)}ms`
+            `[WebVitals] Component "${componentName}" render: ${renderDuration.toFixed(2)}ms`
           );
         }
       }
     };
   }, [enabled, trackRender, componentName]);
 
-  // 开始性能计时
+  // Start performance timing
   const startTiming = useCallback(
     (name: string) => {
       if (!enabled || !monitor.current) return;
@@ -116,14 +116,14 @@ export function useWebVitals(
     [enabled, componentName]
   );
 
-  // 结束性能计时
+  // End performance timing
   const endTiming = useCallback(
     (name: string) => {
       if (!enabled || !monitor.current) return;
 
       const startTime = timingMarks.current.get(name);
       if (!startTime) {
-        console.warn(`[WebVitals] 找不到计时开始标记: ${name}`);
+        console.warn(`[WebVitals] Missing timing start mark: ${name}`);
         return;
       }
 
@@ -147,7 +147,7 @@ export function useWebVitals(
     [enabled, componentName]
   );
 
-  // 记录交互事件
+  // Note
   const recordInteraction = useCallback(
     (name: string, duration: number) => {
       if (!enabled || !monitor.current) return;
@@ -156,7 +156,7 @@ export function useWebVitals(
     [enabled, componentName]
   );
 
-  // 记录事件处理
+  // Note
   const recordEvent = useCallback(
     (name: string, duration: number) => {
       if (!enabled || !monitor.current) return;
@@ -165,14 +165,14 @@ export function useWebVitals(
     [enabled, componentName]
   );
 
-  // 记录自定义事件
+  // Note
   const recordCustomEvent = useCallback(
     (name: string, data?: any) => {
       if (!enabled || !collector.current) return;
 
-      // 使用 collector 记录自定义事件
+      // collector
       try {
-        // collectData 是正确的方法名，但它是私有方法，我们改为调用 getPerformanceReport
+        // collectData getPerformanceReport
         const report = collector.current.getPerformanceReport();
         console.log(
           `[WebVitals] Custom event: ${componentName}_${name}`,
@@ -180,13 +180,13 @@ export function useWebVitals(
           report
         );
       } catch (error) {
-        console.warn(`[WebVitals] 记录自定义事件失败:`, error);
+        console.warn(`[WebVitals] :`, error);
       }
     },
     [enabled, componentName]
   );
 
-  // 记录错误
+  // Note
   const recordError = useCallback(
     (error: Error, context?: string) => {
       if (!enabled) return;
@@ -196,7 +196,7 @@ export function useWebVitals(
         error
       );
 
-      // 如果有 Sentry 或其他错误监控，可以在这里集成
+      // Sentry
       if (window.electronAPI?.reportEvent) {
         window.electronAPI.reportEvent({
           type: 'web_vitals_error',
@@ -213,7 +213,7 @@ export function useWebVitals(
     [enabled, componentName]
   );
 
-  // 获取性能报告
+  // Note
   const getPerformanceReport = useCallback(() => {
     if (!enabled || !collector.current) return null;
     return collector.current.getPerformanceReport();
@@ -233,7 +233,7 @@ export function useWebVitals(
 }
 
 /**
- * 高阶组件：为组件添加性能监控
+ * Note
  */
 export function withWebVitals<P extends object>(
   WrappedComponent: React.ComponentType<P & { webVitals?: WebVitalsMetrics }>,
@@ -263,7 +263,7 @@ export function withWebVitals<P extends object>(
 }
 
 /**
- * 用于性能监控的装饰器Hook
+ * Hook
  */
 export function usePerformanceTracker(name: string, enabled = true) {
   const startTime = useRef<number>(0);
@@ -308,7 +308,7 @@ export function usePerformanceTracker(name: string, enabled = true) {
 }
 
 /**
- * 路由切换性能监控Hook
+ * Route transition performance monitoring hook
  */
 export function useRoutePerformance(enabled = true) {
   const monitor = useRef(enabled ? getWebVitalsMonitor() : null);
@@ -339,7 +339,7 @@ export function useRoutePerformance(enabled = true) {
       `route_${currentRoute.current}_end`
     );
 
-    // 解析路由名称
+    // Parse route names
     const [fromRoute, toRoute] = currentRoute.current.split('_to_');
     monitor.current.recordRouteChange(fromRoute, toRoute, duration);
 
@@ -353,7 +353,7 @@ export function useRoutePerformance(enabled = true) {
 }
 
 /**
- * 数据获取性能监控Hook
+ * Hook
  */
 export function useDataFetchPerformance(enabled = true) {
   const monitor = useRef(enabled ? getWebVitalsMonitor() : null);
@@ -402,3 +402,4 @@ export function useDataFetchPerformance(enabled = true) {
 }
 
 export default useWebVitals;
+

@@ -23,7 +23,7 @@ export default function LazyGame({
   const onStart = useCallback(async () => {
     if (mounted || loading) return;
     setLoading(true);
-    // 延迟加载 Phaser 及场景，降低首屏负载
+    // Phaser
     const [{ loadPhaserAndScene }] = await Promise.all([
       import('@/game/lazy/phaser-loader'),
       new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))),
@@ -38,11 +38,11 @@ export default function LazyGame({
     <div data-testid="lazy-game-container">
       {!deferredMounted ? (
         <button data-testid="start-button" onClick={onStart} disabled={loading}>
-          {loading ? 'Loading…' : 'Start Game'}
+          {loading ? 'Loading' : 'Start Game'}
         </button>
       ) : (
-        <Suspense fallback={<div>Loading Scene…</div>}>
-          {/* 这里由宿主应用实际渲染游戏 Canvas/Scene */}
+        <Suspense fallback={<div>Loading Scene</div>}>
+          {/* Canvas/Scene*/}
           <div data-testid="game-canvas" />
         </Suspense>
       )}

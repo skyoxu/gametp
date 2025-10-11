@@ -1,0 +1,26 @@
+﻿2025-10-10T17:07:50.1017189Z ##[group]Run node scripts/ci/branch-protection-guardian.mjs
+2025-10-10T17:07:50.1017751Z [36;1mnode scripts/ci/branch-protection-guardian.mjs[0m
+2025-10-10T17:07:50.1079342Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:07:50.1079694Z env:
+2025-10-10T17:07:50.1079883Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:07:50.1080133Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:07:50.1080343Z   SENTRY_DSN: 
+2025-10-10T17:07:50.1080524Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:07:50.1080743Z   CL: /std:c++20 /EHsc
+2025-10-10T17:07:50.1080939Z   CXXFLAGS: -std=c++20
+2025-10-10T17:07:50.1081127Z   NODE_ENV: development
+2025-10-10T17:07:50.1081330Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:07:50.1081537Z ##[endgroup]
+2025-10-10T17:07:50.4148515Z file:///D:/a/gametp/gametp/scripts/ci/branch-protection-guardian.mjs:25
+2025-10-10T17:07:50.4152723Z   'soft-gates.yml': [\n    // 软门禁是中性状态，不应该在 branch protection 中要求\n  ],\n  'validate-workflows.yml': [\n    // 文档与工作流守卫（PR 轻门禁）\n    'docs-shell-pr-gate',\n  ],
+2025-10-10T17:07:50.4154169Z                      ^
+2025-10-10T17:07:50.4154398Z 
+2025-10-10T17:07:50.4154718Z SyntaxError: Invalid or unexpected token
+2025-10-10T17:07:50.4155608Z     at compileSourceTextModule (node:internal/modules/esm/utils:346:16)
+2025-10-10T17:07:50.4156653Z     at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:146:18)
+2025-10-10T17:07:50.4157524Z     at #translate (node:internal/modules/esm/loader:497:12)
+2025-10-10T17:07:50.4158401Z     at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:544:27)
+2025-10-10T17:07:50.4159337Z     at async ModuleJob._link (node:internal/modules/esm/module_job:148:19)
+2025-10-10T17:07:50.4159760Z 
+2025-10-10T17:07:50.4159895Z Node.js v20.19.5
+2025-10-10T17:07:50.5276253Z ##[error]Process completed with exit code 1.

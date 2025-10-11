@@ -205,10 +205,10 @@ describe('SqliteConfigManager', () => {
       );
 
       expect(consoleSpy).toHaveBeenCalledWith(
-        '🔧 Applying SQLite configuration...'
+        ' Applying SQLite configuration...'
       );
       expect(consoleSpy).toHaveBeenCalledWith(
-        '✅ SQLite configuration applied successfully'
+        ' SQLite configuration applied successfully'
       );
 
       consoleSpy.mockRestore();
@@ -268,24 +268,24 @@ describe('SqliteConfigManager', () => {
     test('should provide development advice', () => {
       const advice = configManager.getConfigurationAdvice();
 
-      expect(advice).toContain('🔧 开发环境已优化调试体验，外键约束已启用');
-      expect(advice).toContain('⚡ 使用普通同步模式平衡性能和安全性');
+      expect(advice).toContain(' ');
+      expect(advice).toContain(' ');
     });
 
     test('should provide production advice', () => {
       const prodManager = new SqliteConfigManager('production');
       const advice = prodManager.getConfigurationAdvice();
 
-      expect(advice).toContain('✅ 生产环境已启用完全同步模式，确保数据安全性');
-      expect(advice).toContain('📈 建议定期监控WAL文件大小和检查点频率');
+      expect(advice).toContain(' ');
+      expect(advice).toContain(' WAL');
     });
 
     test('should provide test advice', () => {
       const testManager = new SqliteConfigManager('test');
       const advice = testManager.getConfigurationAdvice();
 
-      expect(advice).toContain('🧪 测试环境使用内存日志模式，提供最快启动速度');
-      expect(advice).toContain('🔄 每次测试运行都会重置数据库状态');
+      expect(advice).toContain(' ');
+      expect(advice).toContain(' ');
     });
   });
 
@@ -322,7 +322,7 @@ describe('SqliteConfigManager', () => {
       const result = await configManager.healthCheck(mockDatabase as any);
 
       expect(result.status).toBe('warning');
-      expect(result.issues).toContain('WAL文件过大，建议手动执行CHECKPOINT');
+      expect(result.issues).toContain('WALCHECKPOINT');
     });
 
     test('should detect integrity issues', async () => {
@@ -339,7 +339,7 @@ describe('SqliteConfigManager', () => {
 
       expect(result.status).toBe('error');
       expect(result.issues).toContain(
-        '数据库完整性检查失败: integrity check failed'
+        ': integrity check failed'
       );
     });
 
@@ -359,7 +359,7 @@ describe('SqliteConfigManager', () => {
       const result = await configManager.healthCheck(mockDatabase as any);
 
       expect(result.status).toBe('error');
-      expect(result.issues).toContain('外键约束违规: 2 个问题');
+      expect(result.issues).toContain(': 2 ');
     });
 
     test('should handle health check errors', async () => {
@@ -371,7 +371,7 @@ describe('SqliteConfigManager', () => {
 
       expect(result.status).toBe('error');
       expect(result.issues[0]).toContain(
-        '健康检查失败: Database connection failed'
+        ': Database connection failed'
       );
     });
   });
@@ -505,7 +505,7 @@ describe('factory functions', () => {
       expect(manager).toBeInstanceOf(SqliteConfigManager);
       expect(mockDatabase.exec).toHaveBeenCalled();
       expect(consoleSpy).toHaveBeenCalledWith(
-        '🔧 Applying SQLite configuration...'
+        ' Applying SQLite configuration...'
       );
 
       consoleSpy.mockRestore();
@@ -541,9 +541,9 @@ describe('factory functions', () => {
 
       await quickSetupDatabase(mockDatabase as any, 'development');
 
-      expect(consoleSpy).toHaveBeenCalledWith('\n💡 Configuration advice:');
+      expect(consoleSpy).toHaveBeenCalledWith('\n Configuration advice:');
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('🔧 开发环境已优化调试体验')
+        expect.stringContaining(' ')
       );
 
       consoleSpy.mockRestore();

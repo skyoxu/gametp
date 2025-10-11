@@ -71,7 +71,7 @@ export function GameVerticalSlice({
   const handleGameEvent = useCallback(
     (event: GameDomainEvent) => {
       // ,
-      scheduleNonBlocking(() => console.log('🎮 Vertical Slice Event:', event));
+      scheduleNonBlocking(() => console.log(' Vertical Slice Event:', event));
 
       //  GameDomainEvent ,
       const gameEvent = event;
@@ -80,11 +80,11 @@ export function GameVerticalSlice({
       setSliceState(prev => ({ ...prev, events: [...prev.events, gameEvent] }));
 
       //
-      console.log('🔍 handleGameEvent switch on type:', gameEvent.type);
+      console.log(' handleGameEvent switch on type:', gameEvent.type);
       switch (gameEvent.type) {
         case 'game.scene.created':
           if (gameEvent.data.sceneKey === 'TestScene') {
-            console.log('✅ TestScene创建成功');
+            console.log(' TestScene');
             webVitals.recordCustomEvent('test_scene_created');
           }
           break;
@@ -99,7 +99,7 @@ export function GameVerticalSlice({
 
         case 'game.level.completed':
           // :
-          console.log('🎉 Level Completed!', gameEvent.data);
+          console.log(' Level Completed!', gameEvent.data);
           webVitals.recordCustomEvent('level_completed', {
             score: gameEvent.data.result?.score,
             moves: gameEvent.data.result?.totalMoves,
@@ -120,12 +120,12 @@ export function GameVerticalSlice({
 
         case 'game.scene.stopped':
           if (gameEvent.data.sceneKey === 'TestScene') {
-            console.log('🏁 TestScene停止，竖切测试完成');
+            console.log(' TestScene');
           }
           break;
 
         case 'game.error':
-          console.error('❌ 游戏错误:', gameEvent.data);
+          console.error(' :', gameEvent.data);
           setSliceState(prev => ({
             ...prev,
             phase: 'error',
@@ -158,7 +158,7 @@ export function GameVerticalSlice({
   const handleLevelPersistence = useCallback(
     async (result: any) => {
       try {
-        console.log('💾 开始数据持久化...');
+        console.log(' ...');
         webVitals.startTiming('data_persistence');
 
         //  LevelResultService
@@ -200,12 +200,12 @@ export function GameVerticalSlice({
           await levelService.saveLevelResult(levelCompletionData);
 
         if (saveResult.success) {
-          console.log('✅ 数据持久化完成, ID:', saveResult.data);
+          console.log(' , ID:', saveResult.data);
 
           //
           const statsResult = await levelService.getStats();
           if (statsResult.success) {
-            console.log('📊 持久化统计:', statsResult.data);
+            console.log(' :', statsResult.data);
           }
 
           const persistenceData = {
@@ -224,11 +224,11 @@ export function GameVerticalSlice({
           throw new Error(saveResult.error || 'Unknown persistence error');
         }
       } catch (error) {
-        console.error('❌ 数据持久化失败:', error);
+        console.error(' :', error);
         webVitals.recordError(error as Error, 'data_persistence');
         setSliceState(prev => ({
           ...prev,
-          error: `数据持久化失败: ${(error as Error).message}`,
+          error: `: ${(error as Error).message}`,
         }));
       }
     },
@@ -240,7 +240,7 @@ export function GameVerticalSlice({
    */
   const initializeGameEngine = useCallback(async () => {
     console.log(
-      '🚀 initializeGameEngine called, canvasRef.current:',
+      ' initializeGameEngine called, canvasRef.current:',
       !!canvasRef.current,
       'gameEngineRef.current:',
       !!gameEngineRef.current
@@ -248,7 +248,7 @@ export function GameVerticalSlice({
 
     if (!canvasRef.current || gameEngineRef.current) {
       console.warn(
-        '⚠️ Early return from initializeGameEngine - canvas:',
+        ' Early return from initializeGameEngine - canvas:',
         !!canvasRef.current,
         'engine:',
         !!gameEngineRef.current
@@ -257,7 +257,7 @@ export function GameVerticalSlice({
     }
 
     try {
-      console.log('🔄 Setting state to initializing...');
+      console.log(' Setting state to initializing...');
       setSliceState(prev => ({ ...prev, phase: 'initializing' }));
       webVitals.startTiming('game_engine_init');
 
@@ -296,18 +296,18 @@ export function GameVerticalSlice({
         sceneManager.game.scene.stop('MenuScene');
       }
 
-      console.log('✅ 游戏引擎初始化完成，TestScene已启动');
+      console.log(' TestScene');
       webVitals.endTiming('game_engine_init');
 
-      console.log('🎮 Setting state to playing...');
+      console.log(' Setting state to playing...');
       setSliceState(prev => ({
         ...prev,
         phase: 'playing',
         testStartTime: new Date(),
       }));
-      console.log('🎮 State set to playing complete');
+      console.log(' State set to playing complete');
     } catch (error) {
-      console.error('❌ 游戏引擎初始化失败:', error);
+      console.error(' :', error);
       webVitals.recordError(error as Error, 'game_engine_init');
       setSliceState(prev => ({
         ...prev,
@@ -326,9 +326,9 @@ export function GameVerticalSlice({
       try {
         gameEngineRef.current.destroy();
         gameEngineRef.current = null;
-        console.log('✅ 游戏引擎已清理');
+        console.log(' ');
       } catch (error) {
-        console.error('❌ 游戏引擎清理失败:', error);
+        console.error(' :', error);
       }
     }
   }, []);
@@ -348,11 +348,11 @@ export function GameVerticalSlice({
    *
    */
   const startTest = useCallback(() => {
-    console.log('🎬 startTest called!');
+    console.log(' startTest called!');
     webVitals.recordCustomEvent('vertical_slice_start');
-    console.log('🎬 About to call initializeGameEngine...');
+    console.log(' About to call initializeGameEngine...');
     initializeGameEngine();
-    console.log('🎬 initializeGameEngine call completed');
+    console.log(' initializeGameEngine call completed');
   }, [initializeGameEngine, webVitals]);
 
   //
@@ -368,7 +368,7 @@ export function GameVerticalSlice({
     if (sliceState.phase !== 'playing') return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      console.log('⌨️ Keyboard event received:', event.key, event.code);
+      console.log(' Keyboard event received:', event.key, event.code);
 
       if (gameEngineRef.current) {
         const gameInput = {
@@ -381,7 +381,7 @@ export function GameVerticalSlice({
           timestamp: new Date(),
         };
 
-        console.log('⌨️ Sending input to game engine:', gameInput);
+        console.log(' Sending input to game engine:', gameInput);
         gameEngineRef.current.handleInput(gameInput);
       }
     };
@@ -396,7 +396,7 @@ export function GameVerticalSlice({
 
   //
   useEffect(() => {
-    console.log('🔗 GameVerticalSlice: 设置事件订阅');
+    console.log(' GameVerticalSlice: ');
 
     //
     const subscriptions = [
@@ -408,17 +408,17 @@ export function GameVerticalSlice({
     ];
 
     console.log(
-      '🔗 GameVerticalSlice: 事件订阅完成，订阅数量:',
+      ' GameVerticalSlice: :',
       subscriptions.length
     );
-    console.log('🔗 GameVerticalSlice: 订阅ID列表:', subscriptions);
+    console.log(' GameVerticalSlice: ID:', subscriptions);
 
     //
     const stats = gameEvents.getStats();
-    console.log('🔗 GameVerticalSlice: 事件总线统计:', stats);
+    console.log(' GameVerticalSlice: :', stats);
 
     return () => {
-      console.log('🔗 GameVerticalSlice: 清理事件订阅');
+      console.log(' GameVerticalSlice: ');
       subscriptions.forEach(subscriptionId => {
         gameEvents.unsubscribe(subscriptionId);
       });
@@ -441,16 +441,16 @@ export function GameVerticalSlice({
         return (
           <div className="text-center p-8">
             <h2 className="text-2xl font-bold text-white mb-4">
-              🚀 游戏竖切测试
+               
             </h2>
             <p className="text-gray-300 mb-6">
-              端到端验证：React → Phaser → 事件 → 持久化 → 可观测性
+              React  Phaser      
             </p>
             <button
               onClick={startTest}
               className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
-              开始测试
+              
             </button>
           </div>
         );
@@ -459,10 +459,10 @@ export function GameVerticalSlice({
         return (
           <div className="text-center p-8">
             <h2 className="text-xl font-bold text-white mb-4">
-              ⚡ 初始化中...
+               ...
             </h2>
             <div className="animate-pulse text-blue-400">
-              正在启动游戏引擎和TestScene
+              TestScene
             </div>
           </div>
         );
@@ -472,14 +472,14 @@ export function GameVerticalSlice({
           <div className="p-4 bg-gray-800 rounded-t-lg">
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-semibold text-white">
-                🎮 测试进行中
+                 
               </h3>
               <div className="text-sm text-gray-300">
-                移动次数: {sliceState.totalMoves || 0}
+                : {sliceState.totalMoves || 0}
               </div>
             </div>
             <div className="mt-2 text-xs text-gray-400">
-              提示：使用WASD移动蓝色精灵到右上角绿色区域完成测试
+              WASD
             </div>
           </div>
         );
@@ -487,29 +487,29 @@ export function GameVerticalSlice({
       case 'completed':
         return (
           <div className="p-6 bg-green-800 rounded-t-lg">
-            <h2 className="text-xl font-bold text-white mb-4">🎉 测试完成！</h2>
+            <h2 className="text-xl font-bold text-white mb-4"> </h2>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div className="text-green-200">
-                分数: {sliceState.score || 0}
+                : {sliceState.score || 0}
               </div>
               <div className="text-green-200">
-                移动次数: {sliceState.levelResult?.totalMoves || 0}
+                : {sliceState.levelResult?.totalMoves || 0}
               </div>
               <div className="text-green-200">
-                用时:{' '}
+                :{' '}
                 {sliceState.levelResult?.duration
-                  ? Math.round(sliceState.levelResult.duration / 1000) + '秒'
+                  ? Math.round(sliceState.levelResult.duration / 1000) + ''
                   : 'N/A'}
               </div>
               <div className="text-green-200">
-                事件数: {sliceState.events.length}
+                : {sliceState.events.length}
               </div>
             </div>
             <button
               onClick={resetTest}
               className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
             >
-              重新测试
+              
             </button>
           </div>
         );
@@ -517,13 +517,13 @@ export function GameVerticalSlice({
       case 'error':
         return (
           <div className="p-6 bg-red-800 rounded-t-lg">
-            <h2 className="text-xl font-bold text-white mb-4">❌ 测试失败</h2>
+            <h2 className="text-xl font-bold text-white mb-4"> </h2>
             <div className="text-red-200 text-sm mb-4">{sliceState.error}</div>
             <button
               onClick={resetTest}
               className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
             >
-              重试
+              
             </button>
           </div>
         );
@@ -552,7 +552,7 @@ export function GameVerticalSlice({
         sliceState.events.length > 0 && (
           <details className="mt-4 p-4 bg-gray-900 rounded text-xs">
             <summary className="text-white cursor-pointer">
-              调试信息 ({sliceState.events.length} 个事件)
+               ({sliceState.events.length} )
             </summary>
             <div className="mt-2 max-h-40 overflow-y-auto text-gray-300">
               {sliceState.events.slice(-10).map((event, index) => (

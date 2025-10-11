@@ -1,0 +1,11 @@
+﻿2025-10-10T17:07:05.6206337Z ##[group]Run npx --yes @cyclonedx/cyclonedx-npm --output-file sbom.json --spec-version 1.5
+2025-10-10T17:07:05.6207535Z [36;1mnpx --yes @cyclonedx/cyclonedx-npm --output-file sbom.json --spec-version 1.5[0m
+2025-10-10T17:07:05.6273355Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:07:05.6273750Z env:
+2025-10-10T17:07:05.6274086Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:07:05.6274489Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:07:05.6274737Z   SENTRY_DSN: 
+2025-10-10T17:07:05.6274967Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:07:05.6275217Z   CL: /std:c++20 /EHsc
+2025-10-10T17:07:05.6275463Z   CXXFLAGS: -std=c++20
+2025-10-10T17:07:05.6275700Z ##[endgroup]

@@ -1,7 +1,4 @@
-/**
- * 璧勪骇棰勭儹锛堣交閲忕骇锛夛細鍦ㄧ┖闂插抚/鍙?rAF 涓€愭鎵ц
- * - 鐢ㄤ簬鍦ㄨ繘鍏ユ父鎴忓墠棰勭儹灏戦噺鍏抽敭璧勬簮锛屼笉寮曞叆 Phaser 渚濊禆
- */
+/**\n * Asset preheater (idle-time, frame-friendly):\n * - Run lightweight preheat tasks during idle/next rAF to avoid jank\n * - Useful to pre-warm small, critical resources before game starts,\n *   without pulling in Phaser loaders\n */
 
 export interface PreheatTask {
   run: () => Promise<void> | void;
@@ -26,7 +23,7 @@ export async function runPreheatQueue(tasks: PreheatTask[], budgetMs = 12) {
     const start = performance.now();
     await t.run();
     const spent = performance.now() - start;
-    // 鑻ヨ秴杩囬绠楋紝绛夊緟鍒扮┖闂插啀缁х画
+    // If this task exceeds the budget, yield to idle before continuing
     if (spent > budgetMs) {
       await nextIdle();
     }
@@ -34,7 +31,7 @@ export async function runPreheatQueue(tasks: PreheatTask[], budgetMs = 12) {
 }
 
 /**
- * 绀轰緥锛氬浘鐗囬鐑紙浠呭綋璧勬簮瀛樺湪鏃舵湁鏁堬級
+ * Example: image preheat (effective only when resources exist)
  */
 export function preheatImages(urls: string[]): PreheatTask[] {
   return urls.map(u => ({
@@ -47,3 +44,4 @@ export function preheatImages(urls: string[]): PreheatTask[] {
       }),
   }));
 }
+

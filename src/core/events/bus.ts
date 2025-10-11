@@ -16,7 +16,7 @@ export interface EventBus {
   clear(): void;
 }
 
-/** 简单内存实现：同类型 FIFO，按订阅顺序触发。 */
+/**  FIFO */
 export class InMemoryEventBus implements EventBus {
   private handlers = new Map<AppEventType, Array<EventHandler<any>>>();
 

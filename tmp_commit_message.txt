@@ -1,0 +1,7 @@
+﻿feat(i18n): integrate zh-CN UTF-8 resources and UI i18n+a11y
+
+test(e2e): add language toggle smokes
+fix(contracts): resolve duplicate enum keys for RAID types
+
+Refs: ADR-0010-internationalization, ADR-0005-quality-gates
+Logs: logs/2025-10-12/refine/

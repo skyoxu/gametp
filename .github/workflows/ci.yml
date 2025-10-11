@@ -90,6 +90,10 @@ jobs:
       - name: Install dependencies
         uses: ./.github/actions/npm-install
 
+      - name: English comments + no-emoji scan (advisory)
+        run: node scripts/ci/scan-comments-no-emoji.cjs
+        continue-on-error: true
+
       - name: Step
         run: node scripts/ci/workflow-guardian.mjs
 

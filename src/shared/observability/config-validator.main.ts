@@ -231,7 +231,7 @@ export class ConfigValidator {
     const startTime = Date.now();
     const schema = ENVIRONMENT_SCHEMAS[environment];
 
-    console.log(`🔍 开始验证 ${environment} 环境配置...`);
+    console.log(`  ${environment} ...`);
 
     const result: ConfigValidationResult = {
       environment,
@@ -267,7 +267,7 @@ export class ConfigValidator {
 
     result.validationDuration = Date.now() - startTime;
     console.log(
-      `✅ ${environment} 环境配置验证完成，耗时: ${result.validationDuration}ms`
+      ` ${environment} : ${result.validationDuration}ms`
     );
 
     return result;
@@ -289,7 +289,7 @@ export class ConfigValidator {
         const result = await this.validateEnvironment(env);
         results.push(result);
       } catch (error) {
-        console.error(`验证 ${env} 环境时发生错误:`, error);
+        console.error(` ${env} :`, error);
         //
         results.push(this.createFailedResult(env, error));
       }
@@ -311,15 +311,15 @@ export class ConfigValidator {
       const value = process.env[varName];
       checks.push({
         id: `env_required_${varName}`,
-        name: `必需环境变量: ${varName}`,
+        name: `: ${varName}`,
         passed: !!value,
         severity: 'critical',
         message: value
-          ? `环境变量 ${varName} 已设置`
-          : `缺少必需的环境变量 ${varName}`,
+          ? ` ${varName} `
+          : ` ${varName}`,
         expectedValue: '',
         actualValue: value || 'undefined',
-        recommendation: !value ? `请在环境变量中设置 ${varName}` : undefined,
+        recommendation: !value ? ` ${varName}` : undefined,
       });
     }
 
@@ -329,14 +329,14 @@ export class ConfigValidator {
       const filePath = join(this.projectRoot, envFile);
       checks.push({
         id: `env_file_${envFile}`,
-        name: `环境文件: ${envFile}`,
+        name: `: ${envFile}`,
         passed: existsSync(filePath),
         severity: envFile === '.env' ? 'high' : 'medium',
         message: existsSync(filePath)
-          ? `${envFile} 文件存在`
-          : `${envFile} 文件不存在`,
+          ? `${envFile} `
+          : `${envFile} `,
         recommendation: !existsSync(filePath)
-          ? `考虑创建 ${envFile} 文件以存储环境特定配置`
+          ? ` ${envFile} `
           : undefined,
       });
     }
@@ -355,7 +355,7 @@ export class ConfigValidator {
       if (value) {
         checks.push({
           id: `env_security_${varName}`,
-          name: `敏感变量安全: ${varName}`,
+          name: `: ${varName}`,
           passed:
             value.length > 10 &&
             !value.includes('test') &&
@@ -432,12 +432,12 @@ export class ConfigValidator {
       const filePath = join(this.projectRoot, file);
       checks.push({
         id: `sentry_file_${file.split('/').pop()}`,
-        name: `Sentry配置文件: ${file}`,
+        name: `Sentry: ${file}`,
         passed: existsSync(filePath),
         severity: 'critical',
-        message: `${file} 文件存在性检查`,
+        message: `${file} `,
         recommendation: !existsSync(filePath)
-          ? `创建 ${file} 文件并配置Sentry初始化`
+          ? ` ${file} Sentry`
           : undefined,
       });
 
@@ -452,7 +452,7 @@ export class ConfigValidator {
 
           checks.push({
             id: `sentry_content_${file.split('/').pop()}`,
-            name: `${file} 内容验证`,
+            name: `${file} `,
             passed: hasInit && hasDsn,
             severity: 'high',
             message: 'Sentry',
@@ -461,10 +461,10 @@ export class ConfigValidator {
         } catch (error) {
           checks.push({
             id: `sentry_read_${file.split('/').pop()}`,
-            name: `${file} 读取检查`,
+            name: `${file} `,
             passed: false,
             severity: 'medium',
-            message: `无法读取 ${file} 文件: ${error}`,
+            message: ` ${file} : ${error}`,
             recommendation: '',
           });
         }
@@ -490,7 +490,7 @@ export class ConfigValidator {
       name: '',
       passed: this.isValidLogLevel(logLevel, loggingConfig.levelRequired),
       severity: 'medium',
-      message: `日志级别检查: ${logLevel}`,
+      message: `: ${logLevel}`,
       expectedValue: loggingConfig.levelRequired,
       actualValue: logLevel,
       recommendation: '',
@@ -599,7 +599,7 @@ export class ConfigValidator {
       name: '',
       passed: currentMemory < performanceConfig.maxMemoryUsage,
       severity: 'medium',
-      message: `当前内存使用: ${currentMemory.toFixed(2)}MB`,
+      message: `: ${currentMemory.toFixed(2)}MB`,
       expectedValue: `< ${performanceConfig.maxMemoryUsage}MB`,
       actualValue: `${currentMemory.toFixed(2)}MB`,
       recommendation:
@@ -646,11 +646,11 @@ export class ConfigValidator {
     for (const endpoint of apiConfig.required) {
       checks.push({
         id: `api_endpoint_${endpoint.replace('/', '_')}`,
-        name: `API端点: ${endpoint}`,
+        name: `API: ${endpoint}`,
         passed: this.checkApiEndpoint(endpoint),
         severity: 'medium',
-        message: `${endpoint} 端点可用性检查`,
-        recommendation: `确保 ${endpoint} 端点正确实现`,
+        message: `${endpoint} `,
+        recommendation: ` ${endpoint} `,
       });
     }
 
@@ -671,11 +671,11 @@ export class ConfigValidator {
       const dirPath = join(this.projectRoot, dir);
       checks.push({
         id: `fs_directory_${dir.replace('/', '_')}`,
-        name: `目录: ${dir}`,
+        name: `: ${dir}`,
         passed: existsSync(dirPath),
         severity: dir === 'src' ? 'critical' : 'medium',
-        message: `${dir} 目录存在性检查`,
-        recommendation: !existsSync(dirPath) ? `创建 ${dir} 目录` : undefined,
+        message: `${dir} `,
+        recommendation: !existsSync(dirPath) ? ` ${dir} ` : undefined,
       });
     }
 
@@ -685,11 +685,11 @@ export class ConfigValidator {
       const filePath = join(this.projectRoot, file);
       checks.push({
         id: `fs_file_${file.replace('.', '_')}`,
-        name: `文件: ${file}`,
+        name: `: ${file}`,
         passed: existsSync(filePath),
         severity: 'critical',
-        message: `${file} 文件存在性检查`,
-        recommendation: !existsSync(filePath) ? `创建 ${file} 文件` : undefined,
+        message: `${file} `,
+        recommendation: !existsSync(filePath) ? ` ${file} ` : undefined,
       });
     }
 
@@ -710,7 +710,7 @@ export class ConfigValidator {
       passed: passedChecks === checks.length,
       score,
       checks,
-      summary: `${passedChecks}/${checks.length} 项检查通过 (${score}分)`,
+      summary: `${passedChecks}/${checks.length}  (${score})`,
     };
   }
 
@@ -778,7 +778,7 @@ export class ConfigValidator {
       overall: { score: 0, grade: 'F', status: 'critical' },
       sections: {} as any,
       recommendations: [''],
-      criticalIssues: [`验证过程失败: ${error}`],
+      criticalIssues: [`: ${error}`],
       warnings: [],
     };
   }

@@ -1,6 +1,6 @@
 /**
- * 测试专用仓库实现
- * 实现IRepository接口用于单元测试
+ * Test-only repository implementation.
+ * Implements IRepository for unit tests.
  */
 
 import type { IRepository } from '../../contracts/ports';
@@ -25,7 +25,7 @@ export class TestRepository<TEntity extends Entity, TId = Id>
   ): Promise<TEntity> {
     const now = new Date().toISOString();
 
-    // 如果实体已经有ID，则直接使用，否则生成新ID
+    // If the entity already has an ID, keep it; otherwise generate one
     const id =
       'id' in entity && entity.id
         ? (entity.id as TId)
@@ -66,7 +66,7 @@ export class TestRepository<TEntity extends Entity, TId = Id>
     return this.store.has(String(id));
   }
 
-  // 测试辅助方法
+  // Test helpers
   clear(): void {
     this.store.clear();
   }
@@ -75,7 +75,7 @@ export class TestRepository<TEntity extends Entity, TId = Id>
     return this.store.size;
   }
 
-  // 允许手动设置ID用于测试
+  // Allow setting ID manually for tests
   async saveWithId(entity: TEntity): Promise<TEntity> {
     const now = new Date().toISOString();
     const savedEntity = {

@@ -1,0 +1,101 @@
+C:\buildgame\gametp\logs-18412530982\10_Unit Tests (windows-latest, Node 20).txt
+C:\buildgame\gametp\logs-18412530982\11_Quality Gates Check.txt
+C:\buildgame\gametp\logs-18412530982\12_Generate SBOM (CycloneDX).txt
+C:\buildgame\gametp\logs-18412530982\13_Workflow Guardian Check.txt
+C:\buildgame\gametp\logs-18412530982\6_Coverage Gate.txt
+C:\buildgame\gametp\logs-18412530982\7_Observability Verification.txt
+C:\buildgame\gametp\logs-18412530982\8_Build Verification (windows-latest).txt
+C:\buildgame\gametp\logs-18412530982\9_SonarCloud Analysis (Windows).txt
+C:\buildgame\gametp\logs-18412530982\Build Verification (windows-latest)\10_Size budget check (size-limit, PR; blocking unless size-waive).txt
+C:\buildgame\gametp\logs-18412530982\Build Verification (windows-latest)\1_Set up job.txt
+C:\buildgame\gametp\logs-18412530982\Build Verification (windows-latest)\28_Post Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\Build Verification (windows-latest)\29_Complete job.txt
+C:\buildgame\gametp\logs-18412530982\Build Verification (windows-latest)\2_Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\Build Verification (windows-latest)\3_Setup Node.js.txt
+C:\buildgame\gametp\logs-18412530982\Build Verification (windows-latest)\4_Install dependencies.txt
+C:\buildgame\gametp\logs-18412530982\Build Verification (windows-latest)\5_Build application.txt
+C:\buildgame\gametp\logs-18412530982\Build Verification (windows-latest)\6_Perf smoke summary (Windows).txt
+C:\buildgame\gametp\logs-18412530982\Build Verification (windows-latest)\system.txt
+C:\buildgame\gametp\logs-18412530982\Coverage Gate\13_Post Setup Node.js.txt
+C:\buildgame\gametp\logs-18412530982\Coverage Gate\14_Post Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\Coverage Gate\15_Complete job.txt
+C:\buildgame\gametp\logs-18412530982\Coverage Gate\1_Set up job.txt
+C:\buildgame\gametp\logs-18412530982\Coverage Gate\2_Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\Coverage Gate\3_Setup Node.js.txt
+C:\buildgame\gametp\logs-18412530982\Coverage Gate\4_Install dependencies.txt
+C:\buildgame\gametp\logs-18412530982\Coverage Gate\5_Validate (coverage config).txt
+C:\buildgame\gametp\logs-18412530982\Coverage Gate\6_Step.txt
+C:\buildgame\gametp\logs-18412530982\Coverage Gate\7_Step.txt
+C:\buildgame\gametp\logs-18412530982\Coverage Gate\system.txt
+C:\buildgame\gametp\logs-18412530982\Generate SBOM (CycloneDX)\11_Post Setup Node.js.txt
+C:\buildgame\gametp\logs-18412530982\Generate SBOM (CycloneDX)\12_Post Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\Generate SBOM (CycloneDX)\13_Complete job.txt
+C:\buildgame\gametp\logs-18412530982\Generate SBOM (CycloneDX)\1_Set up job.txt
+C:\buildgame\gametp\logs-18412530982\Generate SBOM (CycloneDX)\2_Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\Generate SBOM (CycloneDX)\3_Setup Node.js.txt
+C:\buildgame\gametp\logs-18412530982\Generate SBOM (CycloneDX)\4_Install (no scripts).txt
+C:\buildgame\gametp\logs-18412530982\Generate SBOM (CycloneDX)\5_Generate CycloneDX SBOM.txt
+C:\buildgame\gametp\logs-18412530982\Generate SBOM (CycloneDX)\6_Upload SBOM.txt
+C:\buildgame\gametp\logs-18412530982\Generate SBOM (CycloneDX)\system.txt
+C:\buildgame\gametp\logs-18412530982\Observability Verification\11_Post Setup Node.js.txt
+C:\buildgame\gametp\logs-18412530982\Observability Verification\12_Post Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\Observability Verification\13_Complete job.txt
+C:\buildgame\gametp\logs-18412530982\Observability Verification\1_Set up job.txt
+C:\buildgame\gametp\logs-18412530982\Observability Verification\2_Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\Observability Verification\3_Setup Node.js.txt
+C:\buildgame\gametp\logs-18412530982\Observability Verification\4_Install dependencies.txt
+C:\buildgame\gametp\logs-18412530982\Observability Verification\5_Validate.txt
+C:\buildgame\gametp\logs-18412530982\Observability Verification\6_Upload observability report.txt
+C:\buildgame\gametp\logs-18412530982\Observability Verification\system.txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\10_Typecheck (middleware strict).txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\11_Typecheck (events strict).txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\12_Typecheck (security strict).txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\13_Guard build artifacts are not tracked.txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\15_Commit message lint (PR - last commit only).txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\1_Set up job.txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\2_Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\34_Post Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\35_Complete job.txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\3_Setup Node.js.txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\4_Strip BOMs in config files.txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\5_Install dependencies.txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\6_Step.txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\7_Step.txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\8_Typecheck (shared strict).txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\9_Typecheck (services strict).txt
+C:\buildgame\gametp\logs-18412530982\Quality Gates Check\system.txt
+C:\buildgame\gametp\logs-18412530982\SonarCloud Analysis (Windows)\16_Post Setup Java (for SonarScanner).txt
+C:\buildgame\gametp\logs-18412530982\SonarCloud Analysis (Windows)\17_Post Setup Node.js.txt
+C:\buildgame\gametp\logs-18412530982\SonarCloud Analysis (Windows)\18_Post Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\SonarCloud Analysis (Windows)\19_Complete job.txt
+C:\buildgame\gametp\logs-18412530982\SonarCloud Analysis (Windows)\1_Set up job.txt
+C:\buildgame\gametp\logs-18412530982\SonarCloud Analysis (Windows)\2_Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\SonarCloud Analysis (Windows)\3_Setup Node.js.txt
+C:\buildgame\gametp\logs-18412530982\SonarCloud Analysis (Windows)\4_Setup Java (for SonarScanner).txt
+C:\buildgame\gametp\logs-18412530982\SonarCloud Analysis (Windows)\5_Install dependencies.txt
+C:\buildgame\gametp\logs-18412530982\SonarCloud Analysis (Windows)\6_Run tests with coverage (lcov).txt
+C:\buildgame\gametp\logs-18412530982\SonarCloud Analysis (Windows)\9_Sonar summary.txt
+C:\buildgame\gametp\logs-18412530982\SonarCloud Analysis (Windows)\system.txt
+C:\buildgame\gametp\logs-18412530982\Unit Tests (windows-latest, Node 20)\11_Post Setup Node.js.txt
+C:\buildgame\gametp\logs-18412530982\Unit Tests (windows-latest, Node 20)\12_Post Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\Unit Tests (windows-latest, Node 20)\13_Complete job.txt
+C:\buildgame\gametp\logs-18412530982\Unit Tests (windows-latest, Node 20)\1_Set up job.txt
+C:\buildgame\gametp\logs-18412530982\Unit Tests (windows-latest, Node 20)\2_Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\Unit Tests (windows-latest, Node 20)\3_Setup Node.js.txt
+C:\buildgame\gametp\logs-18412530982\Unit Tests (windows-latest, Node 20)\4_Install dependencies.txt
+C:\buildgame\gametp\logs-18412530982\Unit Tests (windows-latest, Node 20)\5_Step.txt
+C:\buildgame\gametp\logs-18412530982\Unit Tests (windows-latest, Node 20)\6_Step.txt
+C:\buildgame\gametp\logs-18412530982\Unit Tests (windows-latest, Node 20)\system.txt
+C:\buildgame\gametp\logs-18412530982\Workflow Guardian Check\14_Post Setup Node.js.txt
+C:\buildgame\gametp\logs-18412530982\Workflow Guardian Check\15_Post Step.txt
+C:\buildgame\gametp\logs-18412530982\Workflow Guardian Check\16_Post Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\Workflow Guardian Check\17_Complete job.txt
+C:\buildgame\gametp\logs-18412530982\Workflow Guardian Check\1_Set up job.txt
+C:\buildgame\gametp\logs-18412530982\Workflow Guardian Check\2_Checkout code.txt
+C:\buildgame\gametp\logs-18412530982\Workflow Guardian Check\3_Step.txt
+C:\buildgame\gametp\logs-18412530982\Workflow Guardian Check\4_Setup Node.js.txt
+C:\buildgame\gametp\logs-18412530982\Workflow Guardian Check\5_Strip BOMs in config files.txt
+C:\buildgame\gametp\logs-18412530982\Workflow Guardian Check\6_Install dependencies.txt
+C:\buildgame\gametp\logs-18412530982\Workflow Guardian Check\7_Step.txt
+C:\buildgame\gametp\logs-18412530982\Workflow Guardian Check\8_Step.txt
+C:\buildgame\gametp\logs-18412530982\Workflow Guardian Check\system.txt

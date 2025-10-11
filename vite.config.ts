@@ -60,6 +60,10 @@ export default defineConfig({
       '@opentelemetry/semantic-conventions': path.resolve(__dirname, './src/shared/observability/stubs/opentelemetry-semantic-conventions.ts'),
       '@opentelemetry/sdk-trace-base': path.resolve(__dirname, './src/shared/observability/stubs/opentelemetry-sdk-trace-base.ts'),
       '@opentelemetry/exporter-jaeger': path.resolve(__dirname, './src/shared/observability/stubs/opentelemetry-exporter-jaeger.ts'),
+      // Test-friendly stub for uuid
+      'uuid': path.resolve(__dirname, './src/test-stubs/uuid.ts'),
+      // Test-friendly stub for better-sqlite3 (Vitest only path resolution)
+      'better-sqlite3': path.resolve(__dirname, './src/test-stubs/better-sqlite3.ts'),
     },
   },
   test: {

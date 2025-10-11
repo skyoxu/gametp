@@ -7,7 +7,14 @@
     "noUncheckedIndexedAccess": true
   },
   "include": [
-    "src/shared/security/**/*"
+    "src/shared/security/**/*",
+    "src/types/**/*.d.ts"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "src/**/*.spec.tsx",
+    "src/**/*.test.tsx",
+    "src/**/__tests__/**"
   ]
 }
-

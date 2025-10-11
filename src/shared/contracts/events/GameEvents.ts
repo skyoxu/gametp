@@ -1,11 +1,11 @@
 /**
- * 游戏域事件定义
- * 符合 CLAUDE.md 事件命名规则：${DOMAIN_PREFIX}.<entity>.<action>
+ * Game domain event definitions.
+ * Naming convention: {DOMAIN_PREFIX}.<entity>.<action>
  */
 
 import type { GameState } from '../../../ports/game-engine.port';
 
-// 基础事件接口（避免循环依赖）
+// Base event interface (avoid circular deps)
 interface BaseEvent {
   source?: string;
   timestamp?: Date;
@@ -18,7 +18,7 @@ interface BaseEvent {
 }
 
 export type GameDomainEvent =
-  // 游戏生命周期事件
+  // Game lifecycle events
   | ({ type: 'game.engine.initialized'; data: { config: any } } & BaseEvent)
   | ({ type: 'game.engine.started'; data: { timestamp: Date } } & BaseEvent)
   | ({ type: 'game.engine.paused'; data: { timestamp: Date } } & BaseEvent)
@@ -28,7 +28,7 @@ export type GameDomainEvent =
       data: { result: any; timestamp: Date };
     } & BaseEvent)
 
-  // 游戏状态事件
+  // Game state events
   | ({
       type: 'game.state.updated';
       data: { gameState: GameState; timestamp: Date };
@@ -42,7 +42,7 @@ export type GameDomainEvent =
       data: { source: string; gameState: GameState };
     } & BaseEvent)
 
-  // 游戏保存事件
+  // Game save events
   | ({
       type: 'game.save.created';
       data: { saveId: string; gameState: GameState };
@@ -59,7 +59,7 @@ export type GameDomainEvent =
       data: { saveId: string; timestamp: Date };
     } & BaseEvent)
 
-  // 场景事件
+  // Scene events
   | ({
       type: 'game.scene.created';
       data: { sceneKey: string; timestamp: Date };
@@ -85,7 +85,7 @@ export type GameDomainEvent =
       data: { from: string; to: string; timestamp: Date };
     } & BaseEvent)
 
-  // 玩家操作事件
+  // Player action events
   | ({
       type: 'game.player.moved';
       data: { position: { x: number; y: number }; timestamp: Date };
@@ -119,7 +119,7 @@ export type GameDomainEvent =
       };
     } & BaseEvent)
 
-  // 物品事件
+  // Inventory/item events
   | ({
       type: 'game.inventory.added';
       data: { item: string; quantity: number; timestamp: Date };
@@ -133,7 +133,7 @@ export type GameDomainEvent =
       data: { item: string; quantity: number; effect?: string };
     } & BaseEvent)
 
-  // UI交互事件
+  // UI interaction events
   | ({
       type: 'game.ui.menu.opened';
       data: { menuType: string; timestamp: Date };
@@ -151,7 +151,7 @@ export type GameDomainEvent =
       data: { message: string; type: 'info' | 'warning' | 'error' | 'success' };
     } & BaseEvent)
 
-  // 输入事件
+  // Input events
   | ({
       type: 'game.input.keyboard';
       data: { key: string; action: 'keydown' | 'keyup'; timestamp: Date };
@@ -165,7 +165,7 @@ export type GameDomainEvent =
       };
     } & BaseEvent)
 
-  // 错误事件
+  // Error events
   | ({
       type: 'game.error';
       data: { error: string; context?: string; timestamp: Date };
@@ -175,7 +175,7 @@ export type GameDomainEvent =
       data: { warning: string; context?: string; timestamp: Date };
     } & BaseEvent)
 
-  // 性能监控事件
+  // Performance monitoring events
   | ({
       type: 'game.performance.fps';
       data: { fps: number; timestamp: Date };
@@ -185,7 +185,7 @@ export type GameDomainEvent =
       data: { used: number; total: number; timestamp: Date };
     } & BaseEvent)
 
-  // React <-> Phaser 通信事件
+  // React <-> Phaser communication events
   | ({ type: 'react.command.pause'; data: { timestamp: Date } } & BaseEvent)
   | ({ type: 'react.command.resume'; data: { timestamp: Date } } & BaseEvent)
   | ({
@@ -209,7 +209,7 @@ export type GameEventHandler<T extends GameDomainEvent = GameDomainEvent> = (
   event: T
 ) => void | Promise<void>;
 
-// 事件优先级枚举
+// Event priority enum
 export enum EventPriority {
   LOW = 0,
   NORMAL = 1,
@@ -217,17 +217,18 @@ export enum EventPriority {
   CRITICAL = 3,
 }
 
-// 事件元数据接口
+// Event metadata interface
 export interface GameEventMetadata {
   id: string;
   timestamp: Date;
   source: string;
   priority: EventPriority;
-  persistent?: boolean; // 是否持久化事件
-  broadcast?: boolean; // 是否广播到所有监听器
+  persistent?: boolean; // Whether the event is persisted
+  broadcast?: boolean; // Whether to broadcast to all listeners
 }
 
-// 完整的游戏事件接口 - 使用交叉类型而非扩展联合类型
+// Complete game event interface (use intersection types)
 export type EnhancedGameEvent = GameDomainEvent & {
   metadata: GameEventMetadata;
 };
+

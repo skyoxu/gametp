@@ -1,4 +1,4 @@
-/* 安全监控和告警系统 */
+/* Security monitoring and alerting system */
 
 interface SecurityEvent {
   timestamp: Date;
@@ -37,7 +37,7 @@ class SecurityMonitor {
   };
 
   /**
-   * 记录安全事件
+   * Record a security event
    */
   logSecurityEvent(event: Omit<SecurityEvent, 'timestamp'>): void {
     const securityEvent: SecurityEvent = {
@@ -47,30 +47,30 @@ class SecurityMonitor {
 
     this.events.push(securityEvent);
 
-    // 保持事件数量限制
+    // Keep event list size within limit
     if (this.events.length > this.MAX_EVENTS) {
       this.events = this.events.slice(-this.MAX_EVENTS);
     }
 
-    // 检查是否需要触发告警
+    // Check whether to trigger alert
     this.checkAlertConditions(securityEvent);
 
-    // 输出到日志
+    // Write to log
     this.writeToLog(securityEvent);
   }
 
   /**
-   * 更新安全指标
+   * Update security metrics
    */
   updateMetrics(partialMetrics: Partial<SecurityMetrics>): void {
     this.metrics = { ...this.metrics, ...partialMetrics };
 
-    // 检查指标阈值
+    // Check metric thresholds
     this.checkMetricsThresholds();
   }
 
   /**
-   * 获取安全事件
+   * Get security events
    */
   getSecurityEvents(
     category?: SecurityEvent['category'],
@@ -97,21 +97,21 @@ class SecurityMonitor {
   }
 
   /**
-   * 获取安全指标
+   * Get security metrics
    */
   getSecurityMetrics(): SecurityMetrics {
     return { ...this.metrics };
   }
 
   /**
-   * 检查告警条件
+   * Check alert conditions
    */
   private checkAlertConditions(event: SecurityEvent): void {
     if (event.level === 'critical') {
       this.triggerAlert('Critical security event detected', event);
     }
 
-    // 根据事件类型检查特定条件
+    // Check specific conditions per event category
     switch (event.category) {
       case 'auth':
         if (
@@ -143,7 +143,7 @@ class SecurityMonitor {
   }
 
   /**
-   * 检查指标阈值
+   * Check metric thresholds
    */
   private checkMetricsThresholds(): void {
     Object.entries(this.ALERT_THRESHOLDS).forEach(([metric, threshold]) => {
@@ -157,7 +157,7 @@ class SecurityMonitor {
   }
 
   /**
-   * 触发安全告警
+   * Trigger security alert
    */
   private triggerAlert(message: string, event?: SecurityEvent): void {
     const alert = {
@@ -167,20 +167,20 @@ class SecurityMonitor {
       metrics: this.getSecurityMetrics(),
     };
 
-    // 写入告警日志
+    // Write alert log
     this.writeToAlertLog(alert);
 
-    // 可以在这里添加其他告警机制：
-    // - 发送邮件
-    // - 推送通知
-    // - 写入数据库
-    // - 调用外部监控系统API
+    // Additional alert mechanisms can be added here
+    // - Send email
+    // - Push notification
+    // - Write to database
+    // - Call external monitoring system API
 
-    console.error('🚨 SECURITY ALERT:', alert);
+    console.error(' SECURITY ALERT:', alert);
   }
 
   /**
-   * 写入安全日志
+   * Write security log
    */
   private writeToLog(event: SecurityEvent): void {
     const logEntry = {
@@ -192,20 +192,20 @@ class SecurityMonitor {
       source: event.source,
     };
 
-    // 在生产环境中，这里应该写入文件或发送到日志收集系统
-    console.log('🔒 Security Event:', JSON.stringify(logEntry, null, 2));
+    // In production, write to file or send to a log collector
+    console.log(' Security Event:', JSON.stringify(logEntry, null, 2));
   }
 
   /**
-   * 写入告警日志
+   * Write alert log
    */
   private writeToAlertLog(alert: any): void {
-    // 在生产环境中，这里应该写入专用的告警日志文件
-    console.error('🚨 Security Alert:', JSON.stringify(alert, null, 2));
+    // In production, write to a dedicated alert log file
+    console.error(' Security Alert:', JSON.stringify(alert, null, 2));
   }
 
   /**
-   * 生成安全报告
+   * Generate security report
    */
   generateSecurityReport(periodHours: number = 24): {
     summary: {
@@ -250,10 +250,10 @@ class SecurityMonitor {
   }
 }
 
-// 创建全局安全监控实例
+// Create global security monitor instance
 export const securityMonitor = new SecurityMonitor();
 
-// 导出常用的安全事件记录函数
+// Export common security event logging function
 export function logSecurityEvent(
   level: SecurityEvent['level'],
   category: SecurityEvent['category'],
@@ -263,7 +263,8 @@ export function logSecurityEvent(
   securityMonitor.logSecurityEvent({ level, category, message, details });
 }
 
-// 导出安全指标更新函数
+// Export security metrics update function
 export function updateSecurityMetrics(metrics: Partial<SecurityMetrics>) {
   securityMonitor.updateMetrics(metrics);
 }
+

@@ -1,0 +1,31 @@
+﻿2025-10-10T17:10:19.2744088Z Current runner version: '2.328.0'
+2025-10-10T17:10:19.2879589Z ##[group]Runner Image Provisioner
+2025-10-10T17:10:19.2880414Z Hosted Compute Agent
+2025-10-10T17:10:19.2880907Z Version: 20250912.392
+2025-10-10T17:10:19.2881407Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-10T17:10:19.2882045Z Build Date: 2025-09-12T15:23:14Z
+2025-10-10T17:10:19.2882544Z ##[endgroup]
+2025-10-10T17:10:19.2883002Z ##[group]Operating System
+2025-10-10T17:10:19.2883590Z Microsoft Windows Server 2025
+2025-10-10T17:10:19.2884683Z 10.0.26100
+2025-10-10T17:10:19.2885584Z Datacenter
+2025-10-10T17:10:19.2886053Z ##[endgroup]
+2025-10-10T17:10:19.2886587Z ##[group]Runner Image
+2025-10-10T17:10:19.2887054Z Image: windows-2025
+2025-10-10T17:10:19.2887504Z Version: 20250929.44.1
+2025-10-10T17:10:19.2888419Z Included Software: https://github.com/actions/runner-images/blob/win25/20250929.44/images/windows/Windows2025-Readme.md
+2025-10-10T17:10:19.2889723Z Image Release: https://github.com/actions/runner-images/releases/tag/win25%2F20250929.44
+2025-10-10T17:10:19.2891161Z ##[endgroup]
+2025-10-10T17:10:19.2892130Z ##[group]GITHUB_TOKEN Permissions
+2025-10-10T17:10:19.2894181Z Actions: read
+2025-10-10T17:10:19.2894703Z Contents: read
+2025-10-10T17:10:19.2895177Z Metadata: read
+2025-10-10T17:10:19.2895614Z ##[endgroup]
+2025-10-10T17:10:19.2897637Z Secret source: Actions
+2025-10-10T17:10:19.2898304Z Prepare workflow directory
+2025-10-10T17:10:19.3413145Z Prepare all required actions
+2025-10-10T17:10:19.3451423Z Getting action download info
+2025-10-10T17:10:19.7223914Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-10T17:10:19.9515316Z Download action repository 'actions/setup-node@v5.0.0' (SHA:a0853c24544627f65ddf259abe73b1d18a591444)
+2025-10-10T17:10:20.1556325Z Download action repository 'actions/download-artifact@v4' (SHA:d3f86a106a0bac45b974a628896c90dbdf5c8093)
+2025-10-10T17:10:21.0276225Z Complete job name: Coverage Gate

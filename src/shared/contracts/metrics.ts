@@ -83,7 +83,7 @@ export const CORE_SLIS = {
   CRASH_FREE_USERS: {
     id: 'crash_free_users',
     name: 'Crash-Free Users',
-    // 在观察窗口内未遇到崩溃的用户百分比
+    // Note
     description: '\u5728\u89c2\u5bdf\u7a97\u53e3\u5185\u672a\u9047\u5230\u5d29\u6e83\u7684\u7528\u6237\u767e\u5206\u6bd4',
     unit: MetricUnit.Percent,
     nfrKey: NFR_KEYS.RELIABILITY.CRASH_FREE_USERS,
@@ -94,7 +94,7 @@ export const CORE_SLIS = {
   CRASH_FREE_SESSIONS: {
     id: 'crash_free_sessions',
     name: 'Crash-Free Sessions',
-    // 在观察窗口内未崩溃的会话百分比
+    // Note
     description: '\u5728\u89c2\u5bdf\u7a97\u53e3\u5185\u672a\u5d29\u6e83\u7684\u4f1a\u8bdd\u767e\u5206\u6bd4',
     unit: MetricUnit.Percent,
     nfrKey: NFR_KEYS.RELIABILITY.CRASH_FREE_SESSIONS,

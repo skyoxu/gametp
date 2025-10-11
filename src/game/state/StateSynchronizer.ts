@@ -1,6 +1,6 @@
 /**
- * 状态同步器
- * 负责在游戏引擎、场景和React组件之间同步状态
+ * Note
+ * React
  */
 
 import type { GameState } from '../../ports/game-engine.port';
@@ -29,7 +29,7 @@ export class StateSynchronizer {
 
   constructor(options: StateSynchronizerOptions = {}) {
     this.options = {
-      syncInterval: 1000, // 1秒同步一次
+      syncInterval: 1000, // 1
       conflictResolution: 'latest',
       enableBidirectionalSync: true,
       ...options,
@@ -37,7 +37,7 @@ export class StateSynchronizer {
   }
 
   /**
-   * 注册状态源
+   * Note
    */
   registerSource(source: StateSource, priority: number = 0): void {
     if (this.isDestroyed) return;
@@ -45,7 +45,7 @@ export class StateSynchronizer {
     this.sources.set(source.id, source);
     this.priorities.set(source.id, priority);
 
-    // 初始化状态快照
+    // Note
     const currentState = source.getState();
     if (currentState) {
       this.lastStates.set(source.id, { ...currentState });
@@ -64,7 +64,7 @@ export class StateSynchronizer {
   }
 
   /**
-   * 取消注册状态源
+   * Note
    */
   unregisterSource(sourceId: string): void {
     if (this.isDestroyed) return;
@@ -86,7 +86,7 @@ export class StateSynchronizer {
   }
 
   /**
-   * 开始同步
+   * Note
    */
   startSync(): void {
     if (this.isDestroyed || this.syncTimer) return;
@@ -108,7 +108,7 @@ export class StateSynchronizer {
   }
 
   /**
-   * 停止同步
+   * Note
    */
   stopSync(): void {
     if (this.syncTimer) {
@@ -129,7 +129,7 @@ export class StateSynchronizer {
   }
 
   /**
-   * 手动触发同步
+   * Note
    */
   sync(): void {
     if (this.isDestroyed) return;
@@ -137,7 +137,7 @@ export class StateSynchronizer {
   }
 
   /**
-   * 强制设置所有源的状态
+   * Note
    */
   forceState(state: GameState, excludeSourceId?: string): void {
     if (this.isDestroyed) return;
@@ -166,7 +166,7 @@ export class StateSynchronizer {
   }
 
   /**
-   * 获取合并后的状态
+   * Note
    */
   getMergedState(): GameState | null {
     if (this.isDestroyed || this.sources.size === 0) return null;
@@ -191,7 +191,7 @@ export class StateSynchronizer {
     if (states.length === 0) return null;
     if (states.length === 1) return { ...states[0].state };
 
-    // 根据策略合并状态
+    // Note
     switch (this.options.conflictResolution) {
       case 'priority':
         return this.mergeByPriority(states);
@@ -205,21 +205,21 @@ export class StateSynchronizer {
   }
 
   /**
-   * 订阅同步事件
+   * Note
    */
   onEvent(callback: (event: DomainEvent) => void): void {
     this.eventCallbacks.add(callback);
   }
 
   /**
-   * 取消订阅同步事件
+   * Note
    */
   offEvent(callback: (event: DomainEvent) => void): void {
     this.eventCallbacks.delete(callback);
   }
 
   /**
-   * 销毁同步器
+   * Note
    */
   destroy(): void {
     this.isDestroyed = true;
@@ -231,7 +231,7 @@ export class StateSynchronizer {
   }
 
   /**
-   * 执行同步操作
+   * Note
    */
   private performSync(): void {
     if (this.isDestroyed || this.sources.size === 0) return;
@@ -239,7 +239,7 @@ export class StateSynchronizer {
     const changedSources: string[] = [];
     const currentStates: Map<string, GameState> = new Map();
 
-    // 检测状态变化
+    // Note
     for (const [sourceId, source] of this.sources) {
       const currentState = source.getState();
       if (currentState) {
@@ -253,20 +253,20 @@ export class StateSynchronizer {
       }
     }
 
-    // 如果有变化，执行同步
+    // Note
     if (changedSources.length > 0) {
       this.synchronizeStates(changedSources, currentStates);
     }
   }
 
   /**
-   * 同步状态到所有源
+   * Note
    */
   private synchronizeStates(
     changedSources: string[],
     currentStates: Map<string, GameState>
   ): void {
-    // 确定权威状态
+    // Note
     const authoritativeState = this.determineAuthoritativeState(
       changedSources,
       currentStates
@@ -276,7 +276,7 @@ export class StateSynchronizer {
 
     const { sourceId: authSourceId, state: authState } = authoritativeState;
 
-    // 同步到其他源
+    // Note
     let syncedCount = 0;
     for (const [sourceId, source] of this.sources) {
       if (sourceId !== authSourceId && this.options.enableBidirectionalSync) {
@@ -311,7 +311,7 @@ export class StateSynchronizer {
   }
 
   /**
-   * 确定权威状态
+   * Note
    */
   private determineAuthoritativeState(
     changedSources: string[],
@@ -335,7 +335,7 @@ export class StateSynchronizer {
         );
 
       case 'merge':
-        // 对于合并策略，使用优先级最高的作为基础
+        // Note
         const highest = candidates.reduce((best, current) =>
           current.priority > best.priority ? current : best
         );
@@ -347,7 +347,7 @@ export class StateSynchronizer {
   }
 
   /**
-   * 按优先级合并状态
+   * Note
    */
   private mergeByPriority(
     states: Array<{ sourceId: string; state: GameState; priority: number }>
@@ -356,7 +356,7 @@ export class StateSynchronizer {
   }
 
   /**
-   * 按时间戳合并状态
+   * Note
    */
   private mergeByTimestamp(
     states: Array<{ sourceId: string; state: GameState; priority: number }>
@@ -367,7 +367,7 @@ export class StateSynchronizer {
   }
 
   /**
-   * 字段级合并状态
+   * Note
    */
   private mergeFields(
     states: Array<{ sourceId: string; state: GameState; priority: number }>
@@ -375,7 +375,7 @@ export class StateSynchronizer {
     const baseState = states[0].state;
     const mergedState: GameState = { ...baseState };
 
-    // 为每个字段选择最新的值
+    // Note
     for (const { state } of states) {
       Object.keys(state).forEach(key => {
         const stateKey = key as keyof GameState;
@@ -389,15 +389,15 @@ export class StateSynchronizer {
   }
 
   /**
-   * 检查状态是否发生变化
+   * Note
    */
   private hasStateChanged(oldState: GameState, newState: GameState): boolean {
-    // 简单的深度比较（生产环境可能需要更高效的比较方法）
+    // Note
     return JSON.stringify(oldState) !== JSON.stringify(newState);
   }
 
   /**
-   * 发布事件
+   * Note
    */
   private publishEvent(event: DomainEvent): void {
     this.eventCallbacks.forEach(callback => {

@@ -1,6 +1,5 @@
 /**
- * EventBus单元测试
- * 测试事件总线的发布/订阅功能和中间件集成
+ * EventBus service tests
  */
 
 import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
@@ -28,8 +27,8 @@ describe('EventBus', () => {
   beforeEach(() => {
     eventBus = new EventBus({
       enableDebugLogging: false,
-      enableMiddleware: false, // 禁用默认中间件以专注测试中间件管理
-      validation: { level: 'disabled' }, // 禁用验证以专注测试事件总线逻辑
+      enableMiddleware: false, // middleware disabled for baseline tests
+      validation: { level: 'disabled' }, // validator disabled for unit scope
     });
   });
 

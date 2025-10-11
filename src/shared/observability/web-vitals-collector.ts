@@ -419,7 +419,7 @@ class WebVitalsCollector {
       if (filtered.length !== data.length) {
         localStorage.setItem(this.config.storageKey, JSON.stringify(filtered));
         console.log(
-          `[WebVitalsCollector] 清理了${data.length - filtered.length}条旧数据`
+          `[WebVitalsCollector] ${data.length - filtered.length}`
         );
       }
     } catch (error) {
@@ -507,13 +507,13 @@ class WebVitalsCollector {
   private reportRegressions(regressions: RegressionAlert[]) {
     regressions.forEach(regression => {
       console.warn(
-        `[WebVitalsCollector] ${regression.metric}性能回归检测:`,
+        `[WebVitalsCollector] ${regression.metric}:`,
         regression
       );
 
       // Sentry
       if (this.config.sentryEnabled) {
-        Sentry.captureMessage(`Web Vitals回归: ${regression.metric}`, {
+        Sentry.captureMessage(`Web Vitals: ${regression.metric}`, {
           level: regression.severity === 'critical' ? 'error' : 'warning',
           tags: {
             regression: true,

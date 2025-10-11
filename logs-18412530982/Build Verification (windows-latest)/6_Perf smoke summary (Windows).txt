@@ -1,0 +1,32 @@
+﻿2025-10-10T16:41:03.1696974Z ##[group]Run node scripts/ci/perf-smoke.mjs
+2025-10-10T16:41:03.1697574Z [36;1mnode scripts/ci/perf-smoke.mjs[0m
+2025-10-10T16:41:03.1763404Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:41:03.1763742Z env:
+2025-10-10T16:41:03.1763916Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:41:03.1764161Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:41:03.1764359Z   SENTRY_DSN: 
+2025-10-10T16:41:03.1764535Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:41:03.1764749Z   CL: /std:c++20 /EHsc
+2025-10-10T16:41:03.1764939Z   CXXFLAGS: -std=c++20
+2025-10-10T16:41:03.1765130Z   NODE_ENV: development
+2025-10-10T16:41:03.1765337Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:41:03.1765551Z   START_TTI_WARN_MS: 2500
+2025-10-10T16:41:03.1765749Z   START_TTI_FAIL_MS: 4000
+2025-10-10T16:41:03.1765935Z   SCENE_SWITCH_WARN_MS: 300
+2025-10-10T16:41:03.1766139Z   SCENE_SWITCH_FAIL_MS: 600
+2025-10-10T16:41:03.1766350Z   PERF_SAMPLE_COUNT: 10
+2025-10-10T16:41:03.1766532Z ##[endgroup]
+2025-10-10T16:41:03.4710899Z perf-smoke failed: Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'D:\a\gametp\gametp\tests\helpers\launch' imported from D:\a\gametp\gametp\scripts\ci\perf-smoke.mjs
+2025-10-10T16:41:03.4712762Z     at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+2025-10-10T16:41:03.4713588Z     at moduleResolve (node:internal/modules/esm/resolve:952:10)
+2025-10-10T16:41:03.4714357Z     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+2025-10-10T16:41:03.4715209Z     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+2025-10-10T16:41:03.4716101Z     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+2025-10-10T16:41:03.4716905Z     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+2025-10-10T16:41:03.4720551Z     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+2025-10-10T16:41:03.4722017Z     at ModuleLoader.import (node:internal/modules/esm/loader:605:34)
+2025-10-10T16:41:03.4723881Z     at defaultImportModuleDynamicallyForModule (node:internal/modules/esm/utils:221:31)
+2025-10-10T16:41:03.4724887Z     at importModuleDynamicallyCallback (node:internal/modules/esm/utils:260:12) {
+2025-10-10T16:41:03.4725506Z   code: 'ERR_MODULE_NOT_FOUND',
+2025-10-10T16:41:03.4725955Z   url: 'file:///D:/a/gametp/gametp/tests/helpers/launch'
+2025-10-10T16:41:03.4726390Z }

@@ -1,12 +1,13 @@
 /**
- * 游戏控制面板组件
- * 提供游戏控制按钮和快捷功能
+ * Game control panel UI
+ * Pause/Resume/Save/Load/Restart controls and status
  */
 
 import { useState, useCallback, useEffect } from 'react';
 import { useGameEvents } from '../../hooks/useGameEvents';
 import { useGameState } from '../../contexts/GameStateContext';
 import './GameControlPanel.css';
+import { useI18n } from '@/i18n';
 
 interface GameControlPanelProps {
   className?: string;
@@ -32,11 +33,12 @@ export function GameControlPanel({
   const gameEvents = useGameEvents({
     context: 'game-control-panel',
   });
+  const t = useI18n();
 
-  // 使用统一的状态管理
+  // Wire saveGame from context
   const { saveGame: saveGameState } = useGameState();
 
-  // 监听Phaser响应
+  // Listen for Phaser responses
   useEffect(() => {
     const subscriptions = gameEvents.onPhaserResponse(event => {
       setIsProcessing(false);
@@ -73,12 +75,12 @@ export function GameControlPanel({
     };
   }, [gameEvents, onSaveSuccess]);
 
-  // 监听游戏错误
+  // Listen for error events from game bus
   useEffect(() => {
     const subscriptions = gameEvents.onGameError(event => {
       setIsProcessing(false);
       const errorData = event.data as { error?: string; message?: string };
-      onError?.(errorData.error || errorData.message || '发生未知错误');
+      onError?.(errorData.error || errorData.message || '');
     });
 
     return () => {
@@ -86,7 +88,7 @@ export function GameControlPanel({
     };
   }, [gameEvents, onError]);
 
-  // 控制函数
+  // Guard against re-entrancy while processing
   const handlePause = useCallback(() => {
     if (isProcessing) return;
     setIsProcessing(true);
@@ -104,7 +106,7 @@ export function GameControlPanel({
     setIsProcessing(true);
 
     try {
-      // 使用Context进行保存，同时也通过EventBus通知Phaser
+      // Context EventBus Phaser
       const saveId = await saveGameState();
       if (saveId) {
         setLastSaveId(saveId);
@@ -125,7 +127,7 @@ export function GameControlPanel({
 
   const handleRestart = useCallback(() => {
     if (isProcessing) return;
-    if (!confirm('确定要重新开始游戏吗？当前进度将丢失。')) return;
+    if (!confirm(t('controlPanel.confirmRestart'))) return;
 
     setIsProcessing(true);
     gameEvents.sendCommandToPhaser('restart');
@@ -136,7 +138,7 @@ export function GameControlPanel({
     setIsProcessing(true);
 
     try {
-      // 快速保存也使用Context
+      // Context
       const saveId = await saveGameState();
       if (saveId) {
         setLastSaveId(saveId);
@@ -163,75 +165,81 @@ export function GameControlPanel({
       className={`game-control-panel position-${position} ${className}`}
       data-testid="game-control-panel"
     >
-      {/* 主要控制按钮 */}
+      {/* Main control section */}
       <div className="control-main-section">
-        {/* 暂停/继续按钮 */}
+        {/* Toggle Pause/Resume */}
         <button
           onClick={isGameRunning ? handlePause : handleResume}
           disabled={isProcessing}
           className={`control-btn primary ${isGameRunning ? 'pause' : 'resume'}`}
-          title={isGameRunning ? '暂停游戏' : '继续游戏'}
+          title={isGameRunning ? t('controlPanel.titlePause') : t('controlPanel.titleResume')}
+          aria-label={isGameRunning ? t('controlPanel.ariaPause') : t('controlPanel.ariaResume')}
         >
-          {isProcessing ? '⏳' : isGameRunning ? '⏸️ 暂停' : '▶️ 继续'}
+          {isProcessing ? t('controlPanel.statusProcessing') : isGameRunning ? t('controlPanel.pause') : t('controlPanel.resume')}
         </button>
 
-        {/* 保存按钮 */}
+        {/* Save button */}
         <button
           onClick={handleSave}
           disabled={isProcessing}
           className="control-btn secondary"
-          title="保存游戏"
+          title={t('controlPanel.titleSave')}
+          aria-label={t('controlPanel.ariaSave')}
         >
-          {isProcessing ? '💾...' : '💾 保存'}
+          {isProcessing ? t('controlPanel.saving') : t('controlPanel.save')}
         </button>
 
-        {/* 加载按钮 */}
+        {/* Load button */}
         <button
           onClick={handleLoad}
           disabled={isProcessing}
           className="control-btn secondary"
-          title="加载存档"
+          title={t('controlPanel.titleLoad')}
+          aria-label={t('controlPanel.ariaLoad')}
         >
-          📂 加载
+          {t('controlPanel.load')}
         </button>
 
-        {/* 重启按钮 */}
+        {/* Restart button */}
         <button
           onClick={handleRestart}
           disabled={isProcessing}
           className="control-btn danger"
-          title="重新开始游戏"
+          title={t('controlPanel.titleRestart')}
+          aria-label={t('controlPanel.ariaRestart')}
         >
-          🔄 重启
+          {t('controlPanel.restart')}
         </button>
       </div>
 
-      {/* 高级控制（可选） */}
+      {/* Advanced controls */}
       {showAdvanced && (
         <div className="control-advanced-section">
-          <span className="status-label">快捷操作:</span>
+          <span className="status-label" aria-live="polite"></span>
 
-          {/* 快速保存 */}
+          {/* Quick Save (F5) */}
           <button
             onClick={handleQuickSave}
             disabled={isProcessing}
             className="control-btn small quick-save"
-            title="快速保存 (F5)"
+            title={t('controlPanel.titleQuickSave')}
+            aria-label={t('controlPanel.ariaQuickSave')}
           >
-            F5 快存
+            {t('controlPanel.quickSave')}
           </button>
 
-          {/* 快速加载 */}
+          {/* Quick Load (F9) */}
           <button
             onClick={handleQuickLoad}
             disabled={isProcessing || !lastSaveId}
             className={`control-btn small quick-load ${!lastSaveId ? 'disabled' : ''}`}
-            title={lastSaveId ? '快速加载 (F9)' : '暂无快速存档'}
+            title={lastSaveId ? t('controlPanel.titleQuickLoad') : ''}
+            aria-label={t('controlPanel.ariaQuickLoad')}
           >
-            F9 快读
+            {t('controlPanel.quickLoad')}
           </button>
 
-          {/* 状态指示器 */}
+          {/* Status indicator */}
           <div className="status-indicator-section">
             <div
               className={`status-dot ${
@@ -242,16 +250,16 @@ export function GameControlPanel({
                     : 'paused'
               }`}
             />
-            <span className="status-text">
-              {isProcessing ? '处理中' : isGameRunning ? '运行中' : '已暂停'}
+            <span className="status-text" aria-live="polite">
+              {isProcessing ? t('controlPanel.statusProcessing') : isGameRunning ? t('controlPanel.statusRunning') : t('controlPanel.statusPaused')}
             </span>
           </div>
         </div>
       )}
 
-      {/* 键盘提示 */}
+      {/* Dev hints */}
       {process.env.NODE_ENV === 'development' && (
-        <div className="dev-hints">ESC: 暂停 | F5: 快存 | F9: 快读</div>
+        <div className="dev-hints">{t('controlPanel.hintEsc')} | {t('controlPanel.hintF5')} | {t('controlPanel.hintF9')}</div>
       )}
     </div>
   );

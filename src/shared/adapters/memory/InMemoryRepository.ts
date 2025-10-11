@@ -1,6 +1,6 @@
 /**
- * InMemory Repository 实现
- * 作为测试基线和参考实现
+ * In-memory repository implementation.
+ * Note
  */
 
 import type {
@@ -20,7 +20,7 @@ export class InMemoryRepository<T extends Entity> implements Repository<T> {
   async upsert(entity: T): Promise<void> {
     const existing = this.store.get(entity.id);
 
-    // 乐观锁检查
+    // Note
     if (existing && existing.version >= entity.version) {
       throw new ConcurrencyError(
         'TestEntity',
@@ -42,7 +42,7 @@ export class InMemoryRepository<T extends Entity> implements Repository<T> {
   async list(params?: RepositoryQueryParams): Promise<T[]> {
     let results = Array.from(this.store.values());
 
-    // 过滤
+    // Filter
     if (params?.filters) {
       results = results.filter(entity =>
         Object.entries(params.filters!).every(
@@ -51,7 +51,7 @@ export class InMemoryRepository<T extends Entity> implements Repository<T> {
       );
     }
 
-    // 排序
+    // Sort
     if (params?.sortBy) {
       results.sort((a, b) => {
         const aVal = (a as any)[params.sortBy!];
@@ -64,7 +64,7 @@ export class InMemoryRepository<T extends Entity> implements Repository<T> {
       });
     }
 
-    // 分页
+    // Pagination
     if (params?.offset || params?.limit) {
       const start = params.offset ?? 0;
       const end = params.limit ? start + params.limit : undefined;
@@ -92,7 +92,7 @@ export class InMemoryRepository<T extends Entity> implements Repository<T> {
     return filteredResults.length;
   }
 
-  // 测试辅助方法
+  // Test helpers
   clear(): void {
     this.store.clear();
   }
