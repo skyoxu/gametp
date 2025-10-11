@@ -1,0 +1,69 @@
+﻿2025-10-10T16:38:44.7437493Z ##[group]Run npm ci
+2025-10-10T16:38:44.7437773Z [36;1mnpm ci[0m
+2025-10-10T16:38:44.8622403Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:38:44.8622793Z env:
+2025-10-10T16:38:44.8623000Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:44.8623402Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:44.8623739Z   SENTRY_DSN: 
+2025-10-10T16:38:44.8623950Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:44.8624187Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:44.8624393Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:44.8624598Z   SONAR_TOKEN: 
+2025-10-10T16:38:44.8624826Z   SONAR_HOST_URL: https://sonarcloud.io
+2025-10-10T16:38:44.8625272Z   JAVA_HOME: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.16-8\x64
+2025-10-10T16:38:44.8626105Z   JAVA_HOME_17_X64: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.16-8\x64
+2025-10-10T16:38:44.8626514Z ##[endgroup]
+2025-10-10T16:39:02.2898322Z npm warn skipping integrity check for git dependency ssh://git@github.com/electron/node-gyp.git
+2025-10-10T16:39:12.2978291Z npm warn deprecated readdir-scoped-modules@1.1.0: This functionality has been moved to @npmcli/fs
+2025-10-10T16:39:12.3699363Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2025-10-10T16:39:12.3756077Z npm warn deprecated debuglog@1.0.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2025-10-10T16:39:12.4401696Z npm warn deprecated npmlog@5.0.1: This package is no longer supported.
+2025-10-10T16:39:12.4734775Z npm warn deprecated @npmcli/move-file@2.0.1: This functionality has been moved to @npmcli/fs
+2025-10-10T16:39:12.5991407Z npm warn deprecated @humanwhocodes/config-array@0.5.0: Use @eslint/config-array instead
+2025-10-10T16:39:12.6636247Z npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+2025-10-10T16:39:12.7557169Z npm warn deprecated read-package-json@2.1.2: This package is no longer supported. Please use @npmcli/package-json instead.
+2025-10-10T16:39:12.9103239Z npm warn deprecated read-package-tree@5.3.1: The functionality that this package provided is now in @npmcli/arborist
+2025-10-10T16:39:12.9707743Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported
+2025-10-10T16:39:13.2962849Z npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+2025-10-10T16:39:13.5790308Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:13.5792711Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:13.5795387Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:13.5797539Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:13.5862897Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:13.5887691Z npm warn deprecated glob@8.1.0: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:13.5972094Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:13.5976119Z npm warn deprecated glob@8.1.0: Glob versions prior to v9 are no longer supported
+2025-10-10T16:39:14.1794263Z npm warn deprecated are-we-there-yet@2.0.0: This package is no longer supported.
+2025-10-10T16:39:16.2844975Z npm warn deprecated @humanwhocodes/object-schema@1.2.1: Use @eslint/object-schema instead
+2025-10-10T16:39:17.1274519Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2025-10-10T16:39:17.3143264Z npm warn deprecated gauge@3.0.2: This package is no longer supported.
+2025-10-10T16:39:20.6242732Z npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+2025-10-10T16:39:38.8288280Z npm warn deprecated eslint@7.32.0: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+2025-10-10T16:40:02.1630160Z npm warn cleanup Failed to remove some directories [
+2025-10-10T16:40:02.1630784Z npm warn cleanup   [
+2025-10-10T16:40:02.1631392Z npm warn cleanup     'D:\\a\\gametp\\gametp\\node_modules\\dmg-license',
+2025-10-10T16:40:02.1635026Z npm warn cleanup     [Error: EPERM: operation not permitted, rmdir 'D:\a\gametp\gametp\node_modules\dmg-license\node_modules\ajv\lib'] {
+2025-10-10T16:40:02.1636066Z npm warn cleanup       errno: -4048,
+2025-10-10T16:40:02.1636538Z npm warn cleanup       code: 'EPERM',
+2025-10-10T16:40:02.1638183Z npm warn cleanup       syscall: 'rmdir',
+2025-10-10T16:40:02.1638701Z npm warn cleanup       path: 'D:\\a\\gametp\\gametp\\node_modules\\dmg-license\\node_modules\\ajv\\lib'
+2025-10-10T16:40:02.1639122Z npm warn cleanup     }
+2025-10-10T16:40:02.1639355Z npm warn cleanup   ]
+2025-10-10T16:40:02.1639561Z npm warn cleanup ]
+2025-10-10T16:40:02.6182897Z 
+2025-10-10T16:40:02.6183559Z > gametp@0.1.0 postinstall
+2025-10-10T16:40:02.6184149Z > node scripts/ci/patch-tree-sitter.js
+2025-10-10T16:40:02.6184471Z 
+2025-10-10T16:40:02.6837522Z [patch-tree-sitter] Updated C++ standard flag in node_modules/tree-sitter/binding.gyp
+2025-10-10T16:40:02.7290512Z 
+2025-10-10T16:40:02.7291600Z added 1927 packages, and audited 2176 packages in 1m
+2025-10-10T16:40:02.7291970Z 
+2025-10-10T16:40:02.7292190Z 414 packages are looking for funding
+2025-10-10T16:40:02.7292582Z   run `npm fund` for details
+2025-10-10T16:40:02.7449999Z 
+2025-10-10T16:40:02.7450533Z 15 vulnerabilities (5 low, 7 moderate, 3 high)
+2025-10-10T16:40:02.7450922Z 
+2025-10-10T16:40:02.7451086Z To address all issues, run:
+2025-10-10T16:40:02.7451433Z   npm audit fix
+2025-10-10T16:40:02.7451603Z 
+2025-10-10T16:40:02.7451749Z Run `npm audit` for details.

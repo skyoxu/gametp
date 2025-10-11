@@ -1,0 +1,82 @@
+﻿2025-10-10T16:38:26.1936180Z ##[group]Run actions/checkout@v4
+2025-10-10T16:38:26.1938170Z with:
+2025-10-10T16:38:26.1938650Z   repository: skyoxu/gametp
+2025-10-10T16:38:26.1939578Z   token: ***
+2025-10-10T16:38:26.1940040Z   ssh-strict: true
+2025-10-10T16:38:26.1940525Z   ssh-user: git
+2025-10-10T16:38:26.1941029Z   persist-credentials: true
+2025-10-10T16:38:26.1941605Z   clean: true
+2025-10-10T16:38:26.1942103Z   sparse-checkout-cone-mode: true
+2025-10-10T16:38:26.1942755Z   fetch-depth: 1
+2025-10-10T16:38:26.1943490Z   fetch-tags: false
+2025-10-10T16:38:26.1943995Z   show-progress: true
+2025-10-10T16:38:26.1944553Z   lfs: false
+2025-10-10T16:38:26.1945124Z   submodules: false
+2025-10-10T16:38:26.1945635Z   set-safe-directory: true
+2025-10-10T16:38:26.1946555Z env:
+2025-10-10T16:38:26.1947000Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:26.1947700Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:26.1948248Z   SENTRY_DSN: 
+2025-10-10T16:38:26.1948715Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:26.1949394Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:26.1949934Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:26.1950456Z   NODE_ENV: development
+2025-10-10T16:38:26.1951016Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:38:26.1951600Z ##[endgroup]
+2025-10-10T16:38:26.3879802Z Syncing repository: skyoxu/gametp
+2025-10-10T16:38:26.3899636Z ##[group]Getting Git version info
+2025-10-10T16:38:26.3901668Z Working directory is 'D:\a\gametp\gametp'
+2025-10-10T16:38:26.7626548Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-10-10T16:38:28.1027746Z git version 2.51.0.windows.2
+2025-10-10T16:38:28.1086206Z ##[endgroup]
+2025-10-10T16:38:28.1111630Z Temporarily overriding HOME='D:\a\_temp\238c7e8e-90a0-4597-a2dd-91c5aaa6296b' before making global git config changes
+2025-10-10T16:38:28.1113279Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-10T16:38:28.1125022Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\gametp\gametp
+2025-10-10T16:38:28.1854789Z Deleting the contents of 'D:\a\gametp\gametp'
+2025-10-10T16:38:28.1861834Z ##[group]Initializing the repository
+2025-10-10T16:38:28.1871976Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\gametp\gametp
+2025-10-10T16:38:31.2510092Z Initialized empty Git repository in D:/a/gametp/gametp/.git/
+2025-10-10T16:38:31.2558865Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/skyoxu/gametp
+2025-10-10T16:38:32.2884685Z ##[endgroup]
+2025-10-10T16:38:32.2885345Z ##[group]Disabling automatic garbage collection
+2025-10-10T16:38:32.2897066Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2025-10-10T16:38:32.3239866Z ##[endgroup]
+2025-10-10T16:38:32.3240445Z ##[group]Setting up auth
+2025-10-10T16:38:32.3255652Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-10-10T16:38:32.3636410Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-10-10T16:38:40.9127247Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-10T16:38:40.9463921Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-10-10T16:38:41.5068588Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2025-10-10T16:38:41.5374209Z ##[endgroup]
+2025-10-10T16:38:41.5374850Z ##[group]Fetching the repository
+2025-10-10T16:38:41.5390295Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +1a64442db4a5e073e50677e36ddf882284d88302:refs/remotes/pull/13/merge
+2025-10-10T16:38:43.9178763Z From https://github.com/skyoxu/gametp
+2025-10-10T16:38:43.9179551Z  * [new ref]         1a64442db4a5e073e50677e36ddf882284d88302 -> pull/13/merge
+2025-10-10T16:38:43.9607885Z ##[endgroup]
+2025-10-10T16:38:43.9608493Z ##[group]Determining the checkout info
+2025-10-10T16:38:43.9612537Z ##[endgroup]
+2025-10-10T16:38:43.9628902Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2025-10-10T16:38:44.0210408Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2025-10-10T16:38:44.0502681Z ##[group]Checking out the ref
+2025-10-10T16:38:44.0514524Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/13/merge
+2025-10-10T16:38:44.3346452Z Note: switching to 'refs/remotes/pull/13/merge'.
+2025-10-10T16:38:44.3347201Z 
+2025-10-10T16:38:44.3347661Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-10-10T16:38:44.3349153Z changes and commit them, and you can discard any commits you make in this
+2025-10-10T16:38:44.3350068Z state without impacting any branches by switching back to a branch.
+2025-10-10T16:38:44.3350516Z 
+2025-10-10T16:38:44.3350790Z If you want to create a new branch to retain commits you create, you may
+2025-10-10T16:38:44.3351443Z do so (now or later) by using -c with the switch command. Example:
+2025-10-10T16:38:44.3351857Z 
+2025-10-10T16:38:44.3352068Z   git switch -c <new-branch-name>
+2025-10-10T16:38:44.3352335Z 
+2025-10-10T16:38:44.3352478Z Or undo this operation with:
+2025-10-10T16:38:44.3352734Z 
+2025-10-10T16:38:44.3352858Z   git switch -
+2025-10-10T16:38:44.3353038Z 
+2025-10-10T16:38:44.3353361Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-10-10T16:38:44.3353828Z 
+2025-10-10T16:38:44.3354461Z HEAD is now at 1a64442 Merge 49a95a27bfbb9c910dbd39ede44caa8cbfdd17cb into e1a2702b992654c40fdf749cd29695642d416d4b
+2025-10-10T16:38:44.3385769Z ##[endgroup]
+2025-10-10T16:38:44.3918052Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2025-10-10T16:38:44.4175673Z 1a64442db4a5e073e50677e36ddf882284d88302

@@ -1,0 +1,1071 @@
+﻿2025-10-10T16:32:10.2522667Z Current runner version: '2.328.0'
+2025-10-10T16:32:10.2546517Z ##[group]Runner Image Provisioner
+2025-10-10T16:32:10.2547384Z Hosted Compute Agent
+2025-10-10T16:32:10.2547886Z Version: 20250912.392
+2025-10-10T16:32:10.2548397Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-10T16:32:10.2549092Z Build Date: 2025-09-12T15:23:14Z
+2025-10-10T16:32:10.2549606Z ##[endgroup]
+2025-10-10T16:32:10.2550073Z ##[group]Operating System
+2025-10-10T16:32:10.2551034Z Microsoft Windows Server 2025
+2025-10-10T16:32:10.2551613Z 10.0.26100
+2025-10-10T16:32:10.2552036Z Datacenter
+2025-10-10T16:32:10.2552474Z ##[endgroup]
+2025-10-10T16:32:10.2552908Z ##[group]Runner Image
+2025-10-10T16:32:10.2553356Z Image: windows-2025
+2025-10-10T16:32:10.2553842Z Version: 20250929.44.1
+2025-10-10T16:32:10.2554816Z Included Software: https://github.com/actions/runner-images/blob/win25/20250929.44/images/windows/Windows2025-Readme.md
+2025-10-10T16:32:10.2556558Z Image Release: https://github.com/actions/runner-images/releases/tag/win25%2F20250929.44
+2025-10-10T16:32:10.2557619Z ##[endgroup]
+2025-10-10T16:32:10.2559369Z ##[group]GITHUB_TOKEN Permissions
+2025-10-10T16:32:10.2561927Z Actions: read
+2025-10-10T16:32:10.2562678Z Contents: read
+2025-10-10T16:32:10.2563441Z Metadata: read
+2025-10-10T16:32:10.2564238Z ##[endgroup]
+2025-10-10T16:32:10.2567038Z Secret source: Actions
+2025-10-10T16:32:10.2568067Z Prepare workflow directory
+2025-10-10T16:32:10.3012769Z Prepare all required actions
+2025-10-10T16:32:10.3051575Z Getting action download info
+2025-10-10T16:32:10.7027350Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-10T16:32:10.8361974Z Download action repository 'raven-actions/actionlint@v2' (SHA:3a24062651993d40fed1019b58ac6fbdfbf276cc)
+2025-10-10T16:32:11.4834568Z Download action repository 'actions/setup-node@v5.0.0' (SHA:a0853c24544627f65ddf259abe73b1d18a591444)
+2025-10-10T16:32:11.8468667Z Getting action download info
+2025-10-10T16:32:12.1235841Z Download action repository 'actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea' (SHA:60a0d83039c74a4aee543508d2ffcb1c3799cdea)
+2025-10-10T16:32:12.8234904Z Download action repository 'actions/cache@5a3ec84eff668545956fd18022155c47e93e2684' (SHA:5a3ec84eff668545956fd18022155c47e93e2684)
+2025-10-10T16:32:13.6842743Z Complete job name: Workflow Guardian Check
+2025-10-10T16:32:13.8939891Z ##[group]Run actions/checkout@v4
+2025-10-10T16:32:13.8941136Z with:
+2025-10-10T16:32:13.8941424Z   repository: skyoxu/gametp
+2025-10-10T16:32:13.8941991Z   token: ***
+2025-10-10T16:32:13.8942248Z   ssh-strict: true
+2025-10-10T16:32:13.8942483Z   ssh-user: git
+2025-10-10T16:32:13.8942748Z   persist-credentials: true
+2025-10-10T16:32:13.8943035Z   clean: true
+2025-10-10T16:32:13.8943315Z   sparse-checkout-cone-mode: true
+2025-10-10T16:32:13.8943623Z   fetch-depth: 1
+2025-10-10T16:32:13.8943865Z   fetch-tags: false
+2025-10-10T16:32:13.8944118Z   show-progress: true
+2025-10-10T16:32:13.8944357Z   lfs: false
+2025-10-10T16:32:13.8944610Z   submodules: false
+2025-10-10T16:32:13.8944850Z   set-safe-directory: true
+2025-10-10T16:32:13.8945356Z env:
+2025-10-10T16:32:13.8945596Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:32:13.8945912Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:32:13.8946167Z   SENTRY_DSN: 
+2025-10-10T16:32:13.8946457Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:32:13.8946827Z   CL: /std:c++20 /EHsc
+2025-10-10T16:32:13.8947121Z   CXXFLAGS: -std=c++20
+2025-10-10T16:32:13.8947396Z   NODE_ENV: development
+2025-10-10T16:32:13.8947698Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:32:13.8947982Z ##[endgroup]
+2025-10-10T16:32:14.0923566Z Syncing repository: skyoxu/gametp
+2025-10-10T16:32:14.0925136Z ##[group]Getting Git version info
+2025-10-10T16:32:14.0925466Z Working directory is 'D:\a\gametp\gametp'
+2025-10-10T16:32:14.1863992Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-10-10T16:32:15.0056149Z git version 2.51.0.windows.2
+2025-10-10T16:32:15.0116210Z ##[endgroup]
+2025-10-10T16:32:15.0142306Z Temporarily overriding HOME='D:\a\_temp\35c34396-abbf-40d9-837a-31b0c9be97dd' before making global git config changes
+2025-10-10T16:32:15.0143548Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-10T16:32:15.0155209Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\gametp\gametp
+2025-10-10T16:32:15.1065059Z Deleting the contents of 'D:\a\gametp\gametp'
+2025-10-10T16:32:15.1071684Z ##[group]Initializing the repository
+2025-10-10T16:32:15.1082092Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\gametp\gametp
+2025-10-10T16:32:15.3007107Z Initialized empty Git repository in D:/a/gametp/gametp/.git/
+2025-10-10T16:32:15.3079160Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/skyoxu/gametp
+2025-10-10T16:32:15.3973402Z ##[endgroup]
+2025-10-10T16:32:15.3974103Z ##[group]Disabling automatic garbage collection
+2025-10-10T16:32:15.3986180Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2025-10-10T16:32:15.4362156Z ##[endgroup]
+2025-10-10T16:32:15.4362542Z ##[group]Setting up auth
+2025-10-10T16:32:15.4385405Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-10-10T16:32:15.4731647Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-10-10T16:32:18.3012136Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-10T16:32:18.3314861Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-10-10T16:32:18.8731727Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2025-10-10T16:32:18.9052671Z ##[endgroup]
+2025-10-10T16:32:18.9053926Z ##[group]Fetching the repository
+2025-10-10T16:32:18.9074770Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +1a64442db4a5e073e50677e36ddf882284d88302:refs/remotes/pull/13/merge
+2025-10-10T16:32:21.3032587Z From https://github.com/skyoxu/gametp
+2025-10-10T16:32:21.3036741Z  * [new ref]         1a64442db4a5e073e50677e36ddf882284d88302 -> pull/13/merge
+2025-10-10T16:32:21.3546908Z ##[endgroup]
+2025-10-10T16:32:21.3547518Z ##[group]Determining the checkout info
+2025-10-10T16:32:21.3551632Z ##[endgroup]
+2025-10-10T16:32:21.3568780Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2025-10-10T16:32:21.4297421Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2025-10-10T16:32:21.4596443Z ##[group]Checking out the ref
+2025-10-10T16:32:21.4611977Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/13/merge
+2025-10-10T16:32:21.7491509Z Note: switching to 'refs/remotes/pull/13/merge'.
+2025-10-10T16:32:21.7492042Z 
+2025-10-10T16:32:21.7492366Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-10-10T16:32:21.7493377Z changes and commit them, and you can discard any commits you make in this
+2025-10-10T16:32:21.7494883Z state without impacting any branches by switching back to a branch.
+2025-10-10T16:32:21.7495498Z 
+2025-10-10T16:32:21.7495867Z If you want to create a new branch to retain commits you create, you may
+2025-10-10T16:32:21.7496747Z do so (now or later) by using -c with the switch command. Example:
+2025-10-10T16:32:21.7497185Z 
+2025-10-10T16:32:21.7497428Z   git switch -c <new-branch-name>
+2025-10-10T16:32:21.7497781Z 
+2025-10-10T16:32:21.7497948Z Or undo this operation with:
+2025-10-10T16:32:21.7498300Z 
+2025-10-10T16:32:21.7499749Z   git switch -
+2025-10-10T16:32:21.7499985Z 
+2025-10-10T16:32:21.7500427Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-10-10T16:32:21.7501047Z 
+2025-10-10T16:32:21.7501756Z HEAD is now at 1a64442 Merge 49a95a27bfbb9c910dbd39ede44caa8cbfdd17cb into e1a2702b992654c40fdf749cd29695642d416d4b
+2025-10-10T16:32:21.7541439Z ##[endgroup]
+2025-10-10T16:32:21.8120872Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2025-10-10T16:32:21.8394160Z 1a64442db4a5e073e50677e36ddf882284d88302
+2025-10-10T16:32:21.8975479Z ##[warning]Unexpected input(s) 'actionlint_flags', valid inputs are ['version', 'matcher', 'files', 'flags', 'json', 'shellcheck', 'pyflakes', 'fail-on-error', 'group-result', 'cache', 'working-directory', 'token', 'github-token']
+2025-10-10T16:32:21.8989654Z ##[group]Run raven-actions/actionlint@v2
+2025-10-10T16:32:21.8989893Z with:
+2025-10-10T16:32:21.8990056Z   actionlint_flags: -color
+2025-10-10T16:32:21.8990310Z   version: latest
+2025-10-10T16:32:21.8990586Z   matcher: true
+2025-10-10T16:32:21.8990854Z   json: false
+2025-10-10T16:32:21.8991031Z   shellcheck: true
+2025-10-10T16:32:21.8991186Z   pyflakes: true
+2025-10-10T16:32:21.8991352Z   fail-on-error: true
+2025-10-10T16:32:21.8991515Z   group-result: true
+2025-10-10T16:32:21.8991670Z   cache: true
+2025-10-10T16:32:21.8991831Z   working-directory: D:\a\gametp\gametp
+2025-10-10T16:32:21.8992238Z   token: ***
+2025-10-10T16:32:21.8992488Z   github-token: ***
+2025-10-10T16:32:21.8992641Z env:
+2025-10-10T16:32:21.8992822Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:32:21.8993039Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:32:21.8993208Z   SENTRY_DSN: 
+2025-10-10T16:32:21.8993362Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:32:21.8993550Z   CL: /std:c++20 /EHsc
+2025-10-10T16:32:21.8993712Z   CXXFLAGS: -std=c++20
+2025-10-10T16:32:21.8993878Z   NODE_ENV: development
+2025-10-10T16:32:21.8994052Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:32:21.8994232Z ##[endgroup]
+2025-10-10T16:32:21.9224240Z ##[group]Run actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+2025-10-10T16:32:21.9224562Z with:
+2025-10-10T16:32:21.9224890Z   github-token: ***
+2025-10-10T16:32:21.9236177Z   script: // input envs
+const { INPUT_TOOL_NAME, INPUT_TOOL_SEMVER, INPUT_REPO_OWNER, INPUT_REPO_NAME, RUNNER_TEMP } = process.env
+
+// define tool platform and arch
+const processPlatform = process.platform // https://nodejs.org/api/process.html#processplatform
+const processArch = process.arch // https://nodejs.org/api/process.html#processarch
+
+let toolOs = ''
+let toolArch = ''
+let toolExt = ''
+let toolExecutable = `${INPUT_TOOL_NAME}`
+
+switch (processPlatform) {
+  case 'darwin':
+    toolOs = 'darwin'
+    toolExt = 'tar.gz'
+    break;
+  case 'freebsd':
+    toolOs = 'freebsd'
+    toolExt = 'tar.gz'
+    break;
+  case 'linux':
+    toolOs = 'linux'
+    toolExt = 'tar.gz'
+    break;
+  case 'win32':
+    toolOs = 'windows'
+    toolExt = 'zip'
+    toolExecutable = `${INPUT_TOOL_NAME}.exe`
+    break;
+  default:
+    core.setFailed(`[${INPUT_TOOL_NAME}] Unsupported platform: ${processPlatform}`)
+    process.exit(core.ExitCode.Failure)
+}
+
+switch (processArch) {
+  case 'x64':
+    toolArch = 'amd64'
+    break;
+  case 'arm64':
+    toolArch = 'arm64'
+    break;
+  case 'arm':
+    toolArch = 'armv6'
+    break;
+  case 'ia32':
+    toolArch = '386'
+    break;
+  default:
+    core.setFailed(`[${INPUT_TOOL_NAME}] Unsupported architecture: ${processArch}`)
+    process.exit(core.ExitCode.Failure)
+}
+
+// helpers
+async function getToolReleaseLatest() {
+  const response = await github.rest.repos.getLatestRelease({
+    owner: INPUT_REPO_OWNER,
+    repo: INPUT_REPO_NAME
+  })
+  return response.data
+}
+
+async function getToolReleaseByTag(versionTag) {
+  const response = await github.rest.repos.getReleaseByTag({
+    owner: INPUT_REPO_OWNER,
+    repo: INPUT_REPO_NAME,
+    tag: versionTag
+  })
+  return response.data
+}
+
+// get tool release data
+const release =
+  INPUT_TOOL_SEMVER === 'latest' || INPUT_TOOL_SEMVER === '' || INPUT_TOOL_SEMVER === undefined || INPUT_TOOL_SEMVER === null
+    ? await getToolReleaseLatest()
+    : await getToolReleaseByTag(`v${INPUT_TOOL_SEMVER}`)
+
+const versionTag = release.tag_name
+const versionSemVer = versionTag.replace(/^v/, '')
+const toolDirPath = core.toPlatformPath(`${RUNNER_TEMP}/${INPUT_TOOL_NAME}-${versionSemVer}`)
+const toolDownloadUrl = release.assets.find(asset => asset.name === `${INPUT_TOOL_NAME}_${versionSemVer}_${toolOs}_${toolArch}.${toolExt}`).browser_download_url.trim()
+const matcherDownloadUrl = `https://raw.githubusercontent.com/${INPUT_REPO_OWNER}/${INPUT_REPO_NAME}/${versionTag}/.github/actionlint-matcher.json`
+const matcherPath = core.toPlatformPath(`${toolDirPath}/actionlint-matcher.json`)
+
+// set outputs
+core.setOutput('tool-name', INPUT_TOOL_NAME)
+core.setOutput('tool-version-semver', versionSemVer)
+core.setOutput('tool-version-tag', versionTag)
+core.setOutput('tool-dir-path', toolDirPath)
+core.setOutput('tool-download-url', toolDownloadUrl)
+core.setOutput('matcher-download-url', matcherDownloadUrl)
+core.setOutput('matcher-path', matcherPath)
+core.setOutput('tool-executable', toolExecutable)
+core.setOutput('tool-executable-path', core.toPlatformPath(`${toolDirPath}/${toolExecutable}`))
+
+2025-10-10T16:32:21.9244774Z   debug: false
+2025-10-10T16:32:21.9244951Z   user-agent: actions/github-script
+2025-10-10T16:32:21.9245170Z   result-encoding: json
+2025-10-10T16:32:21.9245332Z   retries: 0
+2025-10-10T16:32:21.9245575Z   retry-exempt-status-codes: 400,401,403,404,422
+2025-10-10T16:32:21.9245824Z env:
+2025-10-10T16:32:21.9245980Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:32:21.9246196Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:32:21.9246374Z   SENTRY_DSN: 
+2025-10-10T16:32:21.9246531Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:32:21.9246711Z   CL: /std:c++20 /EHsc
+2025-10-10T16:32:21.9246878Z   CXXFLAGS: -std=c++20
+2025-10-10T16:32:21.9247039Z   NODE_ENV: development
+2025-10-10T16:32:21.9247221Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:32:21.9247419Z   INPUT_TOOL_NAME: actionlint
+2025-10-10T16:32:21.9247610Z   INPUT_REPO_OWNER: rhysd
+2025-10-10T16:32:21.9247784Z   INPUT_REPO_NAME: actionlint
+2025-10-10T16:32:21.9247970Z   INPUT_TOOL_SEMVER: latest
+2025-10-10T16:32:21.9248140Z ##[endgroup]
+2025-10-10T16:32:22.5063620Z ##[group]Run actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+2025-10-10T16:32:22.5063933Z with:
+2025-10-10T16:32:22.5064125Z   path: D:\a\_temp\actionlint-1.7.7
+2025-10-10T16:32:22.5064363Z   key: actionlint-1.7.7-Windows-X64
+2025-10-10T16:32:22.5064951Z   enableCrossOsArchive: false
+2025-10-10T16:32:22.5065233Z   fail-on-cache-miss: false
+2025-10-10T16:32:22.5065435Z   lookup-only: false
+2025-10-10T16:32:22.5065609Z   save-always: false
+2025-10-10T16:32:22.5065777Z env:
+2025-10-10T16:32:22.5065938Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:32:22.5066161Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:32:22.5066349Z   SENTRY_DSN: 
+2025-10-10T16:32:22.5066511Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:32:22.5066720Z   CL: /std:c++20 /EHsc
+2025-10-10T16:32:22.5066913Z   CXXFLAGS: -std=c++20
+2025-10-10T16:32:22.5067096Z   NODE_ENV: development
+2025-10-10T16:32:22.5067279Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:32:22.5067474Z ##[endgroup]
+2025-10-10T16:32:23.1632049Z Cache hit for: actionlint-1.7.7-Windows-X64
+2025-10-10T16:32:23.9081606Z Received 2185453 of 2185453 (100.0%), 4.1 MBs/sec
+2025-10-10T16:32:23.9084757Z Cache Size: ~2 MB (2185453 B)
+2025-10-10T16:32:23.9114313Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/75940b73-6360-4aa0-9121-a658ff668df6/cache.tzst -P -C D:/a/gametp/gametp --force-local --use-compress-program "zstd -d"
+2025-10-10T16:32:24.1898670Z Cache restored successfully
+2025-10-10T16:32:24.2031497Z Cache restored from key: actionlint-1.7.7-Windows-X64
+2025-10-10T16:32:24.2318367Z ##[group]Run actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+2025-10-10T16:32:24.2318754Z with:
+2025-10-10T16:32:24.2319530Z   github-token: ***
+2025-10-10T16:32:24.2324979Z   script: // input envs
+const { INPUT_PYFLAKES, INPUT_SHELLCHECK } = process.env
+
+// helpers
+async function checkTool(toolBinary) {
+  try {
+    const toolPath = await io.which(toolBinary, true)
+    core.debug(`${toolBinary} path: ${toolPath}`)
+    return true
+  } catch (err) {
+    return false
+  }
+}
+
+// pyflakes
+if (INPUT_PYFLAKES === 'true') {
+  let pyflakesBinary = 'pyflakes'
+  if (process.platform === 'win32') {
+    pyflakesBinary = 'pyflakes.exe'
+  }
+  const pyflakesExists = await checkTool(pyflakesBinary)
+  core.debug(`${pyflakesBinary} exists: ${pyflakesExists}`)
+
+  if (pyflakesExists === false) {
+    await exec.exec('pipx', ['install', 'pyflakes'])
+  }
+}
+
+// shellcheck
+if (INPUT_SHELLCHECK === 'true') {
+  let shellcheckBinary = 'shellcheck'
+  if (process.platform === 'win32') {
+    shellcheckBinary = 'shellcheck.exe'
+  }
+  const shellcheckExists = await checkTool(shellcheckBinary)
+  core.debug(`${shellcheckBinary} exists: ${shellcheckExists}`)
+  if (shellcheckExists === false) {
+    switch (process.platform) {
+      case 'darwin':
+        await exec.exec('brew', ['install',  'shellcheck'])
+        break;
+      case 'linux':
+        core.exportVariable('DEBIAN_FRONTEND', 'noninteractive')
+        await exec.exec('sudo apt-get update')
+        await exec.exec('sudo apt-get install shellcheck')
+        break;
+      case 'win32':
+        await exec.exec('choco', ['install', 'shellcheck'])
+        break;
+      default:
+        core.setFailed(`[shellcheck] Unsupported platform: ${process.platform}`)
+        process.exit(core.ExitCode.Failure)
+    }
+  }
+}
+
+2025-10-10T16:32:24.2329601Z   debug: false
+2025-10-10T16:32:24.2329789Z   user-agent: actions/github-script
+2025-10-10T16:32:24.2330018Z   result-encoding: json
+2025-10-10T16:32:24.2330200Z   retries: 0
+2025-10-10T16:32:24.2330397Z   retry-exempt-status-codes: 400,401,403,404,422
+2025-10-10T16:32:24.2330648Z env:
+2025-10-10T16:32:24.2330811Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:32:24.2331035Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:32:24.2331207Z   SENTRY_DSN: 
+2025-10-10T16:32:24.2331370Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:32:24.2331558Z   CL: /std:c++20 /EHsc
+2025-10-10T16:32:24.2331726Z   CXXFLAGS: -std=c++20
+2025-10-10T16:32:24.2331898Z   NODE_ENV: development
+2025-10-10T16:32:24.2332079Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:32:24.2332267Z   INPUT_PYFLAKES: true
+2025-10-10T16:32:24.2332438Z   INPUT_SHELLCHECK: true
+2025-10-10T16:32:24.2332613Z ##[endgroup]
+2025-10-10T16:32:24.5676198Z [command]C:\hostedtoolcache\windows\Python\3.9.13\x64\Scripts\pipx.exe install pyflakes
+2025-10-10T16:32:27.2228875Z Found a space in the pipx home path. We heavily discourage this, due to
+2025-10-10T16:32:27.2229630Z     multiple incompatibilities. Please check our docs for more information on
+2025-10-10T16:32:27.2230215Z     this, as well as some pointers on how to migrate to a different home path.
+2025-10-10T16:32:28.6806370Z creating virtual environment...
+2025-10-10T16:32:29.1648922Z installing pyflakes...
+2025-10-10T16:32:33.2807353Z done! 
+2025-10-10T16:32:33.2812269Z   installed package pyflakes 3.4.0, installed using Python 3.9.13
+2025-10-10T16:32:33.2812955Z   These apps are now globally available
+2025-10-10T16:32:33.2813455Z     - pyflakes.exe
+2025-10-10T16:32:33.5325646Z [command]C:\ProgramData\Chocolatey\bin\choco.exe install shellcheck
+2025-10-10T16:32:36.0332918Z Chocolatey v2.5.1
+2025-10-10T16:32:36.3681073Z Installing the following packages:
+2025-10-10T16:32:36.3688363Z shellcheck
+2025-10-10T16:32:36.3694351Z By installing, you accept licenses for the packages.
+2025-10-10T16:32:49.8483460Z Downloading package from source 'https://community.chocolatey.org/api/v2/'
+2025-10-10T16:32:50.1595820Z 
+2025-10-10T16:32:50.1597328Z Progress: Downloading shellcheck 0.9.0... 4%
+2025-10-10T16:32:50.1598142Z Progress: Downloading shellcheck 0.9.0... 13%
+2025-10-10T16:32:50.1600571Z Progress: Downloading shellcheck 0.9.0... 21%
+2025-10-10T16:32:50.1601654Z Progress: Downloading shellcheck 0.9.0... 30%
+2025-10-10T16:32:50.1603413Z Progress: Downloading shellcheck 0.9.0... 38%
+2025-10-10T16:32:50.1604265Z Progress: Downloading shellcheck 0.9.0... 47%
+2025-10-10T16:32:50.1605128Z Progress: Downloading shellcheck 0.9.0... 55%
+2025-10-10T16:32:50.1605935Z Progress: Downloading shellcheck 0.9.0... 64%
+2025-10-10T16:32:50.1606760Z Progress: Downloading shellcheck 0.9.0... 72%
+2025-10-10T16:32:50.1607623Z Progress: Downloading shellcheck 0.9.0... 81%
+2025-10-10T16:32:50.1608384Z Progress: Downloading shellcheck 0.9.0... 89%
+2025-10-10T16:32:50.1609472Z Progress: Downloading shellcheck 0.9.0... 98%
+2025-10-10T16:32:50.1610383Z Progress: Downloading shellcheck 0.9.0... 100%
+2025-10-10T16:32:50.4948702Z 
+2025-10-10T16:32:50.4949200Z shellcheck v0.9.0 [Approved]
+2025-10-10T16:32:50.5176133Z shellcheck package files install completed. Performing other installation steps.
+2025-10-10T16:32:54.2676467Z Downloading shellcheck 
+2025-10-10T16:32:54.2677389Z   from 'https://github.com/koalaman/shellcheck/releases/download/v0.9.0/shellcheck-v0.9.0.zip'
+2025-10-10T16:32:54.4665199Z 
+2025-10-10T16:32:54.4682547Z Progress: 0% - Saving 12.15 KB of 1.55 MB
+2025-10-10T16:32:54.4697010Z Progress: 1% - Saving 25.61 KB of 1.55 MB
+2025-10-10T16:32:54.4848873Z Progress: 2% - Saving 38.92 KB of 1.55 MB
+2025-10-10T16:32:54.4870177Z Progress: 3% - Saving 52.22 KB of 1.55 MB
+2025-10-10T16:32:54.4892322Z Progress: 7% - Saving 124.15 KB of 1.55 MB
+2025-10-10T16:32:54.4915483Z Progress: 17% - Saving 284.15 KB of 1.55 MB
+2025-10-10T16:32:54.4942656Z Progress: 27% - Saving 444.15 KB of 1.55 MB
+2025-10-10T16:32:54.4962449Z Progress: 37% - Saving 604.15 KB of 1.55 MB
+2025-10-10T16:32:54.5063760Z Progress: 48% - Saving 764.15 KB of 1.55 MB
+2025-10-10T16:32:54.5086079Z Progress: 57% - Saving 920.4 KB of 1.55 MB
+2025-10-10T16:32:54.5107627Z Progress: 67% - Saving 1.06 MB of 1.55 MB
+2025-10-10T16:32:54.5125336Z Progress: 77% - Saving 1.21 MB of 1.55 MB
+2025-10-10T16:32:54.5143197Z Progress: 87% - Saving 1.36 MB of 1.55 MB
+2025-10-10T16:32:54.5158461Z Progress: 97% - Saving 1.52 MB of 1.55 MB
+2025-10-10T16:32:54.5163978Z Progress: 100% - Completed download of C:\Users\runneradmin\AppData\Local\Temp\chocolatey\shellcheck\0.9.0\shellcheck-v0.9.0.zip (1.55 MB).
+2025-10-10T16:32:54.5193191Z Download of shellcheck-v0.9.0.zip (1.55 MB) completed.
+2025-10-10T16:33:02.0920115Z Hashes match.
+2025-10-10T16:33:02.2326576Z Extracting C:\Users\runneradmin\AppData\Local\Temp\chocolatey\shellcheck\0.9.0\shellcheck-v0.9.0.zip to C:\ProgramData\chocolatey\lib\shellcheck\content...
+2025-10-10T16:33:03.3948515Z C:\ProgramData\chocolatey\lib\shellcheck\content
+2025-10-10T16:33:05.8227894Z  ShimGen has successfully created a shim for shellcheck.exe
+2025-10-10T16:33:05.8657178Z  The install of shellcheck was successful.
+2025-10-10T16:33:05.8662502Z   Deployed to 'C:\ProgramData\chocolatey\lib\shellcheck\content'
+2025-10-10T16:33:05.9120438Z 
+2025-10-10T16:33:05.9121002Z Chocolatey installed 1/1 packages. 
+2025-10-10T16:33:05.9121692Z  See the log for details (C:\ProgramData\chocolatey\logs\chocolatey.log).
+2025-10-10T16:33:05.9972891Z ##[group]Run actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+2025-10-10T16:33:05.9973493Z with:
+2025-10-10T16:33:05.9974022Z   github-token: ***
+2025-10-10T16:33:05.9992890Z   script: // input envs
+const { INPUT_FILES, INPUT_FLAGS, INPUT_TOOL_NAME, INPUT_TOOL_DIR_PATH, INPUT_MATCHER, INPUT_MATCHER_PATH, INPUT_TOOL_EXECUTABLE, INPUT_JSON, INPUT_FAIL_ON_ERROR, INPUT_PYFLAKES, INPUT_SHELLCHECK, INPUT_GROUP_RESULT, DEBUG } = process.env
+
+// helpers
+function niceHeader(label, color, emoji, group = false) {
+  const colors = {
+    red: '\x1b[31m',
+    green: '\x1b[32m',
+    yellow: '\x1b[33m',
+    blue: '\x1b[34m'
+  }
+  const emojis = {
+    arrowDown: '⬇️',
+    warning: '⚠️',
+    error: '❌',
+    check: '✅'
+  }
+  const reset = '\x1b[0m'
+
+  let expand = ''
+  if (group) {
+    expand = ' expand for details...'
+  }
+
+  return `${colors[color]}${emojis[emoji]} [${INPUT_TOOL_NAME}] ${label}${reset}${expand}`
+}
+
+// set search path
+core.addPath(INPUT_TOOL_DIR_PATH)
+
+// set matcher
+if (INPUT_MATCHER === 'true') {
+  core.info(`##[add-matcher]${INPUT_MATCHER_PATH}`)
+}
+
+// set default tool flags
+const toolFlags = ['-verbose']
+if(DEBUG === 'true') {
+  toolFlags.push('-debug')
+}
+if(INPUT_PYFLAKES === 'false') {
+  toolFlags.push('-pyflakes', '')
+}
+if(INPUT_SHELLCHECK === 'false') {
+  toolFlags.push('-shellcheck', '')
+}
+
+// set user tool flags
+if(INPUT_FLAGS !== '') {
+  const userFlags = INPUT_FLAGS.match(/(?:[^\s"]+|"[^"]*")+/g)
+  userFlags.forEach(flag => {
+    toolFlags.push(flag.trim())
+  })
+}
+
+// set files
+if(INPUT_FILES !== '') {
+  const patterns = INPUT_FILES.split(',').map(s => s.trim()).join('\n')
+  const globber = await glob.create(patterns)
+  let files = await globber.glob()
+  files = files.map(p => core.toPlatformPath(p))
+  files.forEach(file => { toolFlags.push(file) })
+}
+
+// run tool
+const { exitCode, stdout, stderr } = await exec.getExecOutput(INPUT_TOOL_EXECUTABLE, toolFlags, { silent: true, ignoreReturnCode: true })
+
+//if (INPUT_JSON === 'true') {
+//  const fs = require('fs')
+//   const path = require('path')
+//   const jsonPath = path.join(process.env.GITHUB_WORKSPACE, 'actionlint.json')
+//   fs.writeFileSync(jsonPath, stdout)
+//   core.info(`##[add-annotation]file=${jsonPath},title=actionlint.json`)
+// }
+
+let exitMessage = ''
+switch (exitCode) {
+  case 1:
+    exitMessage = 'The command ran successfully and no problem was found'
+    exitMessage = 'The command ran successfully and some problem was found'
+    break;
+  case 2:
+    exitMessage = 'The command failed due to invalid command line option'
+    break;
+  case 3:
+    exitMessage = 'The command failed due to some fatal error'
+    break;
+  default:
+    exitMessage = 'The command ran successfully and no problem was found'
+}
+core.setOutput('exit-code', exitCode)
+core.setOutput('exit-message', exitMessage)
+core.debug(`[${INPUT_TOOL_NAME}] ${exitMessage} (exit code: ${exitCode})`)
+
+if (exitCode !== 0) {
+  if (INPUT_GROUP_RESULT === 'true') {
+    await core.group(niceHeader(`Results`, 'red', 'error', true), async () => {
+      core.info(`${stdout.trim()}`)
+    })
+  } else {
+    core.info(niceHeader(`Results`, 'red', 'error'))
+    core.info(`${stdout.trim()}`)
+  }
+}
+
+const outputVerbose = stderr.trim()
+await core.group(niceHeader(`Verbose`, 'blue', 'arrowDown', true), async () => {
+  core.info(`${outputVerbose}`)
+})
+
+const matchErrors = outputVerbose.match(/Found (\d+) errors in (\d+) files/)
+const totalErrors = matchErrors ? matchErrors[1] : 0
+const totalFiles = matchErrors ? matchErrors[2] : 0
+
+core.setOutput('total-errors', totalErrors)
+core.setOutput('total-files', totalFiles)
+
+switch (exitCode) {
+  case 0:
+    core.info(niceHeader(`${exitMessage} (linted ${totalFiles} files)`, 'green', 'check'))
+    process.exit(core.ExitCode.Success)
+    break;
+  default:
+    if (INPUT_FAIL_ON_ERROR === 'true') {
+      core.setFailed(niceHeader(`${exitMessage} (found ${totalErrors} errors, linted ${totalFiles} files), exit code: ${exitCode}`, 'red', 'error'))
+      process.exit(core.ExitCode.Failure)
+    }
+    else {
+      core.warning(niceHeader(`${exitMessage} (found ${totalErrors} errors, linted ${totalFiles} files), exit code: ${exitCode}`, 'yellow', 'warning'))
+      process.exit(core.ExitCode.Success)
+    }
+}
+
+2025-10-10T16:33:06.0012239Z   debug: false
+2025-10-10T16:33:06.0012584Z   user-agent: actions/github-script
+2025-10-10T16:33:06.0012976Z   result-encoding: json
+2025-10-10T16:33:06.0013296Z   retries: 0
+2025-10-10T16:33:06.0013629Z   retry-exempt-status-codes: 400,401,403,404,422
+2025-10-10T16:33:06.0014039Z env:
+2025-10-10T16:33:06.0014323Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:33:06.0014721Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:33:06.0015030Z   SENTRY_DSN: 
+2025-10-10T16:33:06.0015302Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:33:06.0015643Z   CL: /std:c++20 /EHsc
+2025-10-10T16:33:06.0015952Z   CXXFLAGS: -std=c++20
+2025-10-10T16:33:06.0016255Z   NODE_ENV: development
+2025-10-10T16:33:06.0016584Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:33:06.0016942Z   INPUT_TOOL_NAME: actionlint
+2025-10-10T16:33:06.0017654Z   INPUT_TOOL_DIR_PATH: D:\a\_temp\actionlint-1.7.7
+2025-10-10T16:33:06.0018134Z   INPUT_TOOL_EXECUTABLE: actionlint.exe
+2025-10-10T16:33:06.0018897Z   INPUT_MATCHER: true
+2025-10-10T16:33:06.0019390Z   INPUT_MATCHER_PATH: D:\a\_temp\actionlint-1.7.7\actionlint-matcher.json
+2025-10-10T16:33:06.0019950Z   INPUT_JSON: false
+2025-10-10T16:33:06.0020251Z   INPUT_FAIL_ON_ERROR: true
+2025-10-10T16:33:06.0020590Z   INPUT_PYFLAKES: true
+2025-10-10T16:33:06.0021952Z   INPUT_SHELLCHECK: true
+2025-10-10T16:33:06.0022338Z   INPUT_FILES: 
+2025-10-10T16:33:06.0022611Z   INPUT_FLAGS: 
+2025-10-10T16:33:06.0022891Z   INPUT_GROUP_RESULT: true
+2025-10-10T16:33:06.0023233Z ##[endgroup]
+2025-10-10T16:33:06.8291849Z ##[group][34m⬇️ [actionlint] Verbose[0m expand for details...
+2025-10-10T16:33:06.8293331Z verbose: Linting all workflow files in repository: D:\a\gametp\gametp
+2025-10-10T16:33:06.8294166Z verbose: Detected project: D:\a\gametp\gametp
+2025-10-10T16:33:06.8294696Z verbose: Collected 19 YAML files
+2025-10-10T16:33:06.8295427Z verbose: Linting 19 files
+2025-10-10T16:33:06.8296230Z verbose: Linting .github\workflows\branch-protection-encoding-guard.yml
+2025-10-10T16:33:06.8297089Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8297914Z verbose: verbose: Linting .github\workflows\validate-workflows.yml
+2025-10-10T16:33:06.8298693Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8299545Z verbose: Linting .github\workflows\release-emergency-rollback.yml
+2025-10-10T16:33:06.8300278Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8300907Z verbose: Linting .github\workflows\release.yml
+2025-10-10T16:33:06.8301533Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8302175Z verbose: verbose: Linting .github\workflows\ci.yml
+2025-10-10T16:33:06.8302993Z verbose: Found 0 parse errors in 1 ms for .github\workflows\validate-workflows.yml
+2025-10-10T16:33:06.8303746Z verbose: Found 0 parse errors in 1 ms for .github\workflows\release.yml
+2025-10-10T16:33:06.8307617Z verbose: Linting .github\workflows\codeql.yml
+2025-10-10T16:33:06.8308219Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8308752Z verbose: Linting .github\workflows\soft-gates.yml
+2025-10-10T16:33:06.8311413Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8312524Z verbose: Found 0 parse errors in 0 ms for .github\workflows\codeql.yml
+2025-10-10T16:33:06.8313440Z verbose: Found 0 parse errors in 1 ms for .github\workflows\soft-gates.yml
+2025-10-10T16:33:06.8314350Z verbose: Found 0 parse errors in 1 ms for .github\workflows\release-emergency-rollback.yml
+2025-10-10T16:33:06.8315115Z verbose: Linting .github\workflows\staged-release.yml
+2025-10-10T16:33:06.8315675Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8316394Z verbose: Found 0 parse errors in 0 ms for .github\workflows\staged-release.yml
+2025-10-10T16:33:06.8317199Z verbose: Linting .github\workflows\security-unified.yml
+2025-10-10T16:33:06.8317774Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8318419Z verbose: Linting .github\workflows\config-management.yml
+2025-10-10T16:33:06.8319040Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8319583Z verbose: Linting .github\workflows\release-monitor.yml
+2025-10-10T16:33:06.8320135Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8320668Z verbose: Linting .github\workflows\pr-gatekeeper.yml
+2025-10-10T16:33:06.8321258Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8321974Z verbose: Found 0 parse errors in 0 ms for .github\workflows\pr-gatekeeper.yml
+2025-10-10T16:33:06.8322834Z verbose: Found 0 parse errors in 0 ms for .github\workflows\release-monitor.yml
+2025-10-10T16:33:06.8323796Z verbose: Found 0 parse errors in 0 ms for .github\workflows\security-unified.yml
+2025-10-10T16:33:06.8324647Z verbose: Linting .github\workflows\nightly-scene-transition.yml
+2025-10-10T16:33:06.8325360Z verbose: Linting .github\workflows\observability-gate.yml
+2025-10-10T16:33:06.8326308Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8326864Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8327744Z verbose: Linting .github\workflows\tasks-governance.yml
+2025-10-10T16:33:06.8328374Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8328910Z verbose: Linting .github\workflows\release-ramp.yml
+2025-10-10T16:33:06.8329497Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8330519Z verbose: Found 0 parse errors in 4 ms for .github\workflows\observability-gate.yml
+2025-10-10T16:33:06.8331427Z verbose: Found 0 parse errors in 2 ms for .github\workflows\release-ramp.yml
+2025-10-10T16:33:06.8332301Z verbose: Found total 0 errors in 21 ms for .github\workflows\soft-gates.yml
+2025-10-10T16:33:06.8333306Z verbose: Found total 0 errors in 29 ms for .github\workflows\release-emergency-rollback.yml
+2025-10-10T16:33:06.8334369Z Found 0 parse errors in 1 ms for .github\workflows\branch-protection-encoding-guard.yml
+2025-10-10T16:33:06.8335326Z verbose: Found 0 parse errors in 0 ms for .github\workflows\config-management.yml
+2025-10-10T16:33:06.8336164Z verbose: Linting .github\workflows\pr-performance-check.yml
+2025-10-10T16:33:06.8336796Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8337638Z verbose: Found 0 parse errors in 20 ms for .github\workflows\nightly-scene-transition.yml
+2025-10-10T16:33:06.8339107Z verbose: Found 0 parse errors in 16 ms for .github\workflows\pr-performance-check.yml
+2025-10-10T16:33:06.8340168Z verbose: Found 0 parse errors in 19 ms for .github\workflows\tasks-governance.yml
+2025-10-10T16:33:06.8341326Z Linting .github\workflows\build-and-test.yml
+2025-10-10T16:33:06.8341958Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8342505Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8343110Z verbose: Linting .github\workflows\release-prepare.yml
+2025-10-10T16:33:06.8343896Z verbose: Found total 0 errors in 52 ms for .github\workflows\staged-release.yml
+2025-10-10T16:33:06.8344837Z verbose: Found total 0 errors in 44 ms for .github\workflows\pr-performance-check.yml
+2025-10-10T16:33:06.8345557Z verbose: Using project at D:\a\gametp\gametp
+2025-10-10T16:33:06.8346212Z verbose: Found 0 parse errors in 68 ms for .github\workflows\ci.yml
+2025-10-10T16:33:06.8347067Z verbose: Found 0 parse errors in 53 ms for .github\workflows\release-prepare.yml
+2025-10-10T16:33:06.8348341Z verbose: Found 0 parse errors in 102 ms for .github\workflows\build-and-test.yml
+2025-10-10T16:33:06.8349284Z verbose: Found total 0 errors in 156 ms for .github\workflows\tasks-governance.yml
+2025-10-10T16:33:06.8350211Z verbose: Found total 0 errors in 159 ms for .github\workflows\pr-gatekeeper.yml
+2025-10-10T16:33:06.8351137Z verbose: Found total 0 errors in 160 ms for .github\workflows\config-management.yml
+2025-10-10T16:33:06.8352031Z verbose: Found total 0 errors in 187 ms for .github\workflows\release.yml
+2025-10-10T16:33:06.8353053Z verbose: Found total 0 errors in 199 ms for .github\workflows\branch-protection-encoding-guard.yml
+2025-10-10T16:33:06.8354097Z verbose: Found total 0 errors in 186 ms for .github\workflows\observability-gate.yml
+2025-10-10T16:33:06.8355042Z verbose: Found total 0 errors in 185 ms for .github\workflows\release-ramp.yml
+2025-10-10T16:33:06.8355965Z verbose: Found total 0 errors in 192 ms for .github\workflows\security-unified.yml
+2025-10-10T16:33:06.8356955Z verbose: Found total 0 errors in 189 ms for .github\workflows\release-prepare.yml
+2025-10-10T16:33:06.8357913Z verbose: Found total 0 errors in 211 ms for .github\workflows\build-and-test.yml
+2025-10-10T16:33:06.8358809Z verbose: Found total 0 errors in 214 ms for .github\workflows\codeql.yml
+2025-10-10T16:33:06.8359718Z verbose: Found total 0 errors in 202 ms for .github\workflows\release-monitor.yml
+2025-10-10T16:33:06.8360776Z verbose: Found total 0 errors in 203 ms for .github\workflows\nightly-scene-transition.yml
+2025-10-10T16:33:06.8362860Z verbose: Found total 0 errors in 215 ms for .github\workflows\ci.yml
+2025-10-10T16:33:06.8363817Z verbose: Found total 0 errors in 558 ms for .github\workflows\validate-workflows.yml
+2025-10-10T16:33:06.8364495Z verbose: Found 0 errors in 19 files
+2025-10-10T16:33:06.8365132Z ##[endgroup]
+2025-10-10T16:33:06.8366360Z [32m✅ [actionlint] The command ran successfully and no problem was found (linted 19 files)[0m
+2025-10-10T16:33:06.8619574Z ##[group]Run actions/setup-node@v5.0.0
+2025-10-10T16:33:06.8619877Z with:
+2025-10-10T16:33:06.8620044Z   node-version: 20.x
+2025-10-10T16:33:06.8620215Z   cache: npm
+2025-10-10T16:33:06.8620372Z   always-auth: false
+2025-10-10T16:33:06.8620547Z   check-latest: false
+2025-10-10T16:33:06.8620859Z   token: ***
+2025-10-10T16:33:06.8621039Z   package-manager-cache: true
+2025-10-10T16:33:06.8621245Z env:
+2025-10-10T16:33:06.8621398Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:33:06.8621623Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:33:06.8621823Z   SENTRY_DSN: 
+2025-10-10T16:33:06.8621978Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:33:06.8622170Z   CL: /std:c++20 /EHsc
+2025-10-10T16:33:06.8622344Z   CXXFLAGS: -std=c++20
+2025-10-10T16:33:06.8622517Z   NODE_ENV: development
+2025-10-10T16:33:06.8622703Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:33:06.8622891Z ##[endgroup]
+2025-10-10T16:33:07.0801140Z Found in cache @ C:\hostedtoolcache\windows\node\20.19.5\x64
+2025-10-10T16:33:07.0809803Z (node:4244) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-10-10T16:33:07.0811129Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-10-10T16:33:07.0813004Z ##[group]Environment details
+2025-10-10T16:33:28.5940490Z node: v20.19.5
+2025-10-10T16:33:28.5940828Z npm: 10.8.2
+2025-10-10T16:33:28.5941642Z yarn: 1.22.22
+2025-10-10T16:33:28.5942316Z ##[endgroup]
+2025-10-10T16:33:28.6789975Z [command]C:\Windows\system32\cmd.exe /D /S /C "C:\hostedtoolcache\windows\node\20.19.5\x64\npm.cmd config get cache"
+2025-10-10T16:33:28.9598788Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:33:30.4757865Z C:\npm\cache
+2025-10-10T16:33:30.9234284Z Cache hit for: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee
+2025-10-10T16:33:30.9359700Z (node:4244) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2025-10-10T16:33:32.1547054Z Received 50331648 of 315413375 (16.0%), 47.9 MBs/sec
+2025-10-10T16:33:33.1676375Z Received 197132288 of 315413375 (62.5%), 93.3 MBs/sec
+2025-10-10T16:33:34.1395849Z Received 315413375 of 315413375 (100.0%), 100.7 MBs/sec
+2025-10-10T16:33:34.1399193Z Cache Size: ~301 MB (315413375 B)
+2025-10-10T16:33:34.1469552Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/96591aff-7a7a-4afa-baee-479f1ed57855/cache.tzst -P -C D:/a/gametp/gametp --force-local --use-compress-program "zstd -d"
+2025-10-10T16:33:46.4072709Z Cache restored successfully
+2025-10-10T16:33:46.4246232Z Cache restored from key: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee
+2025-10-10T16:33:46.4567583Z ##[group]Run node scripts/ci/fix-bom.cjs
+2025-10-10T16:33:46.4567968Z [36;1mnode scripts/ci/fix-bom.cjs[0m
+2025-10-10T16:33:46.4993440Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:33:46.4993804Z env:
+2025-10-10T16:33:46.4993998Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:33:46.4994272Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:33:46.4994480Z   SENTRY_DSN: 
+2025-10-10T16:33:46.4994675Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:33:46.4994912Z   CL: /std:c++20 /EHsc
+2025-10-10T16:33:46.4995115Z   CXXFLAGS: -std=c++20
+2025-10-10T16:33:46.4995322Z   NODE_ENV: development
+2025-10-10T16:33:46.4995542Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:33:46.4996016Z ##[endgroup]
+2025-10-10T16:34:04.3120950Z Prepare all required actions
+2025-10-10T16:34:04.3184511Z ##[group]Run ./.github/actions/npm-install
+2025-10-10T16:34:04.3184750Z with:
+2025-10-10T16:34:04.3184913Z   working-directory: .
+2025-10-10T16:34:04.3185100Z   node-version: 20.x
+2025-10-10T16:34:04.3185266Z env:
+2025-10-10T16:34:04.3185540Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:34:04.3185906Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:34:04.3186102Z   SENTRY_DSN: 
+2025-10-10T16:34:04.3186275Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:34:04.3186485Z   CL: /std:c++20 /EHsc
+2025-10-10T16:34:04.3186666Z   CXXFLAGS: -std=c++20
+2025-10-10T16:34:04.3186849Z   NODE_ENV: development
+2025-10-10T16:34:04.3187036Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:34:04.3187234Z ##[endgroup]
+2025-10-10T16:34:04.3312989Z ##[group]Run Write-Host "Validating Node.js environment setup..."
+2025-10-10T16:34:04.3313411Z [36;1mWrite-Host "Validating Node.js environment setup..."[0m
+2025-10-10T16:34:04.3313869Z [36;1mif (-not (Get-Command node -ErrorAction SilentlyContinue)) {[0m
+2025-10-10T16:34:04.3314318Z [36;1m  Write-Error "Node.js not found. Ensure actions/setup-node has run."[0m
+2025-10-10T16:34:04.3314649Z [36;1m  exit 1[0m
+2025-10-10T16:34:04.3314818Z [36;1m}[0m
+2025-10-10T16:34:04.3315070Z [36;1mif (-not (Get-Command npm -ErrorAction SilentlyContinue)) {[0m
+2025-10-10T16:34:04.3315491Z [36;1m  Write-Error "npm not found. Node.js installation may be incomplete."[0m
+2025-10-10T16:34:04.3315827Z [36;1m  exit 1[0m
+2025-10-10T16:34:04.3315992Z [36;1m}[0m
+2025-10-10T16:34:04.3316235Z [36;1mWrite-Host ("Node.js version: {0}" -f (node --version))[0m
+2025-10-10T16:34:04.3316596Z [36;1mWrite-Host ("npm version: {0}" -f (npm --version))[0m
+2025-10-10T16:34:04.3378586Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:34:04.3378917Z env:
+2025-10-10T16:34:04.3379090Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:34:04.3379353Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:34:04.3379558Z   SENTRY_DSN: 
+2025-10-10T16:34:04.3379737Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:34:04.3379946Z   CL: /std:c++20 /EHsc
+2025-10-10T16:34:04.3380137Z   CXXFLAGS: -std=c++20
+2025-10-10T16:34:04.3380329Z   NODE_ENV: development
+2025-10-10T16:34:04.3380527Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:34:04.3380733Z ##[endgroup]
+2025-10-10T16:34:05.7043304Z Validating Node.js environment setup...
+2025-10-10T16:34:05.7620726Z Node.js version: v20.19.5
+2025-10-10T16:34:06.0620555Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:34:06.0771603Z npm version: 10.8.2
+2025-10-10T16:34:06.1648243Z ##[group]Run Write-Host "Validating critical environment variables..."
+2025-10-10T16:34:06.1648995Z [36;1mWrite-Host "Validating critical environment variables..."[0m
+2025-10-10T16:34:06.1649675Z [36;1mWrite-Host ("NODE_ENV: {0}" -f ($env:NODE_ENV ?? 'not set'))[0m
+2025-10-10T16:34:06.1650486Z [36;1mWrite-Host ("NPM_CONFIG_PRODUCTION: {0}" -f ($env:NPM_CONFIG_PRODUCTION ?? 'not set'))[0m
+2025-10-10T16:34:06.1651412Z [36;1mif ($env:NODE_ENV -ne 'development' -or $env:NPM_CONFIG_PRODUCTION -ne 'false') {[0m
+2025-10-10T16:34:06.1652661Z [36;1m  Write-Warning "Environment vars may prevent devDependencies installation. Recommended: NODE_ENV=development, NPM_CONFIG_PRODUCTION=false"[0m
+2025-10-10T16:34:06.1653669Z [36;1m}[0m
+2025-10-10T16:34:06.1753144Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:34:06.1753672Z env:
+2025-10-10T16:34:06.1753939Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:34:06.1754334Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:34:06.1754637Z   SENTRY_DSN: 
+2025-10-10T16:34:06.1754927Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:34:06.1755289Z   CL: /std:c++20 /EHsc
+2025-10-10T16:34:06.1755598Z   CXXFLAGS: -std=c++20
+2025-10-10T16:34:06.1755949Z   NODE_ENV: development
+2025-10-10T16:34:06.1756275Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:34:06.1756867Z ##[endgroup]
+2025-10-10T16:34:06.5103804Z Validating critical environment variables...
+2025-10-10T16:34:06.5112895Z NODE_ENV: development
+2025-10-10T16:34:06.5205818Z NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:34:06.6131579Z ##[group]Run Write-Host "Starting Windows-focused npm installation..."
+2025-10-10T16:34:06.6132105Z [36;1mWrite-Host "Starting Windows-focused npm installation..."[0m
+2025-10-10T16:34:06.6132478Z [36;1mWrite-Host ("Runner: {0}" -f $env:RUNNER_OS)[0m
+2025-10-10T16:34:06.6132807Z [36;1mWrite-Host "Current npm configuration (subset):"[0m
+2025-10-10T16:34:06.6133418Z [36;1mtry { npm config list | Select-String -Pattern 'fetch-retries|registry|fund|audit' -SimpleMatch | ForEach-Object { $_.Line } } catch {}[0m
+2025-10-10T16:34:06.6133978Z [36;1m[0m
+2025-10-10T16:34:06.6134174Z [36;1m# ESM-friendly npm environment variables[0m
+2025-10-10T16:34:06.6134459Z [36;1m$env:NPM_CONFIG_MAXSOCKETS = '8'[0m
+2025-10-10T16:34:06.6134713Z [36;1m$env:NPM_CONFIG_FUND = 'false'[0m
+2025-10-10T16:34:06.6134986Z [36;1m$env:NPM_CONFIG_AUDIT = 'false'[0m
+2025-10-10T16:34:06.6135237Z [36;1m$env:NPM_CONFIG_PROGRESS = 'false'[0m
+2025-10-10T16:34:06.6135467Z [36;1m[0m
+2025-10-10T16:34:06.6135719Z [36;1m$npmExecutable = (Get-Command npm -ErrorAction Stop).Source[0m
+2025-10-10T16:34:06.6136051Z [36;1mif (-not $npmExecutable) {[0m
+2025-10-10T16:34:06.6136372Z [36;1m  throw 'npm executable not found on PATH (required for npm ci)'[0m
+2025-10-10T16:34:06.6136682Z [36;1m}[0m
+2025-10-10T16:34:06.6136827Z [36;1m[0m
+2025-10-10T16:34:06.6137107Z [36;1mfunction Invoke-NpmCiAttempt([int]$timeoutSec, [string]$extraArgs) {[0m
+2025-10-10T16:34:06.6137540Z [36;1m  $psi = New-Object System.Diagnostics.ProcessStartInfo[0m
+2025-10-10T16:34:06.6137853Z [36;1m  $psi.FileName = $npmExecutable[0m
+2025-10-10T16:34:06.6138138Z [36;1m  $psi.WorkingDirectory = (Get-Location).Path[0m
+2025-10-10T16:34:06.6138840Z [36;1m  $psi.Arguments = "ci $extraArgs"[0m
+2025-10-10T16:34:06.6139132Z [36;1m  $psi.RedirectStandardOutput = $true[0m
+2025-10-10T16:34:06.6139415Z [36;1m  $psi.RedirectStandardError = $true[0m
+2025-10-10T16:34:06.6139680Z [36;1m  $psi.UseShellExecute = $false[0m
+2025-10-10T16:34:06.6139919Z [36;1m  $psi.CreateNoWindow = $true[0m
+2025-10-10T16:34:06.6140186Z [36;1m  $proc = New-Object System.Diagnostics.Process[0m
+2025-10-10T16:34:06.6140459Z [36;1m  $proc.StartInfo = $psi[0m
+2025-10-10T16:34:06.6140677Z [36;1m  [void]$proc.Start()[0m
+2025-10-10T16:34:06.6140950Z [36;1m  $completed = $proc.WaitForExit($timeoutSec * 1000)[0m
+2025-10-10T16:34:06.6141265Z [36;1m  $out = $proc.StandardOutput.ReadToEnd()[0m
+2025-10-10T16:34:06.6141551Z [36;1m  $err = $proc.StandardError.ReadToEnd()[0m
+2025-10-10T16:34:06.6141912Z [36;1m  ($out + $err) | Out-File -FilePath npm_install.log -Append -Encoding UTF8[0m
+2025-10-10T16:34:06.6142568Z [36;1m  if (-not $completed) { try { Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue } catch {}; return @{ Ok=$false; TimedOut=$true; Code=-1 } }[0m
+2025-10-10T16:34:06.6143222Z [36;1m  return @{ Ok = ($proc.ExitCode -eq 0); TimedOut=$false; Code=$proc.ExitCode }[0m
+2025-10-10T16:34:06.6143542Z [36;1m}[0m
+2025-10-10T16:34:06.6143685Z [36;1m[0m
+2025-10-10T16:34:06.6143836Z [36;1m$attempts = @([0m
+2025-10-10T16:34:06.6144037Z [36;1m  @{ Timeout=480; Args='' },[0m
+2025-10-10T16:34:06.6144283Z [36;1m  @{ Timeout=720; Args='--maxsockets=5' },[0m
+2025-10-10T16:34:06.6144544Z [36;1m  @{ Timeout=900; Args='--maxsockets=1' },[0m
+2025-10-10T16:34:06.6144781Z [36;1m  @{ Timeout=900; Args='' }[0m
+2025-10-10T16:34:06.6144988Z [36;1m)[0m
+2025-10-10T16:34:06.6145136Z [36;1m[0m
+2025-10-10T16:34:06.6145290Z [36;1m$success = $false[0m
+2025-10-10T16:34:06.6145518Z [36;1mfor ($i=0; $i -lt $attempts.Count; $i++) {[0m
+2025-10-10T16:34:06.6145758Z [36;1m  $a = $attempts[$i][0m
+2025-10-10T16:34:06.6146081Z [36;1m  Write-Host ("Attempt {0} (timeout={1}s args='{2}')" -f ($i+1), $a.Timeout, $a.Args)[0m
+2025-10-10T16:34:06.6147419Z [36;1m  $res = Invoke-NpmCiAttempt -timeoutSec $a.Timeout -extraArgs $a.Args[0m
+2025-10-10T16:34:06.6147848Z [36;1m  if ($res.Ok) { $success = $true; break } else {[0m
+2025-10-10T16:34:06.6148140Z [36;1m    if ($i -lt ($attempts.Count-1)) {[0m
+2025-10-10T16:34:06.6148388Z [36;1m      $sleep = 15 * ($i+1)[0m
+2025-10-10T16:34:06.6148866Z [36;1m      Write-Warning ("Attempt {0} failed (code={1}, timeout={2}). Sleeping {3}s before retry..." -f ($i+1), $res.Code, $res.TimedOut, $sleep)[0m
+2025-10-10T16:34:06.6149376Z [36;1m      Start-Sleep -Seconds $sleep[0m
+2025-10-10T16:34:06.6149599Z [36;1m    }[0m
+2025-10-10T16:34:06.6149754Z [36;1m  }[0m
+2025-10-10T16:34:06.6149906Z [36;1m}[0m
+2025-10-10T16:34:06.6150050Z [36;1m[0m
+2025-10-10T16:34:06.6150202Z [36;1mif (-not $success) {[0m
+2025-10-10T16:34:06.6150530Z [36;1m  Write-Error "CRITICAL FAILURE: All Windows installation attempts failed!"[0m
+2025-10-10T16:34:06.6151015Z [36;1m  if (Test-Path npm_install.log) { Get-Content npm_install.log -Tail 80 | Write-Host }[0m
+2025-10-10T16:34:06.6151367Z [36;1m  exit 1[0m
+2025-10-10T16:34:06.6151521Z [36;1m}[0m
+2025-10-10T16:34:06.6151662Z [36;1m[0m
+2025-10-10T16:34:06.6151898Z [36;1mWrite-Host "SUCCESS: npm ci completed"[0m
+2025-10-10T16:34:06.6152134Z [36;1m[0m
+2025-10-10T16:34:06.6152279Z [36;1m# Verification[0m
+2025-10-10T16:34:06.6152480Z [36;1m$verificationErrors = 0[0m
+2025-10-10T16:34:06.6152754Z [36;1m$tools = @('eslint','tsc','vitest','playwright','tsx')[0m
+2025-10-10T16:34:06.6153033Z [36;1mforeach ($t in $tools) {[0m
+2025-10-10T16:34:06.6153291Z [36;1m  $binPath = Join-Path 'node_modules/.bin' $t[0m
+2025-10-10T16:34:06.6153630Z [36;1m  $binCmdPath = Join-Path 'node_modules/.bin' ("{0}.cmd" -f $t)[0m
+2025-10-10T16:34:06.6153944Z [36;1m  $hasTool = Test-Path $binPath[0m
+2025-10-10T16:34:06.6154170Z [36;1m  if (-not $hasTool) {[0m
+2025-10-10T16:34:06.6154404Z [36;1m    $hasTool = Test-Path $binCmdPath[0m
+2025-10-10T16:34:06.6154644Z [36;1m  }[0m
+2025-10-10T16:34:06.6154807Z [36;1m  if ($hasTool) {[0m
+2025-10-10T16:34:06.6155084Z [36;1m    Write-Host ("SUCCESS: {0} available in node_modules/.bin" -f $t)[0m
+2025-10-10T16:34:06.6155437Z [36;1m  } elseif ((npm list $t | Out-Null) -ne $true) {[0m
+2025-10-10T16:34:06.6155772Z [36;1m    Write-Warning ("{0} not detected in node_modules" -f $t)[0m
+2025-10-10T16:34:06.6156070Z [36;1m    $verificationErrors++[0m
+2025-10-10T16:34:06.6156275Z [36;1m  }[0m
+2025-10-10T16:34:06.6156421Z [36;1m}[0m
+2025-10-10T16:34:06.6156553Z [36;1m[0m
+2025-10-10T16:34:06.6156808Z [36;1mWrite-Host "Verifying Rollup native platform package for Windows..."[0m
+2025-10-10T16:34:06.6157210Z [36;1mnode -e "require('@rollup/rollup-win32-x64-msvc')" 2>$null[0m
+2025-10-10T16:34:06.6157783Z [36;1mif ($LASTEXITCODE -eq 0) { Write-Host "SUCCESS: rollup native ok" } else { Write-Warning "rollup native package not found (non-critical)" }[0m
+2025-10-10T16:34:06.6158269Z [36;1m[0m
+2025-10-10T16:34:06.6158462Z [36;1m$hasNodeModules = Test-Path 'node_modules'[0m
+2025-10-10T16:34:06.6158771Z [36;1m$hasNodeModulesBin = Test-Path 'node_modules/.bin'[0m
+2025-10-10T16:34:06.6159086Z [36;1mif ($hasNodeModules -and $hasNodeModulesBin) {[0m
+2025-10-10T16:34:06.6159470Z [36;1m  $pkgCount = (Get-ChildItem 'node_modules' -Directory | Measure-Object).Count[0m
+2025-10-10T16:34:06.6160020Z [36;1m  Write-Host ("SUCCESS: node_modules verification passed ({0} top-level packages)" -f $pkgCount)[0m
+2025-10-10T16:34:06.6160420Z [36;1m} else {[0m
+2025-10-10T16:34:06.6160658Z [36;1m  Write-Error 'node_modules structure verification failed'[0m
+2025-10-10T16:34:06.6160965Z [36;1m  $verificationErrors++[0m
+2025-10-10T16:34:06.6161171Z [36;1m}[0m
+2025-10-10T16:34:06.6161315Z [36;1m[0m
+2025-10-10T16:34:06.6161459Z [36;1mtry {[0m
+2025-10-10T16:34:06.6161689Z [36;1m  $pkg = Get-Content package.json -Raw | ConvertFrom-Json[0m
+2025-10-10T16:34:06.6162224Z [36;1m  if ($pkg.type -eq 'module') { Write-Host 'SUCCESS: ESM module system verification passed' }[0m
+2025-10-10T16:34:06.6162690Z [36;1m} catch {}[0m
+2025-10-10T16:34:06.6162852Z [36;1m[0m
+2025-10-10T16:34:06.6163250Z [36;1mif ($verificationErrors -gt 0) { Write-Warning ("Found {0} verification issues (non-blocking)" -f $verificationErrors) }[0m
+2025-10-10T16:34:06.6223803Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:34:06.6224435Z env:
+2025-10-10T16:34:06.6224693Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:34:06.6224931Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:34:06.6225112Z   SENTRY_DSN: 
+2025-10-10T16:34:06.6225282Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:34:06.6225499Z   CL: /std:c++20 /EHsc
+2025-10-10T16:34:06.6225687Z   CXXFLAGS: -std=c++20
+2025-10-10T16:34:06.6225871Z   NODE_ENV: development
+2025-10-10T16:34:06.6226075Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:34:06.6226275Z ##[endgroup]
+2025-10-10T16:34:07.2398972Z Starting Windows-focused npm installation...
+2025-10-10T16:34:07.2407672Z Runner: Windows
+2025-10-10T16:34:07.2413996Z Current npm configuration (subset):
+2025-10-10T16:34:07.5517672Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:34:07.6952740Z Attempt 1 (timeout=480s args='')
+2025-10-10T16:35:21.1712749Z SUCCESS: npm ci completed
+2025-10-10T16:35:21.1872819Z SUCCESS: eslint available in node_modules/.bin
+2025-10-10T16:35:21.1885434Z SUCCESS: tsc available in node_modules/.bin
+2025-10-10T16:35:21.1897164Z SUCCESS: vitest available in node_modules/.bin
+2025-10-10T16:35:21.3029946Z SUCCESS: playwright available in node_modules/.bin
+2025-10-10T16:35:21.3040325Z SUCCESS: tsx available in node_modules/.bin
+2025-10-10T16:35:21.3046358Z Verifying Rollup native platform package for Windows...
+2025-10-10T16:35:21.3983715Z SUCCESS: rollup native ok
+2025-10-10T16:35:21.5112773Z SUCCESS: node_modules verification passed (1171 top-level packages)
+2025-10-10T16:35:21.5466483Z SUCCESS: ESM module system verification passed
+2025-10-10T16:35:21.5943320Z ##[group]Run node scripts/ci/workflow-guardian.mjs
+2025-10-10T16:35:21.5943833Z [36;1mnode scripts/ci/workflow-guardian.mjs[0m
+2025-10-10T16:35:21.6014786Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:35:21.6015388Z env:
+2025-10-10T16:35:21.6015746Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:35:21.6016227Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:35:21.6016625Z   SENTRY_DSN: 
+2025-10-10T16:35:21.6016932Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:35:21.6017341Z   CL: /std:c++20 /EHsc
+2025-10-10T16:35:21.6017677Z   CXXFLAGS: -std=c++20
+2025-10-10T16:35:21.6018042Z   NODE_ENV: development
+2025-10-10T16:35:21.6018448Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:35:21.6018933Z ##[endgroup]
+2025-10-10T16:35:21.9804137Z 🛡️ 工作流守护自检 - Needs 依赖校验
+2025-10-10T16:35:21.9810197Z ==================================================
+2025-10-10T16:35:21.9924708Z 
+2025-10-10T16:35:21.9925448Z 🔍 检查工作流: validate-workflows.yml
+2025-10-10T16:35:21.9928423Z 📋 Jobs: pull_request, push, workflow_dispatch, contents, group, cancel-in-progress, actionlint, actionlint-windows, needs-guard, encoding-guard, encoding-guard-windows, shell-guard, windows-only-guard, ascii-guard, docs-shell-scan, docs-shell-pr-gate
+2025-10-10T16:35:21.9931441Z 🔗 Needs: actionlint, actionlint-windows, actionlint, actionlint-windows, actionlint, actionlint-windows, shell-guard, shell-guard
+2025-10-10T16:35:21.9932673Z ✅ 无问题
+2025-10-10T16:35:21.9934708Z 
+2025-10-10T16:35:21.9935859Z 🔍 检查工作流: tasks-governance.yml
+2025-10-10T16:35:21.9937302Z 📋 Jobs: contents, actions, run, NODE_VERSION, CI_RETRY_COUNT, CI_TIMEOUT_MINUTES, CACHE_STRATEGY, pull_request, push, group, cancel-in-progress, validate-tasks
+2025-10-10T16:35:21.9938721Z 🔗 Needs: 
+2025-10-10T16:35:21.9939204Z ✅ 无问题
+2025-10-10T16:35:21.9941396Z 
+2025-10-10T16:35:21.9942575Z 🔍 检查工作流: staged-release.yml
+2025-10-10T16:35:21.9944225Z 📋 Jobs: contents, actions, packages, run, workflow_dispatch, pre-check, e2e-perf-smoke, health-check
+2025-10-10T16:35:21.9946321Z 🔗 Needs: pre-check, pre-check
+2025-10-10T16:35:21.9947311Z ✅ 无问题
+2025-10-10T16:35:21.9947952Z 
+2025-10-10T16:35:21.9948420Z 🔍 检查工作流: soft-gates.yml
+2025-10-10T16:35:21.9950939Z 📋 Jobs: contents, actions, run, push, pull_request, workflow_dispatch, NODE_VERSION, CI_RETRY_COUNT, CI_TIMEOUT_MINUTES, CACHE_STRATEGY, ACTIONS_RUNNER_DEBUG, ACTIONS_STEP_DEBUG, soft-gate-guardian, quality-gate-check, group, cancel-in-progress
+2025-10-10T16:35:21.9952940Z 🔗 Needs: soft-gate-guardian
+2025-10-10T16:35:21.9953382Z ✅ 无问题
+2025-10-10T16:35:21.9956762Z 
+2025-10-10T16:35:21.9957241Z 🔍 检查工作流: security-unified.yml
+2025-10-10T16:35:21.9959527Z 📋 Jobs: contents, actions, security-events, pull-requests, issues, id-token, run, push, pull_request, workflow_dispatch, group, cancel-in-progress, NODE_VERSION, security-scan, build-and-package, e2e-security-test-sharded, e2e-security-aggregate, unified-security-gate
+2025-10-10T16:35:21.9961762Z 🔗 Needs: security-scan, build-and-package, e2e-security-test-sharded, security-scan, e2e-security-aggregate
+2025-10-10T16:35:21.9967229Z ✅ 无问题
+2025-10-10T16:35:21.9969135Z 
+2025-10-10T16:35:21.9970098Z 🔍 检查工作流: release.yml
+2025-10-10T16:35:21.9972442Z 📋 Jobs: push, workflow_dispatch, contents, actions, CL, CXXFLAGS, GYP_MSVS_ARGS, GYP_CXXFLAGS, GYP_MSVS_VERSION, npm_config_msvs_version, run, prepare, build, summary
+2025-10-10T16:35:21.9973809Z 🔗 Needs: prepare, build
+2025-10-10T16:35:21.9974284Z ✅ 无问题
+2025-10-10T16:35:21.9974451Z 
+2025-10-10T16:35:21.9974755Z 🔍 检查工作流: release-ramp.yml
+2025-10-10T16:35:21.9977497Z 📋 Jobs: contents, actions, run, workflow_run, workflow_dispatch, SENTRY_ORG, SENTRY_PROJECT, APP_VERSION, PREV_GA_VERSION, THRESHOLD_CF_USERS, THRESHOLD_CF_SESSIONS, WEBHOOK_URL, group, cancel-in-progress, ramp, post_actions
+2025-10-10T16:35:21.9979161Z 🔗 Needs: ramp
+2025-10-10T16:35:21.9979558Z ✅ 无问题
+2025-10-10T16:35:21.9979726Z 
+2025-10-10T16:35:21.9980076Z 🔍 检查工作流: release-prepare.yml
+2025-10-10T16:35:21.9984700Z 📋 Jobs: contents, actions, run, workflow_dispatch, group, cancel-in-progress, prepare
+2025-10-10T16:35:21.9985584Z 🔗 Needs: 
+2025-10-10T16:35:21.9985945Z ✅ 无问题
+2025-10-10T16:35:21.9986121Z 
+2025-10-10T16:35:21.9986466Z 🔍 检查工作流: release-monitor.yml
+2025-10-10T16:35:21.9988770Z 📋 Jobs: contents, actions, run, schedule, workflow_dispatch, SENTRY_ORG, SENTRY_PROJECT, APP_VERSION, PREV_GA_VERSION, THRESHOLD_CF_USERS, THRESHOLD_CF_SESSIONS, WEBHOOK_URL, group, cancel-in-progress, monitor
+2025-10-10T16:35:21.9990788Z 🔗 Needs: 
+2025-10-10T16:35:21.9991108Z ✅ 无问题
+2025-10-10T16:35:21.9991269Z 
+2025-10-10T16:35:21.9991685Z 🔍 检查工作流: release-emergency-rollback.yml
+2025-10-10T16:35:21.9992969Z 📋 Jobs: contents, actions, run, workflow_dispatch, PREV_GA_VERSION, WEBHOOK_URL, group, emergency_rollback
+2025-10-10T16:35:21.9993800Z 🔗 Needs: 
+2025-10-10T16:35:21.9994114Z ✅ 无问题
+2025-10-10T16:35:21.9994223Z 
+2025-10-10T16:35:21.9994451Z 🔍 检查工作流: pr-performance-check.yml
+2025-10-10T16:35:21.9995648Z 📋 Jobs: pull_request, workflow_dispatch, contents, actions, run, performance-check, group, cancel-in-progress
+2025-10-10T16:35:21.9996486Z 🔗 Needs: 
+2025-10-10T16:35:21.9996782Z ✅ 无问题
+2025-10-10T16:35:21.9996883Z 
+2025-10-10T16:35:21.9997066Z 🔍 检查工作流: pr-gatekeeper.yml
+2025-10-10T16:35:21.9998514Z 📋 Jobs: pull_request, GATEKEEPER_TIMEOUT, contents, actions, checks, group, cancel-in-progress, windows-ci-gatekeeper, workflow-health-check
+2025-10-10T16:35:21.9999576Z 🔗 Needs: 
+2025-10-10T16:35:21.9999904Z ✅ 无问题
+2025-10-10T16:35:22.0000048Z 
+2025-10-10T16:35:22.0000365Z 🔍 检查工作流: observability-gate.yml
+2025-10-10T16:35:22.0001281Z 📋 Jobs: contents, actions, run, push, pull_request, NODE_VERSION, observability-gate
+2025-10-10T16:35:22.0001699Z 🔗 Needs: 
+2025-10-10T16:35:22.0001907Z ✅ 无问题
+2025-10-10T16:35:22.0002111Z 
+2025-10-10T16:35:22.0002496Z 🔍 检查工作流: nightly-scene-transition.yml
+2025-10-10T16:35:22.0003495Z 📋 Jobs: schedule, contents, actions, run, scene-transition-nightly
+2025-10-10T16:35:22.0004717Z 🔗 Needs: 
+2025-10-10T16:35:22.0005245Z ✅ 无问题
+2025-10-10T16:35:22.0005423Z 
+2025-10-10T16:35:22.0005799Z 🔍 检查工作流: config-management.yml
+2025-10-10T16:35:22.0007538Z 📋 Jobs: contents, actions, run, push, pull_request, NODE_ENV, RELEASE_PREFIX, group, cancel-in-progress, config-validation-and-docs, documentation-build
+2025-10-10T16:35:22.0008922Z 🔗 Needs: config-validation-and-docs
+2025-10-10T16:35:22.0009442Z ✅ 无问题
+2025-10-10T16:35:22.0009606Z 
+2025-10-10T16:35:22.0009906Z 🔍 检查工作流: codeql.yml
+2025-10-10T16:35:22.0010895Z 📋 Jobs: push, pull_request, schedule, contents, security-events, actions, analyze
+2025-10-10T16:35:22.0011586Z 🔗 Needs: 
+2025-10-10T16:35:22.0011892Z ✅ 无问题
+2025-10-10T16:35:22.0014514Z 
+2025-10-10T16:35:22.0014829Z 🔍 检查工作流: ci.yml
+2025-10-10T16:35:22.0020102Z 📋 Jobs: push, pull_request, schedule, NODE_VERSION_MATRIX, COVERAGE_THRESHOLD, SENTRY_DSN, SENTRY_TRACES_SAMPLE_RATE, CL, CXXFLAGS, contents, actions, run, group, cancel-in-progress, workflow-guardian, quality-gates, unit-tests-core, coverage-gate, sonarcloud-analysis, build-verification-core, release-health-gate, extended-tests-matrix, electron-security-gate, observability-verification, performance-benchmarks, performance-trend-weekly, deployment-readiness, sbom, security-summary
+2025-10-10T16:35:22.0027275Z 🔗 Needs: workflow-guardian, workflow-guardian, unit-tests-core, unit-tests-core, unit-tests-core, unit-tests-core, coverage-gate, electron-security-gate, quality-gates, quality-gates, build-verification-core, unit-tests-core, build-verification-core, electron-security-gate
+2025-10-10T16:35:22.0029225Z ✅ 无问题
+2025-10-10T16:35:22.0029404Z 
+2025-10-10T16:35:22.0029746Z 🔍 检查工作流: build-and-test.yml
+2025-10-10T16:35:22.0030580Z 📋 Jobs: pull_request, push, build-artifacts, build-and-unit, e2e-perf-smoke
+2025-10-10T16:35:22.0031204Z 🔗 Needs: build-artifacts, build-artifacts, build-and-unit
+2025-10-10T16:35:22.0031523Z ✅ 无问题
+2025-10-10T16:35:22.0031617Z 
+2025-10-10T16:35:22.0033120Z 🔍 检查工作流: branch-protection-encoding-guard.yml
+2025-10-10T16:35:22.0033693Z 📋 Jobs: workflow_dispatch, contents, protect
+2025-10-10T16:35:22.0033988Z 🔗 Needs: 
+2025-10-10T16:35:22.0034184Z ✅ 无问题
+2025-10-10T16:35:22.0034270Z 
+2025-10-10T16:35:22.0034447Z ==================================================
+2025-10-10T16:35:22.0034846Z 📊 检查完成: 19 个工作流, 0 个问题
+2025-10-10T16:35:22.0035146Z ✅ 所有工作流依赖检查通过
+2025-10-10T16:35:22.1596953Z ##[group]Run node scripts/ci/branch-protection-guardian.mjs
+2025-10-10T16:35:22.1597472Z [36;1mnode scripts/ci/branch-protection-guardian.mjs[0m
+2025-10-10T16:35:22.1657802Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:35:22.1658145Z env:
+2025-10-10T16:35:22.1658336Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:35:22.1658994Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:35:22.1659208Z   SENTRY_DSN: 
+2025-10-10T16:35:22.1659398Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:35:22.1659632Z   CL: /std:c++20 /EHsc
+2025-10-10T16:35:22.1659864Z   CXXFLAGS: -std=c++20
+2025-10-10T16:35:22.1660069Z   NODE_ENV: development
+2025-10-10T16:35:22.1660289Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:35:22.1660514Z ##[endgroup]
+2025-10-10T16:35:22.4790934Z file:///D:/a/gametp/gametp/scripts/ci/branch-protection-guardian.mjs:25
+2025-10-10T16:35:22.4795518Z   'soft-gates.yml': [\n    // 软门禁是中性状态，不应该在 branch protection 中要求\n  ],\n  'validate-workflows.yml': [\n    // 文档与工作流守卫（PR 轻门禁）\n    'docs-shell-pr-gate',\n  ],
+2025-10-10T16:35:22.4796245Z                      ^
+2025-10-10T16:35:22.4796372Z 
+2025-10-10T16:35:22.4796573Z SyntaxError: Invalid or unexpected token
+2025-10-10T16:35:22.4797061Z     at compileSourceTextModule (node:internal/modules/esm/utils:346:16)
+2025-10-10T16:35:22.4797691Z     at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:146:18)
+2025-10-10T16:35:22.4798222Z     at #translate (node:internal/modules/esm/loader:497:12)
+2025-10-10T16:35:22.4798761Z     at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:544:27)
+2025-10-10T16:35:22.4799614Z     at async ModuleJob._link (node:internal/modules/esm/module_job:148:19)
+2025-10-10T16:35:22.4799878Z 
+2025-10-10T16:35:22.4799975Z Node.js v20.19.5
+2025-10-10T16:35:22.5946302Z ##[error]Process completed with exit code 1.
+2025-10-10T16:35:22.6112005Z Post job cleanup.
+2025-10-10T16:35:22.7572060Z (node:3732) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-10-10T16:35:22.7573474Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-10-10T16:35:22.7578187Z Cache hit occurred on the primary key node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee, not saving cache.
+2025-10-10T16:35:22.7956218Z ##[warning]Unexpected input(s) 'actionlint_flags', valid inputs are ['version', 'matcher', 'files', 'flags', 'json', 'shellcheck', 'pyflakes', 'fail-on-error', 'group-result', 'cache', 'working-directory', 'token', 'github-token']
+2025-10-10T16:35:22.7961111Z Post job cleanup.
+2025-10-10T16:35:22.8095797Z Post job cleanup.
+2025-10-10T16:35:23.0087568Z Cache hit occurred on the primary key actionlint-1.7.7-Windows-X64, not saving cache.
+2025-10-10T16:35:23.0389318Z Post job cleanup.
+2025-10-10T16:35:23.2834444Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-10-10T16:35:23.3134157Z git version 2.51.0.windows.2
+2025-10-10T16:35:23.3214477Z Temporarily overriding HOME='D:\a\_temp\9788fb7e-134d-420b-a9fa-9b022dfa368e' before making global git config changes
+2025-10-10T16:35:23.3215562Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-10T16:35:23.3226545Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\gametp\gametp
+2025-10-10T16:35:23.3549042Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-10-10T16:35:23.3860228Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-10-10T16:35:23.9856338Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-10T16:35:24.0134245Z http.https://github.com/.extraheader
+2025-10-10T16:35:24.0185759Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+2025-10-10T16:35:24.0522502Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-10-10T16:35:24.6217225Z Cleaning up orphan processes

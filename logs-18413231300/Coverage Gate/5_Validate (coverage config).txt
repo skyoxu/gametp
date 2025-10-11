@@ -1,0 +1,30 @@
+﻿2025-10-10T17:13:26.2686799Z ##[group]Run node scripts/ci/coverage-config.cjs --verify-only
+2025-10-10T17:13:26.2687386Z [36;1mnode scripts/ci/coverage-config.cjs --verify-only[0m
+2025-10-10T17:13:26.2757676Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:13:26.2758072Z env:
+2025-10-10T17:13:26.2758452Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:13:26.2758851Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:13:26.2759226Z   SENTRY_DSN: 
+2025-10-10T17:13:26.2759682Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:13:26.2759936Z   CL: /std:c++20 /EHsc
+2025-10-10T17:13:26.2760267Z   CXXFLAGS: -std=c++20
+2025-10-10T17:13:26.2788489Z   NODE_ENV: development
+2025-10-10T17:13:26.2788770Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:13:26.2789007Z ##[endgroup]
+2025-10-10T17:13:26.6161727Z 📊 使用覆盖率配置: development (Development baseline thresholds)
+2025-10-10T17:13:26.6336076Z 
+2025-10-10T17:13:26.6336522Z 📊 覆盖率配置信息:
+2025-10-10T17:13:26.6337409Z 当前模式: development
+2025-10-10T17:13:26.6337831Z 阈值设置: 60%
+2025-10-10T17:13:26.6338763Z 描述: Development baseline thresholds
+2025-10-10T17:13:26.6338963Z 
+2025-10-10T17:13:26.6339122Z 💡 推荐模式: staging
+2025-10-10T17:13:26.6339512Z 推荐理由: 发现11个测试文件，建议使用预发布模式
+2025-10-10T17:13:26.6340018Z 设置方法: export COVERAGE_MODE=staging
+2025-10-10T17:13:26.6340223Z 
+2025-10-10T17:13:26.6340357Z 🔧 可用的覆盖率模式:
+2025-10-10T17:13:26.6342259Z   production: 60% (Production temporary thresholds (60% - TODO: restore to 90% after 2 weeks))
+2025-10-10T17:13:26.6343256Z   staging: 80% (Staging environment thresholds)
+2025-10-10T17:13:26.6344475Z   development: 60% (Development baseline thresholds)
+2025-10-10T17:13:26.6345472Z   bootstrap: 30% (New project bootstrap mode)
+2025-10-10T17:13:26.6345930Z   tdd: 95% (TDD development high standards)

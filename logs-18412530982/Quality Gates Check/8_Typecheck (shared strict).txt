@@ -1,0 +1,116 @@
+﻿2025-10-10T16:38:06.9657180Z ##[group]Run npm run typecheck:shared
+2025-10-10T16:38:06.9657568Z [36;1mnpm run typecheck:shared[0m
+2025-10-10T16:38:06.9716882Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:38:06.9717192Z env:
+2025-10-10T16:38:06.9717368Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:06.9717597Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:06.9717783Z   SENTRY_DSN: 
+2025-10-10T16:38:06.9717968Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:06.9718179Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:06.9718352Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:06.9718531Z   NODE_ENV: development
+2025-10-10T16:38:06.9718727Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:38:06.9718926Z ##[endgroup]
+2025-10-10T16:38:07.4982283Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:38:07.5405336Z 
+2025-10-10T16:38:07.5405798Z > gametp@0.1.0 typecheck:shared
+2025-10-10T16:38:07.5406391Z > tsc -p tsconfig.shared.json --noEmit
+2025-10-10T16:38:07.5406735Z 
+2025-10-10T16:38:12.0514565Z ##[error]src/shared/adapters/sqlite.bak/config-manager.ts(12,31): error TS7016: Could not find a declaration file for module 'better-sqlite3'. 'D:/a/gametp/gametp/node_modules/better-sqlite3/lib/index.js' implicitly has an 'any' type.
+2025-10-10T16:38:12.0518105Z   Try `npm i --save-dev @types/better-sqlite3` if it exists or add a new declaration (.d.ts) file containing `declare module 'better-sqlite3';`
+2025-10-10T16:38:12.0530197Z ##[error]src/shared/adapters/sqlite.bak/config-manager.ts(205,7): error TS2322: Type 'ConfigProfile | undefined' is not assignable to type 'ConfigProfile'.
+2025-10-10T16:38:12.0533582Z   Type 'undefined' is not assignable to type 'ConfigProfile'.
+2025-10-10T16:38:12.0535977Z ##[error]src/shared/adapters/sqlite.bak/config-manager.ts(207,7): error TS2322: Type 'ConfigProfile | undefined' is not assignable to type 'ConfigProfile'.
+2025-10-10T16:38:12.0538004Z   Type 'undefined' is not assignable to type 'ConfigProfile'.
+2025-10-10T16:38:12.0540306Z ##[error]src/shared/adapters/sqlite.bak/config-manager.ts(209,7): error TS2322: Type 'ConfigProfile | undefined' is not assignable to type 'ConfigProfile'.
+2025-10-10T16:38:12.0544414Z   Type 'undefined' is not assignable to type 'ConfigProfile'.
+2025-10-10T16:38:12.0566983Z ##[error]src/shared/contracts/events.ts(361,5): error TS4115: This parameter property must have an 'override' modifier because it overrides a member in base class 'Error'.
+2025-10-10T16:38:12.0571816Z ##[error]src/shared/contracts/repos.ts(371,5): error TS4115: This parameter property must have an 'override' modifier because it overrides a member in base class 'Error'.
+2025-10-10T16:38:12.0575399Z ##[error]src/shared/contracts/repos.ts(405,5): error TS4115: This parameter property must have an 'override' modifier because it overrides a member in base class 'Error'.
+2025-10-10T16:38:12.0579141Z ##[error]src/shared/devtools/performance-devtools.ts(388,7): error TS2322: Type 'string | undefined' is not assignable to type 'string | CanvasGradient | CanvasPattern'.
+2025-10-10T16:38:12.0581211Z   Type 'undefined' is not assignable to type 'string | CanvasGradient | CanvasPattern'.
+2025-10-10T16:38:12.0583891Z ##[error]src/shared/middleware/cloudevents-validation.ts(317,24): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+2025-10-10T16:38:12.0585682Z   Type 'undefined' is not assignable to type 'string'.
+2025-10-10T16:38:12.0587588Z ##[error]src/shared/middleware/cloudevents-validation.ts(317,46): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+2025-10-10T16:38:12.0589352Z   Type 'undefined' is not assignable to type 'string'.
+2025-10-10T16:38:12.0591363Z ##[error]src/shared/observability/cost-guardrail-manager.ts(119,44): error TS2532: Object is possibly 'undefined'.
+2025-10-10T16:38:12.0593565Z ##[error]src/shared/observability/game-metrics.ts(205,49): error TS18046: 'error' is of type 'unknown'.
+2025-10-10T16:38:12.0596334Z ##[error]src/shared/observability/logging-health-checker.main.ts(683,46): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+2025-10-10T16:38:12.0600681Z   Type 'undefined' is not assignable to type 'string'.
+2025-10-10T16:38:12.0602250Z ##[error]src/shared/observability/observability-gatekeeper.ts(223,11): error TS18048: 'checkResult' is possibly 'undefined'.
+2025-10-10T16:38:12.0604700Z ##[error]src/shared/observability/observability-gatekeeper.ts(224,49): error TS18048: 'checkResult' is possibly 'undefined'.
+2025-10-10T16:38:12.0609364Z ##[error]src/shared/observability/observability-gatekeeper.ts(224,61): error TS2339: Property 'value' does not exist on type 'PromiseSettledResult<{ duration: number; result: SentryDetectionResult; } | { duration: number; result: ConfigValidationResult; } | { duration: number; result: LoggingHealthResult; }>'.
+2025-10-10T16:38:12.0612486Z   Property 'value' does not exist on type 'PromiseRejectedResult'.
+2025-10-10T16:38:12.0614139Z ##[error]src/shared/observability/observability-gatekeeper.ts(225,39): error TS2538: Type 'undefined' cannot be used as an index type.
+2025-10-10T16:38:12.0616627Z ##[error]src/shared/observability/observability-gatekeeper.ts(243,55): error TS18048: 'checkResult' is possibly 'undefined'.
+2025-10-10T16:38:12.0621368Z ##[error]src/shared/observability/observability-gatekeeper.ts(243,67): error TS2339: Property 'reason' does not exist on type 'PromiseSettledResult<{ duration: number; result: SentryDetectionResult; } | { duration: number; result: ConfigValidationResult; } | { duration: number; result: LoggingHealthResult; }>'.
+2025-10-10T16:38:12.0625174Z   Property 'reason' does not exist on type 'PromiseFulfilledResult<{ duration: number; result: SentryDetectionResult; } | { duration: number; result: ConfigValidationResult; } | { duration: number; result: LoggingHealthResult; }>'.
+2025-10-10T16:38:12.0627701Z ##[error]src/shared/observability/observability-gatekeeper.ts(249,65): error TS18048: 'checkResult' is possibly 'undefined'.
+2025-10-10T16:38:12.0632932Z ##[error]src/shared/observability/observability-gatekeeper.ts(249,77): error TS2339: Property 'reason' does not exist on type 'PromiseSettledResult<{ duration: number; result: SentryDetectionResult; } | { duration: number; result: ConfigValidationResult; } | { duration: number; result: LoggingHealthResult; }>'.
+2025-10-10T16:38:12.0636854Z   Property 'reason' does not exist on type 'PromiseFulfilledResult<{ duration: number; result: SentryDetectionResult; } | { duration: number; result: ConfigValidationResult; } | { duration: number; result: LoggingHealthResult; }>'.
+2025-10-10T16:38:12.0639938Z ##[error]src/shared/observability/posthog-integration.main.ts(69,5): error TS2322: Type 'PostHogConfig | undefined' is not assignable to type 'PostHogConfig'.
+2025-10-10T16:38:12.0641840Z   Type 'undefined' is not assignable to type 'PostHogConfig'.
+2025-10-10T16:38:12.0643447Z ##[error]src/shared/observability/resilience-manager.main.ts(461,29): error TS18046: 'recoveryError' is of type 'unknown'.
+2025-10-10T16:38:12.0645957Z ##[error]src/shared/observability/resilience-manager.main.ts(499,29): error TS18046: 'recoveryError' is of type 'unknown'.
+2025-10-10T16:38:12.0649432Z ##[error]src/shared/observability/sentry-detector.ts(411,9): error TS2322: Type 'SentryDetectionResult | undefined' is not assignable to type 'SentryDetectionResult | null'.
+2025-10-10T16:38:12.0651793Z   Type 'undefined' is not assignable to type 'SentryDetectionResult | null'.
+2025-10-10T16:38:12.0654367Z ##[error]src/shared/observability/sentry-main-detector.ts(511,9): error TS2322: Type 'SentryMainDetectionResult | undefined' is not assignable to type 'SentryMainDetectionResult | null'.
+2025-10-10T16:38:12.0656712Z   Type 'undefined' is not assignable to type 'SentryMainDetectionResult | null'.
+2025-10-10T16:38:12.0659873Z ##[error]src/shared/observability/sentry-main.ts(109,33): error TS2345: Argument of type '(SentryEnvironmentConfig & { dynamicSampling: DynamicSamplingConfig; }) | undefined' is not assignable to parameter of type 'SentryEnvironmentConfig'.
+2025-10-10T16:38:12.0663175Z   Type 'undefined' is not assignable to type 'SentryEnvironmentConfig'.
+2025-10-10T16:38:12.0664583Z ##[error]src/shared/observability/sentry-main.ts(119,14): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0666633Z ##[error]src/shared/observability/sentry-main.ts(120,22): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0668714Z ##[error]src/shared/observability/sentry-main.ts(121,18): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0671198Z ##[error]src/shared/observability/sentry-main.ts(122,15): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0673271Z ##[error]src/shared/observability/sentry-main.ts(125,21): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0675277Z ##[error]src/shared/observability/sentry-main.ts(126,51): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0679007Z ##[error]src/shared/observability/sentry-main.ts(183,33): error TS2345: Argument of type '(SentryEnvironmentConfig & { dynamicSampling: DynamicSamplingConfig; }) | undefined' is not assignable to parameter of type 'SentryEnvironmentConfig'.
+2025-10-10T16:38:12.0681334Z   Type 'undefined' is not assignable to type 'SentryEnvironmentConfig'.
+2025-10-10T16:38:12.0684369Z ##[error]src/shared/observability/sentry-main.ts(184,34): error TS2345: Argument of type '(SentryEnvironmentConfig & { dynamicSampling: DynamicSamplingConfig; }) | undefined' is not assignable to parameter of type 'SentryEnvironmentConfig'.
+2025-10-10T16:38:12.0686655Z   Type 'undefined' is not assignable to type 'SentryEnvironmentConfig'.
+2025-10-10T16:38:12.0687962Z ##[error]src/shared/observability/sentry-main.ts(196,30): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0691300Z ##[error]src/shared/observability/sentry-renderer.ts(91,35): error TS2345: Argument of type 'RendererSentryConfig | undefined' is not assignable to parameter of type 'RendererSentryConfig'.
+2025-10-10T16:38:12.0693315Z   Type 'undefined' is not assignable to type 'RendererSentryConfig'.
+2025-10-10T16:38:12.0694688Z ##[error]src/shared/observability/sentry-renderer.ts(101,14): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0696779Z ##[error]src/shared/observability/sentry-renderer.ts(102,22): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0698846Z ##[error]src/shared/observability/sentry-renderer.ts(103,18): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0700924Z ##[error]src/shared/observability/sentry-renderer.ts(104,15): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0703002Z ##[error]src/shared/observability/sentry-renderer.ts(107,21): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0705066Z ##[error]src/shared/observability/sentry-renderer.ts(108,27): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0707303Z ##[error]src/shared/observability/sentry-renderer.ts(109,30): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0710079Z ##[error]src/shared/observability/sentry-renderer.ts(110,24): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0713120Z ##[error]src/shared/observability/sentry-renderer.ts(157,35): error TS2345: Argument of type 'RendererSentryConfig | undefined' is not assignable to parameter of type 'RendererSentryConfig'.
+2025-10-10T16:38:12.0715361Z   Type 'undefined' is not assignable to type 'RendererSentryConfig'.
+2025-10-10T16:38:12.0716701Z ##[error]src/shared/observability/sentry-renderer.ts(161,57): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0719413Z ##[error]src/shared/observability/service-mesh-integration.ts(556,5): error TS2322: Type 'ServiceInstance | undefined' is not assignable to type 'ServiceInstance'.
+2025-10-10T16:38:12.0721217Z   Type 'undefined' is not assignable to type 'ServiceInstance'.
+2025-10-10T16:38:12.0723526Z ##[error]src/shared/observability/web-vitals-collector.ts(241,16): error TS2551: Property 'electronAPI' does not exist on type 'Window & typeof globalThis'. Did you mean 'Electron'?
+2025-10-10T16:38:12.0726304Z ##[error]src/shared/observability/web-vitals-collector.ts(604,5): error TS2322: Type 'number | undefined' is not assignable to type 'number'.
+2025-10-10T16:38:12.0727908Z   Type 'undefined' is not assignable to type 'number'.
+2025-10-10T16:38:12.0730539Z ##[error]src/shared/performance/integration-examples.ts(18,7): error TS4114: This member must have an 'override' modifier because it overrides a member in the base class 'Component<T, {}, any>'.
+2025-10-10T16:38:12.0734353Z ##[error]src/shared/performance/integration-examples.ts(27,7): error TS4114: This member must have an 'override' modifier because it overrides a member in the base class 'Component<T, {}, any>'.
+2025-10-10T16:38:12.0737871Z ##[error]src/shared/performance/integration-examples.ts(31,7): error TS4114: This member must have an 'override' modifier because it overrides a member in the base class 'Component<T, {}, any>'.
+2025-10-10T16:38:12.0740582Z ##[error]src/shared/performance/integration-examples.ts(32,36): error TS2769: No overload matches this call.
+2025-10-10T16:38:12.0742030Z   The last overload gave the following error.
+2025-10-10T16:38:12.0743051Z     Argument of type 'ComponentType<T>' is not assignable to parameter of type 'string | FunctionComponent<{}> | ComponentClass<{}, any>'.
+2025-10-10T16:38:12.0744404Z       Type 'ComponentClass<T, any>' is not assignable to type 'string | FunctionComponent<{}> | ComponentClass<{}, any>'.
+2025-10-10T16:38:12.0745463Z         Type 'ComponentClass<T, any>' is not assignable to type 'ComponentClass<{}, any>'.
+2025-10-10T16:38:12.0746269Z           Types of property 'getDerivedStateFromProps' are incompatible.
+2025-10-10T16:38:12.0747385Z             Type 'GetDerivedStateFromProps<T, any> | undefined' is not assignable to type 'GetDerivedStateFromProps<{}, any> | undefined'.
+2025-10-10T16:38:12.0748709Z               Type 'GetDerivedStateFromProps<T, any>' is not assignable to type 'GetDerivedStateFromProps<{}, any>'.
+2025-10-10T16:38:12.0749682Z                 Types of parameters 'nextProps' and 'nextProps' are incompatible.
+2025-10-10T16:38:12.0750397Z                   Type 'Readonly<{}>' is not assignable to type 'Readonly<T>'.
+2025-10-10T16:38:12.0751747Z ##[error]src/shared/performance/integration-examples.ts(52,33): error TS2503: Cannot find namespace 'Phaser'.
+2025-10-10T16:38:12.0754971Z ##[error]src/shared/performance/integration-examples.ts(164,9): error TS2345: Argument of type '(() => Promise<T>) | undefined' is not assignable to parameter of type '() => T | Promise<T>'.
+2025-10-10T16:38:12.0756879Z   Type 'undefined' is not assignable to type '() => T | Promise<T>'.
+2025-10-10T16:38:12.0758802Z ##[error]src/shared/performance/integration-examples.ts(207,35): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+2025-10-10T16:38:12.0760535Z   Type 'undefined' is not assignable to type 'string'.
+2025-10-10T16:38:12.0762036Z ##[error]src/shared/performance/integration-examples.ts(221,25): error TS2532: Object is possibly 'undefined'.
+2025-10-10T16:38:12.0764808Z ##[error]src/shared/performance/integration-examples.ts(224,9): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+2025-10-10T16:38:12.0766589Z   Type 'undefined' is not assignable to type 'string'.
+2025-10-10T16:38:12.0768194Z ##[error]src/shared/performance/UserTiming.ts(197,5): error TS2322: Type 'number | undefined' is not assignable to type 'number | null'.
+2025-10-10T16:38:12.0769817Z   Type 'undefined' is not assignable to type 'number | null'.
+2025-10-10T16:38:12.0771440Z ##[error]src/shared/performance/UserTiming.ts(209,5): error TS2322: Type 'number | undefined' is not assignable to type 'number | null'.
+2025-10-10T16:38:12.0773043Z   Type 'undefined' is not assignable to type 'number | null'.
+2025-10-10T16:38:12.0775249Z ##[error]src/shared/validation/CloudEventValidator.ts(167,7): error TS2698: Spread types may only be created from object types.
+2025-10-10T16:38:12.2560027Z ##[error]Process completed with exit code 1.

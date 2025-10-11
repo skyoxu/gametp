@@ -1,0 +1,318 @@
+﻿2025-10-10T18:25:44.4425931Z Current runner version: '2.328.0'
+2025-10-10T18:25:44.4454423Z ##[group]Runner Image Provisioner
+2025-10-10T18:25:44.4455310Z Hosted Compute Agent
+2025-10-10T18:25:44.4455747Z Version: 20250912.392
+2025-10-10T18:25:44.4456240Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-10T18:25:44.4457023Z Build Date: 2025-09-12T15:23:14Z
+2025-10-10T18:25:44.4457652Z ##[endgroup]
+2025-10-10T18:25:44.4458138Z ##[group]Operating System
+2025-10-10T18:25:44.4458682Z Microsoft Windows Server 2025
+2025-10-10T18:25:44.4459109Z 10.0.26100
+2025-10-10T18:25:44.4459506Z Datacenter
+2025-10-10T18:25:44.4460195Z ##[endgroup]
+2025-10-10T18:25:44.4460574Z ##[group]Runner Image
+2025-10-10T18:25:44.4461005Z Image: windows-2025
+2025-10-10T18:25:44.4461379Z Version: 20250929.44.1
+2025-10-10T18:25:44.4462228Z Included Software: https://github.com/actions/runner-images/blob/win25/20250929.44/images/windows/Windows2025-Readme.md
+2025-10-10T18:25:44.4463783Z Image Release: https://github.com/actions/runner-images/releases/tag/win25%2F20250929.44
+2025-10-10T18:25:44.4464532Z ##[endgroup]
+2025-10-10T18:25:44.4465450Z ##[group]GITHUB_TOKEN Permissions
+2025-10-10T18:25:44.4467210Z Actions: read
+2025-10-10T18:25:44.4467643Z Contents: read
+2025-10-10T18:25:44.4468000Z Metadata: read
+2025-10-10T18:25:44.4468381Z ##[endgroup]
+2025-10-10T18:25:44.4470325Z Secret source: Actions
+2025-10-10T18:25:44.4470873Z Prepare workflow directory
+2025-10-10T18:25:44.4884781Z Prepare all required actions
+2025-10-10T18:25:44.4923705Z Getting action download info
+2025-10-10T18:25:44.7725749Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-10T18:25:44.8941116Z Download action repository 'actions/setup-node@v5.0.0' (SHA:a0853c24544627f65ddf259abe73b1d18a591444)
+2025-10-10T18:25:45.0657713Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2025-10-10T18:25:45.3973099Z Complete job name: Generate SBOM (CycloneDX)
+2025-10-10T18:25:45.6497178Z ##[group]Run actions/checkout@v4
+2025-10-10T18:25:45.6498991Z with:
+2025-10-10T18:25:45.6499428Z   repository: skyoxu/gametp
+2025-10-10T18:25:45.6500106Z   token: ***
+2025-10-10T18:25:45.6599159Z   ssh-strict: true
+2025-10-10T18:25:45.6599560Z   ssh-user: git
+2025-10-10T18:25:45.6599874Z   persist-credentials: true
+2025-10-10T18:25:45.6600223Z   clean: true
+2025-10-10T18:25:45.6600541Z   sparse-checkout-cone-mode: true
+2025-10-10T18:25:45.6600917Z   fetch-depth: 1
+2025-10-10T18:25:45.6601215Z   fetch-tags: false
+2025-10-10T18:25:45.6601522Z   show-progress: true
+2025-10-10T18:25:45.6601825Z   lfs: false
+2025-10-10T18:25:45.6602110Z   submodules: false
+2025-10-10T18:25:45.6602412Z   set-safe-directory: true
+2025-10-10T18:25:45.6603547Z env:
+2025-10-10T18:25:45.6603845Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T18:25:45.6604633Z   COVERAGE_THRESHOLD: 90
+2025-10-10T18:25:45.6604973Z   SENTRY_DSN: 
+2025-10-10T18:25:45.6605374Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T18:25:45.6605735Z   CL: /std:c++20 /EHsc
+2025-10-10T18:25:45.6606079Z   CXXFLAGS: -std=c++20
+2025-10-10T18:25:45.6606393Z ##[endgroup]
+2025-10-10T18:25:45.9083001Z Syncing repository: skyoxu/gametp
+2025-10-10T18:25:45.9085928Z ##[group]Getting Git version info
+2025-10-10T18:25:45.9086982Z Working directory is 'D:\a\gametp\gametp'
+2025-10-10T18:25:45.9812933Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-10-10T18:25:46.3662991Z git version 2.51.0.windows.2
+2025-10-10T18:25:46.3713272Z ##[endgroup]
+2025-10-10T18:25:46.3734826Z Temporarily overriding HOME='D:\a\_temp\f3e37654-579e-48d5-8799-2fafd16f9a65' before making global git config changes
+2025-10-10T18:25:46.3737410Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-10T18:25:46.3749056Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\gametp\gametp
+2025-10-10T18:25:46.4049989Z Deleting the contents of 'D:\a\gametp\gametp'
+2025-10-10T18:25:46.4057375Z ##[group]Initializing the repository
+2025-10-10T18:25:46.4067488Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\gametp\gametp
+2025-10-10T18:25:46.5067635Z Initialized empty Git repository in D:/a/gametp/gametp/.git/
+2025-10-10T18:25:46.5121891Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/skyoxu/gametp
+2025-10-10T18:25:46.5435429Z ##[endgroup]
+2025-10-10T18:25:46.5438961Z ##[group]Disabling automatic garbage collection
+2025-10-10T18:25:46.5445691Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2025-10-10T18:25:46.5750686Z ##[endgroup]
+2025-10-10T18:25:46.5752199Z ##[group]Setting up auth
+2025-10-10T18:25:46.5764360Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-10-10T18:25:46.6093098Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-10-10T18:25:48.1454204Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-10T18:25:48.1760307Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-10-10T18:25:48.7281595Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2025-10-10T18:25:48.7606170Z ##[endgroup]
+2025-10-10T18:25:48.7607084Z ##[group]Fetching the repository
+2025-10-10T18:25:48.7623025Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +aff3602e13509758add3f9349b93535cd11e2152:refs/remotes/pull/13/merge
+2025-10-10T18:25:49.8790997Z From https://github.com/skyoxu/gametp
+2025-10-10T18:25:49.8794505Z  * [new ref]         aff3602e13509758add3f9349b93535cd11e2152 -> pull/13/merge
+2025-10-10T18:25:49.8977854Z ##[endgroup]
+2025-10-10T18:25:49.8978362Z ##[group]Determining the checkout info
+2025-10-10T18:25:49.8980083Z ##[endgroup]
+2025-10-10T18:25:49.8993007Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2025-10-10T18:25:49.9341281Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2025-10-10T18:25:49.9642612Z ##[group]Checking out the ref
+2025-10-10T18:25:49.9652655Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/13/merge
+2025-10-10T18:25:50.1586254Z Note: switching to 'refs/remotes/pull/13/merge'.
+2025-10-10T18:25:50.1586977Z 
+2025-10-10T18:25:50.1588254Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-10-10T18:25:50.1590626Z changes and commit them, and you can discard any commits you make in this
+2025-10-10T18:25:50.1591620Z state without impacting any branches by switching back to a branch.
+2025-10-10T18:25:50.1592208Z 
+2025-10-10T18:25:50.1592586Z If you want to create a new branch to retain commits you create, you may
+2025-10-10T18:25:50.1593413Z do so (now or later) by using -c with the switch command. Example:
+2025-10-10T18:25:50.1593974Z 
+2025-10-10T18:25:50.1594286Z   git switch -c <new-branch-name>
+2025-10-10T18:25:50.1594697Z 
+2025-10-10T18:25:50.1595010Z Or undo this operation with:
+2025-10-10T18:25:50.1595403Z 
+2025-10-10T18:25:50.1595673Z   git switch -
+2025-10-10T18:25:50.1596040Z 
+2025-10-10T18:25:50.1596513Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-10-10T18:25:50.1597154Z 
+2025-10-10T18:25:50.1597777Z HEAD is now at aff3602 Merge 7b67fc691295235c2937c7d8f067a6cd10941691 into e1a2702b992654c40fdf749cd29695642d416d4b
+2025-10-10T18:25:50.1634187Z ##[endgroup]
+2025-10-10T18:25:50.1976477Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2025-10-10T18:25:50.2410428Z aff3602e13509758add3f9349b93535cd11e2152
+2025-10-10T18:25:50.2851844Z ##[group]Run actions/setup-node@v5.0.0
+2025-10-10T18:25:50.2852196Z with:
+2025-10-10T18:25:50.2852380Z   node-version: 20.x
+2025-10-10T18:25:50.2852549Z   cache: npm
+2025-10-10T18:25:50.2852706Z   always-auth: false
+2025-10-10T18:25:50.2852876Z   check-latest: false
+2025-10-10T18:25:50.2853222Z   token: ***
+2025-10-10T18:25:50.2853422Z   package-manager-cache: true
+2025-10-10T18:25:50.2853747Z env:
+2025-10-10T18:25:50.2853920Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T18:25:50.2854147Z   COVERAGE_THRESHOLD: 90
+2025-10-10T18:25:50.2854333Z   SENTRY_DSN: 
+2025-10-10T18:25:50.2854490Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T18:25:50.2854691Z   CL: /std:c++20 /EHsc
+2025-10-10T18:25:50.2854865Z   CXXFLAGS: -std=c++20
+2025-10-10T18:25:50.2855035Z ##[endgroup]
+2025-10-10T18:25:50.4714530Z Found in cache @ C:\hostedtoolcache\windows\node\20.19.5\x64
+2025-10-10T18:25:50.4725309Z (node:8112) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-10-10T18:25:50.4726245Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-10-10T18:25:50.4730096Z ##[group]Environment details
+2025-10-10T18:26:07.8003788Z node: v20.19.5
+2025-10-10T18:26:07.8004121Z npm: 10.8.2
+2025-10-10T18:26:07.8004350Z yarn: 1.22.22
+2025-10-10T18:26:07.8005157Z ##[endgroup]
+2025-10-10T18:26:07.8690710Z [command]C:\Windows\system32\cmd.exe /D /S /C "C:\hostedtoolcache\windows\node\20.19.5\x64\npm.cmd config get cache"
+2025-10-10T18:26:09.3905907Z C:\npm\cache
+2025-10-10T18:26:09.9312004Z Cache hit for: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee
+2025-10-10T18:26:09.9457718Z (node:8112) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2025-10-10T18:26:11.1362111Z Received 134217728 of 315413375 (42.6%), 117.9 MBs/sec
+2025-10-10T18:26:12.1381951Z Received 285212672 of 315413375 (90.4%), 130.1 MBs/sec
+2025-10-10T18:26:12.3203568Z Received 315413375 of 315413375 (100.0%), 132.9 MBs/sec
+2025-10-10T18:26:12.3204791Z Cache Size: ~301 MB (315413375 B)
+2025-10-10T18:26:12.3206315Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/316ed27e-9fa2-437c-a351-7b176f047f63/cache.tzst -P -C D:/a/gametp/gametp --force-local --use-compress-program "zstd -d"
+2025-10-10T18:26:23.7400347Z Cache restored successfully
+2025-10-10T18:26:23.7828264Z Cache restored from key: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee
+2025-10-10T18:26:23.8221316Z ##[group]Run npm ci --omit=dev --ignore-scripts
+2025-10-10T18:26:23.8221790Z [36;1mnpm ci --omit=dev --ignore-scripts[0m
+2025-10-10T18:26:23.8904181Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T18:26:23.8904505Z env:
+2025-10-10T18:26:23.8904710Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T18:26:23.8904968Z   COVERAGE_THRESHOLD: 90
+2025-10-10T18:26:23.8905143Z   SENTRY_DSN: 
+2025-10-10T18:26:23.8905653Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T18:26:23.8905980Z   CL: /std:c++20 /EHsc
+2025-10-10T18:26:23.8906153Z   CXXFLAGS: -std=c++20
+2025-10-10T18:26:23.8906332Z ##[endgroup]
+2025-10-10T18:26:54.5922363Z npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+2025-10-10T18:27:14.3095200Z 
+2025-10-10T18:27:14.3097515Z added 887 packages, and audited 888 packages in 36s
+2025-10-10T18:27:14.3099717Z 
+2025-10-10T18:27:14.3100000Z 188 packages are looking for funding
+2025-10-10T18:27:14.3100568Z   run `npm fund` for details
+2025-10-10T18:27:14.3156540Z 
+2025-10-10T18:27:14.3157240Z 4 vulnerabilities (2 low, 2 moderate)
+2025-10-10T18:27:14.3157563Z 
+2025-10-10T18:27:14.3157758Z To address all issues, run:
+2025-10-10T18:27:14.3158099Z   npm audit fix
+2025-10-10T18:27:14.3158274Z 
+2025-10-10T18:27:14.3158808Z Run `npm audit` for details.
+2025-10-10T18:27:15.5889285Z ##[group]Run npx --yes @cyclonedx/cyclonedx-npm --output-file sbom.json --spec-version 1.5
+2025-10-10T18:27:15.5889937Z [36;1mnpx --yes @cyclonedx/cyclonedx-npm --output-file sbom.json --spec-version 1.5[0m
+2025-10-10T18:27:15.5949660Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T18:27:15.5949978Z env:
+2025-10-10T18:27:15.5950169Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T18:27:15.5950405Z   COVERAGE_THRESHOLD: 90
+2025-10-10T18:27:15.5950604Z   SENTRY_DSN: 
+2025-10-10T18:27:15.5950789Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T18:27:15.5950990Z   CL: /std:c++20 /EHsc
+2025-10-10T18:27:15.5951178Z   CXXFLAGS: -std=c++20
+2025-10-10T18:27:15.5951366Z ##[endgroup]
+2025-10-10T18:28:04.4384262Z   Command failed: C:\hostedtoolcache\windows\node\20.19.5\x64\node.exe -- C:\hostedtoolcache\windows\node\20.19.5\x64\node_modules\npm\bin\npm-cli.js ls --json --long --all
+2025-10-10T18:28:04.4385622Z   npm error code ELSPROBLEMS
+2025-10-10T18:28:04.4386386Z   npm error missing: @commitlint/cli@^19.6.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4387179Z   npm error missing: @commitlint/config-conventional@^19.6.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4388075Z   npm error missing: @doyensec/electronegativity@^1.9.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4388855Z   npm error missing: @electron-toolkit/preload@^3.0.2, required by gametp@0.1.0
+2025-10-10T18:28:04.4389463Z   npm error missing: @electron-toolkit/utils@^4.0.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4389944Z   npm error missing: @electron/fuses@^1.8.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4390367Z   npm error missing: @eslint/js@^9.30.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4390838Z   npm error missing: @pimzino/claude-code-spec-workflow@^1.4.4, required by gametp@0.1.0
+2025-10-10T18:28:04.4391397Z   npm error missing: @sentry/cli@^2.39.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4391989Z   npm error missing: @size-limit/file@^10.0.3, required by gametp@0.1.0
+2025-10-10T18:28:04.4392689Z   npm error missing: @tailwindcss/postcss@^4.1.12, required by gametp@0.1.0
+2025-10-10T18:28:04.4393386Z   npm error missing: @testing-library/jest-dom@^6.7.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4394085Z   npm error missing: @testing-library/react@^16.3.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4394596Z   npm error missing: @testing-library/user-event@^14.6.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4395054Z   npm error missing: @types/react-dom@^19.1.6, required by gametp@0.1.0
+2025-10-10T18:28:04.4395481Z   npm error missing: @types/react@^19.1.8, required by gametp@0.1.0
+2025-10-10T18:28:04.4396009Z   npm error missing: @typescript-eslint/eslint-plugin@^8.38.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4396514Z   npm error missing: @typescript-eslint/parser@^8.38.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4396966Z   npm error missing: @vitejs/plugin-react@^4.6.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4397423Z   npm error missing: @vitest/coverage-v8@^3.2.4, required by gametp@0.1.0
+2025-10-10T18:28:04.4398004Z   npm error missing: @vitest/ui@^3.2.4, required by gametp@0.1.0
+2025-10-10T18:28:04.4398383Z   npm error missing: actionlint@2.0.6, required by gametp@0.1.0
+2025-10-10T18:28:04.4398765Z   npm error missing: ajv-formats@^3.0.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4399292Z   npm error missing: ajv-keywords@^5.1.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4399678Z   npm error missing: audit-ci@^7.1.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4400062Z   npm error missing: better-sqlite3@^12.2.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4400446Z   npm error missing: cross-env@10.0.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4400845Z   npm error missing: electron-builder@^26.0.12, required by gametp@0.1.0
+2025-10-10T18:28:04.4401258Z   npm error missing: electron-updater@^6.3.9, required by gametp@0.1.0
+2025-10-10T18:28:04.4410513Z   npm error missing: electron@^37.2.4, required by gametp@0.1.0
+2025-10-10T18:28:04.4411759Z   npm error missing: eslint-config-prettier@^10.1.8, required by gametp@0.1.0
+2025-10-10T18:28:04.4412515Z   npm error missing: eslint-plugin-import@^2.32.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4413236Z   npm error missing: eslint-plugin-prettier@^5.5.3, required by gametp@0.1.0
+2025-10-10T18:28:04.4413852Z   npm error missing: eslint-plugin-react-hooks@^5.2.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4414693Z   npm error missing: eslint-plugin-react-refresh@^0.4.20, required by gametp@0.1.0
+2025-10-10T18:28:04.4415215Z   npm error missing: eslint-plugin-react@^7.37.5, required by gametp@0.1.0
+2025-10-10T18:28:04.4416110Z   npm error missing: eslint-plugin-security@^3.0.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4418096Z   npm error missing: eslint@^9.30.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4418734Z   npm error missing: fast-glob@^3.3.3, required by gametp@0.1.0
+2025-10-10T18:28:04.4426880Z   npm error missing: globals@^16.3.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4427751Z   npm error missing: gray-matter@^4.0.3, required by gametp@0.1.0
+2025-10-10T18:28:04.4428366Z   npm error missing: husky@^9.1.7, required by gametp@0.1.0
+2025-10-10T18:28:04.4428733Z   npm error missing: jsdom@^26.1.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4429148Z   npm error missing: json-stable-stringify@1.3.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4429628Z   npm error missing: json-stringify-pretty-compact@4.0.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4430098Z   npm error missing: lint-staged@^16.1.5, required by gametp@0.1.0
+2025-10-10T18:28:04.4430515Z   npm error missing: prettier@^3.6.2, required by gametp@0.1.0
+2025-10-10T18:28:04.4430948Z   npm error missing: rollup-plugin-visualizer@^6.0.3, required by gametp@0.1.0
+2025-10-10T18:28:04.4431376Z   npm error missing: size-limit@^10.0.3, required by gametp@0.1.0
+2025-10-10T18:28:04.4432014Z   npm error missing: snyk@^1.1299.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4432426Z   npm error missing: tailwindcss@^4.0.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4432842Z   npm error missing: tsconfig-paths@^4.2.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4433297Z   npm error extraneous: tslib@2.8.1 D:\a\gametp\gametp\node_modules\tslib
+2025-10-10T18:28:04.4433703Z   npm error missing: tsx@^4.19.2, required by gametp@0.1.0
+2025-10-10T18:28:04.4434083Z   npm error missing: typescript-eslint@^8.38.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4434485Z   npm error missing: vite@^7.0.4, required by gametp@0.1.0
+2025-10-10T18:28:04.4434858Z   npm error missing: vitest@^3.2.4, required by gametp@0.1.0
+2025-10-10T18:28:04.4435379Z   npm error A complete log of this run can be found in: C:\npm\cache\_logs\2025-10-10T18_28_03_294Z-debug-0.log
+2025-10-10T18:28:04.4435761Z   
+2025-10-10T18:28:04.4435922Z   npm error code ELSPROBLEMS
+2025-10-10T18:28:04.4436245Z   npm error missing: @commitlint/cli@^19.6.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4436725Z   npm error missing: @commitlint/config-conventional@^19.6.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4437226Z   npm error missing: @doyensec/electronegativity@^1.9.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4437701Z   npm error missing: @electron-toolkit/preload@^3.0.2, required by gametp@0.1.0
+2025-10-10T18:28:04.4438145Z   npm error missing: @electron-toolkit/utils@^4.0.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4438573Z   npm error missing: @electron/fuses@^1.8.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4438958Z   npm error missing: @eslint/js@^9.30.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4439420Z   npm error missing: @pimzino/claude-code-spec-workflow@^1.4.4, required by gametp@0.1.0
+2025-10-10T18:28:04.4439878Z   npm error missing: @sentry/cli@^2.39.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4440262Z   npm error missing: @size-limit/file@^10.0.3, required by gametp@0.1.0
+2025-10-10T18:28:04.4441553Z   npm error missing: @tailwindcss/postcss@^4.1.12, required by gametp@0.1.0
+2025-10-10T18:28:04.4442629Z   npm error missing: @testing-library/jest-dom@^6.7.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4443091Z   npm error missing: @testing-library/react@^16.3.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4443566Z   npm error missing: @testing-library/user-event@^14.6.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4444032Z   npm error missing: @types/react-dom@^19.1.6, required by gametp@0.1.0
+2025-10-10T18:28:04.4444435Z   npm error missing: @types/react@^19.1.8, required by gametp@0.1.0
+2025-10-10T18:28:04.4444904Z   npm error missing: @typescript-eslint/eslint-plugin@^8.38.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4445412Z   npm error missing: @typescript-eslint/parser@^8.38.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4445875Z   npm error missing: @vitejs/plugin-react@^4.6.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4446310Z   npm error missing: @vitest/coverage-v8@^3.2.4, required by gametp@0.1.0
+2025-10-10T18:28:04.4446719Z   npm error missing: @vitest/ui@^3.2.4, required by gametp@0.1.0
+2025-10-10T18:28:04.4447099Z   npm error missing: actionlint@2.0.6, required by gametp@0.1.0
+2025-10-10T18:28:04.4447486Z   npm error missing: ajv-formats@^3.0.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4447880Z   npm error missing: ajv-keywords@^5.1.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4448270Z   npm error missing: audit-ci@^7.1.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4448662Z   npm error missing: better-sqlite3@^12.2.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4449053Z   npm error missing: cross-env@10.0.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4449449Z   npm error missing: electron-builder@^26.0.12, required by gametp@0.1.0
+2025-10-10T18:28:04.4449875Z   npm error missing: electron-updater@^6.3.9, required by gametp@0.1.0
+2025-10-10T18:28:04.4450268Z   npm error missing: electron@^37.2.4, required by gametp@0.1.0
+2025-10-10T18:28:04.4450681Z   npm error missing: eslint-config-prettier@^10.1.8, required by gametp@0.1.0
+2025-10-10T18:28:04.4451160Z   npm error missing: eslint-plugin-import@^2.32.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4451619Z   npm error missing: eslint-plugin-prettier@^5.5.3, required by gametp@0.1.0
+2025-10-10T18:28:04.4452498Z   npm error missing: eslint-plugin-react-hooks@^5.2.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4452992Z   npm error missing: eslint-plugin-react-refresh@^0.4.20, required by gametp@0.1.0
+2025-10-10T18:28:04.4453502Z   npm error missing: eslint-plugin-react@^7.37.5, required by gametp@0.1.0
+2025-10-10T18:28:04.4453954Z   npm error missing: eslint-plugin-security@^3.0.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4454361Z   npm error missing: eslint@^9.30.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4454741Z   npm error missing: fast-glob@^3.3.3, required by gametp@0.1.0
+2025-10-10T18:28:04.4455114Z   npm error missing: globals@^16.3.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4455509Z   npm error missing: gray-matter@^4.0.3, required by gametp@0.1.0
+2025-10-10T18:28:04.4455885Z   npm error missing: husky@^9.1.7, required by gametp@0.1.0
+2025-10-10T18:28:04.4456235Z   npm error missing: jsdom@^26.1.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4456644Z   npm error missing: json-stable-stringify@1.3.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4457132Z   npm error missing: json-stringify-pretty-compact@4.0.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4457589Z   npm error missing: lint-staged@^16.1.5, required by gametp@0.1.0
+2025-10-10T18:28:04.4457978Z   npm error missing: prettier@^3.6.2, required by gametp@0.1.0
+2025-10-10T18:28:04.4458396Z   npm error missing: rollup-plugin-visualizer@^6.0.3, required by gametp@0.1.0
+2025-10-10T18:28:04.4458820Z   npm error missing: size-limit@^10.0.3, required by gametp@0.1.0
+2025-10-10T18:28:04.4459195Z   npm error missing: snyk@^1.1299.1, required by gametp@0.1.0
+2025-10-10T18:28:04.4459583Z   npm error missing: tailwindcss@^4.0.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4460287Z   npm error missing: tsconfig-paths@^4.2.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4460726Z   npm error extraneous: tslib@2.8.1 D:\a\gametp\gametp\node_modules\tslib
+2025-10-10T18:28:04.4461128Z   npm error missing: tsx@^4.19.2, required by gametp@0.1.0
+2025-10-10T18:28:04.4461529Z   npm error missing: typescript-eslint@^8.38.0, required by gametp@0.1.0
+2025-10-10T18:28:04.4461937Z   npm error missing: vite@^7.0.4, required by gametp@0.1.0
+2025-10-10T18:28:04.4462304Z   npm error missing: vitest@^3.2.4, required by gametp@0.1.0
+2025-10-10T18:28:04.4462785Z   npm error A complete log of this run can be found in: C:\npm\cache\_logs\2025-10-10T18_28_03_294Z-debug-0.log
+2025-10-10T18:28:04.4463174Z   
+2025-10-10T18:28:04.4463302Z 
+2025-10-10T18:28:04.4463455Z Error: npm-ls exited with errors: 1 noSignal
+2025-10-10T18:28:04.5881722Z ##[error]Process completed with exit code 1.
+2025-10-10T18:28:04.6109018Z Post job cleanup.
+2025-10-10T18:28:04.8279756Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-10-10T18:28:04.8575535Z git version 2.51.0.windows.2
+2025-10-10T18:28:04.8658516Z Temporarily overriding HOME='D:\a\_temp\2b6779c8-8b4f-4f0c-b4f2-5f110d1f7ab3' before making global git config changes
+2025-10-10T18:28:04.8659709Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-10T18:28:04.8671922Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\gametp\gametp
+2025-10-10T18:28:04.9032909Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-10-10T18:28:04.9384023Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-10-10T18:28:05.5025694Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-10T18:28:05.5283618Z http.https://github.com/.extraheader
+2025-10-10T18:28:05.5333090Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+2025-10-10T18:28:05.5636161Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-10-10T18:28:06.0875737Z Cleaning up orphan processes

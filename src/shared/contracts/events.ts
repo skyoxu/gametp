@@ -358,7 +358,7 @@ export class PriorityMapping {
 export class EventBusError extends Error {
   constructor(
     message: string,
-    public readonly cause?: Error
+    public override readonly cause?: unknown
   ) {
     super(message);
     this.name = 'EventBusError';

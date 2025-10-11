@@ -1,0 +1,24 @@
+﻿2025-10-10T17:10:08.5298421Z ##[group]Run npm run typecheck:middleware
+2025-10-10T17:10:08.5298803Z [36;1mnpm run typecheck:middleware[0m
+2025-10-10T17:10:08.5364665Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:10:08.5364972Z env:
+2025-10-10T17:10:08.5365134Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:10:08.5365370Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:10:08.5365544Z   SENTRY_DSN: 
+2025-10-10T17:10:08.5365705Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:10:08.5365898Z   CL: /std:c++20 /EHsc
+2025-10-10T17:10:08.5366063Z   CXXFLAGS: -std=c++20
+2025-10-10T17:10:08.5366226Z   NODE_ENV: development
+2025-10-10T17:10:08.5366406Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:10:08.5366596Z ##[endgroup]
+2025-10-10T17:10:09.1032610Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T17:10:09.1460358Z 
+2025-10-10T17:10:09.1460807Z > gametp@0.1.0 typecheck:middleware
+2025-10-10T17:10:09.1461734Z > tsc -p tsconfig.middleware.json --noEmit
+2025-10-10T17:10:09.1462098Z 
+2025-10-10T17:10:10.9121635Z ##[error]src/shared/contracts/events.ts(361,5): error TS4115: This parameter property must have an 'override' modifier because it overrides a member in base class 'Error'.
+2025-10-10T17:10:10.9125877Z ##[error]src/shared/middleware/cloudevents-validation.ts(317,24): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+2025-10-10T17:10:10.9130469Z   Type 'undefined' is not assignable to type 'string'.
+2025-10-10T17:10:10.9132831Z ##[error]src/shared/middleware/cloudevents-validation.ts(317,46): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+2025-10-10T17:10:10.9134767Z   Type 'undefined' is not assignable to type 'string'.
+2025-10-10T17:10:11.0544069Z ##[error]Process completed with exit code 1.

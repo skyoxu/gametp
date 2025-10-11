@@ -1,0 +1,30 @@
+﻿2025-10-10T17:07:58.3452559Z Current runner version: '2.328.0'
+2025-10-10T17:07:58.3504710Z ##[group]Runner Image Provisioner
+2025-10-10T17:07:58.3505475Z Hosted Compute Agent
+2025-10-10T17:07:58.3506019Z Version: 20250912.392
+2025-10-10T17:07:58.3506612Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-10T17:07:58.3507274Z Build Date: 2025-09-12T15:23:14Z
+2025-10-10T17:07:58.3507784Z ##[endgroup]
+2025-10-10T17:07:58.3508279Z ##[group]Operating System
+2025-10-10T17:07:58.3508832Z Microsoft Windows Server 2025
+2025-10-10T17:07:58.3509363Z 10.0.26100
+2025-10-10T17:07:58.3510265Z Datacenter
+2025-10-10T17:07:58.3510703Z ##[endgroup]
+2025-10-10T17:07:58.3511170Z ##[group]Runner Image
+2025-10-10T17:07:58.3511705Z Image: windows-2025
+2025-10-10T17:07:58.3512200Z Version: 20250929.44.1
+2025-10-10T17:07:58.3513106Z Included Software: https://github.com/actions/runner-images/blob/win25/20250929.44/images/windows/Windows2025-Readme.md
+2025-10-10T17:07:58.3514464Z Image Release: https://github.com/actions/runner-images/releases/tag/win25%2F20250929.44
+2025-10-10T17:07:58.3515974Z ##[endgroup]
+2025-10-10T17:07:58.3517030Z ##[group]GITHUB_TOKEN Permissions
+2025-10-10T17:07:58.3518749Z Actions: read
+2025-10-10T17:07:58.3519318Z Contents: read
+2025-10-10T17:07:58.3519789Z Metadata: read
+2025-10-10T17:07:58.3520233Z ##[endgroup]
+2025-10-10T17:07:58.3522379Z Secret source: Actions
+2025-10-10T17:07:58.3523045Z Prepare workflow directory
+2025-10-10T17:07:58.3920126Z Prepare all required actions
+2025-10-10T17:07:58.3957312Z Getting action download info
+2025-10-10T17:07:58.6081764Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-10T17:07:58.7469292Z Download action repository 'actions/setup-node@v5.0.0' (SHA:a0853c24544627f65ddf259abe73b1d18a591444)
+2025-10-10T17:07:59.0482614Z Complete job name: Quality Gates Check

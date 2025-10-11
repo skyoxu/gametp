@@ -1,0 +1,244 @@
+﻿2025-10-10T16:38:23.0903881Z ##[group]Run npx --no-install commitlint --from=HEAD~1 --to=HEAD --verbose
+2025-10-10T16:38:23.0904456Z [36;1mnpx --no-install commitlint --from=HEAD~1 --to=HEAD --verbose[0m
+2025-10-10T16:38:23.0962680Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:38:23.0962986Z env:
+2025-10-10T16:38:23.0963145Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:23.0963360Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:23.0963541Z   SENTRY_DSN: 
+2025-10-10T16:38:23.0963710Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:23.0964095Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:23.0964275Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:23.0964448Z   NODE_ENV: development
+2025-10-10T16:38:23.0964631Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:38:23.0964815Z ##[endgroup]
+2025-10-10T16:38:23.7254963Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:38:26.3950383Z ⧗   input: Merge 49a95a27bfbb9c910dbd39ede44caa8cbfdd17cb into e1a2702b992654c40fdf749cd29695642d416d4b
+2025-10-10T16:38:26.3951458Z 
+2025-10-10T16:38:26.3951472Z 
+2025-10-10T16:38:26.3951880Z ✔   found 0 problems, 0 warnings
+2025-10-10T16:38:26.3952676Z ⧗   input: ci(infra): skip commitlint for dependabot[bot] to avoid false negatives
+2025-10-10T16:38:26.3953412Z ✔   found 0 problems, 0 warnings
+2025-10-10T16:38:26.3954214Z ⧗   input: ci(infra): correct Windows E2E artifact check to use productName.exe
+2025-10-10T16:38:26.3954921Z ✔   found 0 problems, 0 warnings
+2025-10-10T16:38:26.3955812Z ⧗   input: ci(infra): fix commitlint YAML, Playwright install, TruffleHog handling for stable Windows CI
+2025-10-10T16:38:26.3956578Z ✔   found 0 problems, 0 warnings
+2025-10-10T16:38:26.3957019Z ⧗   input: fix: skip release copy when dist output exists (ADR-0005)
+2025-10-10T16:38:26.3957428Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3957601Z 
+2025-10-10T16:38:26.3957742Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3958310Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3958631Z 
+2025-10-10T16:38:26.3958831Z ⧗   input: chore: add lightweight ci trigger note
+2025-10-10T16:38:26.3959226Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3959394Z 
+2025-10-10T16:38:26.3959541Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3960037Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3960345Z 
+2025-10-10T16:38:26.3960606Z ⧗   input: chore: patch tree-sitter gyp to enforce c++20 (ADR-0005)
+2025-10-10T16:38:26.3961055Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3961601Z 
+2025-10-10T16:38:26.3961889Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3962868Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3963438Z 
+2025-10-10T16:38:26.3963835Z ⧗   input: chore: lock node-gyp VS lookup to 2022 (ADR-0005)
+2025-10-10T16:38:26.3967921Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3968290Z 
+2025-10-10T16:38:26.3968557Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3969644Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3970250Z 
+2025-10-10T16:38:26.3971425Z ⧗   input: chore: pin node-gyp flags for release C++20 rebuild (ADR-0005)
+2025-10-10T16:38:26.3972080Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3972374Z 
+2025-10-10T16:38:26.3972632Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3973396Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3973867Z 
+2025-10-10T16:38:26.3974255Z ⧗   input: chore: document C++20 env for release build (ADR-0005)
+2025-10-10T16:38:26.3974849Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3975097Z 
+2025-10-10T16:38:26.3975314Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3976125Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3979332Z 
+2025-10-10T16:38:26.3979755Z ⧗   input: fix: align release build env for C++20 (ADR-0005)
+2025-10-10T16:38:26.3980331Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3980605Z 
+2025-10-10T16:38:26.3980832Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3981597Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3982091Z 
+2025-10-10T16:38:26.3982551Z ⧗   input: fix: restore scene transition playwright project (ADR-0005)
+2025-10-10T16:38:26.3983521Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3983803Z 
+2025-10-10T16:38:26.3984042Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3984832Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3985321Z 
+2025-10-10T16:38:26.3985714Z ⧗   input: fix: make otel stubs erasable for CI build (ADR-0005)
+2025-10-10T16:38:26.3986328Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3986970Z 
+2025-10-10T16:38:26.3987227Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3988041Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3988528Z 
+2025-10-10T16:38:26.3988928Z ⧗   input: chore: fix otel stub formatting for lint (ADR-0005)
+2025-10-10T16:38:26.3989517Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3989786Z 
+2025-10-10T16:38:26.3990010Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3990837Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3991395Z 
+2025-10-10T16:38:26.3991812Z ⧗   input: chore: normalize otel stub newline (ADR-0005)
+2025-10-10T16:38:26.3992375Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3992631Z 
+2025-10-10T16:38:26.3992862Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3993633Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3994174Z 
+2025-10-10T16:38:26.3994624Z ⧗   input: fix: stabilize perf smoke auto-hide (ADR-0003, ADR-0005)
+2025-10-10T16:38:26.3995279Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3995556Z 
+2025-10-10T16:38:26.3995802Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3996612Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3997103Z 
+2025-10-10T16:38:26.3997467Z ⧗   input: fix(e2e): unblock perf smoke gate with otel stubs
+2025-10-10T16:38:26.3998539Z ✖   scope must be one of [core, renderer, electron, ci, docs, tests, security, build, deps, infra] [scope-enum]
+2025-10-10T16:38:26.3999128Z 
+2025-10-10T16:38:26.3999423Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4000245Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4000780Z 
+2025-10-10T16:38:26.4001204Z ⧗   input: chore: document card regex boundaries (ADR-0003)
+2025-10-10T16:38:26.4001845Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4002117Z 
+2025-10-10T16:38:26.4002340Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4003128Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4003616Z 
+2025-10-10T16:38:26.4003903Z ⧗   input: chore: trigger ci rerun (ADR-0005)
+2025-10-10T16:38:26.4004432Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4004696Z 
+2025-10-10T16:38:26.4004915Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4005715Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4006198Z 
+2025-10-10T16:38:26.4006582Z ⧗   input: chore: scrub sentry regex control chars (ADR-0003)
+2025-10-10T16:38:26.4007472Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4007753Z 
+2025-10-10T16:38:26.4007987Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4008761Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4010122Z 
+2025-10-10T16:38:26.4010502Z ⧗   input: chore: support (?i) flags in task alias regex
+2025-10-10T16:38:26.4011079Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4011339Z 
+2025-10-10T16:38:26.4011574Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4012376Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4012897Z 
+2025-10-10T16:38:26.4013319Z ⧗   input: ci: force c++20 toolchain for native rebuilds (ADR-0005)
+2025-10-10T16:38:26.4014451Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4014728Z 
+2025-10-10T16:38:26.4014950Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4015732Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4016248Z 
+2025-10-10T16:38:26.4016648Z ⧗   input: chore: align task schema with draft-07 for validator
+2025-10-10T16:38:26.4017260Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4017533Z 
+2025-10-10T16:38:26.4017760Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4018523Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4019022Z 
+2025-10-10T16:38:26.4019462Z ⧗   input: ci: register json-schema meta for task validator (ADR-0005)
+2025-10-10T16:38:26.4020112Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4020377Z 
+2025-10-10T16:38:26.4020609Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4021390Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4021901Z 
+2025-10-10T16:38:26.4022291Z ⧗   input: chore: add task schema for gate validation (ADR-0005)
+2025-10-10T16:38:26.4022908Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4023177Z 
+2025-10-10T16:38:26.4023400Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4024192Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4024698Z 
+2025-10-10T16:38:26.4025121Z ⧗   input: test: fix lint blockers in playwright suites (ADR-0005)
+2025-10-10T16:38:26.4025736Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4025995Z 
+2025-10-10T16:38:26.4026215Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4027282Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4027799Z 
+2025-10-10T16:38:26.4028109Z ⧗   input: fix: unblock docs shell guard on Windows (ADR-0011, ADR-0005)
+2025-10-10T16:38:26.4028529Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4028687Z 
+2025-10-10T16:38:26.4028826Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4029322Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4029619Z 
+2025-10-10T16:38:26.4029881Z ⧗   input: chore: enforce pwsh default for CodeQL workflow (ADR-0011)
+2025-10-10T16:38:26.4030266Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4030441Z 
+2025-10-10T16:38:26.4030585Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4031059Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4031363Z 
+2025-10-10T16:38:26.4031602Z ⧗   input: chore: add observability config baselines (ADR-0003)
+2025-10-10T16:38:26.4031993Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4032165Z 
+2025-10-10T16:38:26.4032308Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4032827Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4033125Z 
+2025-10-10T16:38:26.4033418Z ⧗   input: chore: relax security scan exit codes (ADR-0002 ADR-0004 ADR-0005)
+2025-10-10T16:38:26.4033830Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4033999Z 
+2025-10-10T16:38:26.4034133Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4034606Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4035051Z 
+2025-10-10T16:38:26.4035249Z ⧗   input: chore: normalize workflow files to LF
+2025-10-10T16:38:26.4035571Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4035741Z 
+2025-10-10T16:38:26.4035874Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4036341Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4036630Z 
+2025-10-10T16:38:26.4036819Z ⧗   input: chore: harden npm install verification
+2025-10-10T16:38:26.4037245Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4037406Z 
+2025-10-10T16:38:26.4037541Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4038015Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4038315Z 
+2025-10-10T16:38:26.4038509Z ⧗   input: chore: strip BOM from workflow manifests
+2025-10-10T16:38:26.4038846Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4039013Z 
+2025-10-10T16:38:26.4039151Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4039615Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4039913Z 
+2025-10-10T16:38:26.4040145Z ⧗   input: fix: ensure npm install uses resolved executable path
+2025-10-10T16:38:26.4040520Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4040678Z 
+2025-10-10T16:38:26.4040816Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4041424Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4041992Z 
+2025-10-10T16:38:26.4042464Z ⧗   input: fix: rebuild security summary output to satisfy actionlint
+2025-10-10T16:38:26.4043218Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4043499Z 
+2025-10-10T16:38:26.4043730Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4044551Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4045052Z 
+2025-10-10T16:38:26.4045275Z ⧗   input: docs: fix pull request template encoding
+2025-10-10T16:38:26.4045613Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4045775Z 
+2025-10-10T16:38:26.4045915Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4046380Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4046677Z 
+2025-10-10T16:38:26.4046861Z ⧗   input: fix: repair ci workflows for snyk bump
+2025-10-10T16:38:26.4047471Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4047711Z 
+2025-10-10T16:38:26.4047875Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4048351Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4048643Z 
+2025-10-10T16:38:26.4048840Z ⧗   input: deps: bump snyk from 1.1299.0 to 1.1299.1
+2025-10-10T16:38:26.4049026Z 
+2025-10-10T16:38:26.4049246Z Bumps [snyk](https://github.com/snyk/snyk) from 1.1299.0 to 1.1299.1.
+2025-10-10T16:38:26.4049674Z - [Release notes](https://github.com/snyk/snyk/releases)
+2025-10-10T16:38:26.4050115Z - [Commits](https://github.com/snyk/snyk/compare/v1.1299.0...v1.1299.1)
+2025-10-10T16:38:26.4050368Z 
+2025-10-10T16:38:26.4050431Z ---
+2025-10-10T16:38:26.4050594Z updated-dependencies:
+2025-10-10T16:38:26.4050806Z - dependency-name: snyk
+2025-10-10T16:38:26.4051027Z   dependency-version: 1.1299.1
+2025-10-10T16:38:26.4051275Z   dependency-type: direct:development
+2025-10-10T16:38:26.4051551Z   update-type: version-update:semver-patch
+2025-10-10T16:38:26.4051786Z ...
+2025-10-10T16:38:26.4051867Z 
+2025-10-10T16:38:26.4052031Z Signed-off-by: dependabot[bot] <support@github.com>
+2025-10-10T16:38:26.4052628Z ✖   type must be one of [build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test] [type-enum]
+2025-10-10T16:38:26.4053136Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4053305Z 
+2025-10-10T16:38:26.4053447Z ✖   found 2 problems, 0 warnings
+2025-10-10T16:38:26.4054109Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4054422Z 
+2025-10-10T16:38:26.5295955Z ##[error]Process completed with exit code 1.

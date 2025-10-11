@@ -1,0 +1,446 @@
+﻿2025-10-10T17:10:19.2853942Z Current runner version: '2.328.0'
+2025-10-10T17:10:19.2879615Z ##[group]Runner Image Provisioner
+2025-10-10T17:10:19.2880418Z Hosted Compute Agent
+2025-10-10T17:10:19.2880909Z Version: 20250912.392
+2025-10-10T17:10:19.2881410Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-10T17:10:19.2882048Z Build Date: 2025-09-12T15:23:14Z
+2025-10-10T17:10:19.2882547Z ##[endgroup]
+2025-10-10T17:10:19.2883005Z ##[group]Operating System
+2025-10-10T17:10:19.2883599Z Microsoft Windows Server 2025
+2025-10-10T17:10:19.2884698Z 10.0.26100
+2025-10-10T17:10:19.2885596Z Datacenter
+2025-10-10T17:10:19.2886057Z ##[endgroup]
+2025-10-10T17:10:19.2886593Z ##[group]Runner Image
+2025-10-10T17:10:19.2887057Z Image: windows-2025
+2025-10-10T17:10:19.2887507Z Version: 20250929.44.1
+2025-10-10T17:10:19.2888424Z Included Software: https://github.com/actions/runner-images/blob/win25/20250929.44/images/windows/Windows2025-Readme.md
+2025-10-10T17:10:19.2890204Z Image Release: https://github.com/actions/runner-images/releases/tag/win25%2F20250929.44
+2025-10-10T17:10:19.2891164Z ##[endgroup]
+2025-10-10T17:10:19.2892134Z ##[group]GITHUB_TOKEN Permissions
+2025-10-10T17:10:19.2894206Z Actions: read
+2025-10-10T17:10:19.2894707Z Contents: read
+2025-10-10T17:10:19.2895180Z Metadata: read
+2025-10-10T17:10:19.2895617Z ##[endgroup]
+2025-10-10T17:10:19.2897654Z Secret source: Actions
+2025-10-10T17:10:19.2898308Z Prepare workflow directory
+2025-10-10T17:10:19.3413184Z Prepare all required actions
+2025-10-10T17:10:19.3451452Z Getting action download info
+2025-10-10T17:10:19.7223959Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-10T17:10:19.9515364Z Download action repository 'actions/setup-node@v5.0.0' (SHA:a0853c24544627f65ddf259abe73b1d18a591444)
+2025-10-10T17:10:20.1556369Z Download action repository 'actions/download-artifact@v4' (SHA:d3f86a106a0bac45b974a628896c90dbdf5c8093)
+2025-10-10T17:10:21.0276278Z Complete job name: Coverage Gate
+2025-10-10T17:10:21.3637703Z ##[group]Run actions/checkout@v4
+2025-10-10T17:10:21.3639163Z with:
+2025-10-10T17:10:21.3639851Z   repository: skyoxu/gametp
+2025-10-10T17:10:21.3640919Z   token: ***
+2025-10-10T17:10:21.3641582Z   ssh-strict: true
+2025-10-10T17:10:21.3642270Z   ssh-user: git
+2025-10-10T17:10:21.3642979Z   persist-credentials: true
+2025-10-10T17:10:21.3643759Z   clean: true
+2025-10-10T17:10:21.3644482Z   sparse-checkout-cone-mode: true
+2025-10-10T17:10:21.3645336Z   fetch-depth: 1
+2025-10-10T17:10:21.3646024Z   fetch-tags: false
+2025-10-10T17:10:21.3646737Z   show-progress: true
+2025-10-10T17:10:21.3647440Z   lfs: false
+2025-10-10T17:10:21.3648093Z   submodules: false
+2025-10-10T17:10:21.3648814Z   set-safe-directory: true
+2025-10-10T17:10:21.3649787Z env:
+2025-10-10T17:10:21.3650442Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:10:21.3651351Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:10:21.3652094Z   SENTRY_DSN: 
+2025-10-10T17:10:21.3652826Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:10:21.3653689Z   CL: /std:c++20 /EHsc
+2025-10-10T17:10:21.3654767Z   CXXFLAGS: -std=c++20
+2025-10-10T17:10:21.3655497Z   NODE_ENV: development
+2025-10-10T17:10:21.3656258Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:10:21.3657042Z ##[endgroup]
+2025-10-10T17:10:21.5641310Z Syncing repository: skyoxu/gametp
+2025-10-10T17:10:21.5643811Z ##[group]Getting Git version info
+2025-10-10T17:10:21.5645098Z Working directory is 'D:\a\gametp\gametp'
+2025-10-10T17:10:21.7598153Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-10-10T17:10:23.1289030Z git version 2.51.0.windows.2
+2025-10-10T17:10:23.1343236Z ##[endgroup]
+2025-10-10T17:10:23.1363419Z Temporarily overriding HOME='D:\a\_temp\46957e47-fdd6-4531-86f0-6a7b32adc518' before making global git config changes
+2025-10-10T17:10:23.1364861Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-10T17:10:23.1374953Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\gametp\gametp
+2025-10-10T17:10:23.2445225Z Deleting the contents of 'D:\a\gametp\gametp'
+2025-10-10T17:10:23.2452517Z ##[group]Initializing the repository
+2025-10-10T17:10:23.2462661Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\gametp\gametp
+2025-10-10T17:10:23.5430083Z Initialized empty Git repository in D:/a/gametp/gametp/.git/
+2025-10-10T17:10:23.5491974Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/skyoxu/gametp
+2025-10-10T17:10:23.6392355Z ##[endgroup]
+2025-10-10T17:10:23.6392772Z ##[group]Disabling automatic garbage collection
+2025-10-10T17:10:23.6402828Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2025-10-10T17:10:23.6702011Z ##[endgroup]
+2025-10-10T17:10:23.6702391Z ##[group]Setting up auth
+2025-10-10T17:10:23.6717098Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-10-10T17:10:23.7024824Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-10-10T17:10:27.6050261Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-10T17:10:27.6362592Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-10-10T17:10:28.1350604Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2025-10-10T17:10:28.1647191Z ##[endgroup]
+2025-10-10T17:10:28.1648170Z ##[group]Fetching the repository
+2025-10-10T17:10:28.1664605Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +a0e82b8e9028f467e24c46ec01dc00093892c2f0:refs/remotes/pull/13/merge
+2025-10-10T17:10:30.5620863Z From https://github.com/skyoxu/gametp
+2025-10-10T17:10:30.5621535Z  * [new ref]         a0e82b8e9028f467e24c46ec01dc00093892c2f0 -> pull/13/merge
+2025-10-10T17:10:30.6070211Z ##[endgroup]
+2025-10-10T17:10:30.6071138Z ##[group]Determining the checkout info
+2025-10-10T17:10:30.6074120Z ##[endgroup]
+2025-10-10T17:10:30.6086477Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2025-10-10T17:10:30.6720680Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2025-10-10T17:10:30.7005645Z ##[group]Checking out the ref
+2025-10-10T17:10:30.7020697Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/13/merge
+2025-10-10T17:10:31.0250012Z Note: switching to 'refs/remotes/pull/13/merge'.
+2025-10-10T17:10:31.0250439Z 
+2025-10-10T17:10:31.0250734Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-10-10T17:10:31.0251492Z changes and commit them, and you can discard any commits you make in this
+2025-10-10T17:10:31.0252578Z state without impacting any branches by switching back to a branch.
+2025-10-10T17:10:31.0253059Z 
+2025-10-10T17:10:31.0253371Z If you want to create a new branch to retain commits you create, you may
+2025-10-10T17:10:31.0254087Z do so (now or later) by using -c with the switch command. Example:
+2025-10-10T17:10:31.0254488Z 
+2025-10-10T17:10:31.0254699Z   git switch -c <new-branch-name>
+2025-10-10T17:10:31.0254964Z 
+2025-10-10T17:10:31.0255112Z Or undo this operation with:
+2025-10-10T17:10:31.0255347Z 
+2025-10-10T17:10:31.0255462Z   git switch -
+2025-10-10T17:10:31.0255641Z 
+2025-10-10T17:10:31.0255956Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-10-10T17:10:31.0256425Z 
+2025-10-10T17:10:31.0256966Z HEAD is now at a0e82b8 Merge 6768cdaecd1ab96b793479f3d4e351685a9c69bb into e1a2702b992654c40fdf749cd29695642d416d4b
+2025-10-10T17:10:31.0290392Z ##[endgroup]
+2025-10-10T17:10:31.0839236Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2025-10-10T17:10:31.1093982Z a0e82b8e9028f467e24c46ec01dc00093892c2f0
+2025-10-10T17:10:31.1593368Z ##[group]Run actions/setup-node@v5.0.0
+2025-10-10T17:10:31.1593809Z with:
+2025-10-10T17:10:31.1594024Z   node-version: 20.x
+2025-10-10T17:10:31.1594273Z   cache: npm
+2025-10-10T17:10:31.1594475Z   always-auth: false
+2025-10-10T17:10:31.1594735Z   check-latest: false
+2025-10-10T17:10:31.1595110Z   token: ***
+2025-10-10T17:10:31.1595368Z   package-manager-cache: true
+2025-10-10T17:10:31.1595635Z env:
+2025-10-10T17:10:31.1595865Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:10:31.1596193Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:10:31.1596431Z   SENTRY_DSN: 
+2025-10-10T17:10:31.1596677Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:10:31.1596911Z   CL: /std:c++20 /EHsc
+2025-10-10T17:10:31.1597193Z   CXXFLAGS: -std=c++20
+2025-10-10T17:10:31.1597422Z   NODE_ENV: development
+2025-10-10T17:10:31.1597676Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:10:31.1597958Z ##[endgroup]
+2025-10-10T17:10:31.3905424Z Found in cache @ C:\hostedtoolcache\windows\node\20.19.5\x64
+2025-10-10T17:10:31.3914102Z (node:2784) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-10-10T17:10:31.3915432Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-10-10T17:10:31.3918828Z ##[group]Environment details
+2025-10-10T17:10:45.2443086Z node: v20.19.5
+2025-10-10T17:10:45.2443490Z npm: 10.8.2
+2025-10-10T17:10:45.2443831Z yarn: 1.22.22
+2025-10-10T17:10:45.2445021Z ##[endgroup]
+2025-10-10T17:10:45.3218086Z [command]C:\Windows\system32\cmd.exe /D /S /C "C:\hostedtoolcache\windows\node\20.19.5\x64\npm.cmd config get cache"
+2025-10-10T17:10:45.5914684Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T17:10:46.5074873Z C:\npm\cache
+2025-10-10T17:10:46.9919990Z Cache hit for: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee
+2025-10-10T17:10:47.0035562Z (node:2784) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2025-10-10T17:10:48.2526165Z Received 54525952 of 315413375 (17.3%), 51.9 MBs/sec
+2025-10-10T17:10:49.2554483Z Received 171966464 of 315413375 (54.5%), 81.9 MBs/sec
+2025-10-10T17:10:50.2548348Z Received 293601280 of 315413375 (93.1%), 93.0 MBs/sec
+2025-10-10T17:10:50.4132389Z Received 315413375 of 315413375 (100.0%), 94.9 MBs/sec
+2025-10-10T17:10:50.4136018Z Cache Size: ~301 MB (315413375 B)
+2025-10-10T17:10:50.6572144Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/ae3f056f-cef0-4ea6-a43d-569ec61c3a09/cache.tzst -P -C D:/a/gametp/gametp --force-local --use-compress-program "zstd -d"
+2025-10-10T17:11:47.4012090Z Cache restored successfully
+2025-10-10T17:11:47.4184729Z Cache restored from key: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee
+2025-10-10T17:11:47.4560793Z Prepare all required actions
+2025-10-10T17:11:47.4633676Z ##[group]Run ./.github/actions/npm-install
+2025-10-10T17:11:47.4633943Z with:
+2025-10-10T17:11:47.4634126Z   working-directory: .
+2025-10-10T17:11:47.4634351Z   node-version: 20.x
+2025-10-10T17:11:47.4634545Z env:
+2025-10-10T17:11:47.4634710Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:11:47.4634935Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:11:47.4635129Z   SENTRY_DSN: 
+2025-10-10T17:11:47.4635309Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:11:47.4635519Z   CL: /std:c++20 /EHsc
+2025-10-10T17:11:47.4635698Z   CXXFLAGS: -std=c++20
+2025-10-10T17:11:47.4635884Z   NODE_ENV: development
+2025-10-10T17:11:47.4636077Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:11:47.4636274Z ##[endgroup]
+2025-10-10T17:11:47.4827980Z ##[group]Run Write-Host "Validating Node.js environment setup..."
+2025-10-10T17:11:47.4828480Z [36;1mWrite-Host "Validating Node.js environment setup..."[0m
+2025-10-10T17:11:47.4829179Z [36;1mif (-not (Get-Command node -ErrorAction SilentlyContinue)) {[0m
+2025-10-10T17:11:47.4829612Z [36;1m  Write-Error "Node.js not found. Ensure actions/setup-node has run."[0m
+2025-10-10T17:11:47.4829949Z [36;1m  exit 1[0m
+2025-10-10T17:11:47.4830122Z [36;1m}[0m
+2025-10-10T17:11:47.4830367Z [36;1mif (-not (Get-Command npm -ErrorAction SilentlyContinue)) {[0m
+2025-10-10T17:11:47.4830798Z [36;1m  Write-Error "npm not found. Node.js installation may be incomplete."[0m
+2025-10-10T17:11:47.4831123Z [36;1m  exit 1[0m
+2025-10-10T17:11:47.4831280Z [36;1m}[0m
+2025-10-10T17:11:47.4831521Z [36;1mWrite-Host ("Node.js version: {0}" -f (node --version))[0m
+2025-10-10T17:11:47.4831882Z [36;1mWrite-Host ("npm version: {0}" -f (npm --version))[0m
+2025-10-10T17:11:47.6247287Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:11:47.6247779Z env:
+2025-10-10T17:11:47.6248033Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:11:47.6248406Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:11:47.6248763Z   SENTRY_DSN: 
+2025-10-10T17:11:47.6249058Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:11:47.6249372Z   CL: /std:c++20 /EHsc
+2025-10-10T17:11:47.6250118Z   CXXFLAGS: -std=c++20
+2025-10-10T17:11:47.6250401Z   NODE_ENV: development
+2025-10-10T17:11:47.6250696Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:11:47.6251001Z ##[endgroup]
+2025-10-10T17:12:05.4672900Z Validating Node.js environment setup...
+2025-10-10T17:12:05.5713153Z Node.js version: v20.19.5
+2025-10-10T17:12:05.8420035Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T17:12:05.8584019Z npm version: 10.8.2
+2025-10-10T17:12:06.7632159Z ##[group]Run Write-Host "Validating critical environment variables..."
+2025-10-10T17:12:06.7632601Z [36;1mWrite-Host "Validating critical environment variables..."[0m
+2025-10-10T17:12:06.7632991Z [36;1mWrite-Host ("NODE_ENV: {0}" -f ($env:NODE_ENV ?? 'not set'))[0m
+2025-10-10T17:12:06.7633454Z [36;1mWrite-Host ("NPM_CONFIG_PRODUCTION: {0}" -f ($env:NPM_CONFIG_PRODUCTION ?? 'not set'))[0m
+2025-10-10T17:12:06.7633950Z [36;1mif ($env:NODE_ENV -ne 'development' -or $env:NPM_CONFIG_PRODUCTION -ne 'false') {[0m
+2025-10-10T17:12:06.7634632Z [36;1m  Write-Warning "Environment vars may prevent devDependencies installation. Recommended: NODE_ENV=development, NPM_CONFIG_PRODUCTION=false"[0m
+2025-10-10T17:12:06.7635176Z [36;1m}[0m
+2025-10-10T17:12:06.7692771Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:12:06.7693075Z env:
+2025-10-10T17:12:06.7693252Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:12:06.7693479Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:12:06.7693685Z   SENTRY_DSN: 
+2025-10-10T17:12:06.7693864Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:12:06.7694066Z   CL: /std:c++20 /EHsc
+2025-10-10T17:12:06.7694249Z   CXXFLAGS: -std=c++20
+2025-10-10T17:12:06.7694434Z   NODE_ENV: development
+2025-10-10T17:12:06.7694623Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:12:06.7694845Z ##[endgroup]
+2025-10-10T17:12:07.1466335Z Validating critical environment variables...
+2025-10-10T17:12:07.1474855Z NODE_ENV: development
+2025-10-10T17:12:07.1591173Z NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:12:07.2575537Z ##[group]Run Write-Host "Starting Windows-focused npm installation..."
+2025-10-10T17:12:07.2576064Z [36;1mWrite-Host "Starting Windows-focused npm installation..."[0m
+2025-10-10T17:12:07.2576431Z [36;1mWrite-Host ("Runner: {0}" -f $env:RUNNER_OS)[0m
+2025-10-10T17:12:07.2576753Z [36;1mWrite-Host "Current npm configuration (subset):"[0m
+2025-10-10T17:12:07.2577344Z [36;1mtry { npm config list | Select-String -Pattern 'fetch-retries|registry|fund|audit' -SimpleMatch | ForEach-Object { $_.Line } } catch {}[0m
+2025-10-10T17:12:07.2577884Z [36;1m[0m
+2025-10-10T17:12:07.2578091Z [36;1m# ESM-friendly npm environment variables[0m
+2025-10-10T17:12:07.2578370Z [36;1m$env:NPM_CONFIG_MAXSOCKETS = '8'[0m
+2025-10-10T17:12:07.2578619Z [36;1m$env:NPM_CONFIG_FUND = 'false'[0m
+2025-10-10T17:12:07.2579057Z [36;1m$env:NPM_CONFIG_AUDIT = 'false'[0m
+2025-10-10T17:12:07.2579308Z [36;1m$env:NPM_CONFIG_PROGRESS = 'false'[0m
+2025-10-10T17:12:07.2579539Z [36;1m[0m
+2025-10-10T17:12:07.2579799Z [36;1m$npmExecutable = (Get-Command npm -ErrorAction Stop).Source[0m
+2025-10-10T17:12:07.2580129Z [36;1mif (-not $npmExecutable) {[0m
+2025-10-10T17:12:07.2580455Z [36;1m  throw 'npm executable not found on PATH (required for npm ci)'[0m
+2025-10-10T17:12:07.2580761Z [36;1m}[0m
+2025-10-10T17:12:07.2580910Z [36;1m[0m
+2025-10-10T17:12:07.2581362Z [36;1mfunction Invoke-NpmCiAttempt([int]$timeoutSec, [string]$extraArgs) {[0m
+2025-10-10T17:12:07.2581913Z [36;1m  $psi = New-Object System.Diagnostics.ProcessStartInfo[0m
+2025-10-10T17:12:07.2582233Z [36;1m  $psi.FileName = $npmExecutable[0m
+2025-10-10T17:12:07.2582511Z [36;1m  $psi.WorkingDirectory = (Get-Location).Path[0m
+2025-10-10T17:12:07.2582814Z [36;1m  $psi.Arguments = "ci $extraArgs"[0m
+2025-10-10T17:12:07.2583104Z [36;1m  $psi.RedirectStandardOutput = $true[0m
+2025-10-10T17:12:07.2583699Z [36;1m  $psi.RedirectStandardError = $true[0m
+2025-10-10T17:12:07.2583979Z [36;1m  $psi.UseShellExecute = $false[0m
+2025-10-10T17:12:07.2584230Z [36;1m  $psi.CreateNoWindow = $true[0m
+2025-10-10T17:12:07.2584511Z [36;1m  $proc = New-Object System.Diagnostics.Process[0m
+2025-10-10T17:12:07.2584785Z [36;1m  $proc.StartInfo = $psi[0m
+2025-10-10T17:12:07.2585015Z [36;1m  [void]$proc.Start()[0m
+2025-10-10T17:12:07.2585279Z [36;1m  $completed = $proc.WaitForExit($timeoutSec * 1000)[0m
+2025-10-10T17:12:07.2585585Z [36;1m  $out = $proc.StandardOutput.ReadToEnd()[0m
+2025-10-10T17:12:07.2585872Z [36;1m  $err = $proc.StandardError.ReadToEnd()[0m
+2025-10-10T17:12:07.2586229Z [36;1m  ($out + $err) | Out-File -FilePath npm_install.log -Append -Encoding UTF8[0m
+2025-10-10T17:12:07.2586876Z [36;1m  if (-not $completed) { try { Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue } catch {}; return @{ Ok=$false; TimedOut=$true; Code=-1 } }[0m
+2025-10-10T17:12:07.2587510Z [36;1m  return @{ Ok = ($proc.ExitCode -eq 0); TimedOut=$false; Code=$proc.ExitCode }[0m
+2025-10-10T17:12:07.2587883Z [36;1m}[0m
+2025-10-10T17:12:07.2588035Z [36;1m[0m
+2025-10-10T17:12:07.2588187Z [36;1m$attempts = @([0m
+2025-10-10T17:12:07.2588386Z [36;1m  @{ Timeout=480; Args='' },[0m
+2025-10-10T17:12:07.2588632Z [36;1m  @{ Timeout=720; Args='--maxsockets=5' },[0m
+2025-10-10T17:12:07.2588895Z [36;1m  @{ Timeout=900; Args='--maxsockets=1' },[0m
+2025-10-10T17:12:07.2589129Z [36;1m  @{ Timeout=900; Args='' }[0m
+2025-10-10T17:12:07.2589337Z [36;1m)[0m
+2025-10-10T17:12:07.2589483Z [36;1m[0m
+2025-10-10T17:12:07.2589634Z [36;1m$success = $false[0m
+2025-10-10T17:12:07.2589898Z [36;1mfor ($i=0; $i -lt $attempts.Count; $i++) {[0m
+2025-10-10T17:12:07.2590153Z [36;1m  $a = $attempts[$i][0m
+2025-10-10T17:12:07.2590469Z [36;1m  Write-Host ("Attempt {0} (timeout={1}s args='{2}')" -f ($i+1), $a.Timeout, $a.Args)[0m
+2025-10-10T17:12:07.2591652Z [36;1m  $res = Invoke-NpmCiAttempt -timeoutSec $a.Timeout -extraArgs $a.Args[0m
+2025-10-10T17:12:07.2592081Z [36;1m  if ($res.Ok) { $success = $true; break } else {[0m
+2025-10-10T17:12:07.2592371Z [36;1m    if ($i -lt ($attempts.Count-1)) {[0m
+2025-10-10T17:12:07.2592615Z [36;1m      $sleep = 15 * ($i+1)[0m
+2025-10-10T17:12:07.2593089Z [36;1m      Write-Warning ("Attempt {0} failed (code={1}, timeout={2}). Sleeping {3}s before retry..." -f ($i+1), $res.Code, $res.TimedOut, $sleep)[0m
+2025-10-10T17:12:07.2593579Z [36;1m      Start-Sleep -Seconds $sleep[0m
+2025-10-10T17:12:07.2593805Z [36;1m    }[0m
+2025-10-10T17:12:07.2593957Z [36;1m  }[0m
+2025-10-10T17:12:07.2594108Z [36;1m}[0m
+2025-10-10T17:12:07.2594258Z [36;1m[0m
+2025-10-10T17:12:07.2594412Z [36;1mif (-not $success) {[0m
+2025-10-10T17:12:07.2594744Z [36;1m  Write-Error "CRITICAL FAILURE: All Windows installation attempts failed!"[0m
+2025-10-10T17:12:07.2595723Z [36;1m  if (Test-Path npm_install.log) { Get-Content npm_install.log -Tail 80 | Write-Host }[0m
+2025-10-10T17:12:07.2596074Z [36;1m  exit 1[0m
+2025-10-10T17:12:07.2596301Z [36;1m}[0m
+2025-10-10T17:12:07.2596470Z [36;1m[0m
+2025-10-10T17:12:07.2596660Z [36;1mWrite-Host "SUCCESS: npm ci completed"[0m
+2025-10-10T17:12:07.2596901Z [36;1m[0m
+2025-10-10T17:12:07.2597050Z [36;1m# Verification[0m
+2025-10-10T17:12:07.2597254Z [36;1m$verificationErrors = 0[0m
+2025-10-10T17:12:07.2597529Z [36;1m$tools = @('eslint','tsc','vitest','playwright','tsx')[0m
+2025-10-10T17:12:07.2597805Z [36;1mforeach ($t in $tools) {[0m
+2025-10-10T17:12:07.2598085Z [36;1m  $binPath = Join-Path 'node_modules/.bin' $t[0m
+2025-10-10T17:12:07.2598468Z [36;1m  $binCmdPath = Join-Path 'node_modules/.bin' ("{0}.cmd" -f $t)[0m
+2025-10-10T17:12:07.2598788Z [36;1m  $hasTool = Test-Path $binPath[0m
+2025-10-10T17:12:07.2599021Z [36;1m  if (-not $hasTool) {[0m
+2025-10-10T17:12:07.2599255Z [36;1m    $hasTool = Test-Path $binCmdPath[0m
+2025-10-10T17:12:07.2599493Z [36;1m  }[0m
+2025-10-10T17:12:07.2599649Z [36;1m  if ($hasTool) {[0m
+2025-10-10T17:12:07.2599955Z [36;1m    Write-Host ("SUCCESS: {0} available in node_modules/.bin" -f $t)[0m
+2025-10-10T17:12:07.2600308Z [36;1m  } elseif ((npm list $t | Out-Null) -ne $true) {[0m
+2025-10-10T17:12:07.2600656Z [36;1m    Write-Warning ("{0} not detected in node_modules" -f $t)[0m
+2025-10-10T17:12:07.2600970Z [36;1m    $verificationErrors++[0m
+2025-10-10T17:12:07.2601192Z [36;1m  }[0m
+2025-10-10T17:12:07.2601354Z [36;1m}[0m
+2025-10-10T17:12:07.2601497Z [36;1m[0m
+2025-10-10T17:12:07.2601774Z [36;1mWrite-Host "Verifying Rollup native platform package for Windows..."[0m
+2025-10-10T17:12:07.2602190Z [36;1mnode -e "require('@rollup/rollup-win32-x64-msvc')" 2>$null[0m
+2025-10-10T17:12:07.2602783Z [36;1mif ($LASTEXITCODE -eq 0) { Write-Host "SUCCESS: rollup native ok" } else { Write-Warning "rollup native package not found (non-critical)" }[0m
+2025-10-10T17:12:07.2603279Z [36;1m[0m
+2025-10-10T17:12:07.2603759Z [36;1m$hasNodeModules = Test-Path 'node_modules'[0m
+2025-10-10T17:12:07.2604158Z [36;1m$hasNodeModulesBin = Test-Path 'node_modules/.bin'[0m
+2025-10-10T17:12:07.2604493Z [36;1mif ($hasNodeModules -and $hasNodeModulesBin) {[0m
+2025-10-10T17:12:07.2604892Z [36;1m  $pkgCount = (Get-ChildItem 'node_modules' -Directory | Measure-Object).Count[0m
+2025-10-10T17:12:07.2605439Z [36;1m  Write-Host ("SUCCESS: node_modules verification passed ({0} top-level packages)" -f $pkgCount)[0m
+2025-10-10T17:12:07.2605841Z [36;1m} else {[0m
+2025-10-10T17:12:07.2606087Z [36;1m  Write-Error 'node_modules structure verification failed'[0m
+2025-10-10T17:12:07.2606403Z [36;1m  $verificationErrors++[0m
+2025-10-10T17:12:07.2606633Z [36;1m}[0m
+2025-10-10T17:12:07.2606775Z [36;1m[0m
+2025-10-10T17:12:07.2606924Z [36;1mtry {[0m
+2025-10-10T17:12:07.2607158Z [36;1m  $pkg = Get-Content package.json -Raw | ConvertFrom-Json[0m
+2025-10-10T17:12:07.2607723Z [36;1m  if ($pkg.type -eq 'module') { Write-Host 'SUCCESS: ESM module system verification passed' }[0m
+2025-10-10T17:12:07.2608095Z [36;1m} catch {}[0m
+2025-10-10T17:12:07.2608265Z [36;1m[0m
+2025-10-10T17:12:07.2608670Z [36;1mif ($verificationErrors -gt 0) { Write-Warning ("Found {0} verification issues (non-blocking)" -f $verificationErrors) }[0m
+2025-10-10T17:12:07.2669432Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:12:07.2669745Z env:
+2025-10-10T17:12:07.2669919Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:12:07.2670148Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:12:07.2670345Z   SENTRY_DSN: 
+2025-10-10T17:12:07.2670530Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:12:07.2670738Z   CL: /std:c++20 /EHsc
+2025-10-10T17:12:07.2670928Z   CXXFLAGS: -std=c++20
+2025-10-10T17:12:07.2671120Z   NODE_ENV: development
+2025-10-10T17:12:07.2671316Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:12:07.2671527Z ##[endgroup]
+2025-10-10T17:12:07.8143926Z Starting Windows-focused npm installation...
+2025-10-10T17:12:07.8151729Z Runner: Windows
+2025-10-10T17:12:07.8157285Z Current npm configuration (subset):
+2025-10-10T17:12:08.1058232Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T17:12:08.2685437Z Attempt 1 (timeout=480s args='')
+2025-10-10T17:13:25.9261455Z SUCCESS: npm ci completed
+2025-10-10T17:13:25.9409975Z SUCCESS: eslint available in node_modules/.bin
+2025-10-10T17:13:25.9422749Z SUCCESS: tsc available in node_modules/.bin
+2025-10-10T17:13:25.9433473Z SUCCESS: vitest available in node_modules/.bin
+2025-10-10T17:13:26.0294000Z SUCCESS: playwright available in node_modules/.bin
+2025-10-10T17:13:26.0304112Z SUCCESS: tsx available in node_modules/.bin
+2025-10-10T17:13:26.0310057Z Verifying Rollup native platform package for Windows...
+2025-10-10T17:13:26.1053632Z SUCCESS: rollup native ok
+2025-10-10T17:13:26.1891147Z SUCCESS: node_modules verification passed (1171 top-level packages)
+2025-10-10T17:13:26.2216949Z SUCCESS: ESM module system verification passed
+2025-10-10T17:13:26.2686875Z ##[group]Run node scripts/ci/coverage-config.cjs --verify-only
+2025-10-10T17:13:26.2687389Z [36;1mnode scripts/ci/coverage-config.cjs --verify-only[0m
+2025-10-10T17:13:26.2757686Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:13:26.2758075Z env:
+2025-10-10T17:13:26.2758460Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:13:26.2758857Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:13:26.2759229Z   SENTRY_DSN: 
+2025-10-10T17:13:26.2759685Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:13:26.2759938Z   CL: /std:c++20 /EHsc
+2025-10-10T17:13:26.2760269Z   CXXFLAGS: -std=c++20
+2025-10-10T17:13:26.2788504Z   NODE_ENV: development
+2025-10-10T17:13:26.2788773Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:13:26.2789010Z ##[endgroup]
+2025-10-10T17:13:26.6161772Z 📊 使用覆盖率配置: development (Development baseline thresholds)
+2025-10-10T17:13:26.6336098Z 
+2025-10-10T17:13:26.6336813Z 📊 覆盖率配置信息:
+2025-10-10T17:13:26.6337418Z 当前模式: development
+2025-10-10T17:13:26.6337920Z 阈值设置: 60%
+2025-10-10T17:13:26.6338771Z 描述: Development baseline thresholds
+2025-10-10T17:13:26.6338966Z 
+2025-10-10T17:13:26.6339125Z 💡 推荐模式: staging
+2025-10-10T17:13:26.6339516Z 推荐理由: 发现11个测试文件，建议使用预发布模式
+2025-10-10T17:13:26.6340024Z 设置方法: export COVERAGE_MODE=staging
+2025-10-10T17:13:26.6340225Z 
+2025-10-10T17:13:26.6340360Z 🔧 可用的覆盖率模式:
+2025-10-10T17:13:26.6342271Z   production: 60% (Production temporary thresholds (60% - TODO: restore to 90% after 2 weeks))
+2025-10-10T17:13:26.6343272Z   staging: 80% (Staging environment thresholds)
+2025-10-10T17:13:26.6344484Z   development: 60% (Development baseline thresholds)
+2025-10-10T17:13:26.6345479Z   bootstrap: 30% (New project bootstrap mode)
+2025-10-10T17:13:26.6345934Z   tdd: 95% (TDD development high standards)
+2025-10-10T17:13:26.7579529Z ##[group]Run actions/download-artifact@v4
+2025-10-10T17:13:26.7579861Z with:
+2025-10-10T17:13:26.7580074Z   name: coverage-summary
+2025-10-10T17:13:26.7580453Z   path: coverage/
+2025-10-10T17:13:26.7580670Z   merge-multiple: false
+2025-10-10T17:13:26.7580875Z   repository: skyoxu/gametp
+2025-10-10T17:13:26.7581080Z   run-id: 18413231300
+2025-10-10T17:13:26.7581254Z env:
+2025-10-10T17:13:26.7581416Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:13:26.7581654Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:13:26.7581851Z   SENTRY_DSN: 
+2025-10-10T17:13:26.7582021Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:13:26.7582227Z   CL: /std:c++20 /EHsc
+2025-10-10T17:13:26.7582411Z   CXXFLAGS: -std=c++20
+2025-10-10T17:13:26.7582589Z   NODE_ENV: development
+2025-10-10T17:13:26.7582789Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:13:26.7582994Z ##[endgroup]
+2025-10-10T17:13:27.0361267Z Downloading single artifact
+2025-10-10T17:13:27.2838883Z Preparing to download the following artifacts:
+2025-10-10T17:13:27.2840610Z - coverage-summary (ID: 4239635224, Size: 1490, Expected Digest: sha256:ba1d6d4fcd9267641d964f9596f0a99290ae85b5e377b32942633342ef304041)
+2025-10-10T17:13:27.4476375Z Redirecting to blob download url: https://productionresultssa15.blob.core.windows.net/actions-results/c5409cc8-976c-4e8e-aa56-bfdef9091eb8/workflow-job-run-869b09c3-6e10-5197-b130-92462d1456ec/artifacts/9d20e7018c65f83988f2e1e40f4cd503d12854bb00fded1364eb0ea3dfb1de34.zip
+2025-10-10T17:13:27.4479008Z Starting download of artifact to: D:\a\gametp\gametp\coverage
+2025-10-10T17:13:27.6573241Z (node:2800) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2025-10-10T17:13:27.6574328Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-10-10T17:13:27.6627102Z SHA256 digest of downloaded artifact is ba1d6d4fcd9267641d964f9596f0a99290ae85b5e377b32942633342ef304041
+2025-10-10T17:13:27.6628274Z Artifact download completed successfully.
+2025-10-10T17:13:27.6629456Z Total of 1 artifact(s) downloaded
+2025-10-10T17:13:27.6638389Z Download artifact has finished successfully
+2025-10-10T17:13:27.6893368Z ##[group]Run node scripts/ci/coverage-gate.cjs
+2025-10-10T17:13:27.6893772Z [36;1mnode scripts/ci/coverage-gate.cjs[0m
+2025-10-10T17:13:27.6959104Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:13:27.6959603Z env:
+2025-10-10T17:13:27.6960095Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:13:27.6960346Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:13:27.6960549Z   SENTRY_DSN: 
+2025-10-10T17:13:27.6960738Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:13:27.6960951Z   CL: /std:c++20 /EHsc
+2025-10-10T17:13:27.6961140Z   CXXFLAGS: -std=c++20
+2025-10-10T17:13:27.6961323Z   NODE_ENV: test
+2025-10-10T17:13:27.6961509Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:13:27.6961718Z   COVERAGE_MODE: development
+2025-10-10T17:13:27.6961923Z ##[endgroup]
+2025-10-10T17:13:28.0198473Z 📊 使用覆盖率配置: development (Development baseline thresholds)
+2025-10-10T17:13:28.0210933Z 📊 检查代码覆盖率门禁...
+2025-10-10T17:13:28.0217235Z 
+2025-10-10T17:13:28.0218612Z 📈 当前覆盖率统计:
+2025-10-10T17:13:28.0219597Z   语句覆盖率: 74.91%
+2025-10-10T17:13:28.0219963Z   分支覆盖率: 79.62%
+2025-10-10T17:13:28.0220241Z   函数覆盖率: 77.21%
+2025-10-10T17:13:28.0220628Z   行覆盖率: 74.91%
+2025-10-10T17:13:28.0220797Z 
+2025-10-10T17:13:28.0222140Z ✅ 覆盖率门禁检查通过！
+2025-10-10T17:13:28.0223166Z 🎉 所有覆盖率指标均达到设定阈值
+2025-10-10T17:13:28.0241659Z 📊 覆盖率趋势已记录: D:\a\gametp\gametp\logs\coverage-trends\coverage-2025-10-10.json
+2025-10-10T17:13:28.1499624Z Post job cleanup.
+2025-10-10T17:13:28.2986654Z (node:1260) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-10-10T17:13:28.2988949Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-10-10T17:13:28.2992637Z Cache hit occurred on the primary key node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee, not saving cache.
+2025-10-10T17:13:28.3235258Z Post job cleanup.
+2025-10-10T17:13:28.5619204Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-10-10T17:13:28.5915404Z git version 2.51.0.windows.2
+2025-10-10T17:13:28.5993896Z Temporarily overriding HOME='D:\a\_temp\aa11d144-f0ea-4a8e-8450-b057637e43d3' before making global git config changes
+2025-10-10T17:13:28.5995210Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-10T17:13:28.6006672Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\gametp\gametp
+2025-10-10T17:13:28.6324555Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-10-10T17:13:28.6628410Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-10-10T17:13:29.2240316Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-10T17:13:29.2505721Z http.https://github.com/.extraheader
+2025-10-10T17:13:29.2550602Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+2025-10-10T17:13:29.2855772Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-10-10T17:13:29.8239780Z Cleaning up orphan processes

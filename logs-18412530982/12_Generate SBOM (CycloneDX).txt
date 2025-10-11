@@ -1,0 +1,262 @@
+﻿2025-10-10T16:32:11.0267382Z Current runner version: '2.328.0'
+2025-10-10T16:32:11.0294937Z ##[group]Runner Image Provisioner
+2025-10-10T16:32:11.0295722Z Hosted Compute Agent
+2025-10-10T16:32:11.0296251Z Version: 20250912.392
+2025-10-10T16:32:11.0296799Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-10T16:32:11.0297463Z Build Date: 2025-09-12T15:23:14Z
+2025-10-10T16:32:11.0298249Z ##[endgroup]
+2025-10-10T16:32:11.0299020Z ##[group]Operating System
+2025-10-10T16:32:11.0299639Z Microsoft Windows Server 2025
+2025-10-10T16:32:11.0300150Z 10.0.26100
+2025-10-10T16:32:11.0300588Z Datacenter
+2025-10-10T16:32:11.0301050Z ##[endgroup]
+2025-10-10T16:32:11.0301494Z ##[group]Runner Image
+2025-10-10T16:32:11.0301965Z Image: windows-2025
+2025-10-10T16:32:11.0302414Z Version: 20250929.44.1
+2025-10-10T16:32:11.0303389Z Included Software: https://github.com/actions/runner-images/blob/win25/20250929.44/images/windows/Windows2025-Readme.md
+2025-10-10T16:32:11.0305152Z Image Release: https://github.com/actions/runner-images/releases/tag/win25%2F20250929.44
+2025-10-10T16:32:11.0306084Z ##[endgroup]
+2025-10-10T16:32:11.0307079Z ##[group]GITHUB_TOKEN Permissions
+2025-10-10T16:32:11.0308941Z Actions: read
+2025-10-10T16:32:11.0309469Z Contents: read
+2025-10-10T16:32:11.0309898Z Metadata: read
+2025-10-10T16:32:11.0310347Z ##[endgroup]
+2025-10-10T16:32:11.0312453Z Secret source: Actions
+2025-10-10T16:32:11.0313150Z Prepare workflow directory
+2025-10-10T16:32:11.0814835Z Prepare all required actions
+2025-10-10T16:32:11.0857770Z Getting action download info
+2025-10-10T16:32:11.4140082Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-10T16:32:11.5820212Z Download action repository 'actions/setup-node@v5.0.0' (SHA:a0853c24544627f65ddf259abe73b1d18a591444)
+2025-10-10T16:32:11.7889521Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2025-10-10T16:32:12.1988735Z Complete job name: Generate SBOM (CycloneDX)
+2025-10-10T16:32:12.5136344Z ##[group]Run actions/checkout@v4
+2025-10-10T16:32:12.5138342Z with:
+2025-10-10T16:32:12.5139062Z   repository: skyoxu/gametp
+2025-10-10T16:32:12.5140341Z   token: ***
+2025-10-10T16:32:12.5141022Z   ssh-strict: true
+2025-10-10T16:32:12.5141714Z   ssh-user: git
+2025-10-10T16:32:12.5142408Z   persist-credentials: true
+2025-10-10T16:32:12.5143187Z   clean: true
+2025-10-10T16:32:12.5143951Z   sparse-checkout-cone-mode: true
+2025-10-10T16:32:12.5144837Z   fetch-depth: 1
+2025-10-10T16:32:12.5145533Z   fetch-tags: false
+2025-10-10T16:32:12.5146259Z   show-progress: true
+2025-10-10T16:32:12.5146985Z   lfs: false
+2025-10-10T16:32:12.5147646Z   submodules: false
+2025-10-10T16:32:12.5148361Z   set-safe-directory: true
+2025-10-10T16:32:12.5149373Z env:
+2025-10-10T16:32:12.5150025Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:32:12.5150945Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:32:12.5152072Z   SENTRY_DSN: 
+2025-10-10T16:32:12.5152879Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:32:12.5153702Z   CL: /std:c++20 /EHsc
+2025-10-10T16:32:12.5154467Z   CXXFLAGS: -std=c++20
+2025-10-10T16:32:12.5155172Z ##[endgroup]
+2025-10-10T16:32:12.7347620Z Syncing repository: skyoxu/gametp
+2025-10-10T16:32:12.7349984Z ##[group]Getting Git version info
+2025-10-10T16:32:12.7350996Z Working directory is 'D:\a\gametp\gametp'
+2025-10-10T16:32:12.9083347Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-10-10T16:32:13.5315785Z git version 2.51.0.windows.2
+2025-10-10T16:32:13.5369003Z ##[endgroup]
+2025-10-10T16:32:13.5389809Z Temporarily overriding HOME='D:\a\_temp\2a47d297-80b8-4fd2-a832-00765f3cf1ac' before making global git config changes
+2025-10-10T16:32:13.5392062Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-10T16:32:13.5401105Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\gametp\gametp
+2025-10-10T16:32:13.5957175Z Deleting the contents of 'D:\a\gametp\gametp'
+2025-10-10T16:32:13.5964586Z ##[group]Initializing the repository
+2025-10-10T16:32:13.5974170Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\gametp\gametp
+2025-10-10T16:32:13.7318322Z Initialized empty Git repository in D:/a/gametp/gametp/.git/
+2025-10-10T16:32:13.7366446Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/skyoxu/gametp
+2025-10-10T16:32:13.8028930Z ##[endgroup]
+2025-10-10T16:32:13.8030176Z ##[group]Disabling automatic garbage collection
+2025-10-10T16:32:13.8038830Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2025-10-10T16:32:13.8319563Z ##[endgroup]
+2025-10-10T16:32:13.8320711Z ##[group]Setting up auth
+2025-10-10T16:32:13.8332993Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-10-10T16:32:13.8619988Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-10-10T16:32:15.7531186Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-10T16:32:15.7827991Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-10-10T16:32:16.3528770Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2025-10-10T16:32:16.3906657Z ##[endgroup]
+2025-10-10T16:32:16.3907790Z ##[group]Fetching the repository
+2025-10-10T16:32:16.3926925Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +1a64442db4a5e073e50677e36ddf882284d88302:refs/remotes/pull/13/merge
+2025-10-10T16:32:18.0001841Z From https://github.com/skyoxu/gametp
+2025-10-10T16:32:18.0007689Z  * [new ref]         1a64442db4a5e073e50677e36ddf882284d88302 -> pull/13/merge
+2025-10-10T16:32:18.0465736Z ##[endgroup]
+2025-10-10T16:32:18.0466426Z ##[group]Determining the checkout info
+2025-10-10T16:32:18.0467855Z ##[endgroup]
+2025-10-10T16:32:18.0484681Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2025-10-10T16:32:18.1085411Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2025-10-10T16:32:18.1444355Z ##[group]Checking out the ref
+2025-10-10T16:32:18.1455785Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/13/merge
+2025-10-10T16:32:18.4319979Z Note: switching to 'refs/remotes/pull/13/merge'.
+2025-10-10T16:32:18.4320431Z 
+2025-10-10T16:32:18.4320720Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-10-10T16:32:18.4321513Z changes and commit them, and you can discard any commits you make in this
+2025-10-10T16:32:18.4322257Z state without impacting any branches by switching back to a branch.
+2025-10-10T16:32:18.4322720Z 
+2025-10-10T16:32:18.4322981Z If you want to create a new branch to retain commits you create, you may
+2025-10-10T16:32:18.4325255Z do so (now or later) by using -c with the switch command. Example:
+2025-10-10T16:32:18.4325764Z 
+2025-10-10T16:32:18.4325986Z   git switch -c <new-branch-name>
+2025-10-10T16:32:18.4326257Z 
+2025-10-10T16:32:18.4326367Z Or undo this operation with:
+2025-10-10T16:32:18.4326551Z 
+2025-10-10T16:32:18.4326642Z   git switch -
+2025-10-10T16:32:18.4326822Z 
+2025-10-10T16:32:18.4327074Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-10-10T16:32:18.4327436Z 
+2025-10-10T16:32:18.4327851Z HEAD is now at 1a64442 Merge 49a95a27bfbb9c910dbd39ede44caa8cbfdd17cb into e1a2702b992654c40fdf749cd29695642d416d4b
+2025-10-10T16:32:18.4375673Z ##[endgroup]
+2025-10-10T16:32:18.5003037Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2025-10-10T16:32:18.5365114Z 1a64442db4a5e073e50677e36ddf882284d88302
+2025-10-10T16:32:18.5830385Z ##[group]Run actions/setup-node@v5.0.0
+2025-10-10T16:32:18.5830735Z with:
+2025-10-10T16:32:18.5830899Z   node-version: 20.x
+2025-10-10T16:32:18.5831078Z   cache: npm
+2025-10-10T16:32:18.5831235Z   always-auth: false
+2025-10-10T16:32:18.5831415Z   check-latest: false
+2025-10-10T16:32:18.5831771Z   token: ***
+2025-10-10T16:32:18.5831957Z   package-manager-cache: true
+2025-10-10T16:32:18.5832158Z env:
+2025-10-10T16:32:18.5832313Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:32:18.5832543Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:32:18.5832719Z   SENTRY_DSN: 
+2025-10-10T16:32:18.5832884Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:32:18.5833076Z   CL: /std:c++20 /EHsc
+2025-10-10T16:32:18.5833253Z   CXXFLAGS: -std=c++20
+2025-10-10T16:32:18.5833426Z ##[endgroup]
+2025-10-10T16:32:18.8018200Z Found in cache @ C:\hostedtoolcache\windows\node\20.19.5\x64
+2025-10-10T16:32:18.8027032Z (node:8172) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-10-10T16:32:18.8028631Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-10-10T16:32:18.8031635Z ##[group]Environment details
+2025-10-10T16:32:31.3035961Z node: v20.19.5
+2025-10-10T16:32:31.3036187Z npm: 10.8.2
+2025-10-10T16:32:31.3036435Z yarn: 1.22.22
+2025-10-10T16:32:31.3037405Z ##[endgroup]
+2025-10-10T16:32:31.3793309Z [command]C:\Windows\system32\cmd.exe /D /S /C "C:\hostedtoolcache\windows\node\20.19.5\x64\npm.cmd config get cache"
+2025-10-10T16:32:32.2293707Z C:\npm\cache
+2025-10-10T16:32:32.5950136Z Cache hit for: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee
+2025-10-10T16:32:32.6072559Z (node:8172) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2025-10-10T16:32:33.8334071Z Received 109051904 of 315413375 (34.6%), 100.3 MBs/sec
+2025-10-10T16:32:34.8409798Z Received 230686720 of 315413375 (73.1%), 107.6 MBs/sec
+2025-10-10T16:32:35.8531004Z Received 315413375 of 315413375 (100.0%), 98.6 MBs/sec
+2025-10-10T16:32:35.8531491Z Cache Size: ~301 MB (315413375 B)
+2025-10-10T16:32:35.8590001Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/eed0462d-0d32-40d6-9405-705fc56cb28b/cache.tzst -P -C D:/a/gametp/gametp --force-local --use-compress-program "zstd -d"
+2025-10-10T16:32:54.8864090Z Cache restored successfully
+2025-10-10T16:32:54.9036174Z Cache restored from key: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee
+2025-10-10T16:32:54.9383383Z ##[group]Run npm ci --ignore-scripts
+2025-10-10T16:32:54.9383745Z [36;1mnpm ci --ignore-scripts[0m
+2025-10-10T16:32:55.0302133Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:32:55.0302801Z env:
+2025-10-10T16:32:55.0303036Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:32:55.0303352Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:32:55.0303599Z   SENTRY_DSN: 
+2025-10-10T16:32:55.0303820Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:32:55.0304074Z   CL: /std:c++20 /EHsc
+2025-10-10T16:32:55.0304311Z   CXXFLAGS: -std=c++20
+2025-10-10T16:32:55.0304547Z ##[endgroup]
+2025-10-10T16:33:14.2199943Z npm warn skipping integrity check for git dependency ssh://git@github.com/electron/node-gyp.git
+2025-10-10T16:33:24.3215132Z npm warn deprecated readdir-scoped-modules@1.1.0: This functionality has been moved to @npmcli/fs
+2025-10-10T16:33:24.3395642Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2025-10-10T16:33:24.3457122Z npm warn deprecated debuglog@1.0.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2025-10-10T16:33:24.4349762Z npm warn deprecated npmlog@5.0.1: This package is no longer supported.
+2025-10-10T16:33:24.4561207Z npm warn deprecated @npmcli/move-file@2.0.1: This functionality has been moved to @npmcli/fs
+2025-10-10T16:33:24.6027355Z npm warn deprecated @humanwhocodes/config-array@0.5.0: Use @eslint/config-array instead
+2025-10-10T16:33:24.6530291Z npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+2025-10-10T16:33:24.7437953Z npm warn deprecated read-package-json@2.1.2: This package is no longer supported. Please use @npmcli/package-json instead.
+2025-10-10T16:33:24.8336136Z npm warn deprecated read-package-tree@5.3.1: The functionality that this package provided is now in @npmcli/arborist
+2025-10-10T16:33:24.8984147Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported
+2025-10-10T16:33:25.1844959Z npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+2025-10-10T16:33:25.4255007Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.4260546Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.4268007Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.4268875Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.4318862Z npm warn deprecated glob@8.1.0: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.4322133Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.4442228Z npm warn deprecated glob@8.1.0: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.4450069Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.9917842Z npm warn deprecated are-we-there-yet@2.0.0: This package is no longer supported.
+2025-10-10T16:33:27.8410108Z npm warn deprecated @humanwhocodes/object-schema@1.2.1: Use @eslint/object-schema instead
+2025-10-10T16:33:28.4719833Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2025-10-10T16:33:28.5413515Z npm warn deprecated gauge@3.0.2: This package is no longer supported.
+2025-10-10T16:33:31.7742503Z npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+2025-10-10T16:33:49.6126714Z npm warn deprecated eslint@7.32.0: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+2025-10-10T16:34:02.2814908Z npm warn cleanup Failed to remove some directories [
+2025-10-10T16:34:02.2815569Z npm warn cleanup   [
+2025-10-10T16:34:02.2816363Z npm warn cleanup     'D:\\a\\gametp\\gametp\\node_modules\\dmg-license\\node_modules\\json-schema-traverse',
+2025-10-10T16:34:02.2817891Z npm warn cleanup     [Error: EPERM: operation not permitted, rmdir 'D:\a\gametp\gametp\node_modules\dmg-license\node_modules\json-schema-traverse\spec'] {
+2025-10-10T16:34:02.2819093Z npm warn cleanup       errno: -4048,
+2025-10-10T16:34:02.2819600Z npm warn cleanup       code: 'EPERM',
+2025-10-10T16:34:02.2820114Z npm warn cleanup       syscall: 'rmdir',
+2025-10-10T16:34:02.2821073Z npm warn cleanup       path: 'D:\\a\\gametp\\gametp\\node_modules\\dmg-license\\node_modules\\json-schema-traverse\\spec'
+2025-10-10T16:34:02.2821848Z npm warn cleanup     }
+2025-10-10T16:34:02.2822197Z npm warn cleanup   ]
+2025-10-10T16:34:02.2822534Z npm warn cleanup ]
+2025-10-10T16:34:02.7549917Z 
+2025-10-10T16:34:02.7550645Z added 1927 packages, and audited 2176 packages in 59s
+2025-10-10T16:34:02.7553615Z 
+2025-10-10T16:34:02.7554116Z 414 packages are looking for funding
+2025-10-10T16:34:02.7554534Z   run `npm fund` for details
+2025-10-10T16:34:02.7728891Z 
+2025-10-10T16:34:02.7729619Z 15 vulnerabilities (5 low, 7 moderate, 3 high)
+2025-10-10T16:34:02.7729899Z 
+2025-10-10T16:34:02.7730575Z To address all issues, run:
+2025-10-10T16:34:02.7730840Z   npm audit fix
+2025-10-10T16:34:02.7730955Z 
+2025-10-10T16:34:02.7731069Z Run `npm audit` for details.
+2025-10-10T16:34:03.7966233Z ##[group]Run npx --yes @cyclonedx/cyclonedx-npm --output-file sbom.json --spec-version 1.5
+2025-10-10T16:34:03.7966894Z [36;1mnpx --yes @cyclonedx/cyclonedx-npm --output-file sbom.json --spec-version 1.5[0m
+2025-10-10T16:34:03.8030493Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:34:03.8030820Z env:
+2025-10-10T16:34:03.8031009Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:34:03.8031251Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:34:03.8031452Z   SENTRY_DSN: 
+2025-10-10T16:34:03.8031639Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:34:03.8031845Z   CL: /std:c++20 /EHsc
+2025-10-10T16:34:03.8032035Z   CXXFLAGS: -std=c++20
+2025-10-10T16:34:03.8032223Z ##[endgroup]
+2025-10-10T16:35:02.9880876Z ##[group]Run actions/upload-artifact@v4
+2025-10-10T16:35:02.9881232Z with:
+2025-10-10T16:35:02.9881494Z   name: sbom-cyclonedx
+2025-10-10T16:35:02.9881809Z   path: sbom.json
+2025-10-10T16:35:02.9882102Z   retention-days: 14
+2025-10-10T16:35:02.9882378Z   if-no-files-found: warn
+2025-10-10T16:35:02.9882650Z   compression-level: 6
+2025-10-10T16:35:02.9882873Z   overwrite: false
+2025-10-10T16:35:02.9883130Z   include-hidden-files: false
+2025-10-10T16:35:02.9883439Z env:
+2025-10-10T16:35:02.9883666Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:35:02.9883978Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:35:02.9884233Z   SENTRY_DSN: 
+2025-10-10T16:35:02.9884471Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:35:02.9884712Z   CL: /std:c++20 /EHsc
+2025-10-10T16:35:02.9884951Z   CXXFLAGS: -std=c++20
+2025-10-10T16:35:02.9885217Z ##[endgroup]
+2025-10-10T16:35:03.2755164Z With the provided path, there will be 1 file uploaded
+2025-10-10T16:35:03.2761021Z Artifact name is valid!
+2025-10-10T16:35:03.2763735Z Root directory input is valid!
+2025-10-10T16:35:03.4512325Z Beginning upload of artifact content to blob storage
+2025-10-10T16:35:03.8577203Z Uploaded bytes 427573
+2025-10-10T16:35:03.9017542Z Finished uploading artifact content to blob storage!
+2025-10-10T16:35:03.9022216Z SHA256 digest of uploaded artifact zip is 2800c66912a8b07d2a8ce97c8af969d641e58b6e712ecfca714c4140b21c00f6
+2025-10-10T16:35:03.9024446Z Finalizing artifact upload
+2025-10-10T16:35:04.0112283Z Artifact sbom-cyclonedx.zip successfully finalized. Artifact ID 4239342893
+2025-10-10T16:35:04.0113753Z Artifact sbom-cyclonedx has been successfully uploaded! Final size is 427573 bytes. Artifact ID is 4239342893
+2025-10-10T16:35:04.0127077Z Artifact download URL: https://github.com/skyoxu/gametp/actions/runs/18412530982/artifacts/4239342893
+2025-10-10T16:35:04.0425287Z Post job cleanup.
+2025-10-10T16:35:04.2011105Z (node:624) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-10-10T16:35:04.2012305Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-10-10T16:35:04.2019776Z Cache hit occurred on the primary key node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee, not saving cache.
+2025-10-10T16:35:04.2324480Z Post job cleanup.
+2025-10-10T16:35:04.4947432Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-10-10T16:35:04.5323636Z git version 2.51.0.windows.2
+2025-10-10T16:35:04.5418400Z Temporarily overriding HOME='D:\a\_temp\26cd5b61-9bc0-4b95-9ca9-7034ac090a4d' before making global git config changes
+2025-10-10T16:35:04.5419800Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-10T16:35:04.5433599Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\gametp\gametp
+2025-10-10T16:35:04.5802066Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-10-10T16:35:04.6149295Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-10-10T16:35:05.1825956Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-10T16:35:05.2132301Z http.https://github.com/.extraheader
+2025-10-10T16:35:05.2183159Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+2025-10-10T16:35:05.2518073Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-10-10T16:35:05.8832239Z Cleaning up orphan processes

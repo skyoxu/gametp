@@ -1,0 +1,69 @@
+﻿2025-10-10T17:10:34.6420666Z ##[group]Run npm ci
+2025-10-10T17:10:34.6420962Z [36;1mnpm ci[0m
+2025-10-10T17:10:34.6865805Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:10:34.6866154Z env:
+2025-10-10T17:10:34.6866330Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:10:34.6866573Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:10:34.6866754Z   SENTRY_DSN: 
+2025-10-10T17:10:34.6866925Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:10:34.6867131Z   CL: /std:c++20 /EHsc
+2025-10-10T17:10:34.6867306Z   CXXFLAGS: -std=c++20
+2025-10-10T17:10:34.6867480Z   SONAR_TOKEN: 
+2025-10-10T17:10:34.6867677Z   SONAR_HOST_URL: https://sonarcloud.io
+2025-10-10T17:10:34.6868296Z   JAVA_HOME: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.16-8\x64
+2025-10-10T17:10:34.6868888Z   JAVA_HOME_17_X64: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.16-8\x64
+2025-10-10T17:10:34.6869377Z ##[endgroup]
+2025-10-10T17:10:51.3618148Z npm warn skipping integrity check for git dependency ssh://git@github.com/electron/node-gyp.git
+2025-10-10T17:11:01.5417437Z npm warn deprecated readdir-scoped-modules@1.1.0: This functionality has been moved to @npmcli/fs
+2025-10-10T17:11:01.5689994Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2025-10-10T17:11:01.5800114Z npm warn deprecated debuglog@1.0.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2025-10-10T17:11:01.6851859Z npm warn deprecated npmlog@5.0.1: This package is no longer supported.
+2025-10-10T17:11:01.7017813Z npm warn deprecated @npmcli/move-file@2.0.1: This functionality has been moved to @npmcli/fs
+2025-10-10T17:11:01.8080575Z npm warn deprecated @humanwhocodes/config-array@0.5.0: Use @eslint/config-array instead
+2025-10-10T17:11:01.8610023Z npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+2025-10-10T17:11:01.9484147Z npm warn deprecated read-package-json@2.1.2: This package is no longer supported. Please use @npmcli/package-json instead.
+2025-10-10T17:11:02.1676276Z npm warn deprecated read-package-tree@5.3.1: The functionality that this package provided is now in @npmcli/arborist
+2025-10-10T17:11:02.2111896Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported
+2025-10-10T17:11:02.4788808Z npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+2025-10-10T17:11:02.7370559Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T17:11:02.7373224Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T17:11:02.7377681Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T17:11:02.7386140Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T17:11:02.7443815Z npm warn deprecated glob@8.1.0: Glob versions prior to v9 are no longer supported
+2025-10-10T17:11:02.7457968Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T17:11:02.7554700Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T17:11:02.7562066Z npm warn deprecated glob@8.1.0: Glob versions prior to v9 are no longer supported
+2025-10-10T17:11:03.3131570Z npm warn deprecated are-we-there-yet@2.0.0: This package is no longer supported.
+2025-10-10T17:11:05.4392393Z npm warn deprecated @humanwhocodes/object-schema@1.2.1: Use @eslint/object-schema instead
+2025-10-10T17:11:06.2376539Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2025-10-10T17:11:06.4466958Z npm warn deprecated gauge@3.0.2: This package is no longer supported.
+2025-10-10T17:11:09.8070685Z npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+2025-10-10T17:11:28.9268025Z npm warn deprecated eslint@7.32.0: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+2025-10-10T17:11:50.0613261Z npm warn cleanup Failed to remove some directories [
+2025-10-10T17:11:50.0613954Z npm warn cleanup   [
+2025-10-10T17:11:50.0614662Z npm warn cleanup     'D:\\a\\gametp\\gametp\\node_modules\\dmg-license\\node_modules\\ajv',
+2025-10-10T17:11:50.0616455Z npm warn cleanup     [Error: EPERM: operation not permitted, rmdir 'D:\a\gametp\gametp\node_modules\dmg-license\node_modules\ajv\lib'] {
+2025-10-10T17:11:50.0618786Z npm warn cleanup       errno: -4048,
+2025-10-10T17:11:50.0619284Z npm warn cleanup       code: 'EPERM',
+2025-10-10T17:11:50.0619767Z npm warn cleanup       syscall: 'rmdir',
+2025-10-10T17:11:50.0620626Z npm warn cleanup       path: 'D:\\a\\gametp\\gametp\\node_modules\\dmg-license\\node_modules\\ajv\\lib'
+2025-10-10T17:11:50.0621346Z npm warn cleanup     }
+2025-10-10T17:11:50.0621716Z npm warn cleanup   ]
+2025-10-10T17:11:50.0622020Z npm warn cleanup ]
+2025-10-10T17:11:50.5325447Z 
+2025-10-10T17:11:50.5326015Z > gametp@0.1.0 postinstall
+2025-10-10T17:11:50.5326398Z > node scripts/ci/patch-tree-sitter.js
+2025-10-10T17:11:50.5326581Z 
+2025-10-10T17:11:50.6054209Z [patch-tree-sitter] Updated C++ standard flag in node_modules/tree-sitter/binding.gyp
+2025-10-10T17:11:50.6611497Z 
+2025-10-10T17:11:50.6613237Z added 1927 packages, and audited 2176 packages in 1m
+2025-10-10T17:11:50.6613758Z 
+2025-10-10T17:11:50.6614274Z 414 packages are looking for funding
+2025-10-10T17:11:50.6615382Z   run `npm fund` for details
+2025-10-10T17:11:50.6826525Z 
+2025-10-10T17:11:50.6827220Z 15 vulnerabilities (5 low, 7 moderate, 3 high)
+2025-10-10T17:11:50.6827658Z 
+2025-10-10T17:11:50.6827869Z To address all issues, run:
+2025-10-10T17:11:50.6828246Z   npm audit fix
+2025-10-10T17:11:50.6828518Z 
+2025-10-10T17:11:50.6828696Z Run `npm audit` for details.

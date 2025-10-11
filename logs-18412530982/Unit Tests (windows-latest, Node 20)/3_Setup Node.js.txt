@@ -1,0 +1,38 @@
+﻿2025-10-10T16:35:35.5620510Z ##[group]Run actions/setup-node@v5.0.0
+2025-10-10T16:35:35.5620849Z with:
+2025-10-10T16:35:35.5621011Z   node-version: 20.x
+2025-10-10T16:35:35.5621197Z   cache: npm
+2025-10-10T16:35:35.5621357Z   always-auth: false
+2025-10-10T16:35:35.5621541Z   check-latest: false
+2025-10-10T16:35:35.5621855Z   token: ***
+2025-10-10T16:35:35.5622028Z   package-manager-cache: true
+2025-10-10T16:35:35.5622223Z env:
+2025-10-10T16:35:35.5622365Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:35:35.5622593Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:35:35.5622762Z   SENTRY_DSN: 
+2025-10-10T16:35:35.5622921Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:35:35.5623112Z   CL: /std:c++20 /EHsc
+2025-10-10T16:35:35.5623277Z   CXXFLAGS: -std=c++20
+2025-10-10T16:35:35.5623446Z   NODE_ENV: development
+2025-10-10T16:35:35.5623624Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:35:35.5623841Z ##[endgroup]
+2025-10-10T16:35:35.7410191Z Found in cache @ C:\hostedtoolcache\windows\node\20.19.5\x64
+2025-10-10T16:35:35.7417741Z (node:4712) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-10-10T16:35:35.7418359Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-10-10T16:35:35.7421327Z ##[group]Environment details
+2025-10-10T16:35:39.5539146Z node: v20.19.5
+2025-10-10T16:35:39.5539491Z npm: 10.8.2
+2025-10-10T16:35:39.5539712Z yarn: 1.22.22
+2025-10-10T16:35:39.5541070Z ##[endgroup]
+2025-10-10T16:35:39.6341434Z [command]C:\Windows\system32\cmd.exe /D /S /C "C:\hostedtoolcache\windows\node\20.19.5\x64\npm.cmd config get cache"
+2025-10-10T16:35:39.9621319Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:35:40.2083280Z C:\npm\cache
+2025-10-10T16:35:40.4422842Z Cache hit for: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee
+2025-10-10T16:35:40.4546846Z (node:4712) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2025-10-10T16:35:41.5124386Z Received 134217728 of 315413375 (42.6%), 126.9 MBs/sec
+2025-10-10T16:35:42.5127026Z Received 276824064 of 315413375 (87.8%), 131.3 MBs/sec
+2025-10-10T16:35:42.7143394Z Received 315413375 of 315413375 (100.0%), 135.9 MBs/sec
+2025-10-10T16:35:42.7146710Z Cache Size: ~301 MB (315413375 B)
+2025-10-10T16:35:42.7228274Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/3371b3f3-a4fc-46fd-b3fc-baeafca002b8/cache.tzst -P -C D:/a/gametp/gametp --force-local --use-compress-program "zstd -d"
+2025-10-10T16:35:54.2385657Z Cache restored successfully
+2025-10-10T16:35:54.2646118Z Cache restored from key: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee

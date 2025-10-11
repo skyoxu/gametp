@@ -1,0 +1,36 @@
+﻿2025-10-10T16:38:44.4140439Z ##[group]Run actions/setup-java@v4
+2025-10-10T16:38:44.4140755Z with:
+2025-10-10T16:38:44.4140927Z   distribution: temurin
+2025-10-10T16:38:44.4141115Z   java-version: 17
+2025-10-10T16:38:44.4141296Z   java-package: jdk
+2025-10-10T16:38:44.4141474Z   check-latest: false
+2025-10-10T16:38:44.4141639Z   server-id: github
+2025-10-10T16:38:44.4141821Z   server-username: GITHUB_ACTOR
+2025-10-10T16:38:44.4142065Z   server-password: GITHUB_TOKEN
+2025-10-10T16:38:44.4142266Z   overwrite-settings: true
+2025-10-10T16:38:44.4142459Z   job-status: success
+2025-10-10T16:38:44.4142758Z   token: ***
+2025-10-10T16:38:44.4142918Z env:
+2025-10-10T16:38:44.4143070Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:44.4143318Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:44.4143506Z   SENTRY_DSN: 
+2025-10-10T16:38:44.4143668Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:44.4143874Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:44.4144051Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:44.4144210Z   SONAR_TOKEN: 
+2025-10-10T16:38:44.4144435Z   SONAR_HOST_URL: https://sonarcloud.io
+2025-10-10T16:38:44.4144902Z ##[endgroup]
+2025-10-10T16:38:44.6739943Z ##[group]Installed distributions
+2025-10-10T16:38:44.7005306Z Resolved Java 17.0.16+8 from tool-cache
+2025-10-10T16:38:44.7005736Z Setting Java 17.0.16+8 as the default
+2025-10-10T16:38:44.7030439Z Creating toolchains.xml for JDK version 17 from temurin
+2025-10-10T16:38:44.7136537Z Writing to C:\Users\runneradmin\.m2\toolchains.xml
+2025-10-10T16:38:44.7170532Z 
+2025-10-10T16:38:44.7170761Z Java configuration:
+2025-10-10T16:38:44.7171719Z   Distribution: temurin
+2025-10-10T16:38:44.7172458Z   Version: 17.0.16+8
+2025-10-10T16:38:44.7173501Z   Path: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.16-8\x64
+2025-10-10T16:38:44.7174041Z 
+2025-10-10T16:38:44.7174429Z ##[endgroup]
+2025-10-10T16:38:44.7180206Z Creating settings.xml with server-id: github
+2025-10-10T16:38:44.7199617Z Writing to C:\Users\runneradmin\.m2\settings.xml

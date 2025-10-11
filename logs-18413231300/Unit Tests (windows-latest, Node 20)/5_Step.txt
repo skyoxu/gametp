@@ -1,0 +1,259 @@
+﻿2025-10-10T17:09:38.4478404Z Prepare all required actions
+2025-10-10T17:09:38.4539957Z ##[group]Run ./.github/actions/run-tests
+2025-10-10T17:09:38.4540210Z with:
+2025-10-10T17:09:38.4540369Z   test-type: coverage
+2025-10-10T17:09:38.4540534Z   timeout: 300000
+2025-10-10T17:09:38.4540680Z   fail-fast: true
+2025-10-10T17:09:38.4540826Z   reporter: default
+2025-10-10T17:09:38.4540972Z env:
+2025-10-10T17:09:38.4541119Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:09:38.4541334Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:09:38.4541511Z   SENTRY_DSN: 
+2025-10-10T17:09:38.4541673Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:09:38.4541867Z   CL: /std:c++20 /EHsc
+2025-10-10T17:09:38.4542038Z   CXXFLAGS: -std=c++20
+2025-10-10T17:09:38.4542194Z   NODE_ENV: test
+2025-10-10T17:09:38.4542365Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:09:38.4542562Z ##[endgroup]
+2025-10-10T17:09:38.4686907Z ##[group]Run node scripts/ci/run-tests.mjs --test-type "coverage" --timeout "300000" --fail-fast "true" --reporter "default" --output-file ""
+2025-10-10T17:09:38.4687820Z [36;1mnode scripts/ci/run-tests.mjs --test-type "coverage" --timeout "300000" --fail-fast "true" --reporter "default" --output-file ""[0m
+2025-10-10T17:09:38.4757020Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:09:38.4757470Z env:
+2025-10-10T17:09:38.4757635Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:09:38.4757875Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:09:38.4758062Z   SENTRY_DSN: 
+2025-10-10T17:09:38.4758226Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:09:38.4758435Z   CL: /std:c++20 /EHsc
+2025-10-10T17:09:38.4758620Z   CXXFLAGS: -std=c++20
+2025-10-10T17:09:38.4758787Z   NODE_ENV: test
+2025-10-10T17:09:38.4758963Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:09:38.4759160Z ##[endgroup]
+2025-10-10T17:09:38.7816656Z [run-tests] Start type=coverage
+2025-10-10T17:09:38.7821827Z [run-tests] Timeout=300000ms, FailFast=true, Reporter=default
+2025-10-10T17:09:38.7824068Z [run-tests] Executing: npm run test:coverage
+2025-10-10T17:10:04.8350526Z 
+2025-10-10T17:10:04.8351108Z > gametp@0.1.0 test:coverage
+2025-10-10T17:10:04.8351615Z > vitest run --coverage
+2025-10-10T17:10:04.8351821Z 
+2025-10-10T17:10:04.8351881Z 
+2025-10-10T17:10:04.8352566Z [1m[46m RUN [49m[22m [36mv3.2.4 [39m[90mD:/a/gametp/gametp[39m
+2025-10-10T17:10:04.8353209Z       [2mCoverage enabled with [22m[33mv8[39m
+2025-10-10T17:10:04.8353506Z 
+2025-10-10T17:10:04.8354071Z [90mstdout[2m | src/shared/adapters/sqlite.bak/__tests__/config-manager.spec.ts
+2025-10-10T17:10:04.8354857Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8355142Z 
+2025-10-10T17:10:04.8355772Z [90mstdout[2m | tests/unit/metrics.spec.ts
+2025-10-10T17:10:04.8356346Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8356645Z 
+2025-10-10T17:10:04.8356961Z [90mstdout[2m | tests/unit/risk.spec.ts
+2025-10-10T17:10:04.8357526Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8357810Z 
+2025-10-10T17:10:04.8359133Z  [32m✓[39m tests/unit/risk.spec.ts [2m([22m[2m29 tests[22m[2m)[22m[32m 39[2mms[22m[39m
+2025-10-10T17:10:04.8360871Z  [32m✓[39m src/shared/adapters/sqlite.bak/__tests__/config-manager.spec.ts [2m([22m[2m33 tests[22m[2m)[22m[32m 43[2mms[22m[39m
+2025-10-10T17:10:04.8362174Z  [32m✓[39m tests/unit/metrics.spec.ts [2m([22m[2m40 tests[22m[2m)[22m[32m 40[2mms[22m[39m
+2025-10-10T17:10:04.8362905Z [90mstdout[2m | tests/unit/glossary.spec.ts
+2025-10-10T17:10:04.8363243Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8363422Z 
+2025-10-10T17:10:04.8363609Z [90mstdout[2m | tests/unit/release.feed.spec.ts
+2025-10-10T17:10:04.8363961Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8364126Z 
+2025-10-10T17:10:04.8364321Z [90mstdout[2m | tests/unit/runtime.budget.spec.ts
+2025-10-10T17:10:04.8364667Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8364833Z 
+2025-10-10T17:10:04.8365172Z  [32m✓[39m tests/unit/glossary.spec.ts [2m([22m[2m40 tests[22m[2m)[22m[32m 53[2mms[22m[39m
+2025-10-10T17:10:04.8373260Z  [32m✓[39m tests/unit/runtime.budget.spec.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+2025-10-10T17:10:04.8374128Z [90mstdout[2m | src/shared/services/__tests__/event-bus.spec.ts
+2025-10-10T17:10:04.8374559Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8374735Z 
+2025-10-10T17:10:04.8374943Z [90mstdout[2m | tests/unit/repos.contract.spec.ts
+2025-10-10T17:10:04.8375293Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8375473Z 
+2025-10-10T17:10:04.8375853Z  [32m✓[39m tests/unit/repos.contract.spec.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+2025-10-10T17:10:04.8376596Z  [32m✓[39m src/shared/services/__tests__/event-bus.spec.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 32[2mms[22m[39m
+2025-10-10T17:10:04.8377284Z  [32m✓[39m tests/unit/release.feed.spec.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 2247[2mms[22m[39m
+2025-10-10T17:10:04.8378364Z    [33m[2m✓[22m[39m Release Feed Management[2m > [22mpatch-staging-percentage[2m > [22mshould handle percentage boundary values [33m 504[2mms[22m[39m
+2025-10-10T17:10:04.8379390Z    [33m[2m✓[22m[39m Release Feed Management[2m > [22mStaged Rollout Integration[2m > [22mshould handle full staged rollout lifecycle [33m 395[2mms[22m[39m
+2025-10-10T17:10:04.8380091Z [90mstdout[2m | src/game/__tests__/GameStateManager.test.ts
+2025-10-10T17:10:04.8380479Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8380654Z 
+2025-10-10T17:10:04.8380889Z [90mstdout[2m | tests/unit/gates.spec.ts
+2025-10-10T17:10:04.8381692Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8382327Z 
+2025-10-10T17:10:04.8382768Z  [32m✓[39m tests/unit/gates.spec.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+2025-10-10T17:10:04.8383469Z  [32m✓[39m src/game/__tests__/GameStateManager.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 131[2mms[22m[39m
+2025-10-10T17:10:04.8384004Z [90mstdout[2m | src/core/events/bus.test.ts
+2025-10-10T17:10:04.8384349Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8384520Z 
+2025-10-10T17:10:04.8384844Z  [32m✓[39m src/core/events/bus.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 245[2mms[22m[39m
+2025-10-10T17:10:04.8385639Z [90mstdout[2m | tests/unit/middleware/cloudevents-validation.spec.ts
+2025-10-10T17:10:04.8386078Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8386249Z 
+2025-10-10T17:10:04.8386488Z [90mstdout[2m | src/game/__tests__/GameEngineAdapter.test.ts
+2025-10-10T17:10:04.8386874Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8387046Z 
+2025-10-10T17:10:04.8387513Z  [32m✓[39m tests/unit/middleware/cloudevents-validation.spec.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 32[2mms[22m[39m
+2025-10-10T17:10:04.8388113Z [90mstdout[2m | tests/unit/db.checkpoint.spec.ts
+2025-10-10T17:10:04.8388474Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8388873Z 
+2025-10-10T17:10:04.8389289Z  [32m✓[39m src/game/__tests__/GameEngineAdapter.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 220[2mms[22m[39m
+2025-10-10T17:10:04.8390077Z  [32m✓[39m tests/unit/db.checkpoint.spec.ts [2m([22m[2m7 tests[22m[2m | [22m[33m1 skipped[39m[2m)[22m[33m 1047[2mms[22m[39m
+2025-10-10T17:10:04.8391066Z [90mstdout[2m | src/shared/middleware/__tests__/cloud-events-validator.spec.ts
+2025-10-10T17:10:04.8391540Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8391744Z 
+2025-10-10T17:10:04.8392336Z  [32m✓[39m src/shared/middleware/__tests__/cloud-events-validator.spec.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+2025-10-10T17:10:04.8392960Z [90mstdout[2m | tests/unit/perf.budget.spec.ts
+2025-10-10T17:10:04.8393305Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8393478Z 
+2025-10-10T17:10:04.8393822Z  [32m✓[39m tests/unit/perf.budget.spec.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+2025-10-10T17:10:04.8395019Z [90mstdout[2m | tests/unit/db.backup.spec.ts
+2025-10-10T17:10:04.8395360Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8395526Z 
+2025-10-10T17:10:04.8395962Z  [2m[90m↓[39m[22m tests/unit/db.backup.spec.ts [2m([22m[2m6 tests[22m[2m | [22m[33m6 skipped[39m[2m)[22m
+2025-10-10T17:10:04.8396494Z [90mstdout[2m | src/game/__tests__/SceneManager.test.ts
+2025-10-10T17:10:04.8396862Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8397033Z 
+2025-10-10T17:10:04.8397252Z [90mstdout[2m | tests/unit/contracts/cloudevents.spec.ts
+2025-10-10T17:10:04.8397615Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8397894Z 
+2025-10-10T17:10:04.8398388Z  [32m✓[39m src/game/__tests__/SceneManager.test.ts [2m([22m[2m18 tests[22m[2m)[22m[33m 305[2mms[22m[39m
+2025-10-10T17:10:04.8399112Z  [32m✓[39m tests/unit/contracts/cloudevents.spec.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+2025-10-10T17:10:04.8399689Z [90mstdout[2m | src/__tests__/p95-sampling-demo.test.ts
+2025-10-10T17:10:04.8400052Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8400226Z 
+2025-10-10T17:10:04.8400430Z [90mstdout[2m | src/__tests__/performance-utils.test.ts
+2025-10-10T17:10:04.8400784Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8400948Z 
+2025-10-10T17:10:04.8401146Z [90mstdout[2m | tests/unit/electron/security.spec.ts
+2025-10-10T17:10:04.8401489Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8401652Z 
+2025-10-10T17:10:04.8402009Z  [32m✓[39m tests/unit/electron/security.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+2025-10-10T17:10:04.8402681Z  [32m✓[39m src/__tests__/p95-sampling-demo.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+2025-10-10T17:10:04.8403194Z [90mstdout[2m | tests/unit/fuses.verify.spec.ts
+2025-10-10T17:10:04.8403541Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8403708Z 
+2025-10-10T17:10:04.8404039Z  [32m✓[39m tests/unit/fuses.verify.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 69[2mms[22m[39m
+2025-10-10T17:10:04.8404705Z  [32m✓[39m src/__tests__/performance-utils.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 740[2mms[22m[39m
+2025-10-10T17:10:04.8405946Z    [33m[2m✓[22m[39m P95 性能测试工具[2m > [22mPerformanceTestUtils 工厂方法[2m > [22mrunP95Test 应该执行指定次数的采样 [33m 513[2mms[22m[39m
+2025-10-10T17:10:04.8406449Z [90mstdout[2m | src/App.test.tsx
+2025-10-10T17:10:04.8406757Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8406920Z 
+2025-10-10T17:10:04.8407204Z  [32m✓[39m src/App.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[32m 215[2mms[22m[39m
+2025-10-10T17:10:04.8407652Z [90mstdout[2m | src/shared/contracts/events.spec.ts
+2025-10-10T17:10:04.8407999Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8408175Z 
+2025-10-10T17:10:04.8408525Z  [32m✓[39m src/shared/contracts/events.spec.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+2025-10-10T17:10:04.8409803Z [90mstdout[2m | tests/unit/ci/guard-tests-ascii.spec.ts
+2025-10-10T17:10:04.8410189Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8410360Z 
+2025-10-10T17:10:04.8410745Z  [32m✓[39m tests/unit/ci/guard-tests-ascii.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 206[2mms[22m[39m
+2025-10-10T17:10:04.8411283Z [90mstdout[2m | tests/unit/fuses.evaluate.spec.ts
+2025-10-10T17:10:04.8411634Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8411798Z 
+2025-10-10T17:10:04.8411996Z [90mstdout[2m | tests/unit/ci/fix-bom-tests.spec.ts
+2025-10-10T17:10:04.8412344Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8412509Z 
+2025-10-10T17:10:04.8412854Z  [32m✓[39m tests/unit/fuses.evaluate.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 81[2mms[22m[39m
+2025-10-10T17:10:04.8413645Z  [32m✓[39m tests/unit/ci/fix-bom-tests.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 105[2mms[22m[39m
+2025-10-10T17:10:04.8414220Z [90mstdout[2m | tests/unit/observability/sentry-scrub.spec.ts
+2025-10-10T17:10:04.8414612Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8414785Z 
+2025-10-10T17:10:04.8415201Z  [32m✓[39m tests/unit/observability/sentry-scrub.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+2025-10-10T17:10:04.8415736Z [90mstdout[2m | tests/unit/validation.spec.ts
+2025-10-10T17:10:04.8416072Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8416249Z 
+2025-10-10T17:10:04.8416443Z [90mstdout[2m | tests/unit/security.params.spec.ts
+2025-10-10T17:10:04.8416800Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8416963Z 
+2025-10-10T17:10:04.8417290Z  [32m✓[39m tests/unit/validation.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+2025-10-10T17:10:04.8417992Z  [32m✓[39m tests/unit/security.params.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+2025-10-10T17:10:04.8418700Z [90mstdout[2m | tests/unit/events/contracts.spec.ts
+2025-10-10T17:10:04.8419056Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8419227Z 
+2025-10-10T17:10:04.8419456Z [90mstdout[2m | src/tests/docs-scorer-performance.test.mjs
+2025-10-10T17:10:04.8419829Z [22m[39mVitest test environment initialized
+2025-10-10T17:10:04.8419990Z 
+2025-10-10T17:10:04.8420337Z  [32m✓[39m tests/unit/events/contracts.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 5[2mms[22m[39m
+2025-10-10T17:10:04.8421213Z  [32m✓[39m src/tests/docs-scorer-performance.test.mjs [2m([22m[2m6 tests[22m[2m)[22m[33m 579[2mms[22m[39m
+2025-10-10T17:10:04.8421590Z 
+2025-10-10T17:10:04.8421785Z [2m  Snapshots [22m [1m[33m1 obsolete[39m[22m
+2025-10-10T17:10:04.8422237Z [2m            [22m [90m↳[39m [2msrc/[22m[1mApp[22m[2m.test.tsx[22m
+2025-10-10T17:10:04.8422761Z [2m            [22m   [90m·[39m App 组件 > 快照测试 > 应该匹配快照 1
+2025-10-10T17:10:04.8422951Z 
+2025-10-10T17:10:04.8423295Z [2m Test Files [22m [1m[32m32 passed[39m[22m[2m | [22m[33m1 skipped[39m[90m (33)[39m
+2025-10-10T17:10:04.8423878Z [2m      Tests [22m [1m[32m428 passed[39m[22m[2m | [22m[33m7 skipped[39m[90m (435)[39m
+2025-10-10T17:10:04.8424283Z [2m   Start at [22m 17:09:39
+2025-10-10T17:10:04.8424881Z [2m   Duration [22m 24.67s[2m (transform 1.23s, setup 10.48s, collect 5.54s, tests 6.59s, environment 31.09s, prepare 5.87s)[22m
+2025-10-10T17:10:04.8425242Z 
+2025-10-10T17:10:04.8425652Z [34m % [39m[2mCoverage report from [22m[33mv8[39m
+2025-10-10T17:10:04.8426071Z -------------------|---------|----------|---------|---------|-------------------
+2025-10-10T17:10:04.8426706Z File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+2025-10-10T17:10:04.8427397Z -------------------|---------|----------|---------|---------|-------------------
+2025-10-10T17:10:04.8427819Z All files          |   74.91 |    79.62 |   77.21 |   74.91 |                   
+2025-10-10T17:10:04.8428339Z  electron          |      22 |    42.85 |      30 |      22 |                   
+2025-10-10T17:10:04.8428685Z   security.ts      |      22 |    42.85 |      30 |      22 | ...17-318,321-322 
+2025-10-10T17:10:04.8429021Z  scripts           |    73.7 |    70.88 |      80 |    73.7 |                   
+2025-10-10T17:10:04.8429383Z   docs-scorer.mjs  |   75.32 |    72.85 |    87.5 |   75.32 | ...68-612,619-620 
+2025-10-10T17:10:04.8429739Z   fuses.js         |   66.66 |    55.55 |      50 |   66.66 | ...08-110,137-139 
+2025-10-10T17:10:04.8430134Z  src/core/events   |     100 |    93.33 |     100 |     100 |                   
+2025-10-10T17:10:04.8430483Z   bus.ts           |     100 |    93.33 |     100 |     100 | 41                
+2025-10-10T17:10:04.8430806Z  src/game          |   72.63 |    80.18 |   85.45 |   72.63 |                   
+2025-10-10T17:10:04.8431152Z   ...ineAdapter.ts |   65.09 |    79.54 |   74.19 |   65.09 | ...96-621,650-731 
+2025-10-10T17:10:04.8431655Z   SceneManager.ts  |    91.4 |    80.59 |     100 |    91.4 | ...53,272-273,325 
+2025-10-10T17:10:04.8432035Z  ...ts__/__mocks__ |     100 |      100 |      60 |     100 |                   
+2025-10-10T17:10:04.8432445Z   phaser.ts        |     100 |      100 |      60 |     100 |                   
+2025-10-10T17:10:04.8432812Z  src/game/assets   |   36.84 |      100 |       0 |   36.84 |                   
+2025-10-10T17:10:04.8433189Z   ...e-pipeline.ts |   36.84 |      100 |       0 |   36.84 | 26-38             
+2025-10-10T17:10:04.8433565Z  src/game/state    |   63.79 |    79.68 |   71.79 |   63.79 |                   
+2025-10-10T17:10:04.8433942Z   ...ateManager.ts |   84.53 |    83.67 |     100 |   84.53 | ...80-389,417-418 
+2025-10-10T17:10:04.8434309Z   ...nchronizer.ts |   42.08 |    66.66 |      45 |   42.08 | ...96-397,407-408 
+2025-10-10T17:10:04.8434668Z  src/runtime       |      96 |    71.42 |     100 |      96 |                   
+2025-10-10T17:10:04.8435016Z   loop.ts          |   93.75 |       70 |     100 |   93.75 | 26-27             
+2025-10-10T17:10:04.8435343Z   state.ts         |     100 |       75 |     100 |     100 | 17                
+2025-10-10T17:10:04.8436066Z  ...ers/sqlite.bak |    95.4 |    83.33 |     100 |    95.4 |                   
+2025-10-10T17:10:04.8436482Z   ...ig-manager.ts |    95.4 |    83.33 |     100 |    95.4 | ...13-416,421-422 
+2025-10-10T17:10:04.8436985Z  ...ared/contracts |   91.38 |    86.02 |   71.42 |   91.38 |                   
+2025-10-10T17:10:04.8437425Z   build.ts         |   98.16 |    71.42 |     100 |   98.16 | 236,244           
+2025-10-10T17:10:04.8437775Z   ...vents-core.ts |   64.63 |      100 |   44.44 |   64.63 | ...34-136,139-142 
+2025-10-10T17:10:04.8438132Z   events.ts        |   84.37 |    65.38 |   55.55 |   84.37 | ...73-375,383-385 
+2025-10-10T17:10:04.8438474Z   glossary.ts      |   99.09 |      100 |   85.71 |   99.09 | 372-373           
+2025-10-10T17:10:04.8438833Z   metrics.ts       |   95.43 |    85.18 |   83.33 |   95.43 | 263-267,272-280   
+2025-10-10T17:10:04.8439174Z   perf.ts          |     100 |      100 |     100 |     100 |                   
+2025-10-10T17:10:04.8439506Z   repos.ts         |   69.44 |      100 |      50 |   69.44 | ...52-359,403-409 
+2025-10-10T17:10:04.8439840Z   runtime.ts       |   95.23 |     82.6 |     100 |   95.23 | 214-215,223-224   
+2025-10-10T17:10:04.8440191Z   validation.js    |     100 |      100 |     100 |     100 |                   
+2025-10-10T17:10:04.8440564Z  ...ntracts/events |     100 |      100 |     100 |     100 |                   
+2025-10-10T17:10:04.8441125Z   GameEvents.ts    |     100 |      100 |     100 |     100 |                   
+2025-10-10T17:10:04.8441506Z  src/shared/events |   42.29 |    46.15 |   42.85 |   42.29 |                   
+2025-10-10T17:10:04.8441882Z   EventBus.ts      |   42.29 |    46.15 |   42.85 |   42.29 | ...43-345,351-353 
+2025-10-10T17:10:04.8442249Z  ...red/middleware |   73.47 |    85.57 |   86.84 |   73.47 |                   
+2025-10-10T17:10:04.8442771Z   ...-validator.ts |   93.98 |    88.13 |     100 |   93.98 | ...52-253,265-266 
+2025-10-10T17:10:04.8443154Z   ...validation.ts |   62.46 |    82.22 |      80 |   62.46 | ...27-472,479-503 
+2025-10-10T17:10:04.8443539Z  ...hared/services |   84.97 |    81.57 |     100 |   84.97 |                   
+2025-10-10T17:10:04.8443908Z   event-bus.ts     |   84.97 |    81.57 |     100 |   84.97 | ...11-212,292-303 
+2025-10-10T17:10:04.8444275Z  tests/utils       |   50.95 |    78.78 |   66.66 |   50.95 |                   
+2025-10-10T17:10:04.8444639Z   ...eTestUtils.ts |   50.95 |    78.78 |   66.66 |   50.95 | ...85-200,213-239 
+2025-10-10T17:10:04.8445029Z -------------------|---------|----------|---------|---------|-------------------
+2025-10-10T17:10:04.8445468Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T17:10:04.8445763Z [run-tests] Completed: PASS
+2025-10-10T17:10:04.9523666Z ##[group]Run if ('success' -eq 'success') {
+2025-10-10T17:10:04.9523983Z [36;1mif ('success' -eq 'success') {[0m
+2025-10-10T17:10:04.9524247Z [36;1m  Write-Host '[tests] Status: PASS'[0m
+2025-10-10T17:10:04.9524482Z [36;1m} else {[0m
+2025-10-10T17:10:04.9524672Z [36;1m  Write-Host '[tests] Status: FAIL'[0m
+2025-10-10T17:10:04.9524887Z [36;1m}[0m
+2025-10-10T17:10:04.9525049Z [36;1mif ('coverage/' -ne '') {[0m
+2025-10-10T17:10:04.9525312Z [36;1m  Write-Host "[tests] Report path: coverage/"[0m
+2025-10-10T17:10:04.9525555Z [36;1m}[0m
+2025-10-10T17:10:04.9592816Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:10:04.9593151Z env:
+2025-10-10T17:10:04.9593313Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:10:04.9593550Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:10:04.9593740Z   SENTRY_DSN: 
+2025-10-10T17:10:04.9593902Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:10:04.9594104Z   CL: /std:c++20 /EHsc
+2025-10-10T17:10:04.9594305Z   CXXFLAGS: -std=c++20
+2025-10-10T17:10:04.9594469Z   NODE_ENV: test
+2025-10-10T17:10:04.9594656Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:10:04.9594848Z ##[endgroup]
+2025-10-10T17:10:05.2778063Z [tests] Status: PASS
+2025-10-10T17:10:05.2790395Z [tests] Report path: coverage/

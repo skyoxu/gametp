@@ -1,0 +1,1047 @@
+﻿2025-10-10T16:35:30.2467459Z Current runner version: '2.328.0'
+2025-10-10T16:35:30.2502445Z ##[group]Runner Image Provisioner
+2025-10-10T16:35:30.2503726Z Hosted Compute Agent
+2025-10-10T16:35:30.2504623Z Version: 20250912.392
+2025-10-10T16:35:30.2505590Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-10T16:35:30.2507150Z Build Date: 2025-09-12T15:23:14Z
+2025-10-10T16:35:30.2508089Z ##[endgroup]
+2025-10-10T16:35:30.2508836Z ##[group]Operating System
+2025-10-10T16:35:30.2509770Z Microsoft Windows Server 2025
+2025-10-10T16:35:30.2510603Z 10.0.26100
+2025-10-10T16:35:30.2511272Z Datacenter
+2025-10-10T16:35:30.2511970Z ##[endgroup]
+2025-10-10T16:35:30.2512738Z ##[group]Runner Image
+2025-10-10T16:35:30.2513510Z Image: windows-2025
+2025-10-10T16:35:30.2514386Z Version: 20250929.44.1
+2025-10-10T16:35:30.2516064Z Included Software: https://github.com/actions/runner-images/blob/win25/20250929.44/images/windows/Windows2025-Readme.md
+2025-10-10T16:35:30.2519033Z Image Release: https://github.com/actions/runner-images/releases/tag/win25%2F20250929.44
+2025-10-10T16:35:30.2520702Z ##[endgroup]
+2025-10-10T16:35:30.2522420Z ##[group]GITHUB_TOKEN Permissions
+2025-10-10T16:35:30.2524877Z Actions: read
+2025-10-10T16:35:30.2525653Z Contents: read
+2025-10-10T16:35:30.2526384Z Metadata: read
+2025-10-10T16:35:30.2527616Z ##[endgroup]
+2025-10-10T16:35:30.2530653Z Secret source: Actions
+2025-10-10T16:35:30.2531816Z Prepare workflow directory
+2025-10-10T16:35:30.2954635Z Prepare all required actions
+2025-10-10T16:35:30.2992574Z Getting action download info
+2025-10-10T16:35:30.5164317Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-10T16:35:30.6600340Z Download action repository 'actions/setup-node@v5.0.0' (SHA:a0853c24544627f65ddf259abe73b1d18a591444)
+2025-10-10T16:35:30.9491210Z Complete job name: Quality Gates Check
+2025-10-10T16:35:31.1300085Z ##[group]Run actions/checkout@v4
+2025-10-10T16:35:31.1301183Z with:
+2025-10-10T16:35:31.1301548Z   fetch-depth: 0
+2025-10-10T16:35:31.1301964Z   repository: skyoxu/gametp
+2025-10-10T16:35:31.1302544Z   token: ***
+2025-10-10T16:35:31.1302894Z   ssh-strict: true
+2025-10-10T16:35:31.1303261Z   ssh-user: git
+2025-10-10T16:35:31.1303628Z   persist-credentials: true
+2025-10-10T16:35:31.1304047Z   clean: true
+2025-10-10T16:35:31.1304410Z   sparse-checkout-cone-mode: true
+2025-10-10T16:35:31.1304854Z   fetch-tags: false
+2025-10-10T16:35:31.1305214Z   show-progress: true
+2025-10-10T16:35:31.1305801Z   lfs: false
+2025-10-10T16:35:31.1306138Z   submodules: false
+2025-10-10T16:35:31.1306511Z   set-safe-directory: true
+2025-10-10T16:35:31.1307153Z env:
+2025-10-10T16:35:31.1307494Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:35:31.1307968Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:35:31.1308351Z   SENTRY_DSN: 
+2025-10-10T16:35:31.1308738Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:35:31.1309164Z   CL: /std:c++20 /EHsc
+2025-10-10T16:35:31.1309557Z   CXXFLAGS: -std=c++20
+2025-10-10T16:35:31.1309935Z   NODE_ENV: development
+2025-10-10T16:35:31.1310334Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:35:31.1310750Z ##[endgroup]
+2025-10-10T16:35:31.3219667Z Syncing repository: skyoxu/gametp
+2025-10-10T16:35:31.3221501Z ##[group]Getting Git version info
+2025-10-10T16:35:31.3222307Z Working directory is 'D:\a\gametp\gametp'
+2025-10-10T16:35:31.4438138Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-10-10T16:35:31.8987579Z git version 2.51.0.windows.2
+2025-10-10T16:35:31.9043795Z ##[endgroup]
+2025-10-10T16:35:31.9066601Z Temporarily overriding HOME='D:\a\_temp\cdc14179-a5ed-40e1-aedc-edbce3c40917' before making global git config changes
+2025-10-10T16:35:31.9068878Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-10T16:35:31.9078424Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\gametp\gametp
+2025-10-10T16:35:31.9648160Z Deleting the contents of 'D:\a\gametp\gametp'
+2025-10-10T16:35:31.9656340Z ##[group]Initializing the repository
+2025-10-10T16:35:31.9669467Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\gametp\gametp
+2025-10-10T16:35:32.0889645Z Initialized empty Git repository in D:/a/gametp/gametp/.git/
+2025-10-10T16:35:32.0934595Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/skyoxu/gametp
+2025-10-10T16:35:32.1523839Z ##[endgroup]
+2025-10-10T16:35:32.1524886Z ##[group]Disabling automatic garbage collection
+2025-10-10T16:35:32.1532999Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2025-10-10T16:35:32.1820606Z ##[endgroup]
+2025-10-10T16:35:32.1821611Z ##[group]Setting up auth
+2025-10-10T16:35:32.1835288Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-10-10T16:35:32.2128051Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-10-10T16:35:33.9320200Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-10T16:35:33.9609034Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-10-10T16:35:34.4488974Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2025-10-10T16:35:34.4787242Z ##[endgroup]
+2025-10-10T16:35:34.4787932Z ##[group]Fetching the repository
+2025-10-10T16:35:34.4804988Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +1a64442db4a5e073e50677e36ddf882284d88302:refs/remotes/pull/13/merge
+2025-10-10T16:35:36.0489341Z From https://github.com/skyoxu/gametp
+2025-10-10T16:35:36.0491696Z  * [new branch]      dependabot/npm_and_yarn/brave/brave-search-mcp-server-2.0.54 -> origin/dependabot/npm_and_yarn/brave/brave-search-mcp-server-2.0.54
+2025-10-10T16:35:36.0493333Z  * [new branch]      dependabot/npm_and_yarn/commitlint/cli-20.1.0 -> origin/dependabot/npm_and_yarn/commitlint/cli-20.1.0
+2025-10-10T16:35:36.0495041Z  * [new branch]      dependabot/npm_and_yarn/eslint-plugin-react-refresh-0.4.23 -> origin/dependabot/npm_and_yarn/eslint-plugin-react-refresh-0.4.23
+2025-10-10T16:35:36.0496648Z  * [new branch]      dependabot/npm_and_yarn/multi-1d6e8a99d3 -> origin/dependabot/npm_and_yarn/multi-1d6e8a99d3
+2025-10-10T16:35:36.0497874Z  * [new branch]      dependabot/npm_and_yarn/multi-dcae87122d -> origin/dependabot/npm_and_yarn/multi-dcae87122d
+2025-10-10T16:35:36.0499277Z  * [new branch]      dependabot/npm_and_yarn/playwright/test-1.56.0 -> origin/dependabot/npm_and_yarn/playwright/test-1.56.0
+2025-10-10T16:35:36.0500676Z  * [new branch]      dependabot/npm_and_yarn/size-limit/file-11.2.0 -> origin/dependabot/npm_and_yarn/size-limit/file-11.2.0
+2025-10-10T16:35:36.0501979Z  * [new branch]      dependabot/npm_and_yarn/snyk-1.1299.1    -> origin/dependabot/npm_and_yarn/snyk-1.1299.1
+2025-10-10T16:35:36.0503597Z  * [new branch]      dependabot/npm_and_yarn/tsx-4.20.6       -> origin/dependabot/npm_and_yarn/tsx-4.20.6
+2025-10-10T16:35:36.0505084Z  * [new branch]      dependabot/npm_and_yarn/typescript-5.9.3 -> origin/dependabot/npm_and_yarn/typescript-5.9.3
+2025-10-10T16:35:36.0506424Z  * [new branch]      dependabot/npm_and_yarn/vitejs/plugin-react-5.0.4 -> origin/dependabot/npm_and_yarn/vitejs/plugin-react-5.0.4
+2025-10-10T16:35:36.0507642Z  * [new branch]      dependabot/snyk-1.1299.1                 -> origin/dependabot/snyk-1.1299.1
+2025-10-10T16:35:36.0508474Z  * [new branch]      main                                     -> origin/main
+2025-10-10T16:35:36.0509215Z  * [new branch]      snyk-fix                                 -> origin/snyk-fix
+2025-10-10T16:35:36.0511360Z  * [new ref]         1a64442db4a5e073e50677e36ddf882284d88302 -> pull/13/merge
+2025-10-10T16:35:36.0833675Z ##[endgroup]
+2025-10-10T16:35:36.0834289Z ##[group]Determining the checkout info
+2025-10-10T16:35:36.0835278Z ##[endgroup]
+2025-10-10T16:35:36.0847643Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2025-10-10T16:35:36.1359987Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2025-10-10T16:35:36.1637139Z ##[group]Checking out the ref
+2025-10-10T16:35:36.1646708Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/13/merge
+2025-10-10T16:35:36.4398820Z Note: switching to 'refs/remotes/pull/13/merge'.
+2025-10-10T16:35:36.4399743Z 
+2025-10-10T16:35:36.4400364Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-10-10T16:35:36.4401212Z changes and commit them, and you can discard any commits you make in this
+2025-10-10T16:35:36.4401988Z state without impacting any branches by switching back to a branch.
+2025-10-10T16:35:36.4402442Z 
+2025-10-10T16:35:36.4402693Z If you want to create a new branch to retain commits you create, you may
+2025-10-10T16:35:36.4403346Z do so (now or later) by using -c with the switch command. Example:
+2025-10-10T16:35:36.4403732Z 
+2025-10-10T16:35:36.4403878Z   git switch -c <new-branch-name>
+2025-10-10T16:35:36.4404514Z 
+2025-10-10T16:35:36.4404649Z Or undo this operation with:
+2025-10-10T16:35:36.4404902Z 
+2025-10-10T16:35:36.4405013Z   git switch -
+2025-10-10T16:35:36.4405178Z 
+2025-10-10T16:35:36.4405450Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-10-10T16:35:36.4405914Z 
+2025-10-10T16:35:36.4406470Z HEAD is now at 1a64442 Merge 49a95a27bfbb9c910dbd39ede44caa8cbfdd17cb into e1a2702b992654c40fdf749cd29695642d416d4b
+2025-10-10T16:35:36.4446511Z ##[endgroup]
+2025-10-10T16:35:36.4844090Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2025-10-10T16:35:36.5107393Z 1a64442db4a5e073e50677e36ddf882284d88302
+2025-10-10T16:35:36.5512060Z ##[group]Run actions/setup-node@v5.0.0
+2025-10-10T16:35:36.5512400Z with:
+2025-10-10T16:35:36.5512562Z   node-version: 20.x
+2025-10-10T16:35:36.5512743Z   cache: npm
+2025-10-10T16:35:36.5512902Z   always-auth: false
+2025-10-10T16:35:36.5513072Z   check-latest: false
+2025-10-10T16:35:36.5513387Z   token: ***
+2025-10-10T16:35:36.5513562Z   package-manager-cache: true
+2025-10-10T16:35:36.5513755Z env:
+2025-10-10T16:35:36.5513936Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:35:36.5514161Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:35:36.5514331Z   SENTRY_DSN: 
+2025-10-10T16:35:36.5514493Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:35:36.5514679Z   CL: /std:c++20 /EHsc
+2025-10-10T16:35:36.5514848Z   CXXFLAGS: -std=c++20
+2025-10-10T16:35:36.5515010Z   NODE_ENV: development
+2025-10-10T16:35:36.5515194Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:35:36.5515372Z ##[endgroup]
+2025-10-10T16:35:36.7601449Z Found in cache @ C:\hostedtoolcache\windows\node\20.19.5\x64
+2025-10-10T16:35:36.7609307Z (node:1388) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-10-10T16:35:36.7609904Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-10-10T16:35:36.7612627Z ##[group]Environment details
+2025-10-10T16:35:47.5434223Z node: v20.19.5
+2025-10-10T16:35:47.5434537Z npm: 10.8.2
+2025-10-10T16:35:47.5434759Z yarn: 1.22.22
+2025-10-10T16:35:47.5435740Z ##[endgroup]
+2025-10-10T16:35:47.6244898Z [command]C:\Windows\system32\cmd.exe /D /S /C "C:\hostedtoolcache\windows\node\20.19.5\x64\npm.cmd config get cache"
+2025-10-10T16:35:47.9178489Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:35:48.3633098Z C:\npm\cache
+2025-10-10T16:35:48.6610241Z Cache hit for: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee
+2025-10-10T16:35:48.6733521Z (node:1388) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2025-10-10T16:35:49.7319894Z Received 134217728 of 315413375 (42.6%), 126.7 MBs/sec
+2025-10-10T16:35:50.8020637Z Received 315413375 of 315413375 (100.0%), 144.6 MBs/sec
+2025-10-10T16:35:50.8023745Z Cache Size: ~301 MB (315413375 B)
+2025-10-10T16:35:50.8166010Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/5c39f81e-3f55-4b4e-808e-2f5d5a328ee8/cache.tzst -P -C D:/a/gametp/gametp --force-local --use-compress-program "zstd -d"
+2025-10-10T16:36:17.9799227Z Cache restored successfully
+2025-10-10T16:36:17.9992216Z Cache restored from key: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee
+2025-10-10T16:36:18.0309662Z ##[group]Run node scripts/ci/fix-bom.cjs
+2025-10-10T16:36:18.0310203Z [36;1mnode scripts/ci/fix-bom.cjs[0m
+2025-10-10T16:36:18.1260409Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:36:18.1260854Z env:
+2025-10-10T16:36:18.1261077Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:36:18.1261355Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:36:18.1261581Z   SENTRY_DSN: 
+2025-10-10T16:36:18.1261787Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:36:18.1262035Z   CL: /std:c++20 /EHsc
+2025-10-10T16:36:18.1262249Z   CXXFLAGS: -std=c++20
+2025-10-10T16:36:18.1262465Z   NODE_ENV: development
+2025-10-10T16:36:18.1262689Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:36:18.1262944Z ##[endgroup]
+2025-10-10T16:36:27.3256435Z Prepare all required actions
+2025-10-10T16:36:27.3344970Z ##[group]Run ./.github/actions/npm-install
+2025-10-10T16:36:27.3345210Z with:
+2025-10-10T16:36:27.3345375Z   working-directory: .
+2025-10-10T16:36:27.3345560Z   node-version: 20.x
+2025-10-10T16:36:27.3345717Z env:
+2025-10-10T16:36:27.3345872Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:36:27.3346106Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:36:27.3346298Z   SENTRY_DSN: 
+2025-10-10T16:36:27.3346468Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:36:27.3346673Z   CL: /std:c++20 /EHsc
+2025-10-10T16:36:27.3346848Z   CXXFLAGS: -std=c++20
+2025-10-10T16:36:27.3347018Z   NODE_ENV: development
+2025-10-10T16:36:27.3347211Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:36:27.3347401Z ##[endgroup]
+2025-10-10T16:36:27.3527123Z ##[group]Run Write-Host "Validating Node.js environment setup..."
+2025-10-10T16:36:27.3527542Z [36;1mWrite-Host "Validating Node.js environment setup..."[0m
+2025-10-10T16:36:27.3527964Z [36;1mif (-not (Get-Command node -ErrorAction SilentlyContinue)) {[0m
+2025-10-10T16:36:27.3528372Z [36;1m  Write-Error "Node.js not found. Ensure actions/setup-node has run."[0m
+2025-10-10T16:36:27.3528689Z [36;1m  exit 1[0m
+2025-10-10T16:36:27.3528847Z [36;1m}[0m
+2025-10-10T16:36:27.3529076Z [36;1mif (-not (Get-Command npm -ErrorAction SilentlyContinue)) {[0m
+2025-10-10T16:36:27.3529466Z [36;1m  Write-Error "npm not found. Node.js installation may be incomplete."[0m
+2025-10-10T16:36:27.3529791Z [36;1m  exit 1[0m
+2025-10-10T16:36:27.3529939Z [36;1m}[0m
+2025-10-10T16:36:27.3530167Z [36;1mWrite-Host ("Node.js version: {0}" -f (node --version))[0m
+2025-10-10T16:36:27.3530527Z [36;1mWrite-Host ("npm version: {0}" -f (npm --version))[0m
+2025-10-10T16:36:27.3590411Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:36:27.3590727Z env:
+2025-10-10T16:36:27.3590901Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:36:27.3591122Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:36:27.3591322Z   SENTRY_DSN: 
+2025-10-10T16:36:27.3591492Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:36:27.3591759Z   CL: /std:c++20 /EHsc
+2025-10-10T16:36:27.3591957Z   CXXFLAGS: -std=c++20
+2025-10-10T16:36:27.3592133Z   NODE_ENV: development
+2025-10-10T16:36:27.3592326Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:36:27.3592518Z ##[endgroup]
+2025-10-10T16:36:28.2741454Z Validating Node.js environment setup...
+2025-10-10T16:36:28.3248296Z Node.js version: v20.19.5
+2025-10-10T16:36:28.6018896Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:36:28.6156265Z npm version: 10.8.2
+2025-10-10T16:36:28.6983665Z ##[group]Run Write-Host "Validating critical environment variables..."
+2025-10-10T16:36:28.6984117Z [36;1mWrite-Host "Validating critical environment variables..."[0m
+2025-10-10T16:36:28.6984501Z [36;1mWrite-Host ("NODE_ENV: {0}" -f ($env:NODE_ENV ?? 'not set'))[0m
+2025-10-10T16:36:28.6984954Z [36;1mWrite-Host ("NPM_CONFIG_PRODUCTION: {0}" -f ($env:NPM_CONFIG_PRODUCTION ?? 'not set'))[0m
+2025-10-10T16:36:28.6985456Z [36;1mif ($env:NODE_ENV -ne 'development' -or $env:NPM_CONFIG_PRODUCTION -ne 'false') {[0m
+2025-10-10T16:36:28.6986143Z [36;1m  Write-Warning "Environment vars may prevent devDependencies installation. Recommended: NODE_ENV=development, NPM_CONFIG_PRODUCTION=false"[0m
+2025-10-10T16:36:28.6986681Z [36;1m}[0m
+2025-10-10T16:36:28.7043928Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:36:28.7044261Z env:
+2025-10-10T16:36:28.7044428Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:36:28.7044650Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:36:28.7044836Z   SENTRY_DSN: 
+2025-10-10T16:36:28.7045004Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:36:28.7045222Z   CL: /std:c++20 /EHsc
+2025-10-10T16:36:28.7045389Z   CXXFLAGS: -std=c++20
+2025-10-10T16:36:28.7045569Z   NODE_ENV: development
+2025-10-10T16:36:28.7045756Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:36:28.7045945Z ##[endgroup]
+2025-10-10T16:36:29.0158852Z Validating critical environment variables...
+2025-10-10T16:36:29.0168263Z NODE_ENV: development
+2025-10-10T16:36:29.0222299Z NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:36:29.1097722Z ##[group]Run Write-Host "Starting Windows-focused npm installation..."
+2025-10-10T16:36:29.1098244Z [36;1mWrite-Host "Starting Windows-focused npm installation..."[0m
+2025-10-10T16:36:29.1098596Z [36;1mWrite-Host ("Runner: {0}" -f $env:RUNNER_OS)[0m
+2025-10-10T16:36:29.1098918Z [36;1mWrite-Host "Current npm configuration (subset):"[0m
+2025-10-10T16:36:29.1099500Z [36;1mtry { npm config list | Select-String -Pattern 'fetch-retries|registry|fund|audit' -SimpleMatch | ForEach-Object { $_.Line } } catch {}[0m
+2025-10-10T16:36:29.1100013Z [36;1m[0m
+2025-10-10T16:36:29.1100199Z [36;1m# ESM-friendly npm environment variables[0m
+2025-10-10T16:36:29.1100456Z [36;1m$env:NPM_CONFIG_MAXSOCKETS = '8'[0m
+2025-10-10T16:36:29.1100699Z [36;1m$env:NPM_CONFIG_FUND = 'false'[0m
+2025-10-10T16:36:29.1100948Z [36;1m$env:NPM_CONFIG_AUDIT = 'false'[0m
+2025-10-10T16:36:29.1101177Z [36;1m$env:NPM_CONFIG_PROGRESS = 'false'[0m
+2025-10-10T16:36:29.1101393Z [36;1m[0m
+2025-10-10T16:36:29.1101632Z [36;1m$npmExecutable = (Get-Command npm -ErrorAction Stop).Source[0m
+2025-10-10T16:36:29.1101947Z [36;1mif (-not $npmExecutable) {[0m
+2025-10-10T16:36:29.1102245Z [36;1m  throw 'npm executable not found on PATH (required for npm ci)'[0m
+2025-10-10T16:36:29.1102549Z [36;1m}[0m
+2025-10-10T16:36:29.1102689Z [36;1m[0m
+2025-10-10T16:36:29.1102948Z [36;1mfunction Invoke-NpmCiAttempt([int]$timeoutSec, [string]$extraArgs) {[0m
+2025-10-10T16:36:29.1103362Z [36;1m  $psi = New-Object System.Diagnostics.ProcessStartInfo[0m
+2025-10-10T16:36:29.1103662Z [36;1m  $psi.FileName = $npmExecutable[0m
+2025-10-10T16:36:29.1103935Z [36;1m  $psi.WorkingDirectory = (Get-Location).Path[0m
+2025-10-10T16:36:29.1104202Z [36;1m  $psi.Arguments = "ci $extraArgs"[0m
+2025-10-10T16:36:29.1104463Z [36;1m  $psi.RedirectStandardOutput = $true[0m
+2025-10-10T16:36:29.1104727Z [36;1m  $psi.RedirectStandardError = $true[0m
+2025-10-10T16:36:29.1104974Z [36;1m  $psi.UseShellExecute = $false[0m
+2025-10-10T16:36:29.1105206Z [36;1m  $psi.CreateNoWindow = $true[0m
+2025-10-10T16:36:29.1105472Z [36;1m  $proc = New-Object System.Diagnostics.Process[0m
+2025-10-10T16:36:29.1105742Z [36;1m  $proc.StartInfo = $psi[0m
+2025-10-10T16:36:29.1105951Z [36;1m  [void]$proc.Start()[0m
+2025-10-10T16:36:29.1107000Z [36;1m  $completed = $proc.WaitForExit($timeoutSec * 1000)[0m
+2025-10-10T16:36:29.1107317Z [36;1m  $out = $proc.StandardOutput.ReadToEnd()[0m
+2025-10-10T16:36:29.1107654Z [36;1m  $err = $proc.StandardError.ReadToEnd()[0m
+2025-10-10T16:36:29.1108009Z [36;1m  ($out + $err) | Out-File -FilePath npm_install.log -Append -Encoding UTF8[0m
+2025-10-10T16:36:29.1108660Z [36;1m  if (-not $completed) { try { Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue } catch {}; return @{ Ok=$false; TimedOut=$true; Code=-1 } }[0m
+2025-10-10T16:36:29.1109513Z [36;1m  return @{ Ok = ($proc.ExitCode -eq 0); TimedOut=$false; Code=$proc.ExitCode }[0m
+2025-10-10T16:36:29.1109832Z [36;1m}[0m
+2025-10-10T16:36:29.1110335Z [36;1m[0m
+2025-10-10T16:36:29.1110493Z [36;1m$attempts = @([0m
+2025-10-10T16:36:29.1110683Z [36;1m  @{ Timeout=480; Args='' },[0m
+2025-10-10T16:36:29.1110927Z [36;1m  @{ Timeout=720; Args='--maxsockets=5' },[0m
+2025-10-10T16:36:29.1111199Z [36;1m  @{ Timeout=900; Args='--maxsockets=1' },[0m
+2025-10-10T16:36:29.1111449Z [36;1m  @{ Timeout=900; Args='' }[0m
+2025-10-10T16:36:29.1111648Z [36;1m)[0m
+2025-10-10T16:36:29.1111789Z [36;1m[0m
+2025-10-10T16:36:29.1111939Z [36;1m$success = $false[0m
+2025-10-10T16:36:29.1112165Z [36;1mfor ($i=0; $i -lt $attempts.Count; $i++) {[0m
+2025-10-10T16:36:29.1112413Z [36;1m  $a = $attempts[$i][0m
+2025-10-10T16:36:29.1112736Z [36;1m  Write-Host ("Attempt {0} (timeout={1}s args='{2}')" -f ($i+1), $a.Timeout, $a.Args)[0m
+2025-10-10T16:36:29.1113799Z [36;1m  $res = Invoke-NpmCiAttempt -timeoutSec $a.Timeout -extraArgs $a.Args[0m
+2025-10-10T16:36:29.1114201Z [36;1m  if ($res.Ok) { $success = $true; break } else {[0m
+2025-10-10T16:36:29.1114492Z [36;1m    if ($i -lt ($attempts.Count-1)) {[0m
+2025-10-10T16:36:29.1114735Z [36;1m      $sleep = 15 * ($i+1)[0m
+2025-10-10T16:36:29.1115199Z [36;1m      Write-Warning ("Attempt {0} failed (code={1}, timeout={2}). Sleeping {3}s before retry..." -f ($i+1), $res.Code, $res.TimedOut, $sleep)[0m
+2025-10-10T16:36:29.1115695Z [36;1m      Start-Sleep -Seconds $sleep[0m
+2025-10-10T16:36:29.1115916Z [36;1m    }[0m
+2025-10-10T16:36:29.1116069Z [36;1m  }[0m
+2025-10-10T16:36:29.1116206Z [36;1m}[0m
+2025-10-10T16:36:29.1116349Z [36;1m[0m
+2025-10-10T16:36:29.1116498Z [36;1mif (-not $success) {[0m
+2025-10-10T16:36:29.1116814Z [36;1m  Write-Error "CRITICAL FAILURE: All Windows installation attempts failed!"[0m
+2025-10-10T16:36:29.1117301Z [36;1m  if (Test-Path npm_install.log) { Get-Content npm_install.log -Tail 80 | Write-Host }[0m
+2025-10-10T16:36:29.1117653Z [36;1m  exit 1[0m
+2025-10-10T16:36:29.1117828Z [36;1m}[0m
+2025-10-10T16:36:29.1117963Z [36;1m[0m
+2025-10-10T16:36:29.1118141Z [36;1mWrite-Host "SUCCESS: npm ci completed"[0m
+2025-10-10T16:36:29.1118375Z [36;1m[0m
+2025-10-10T16:36:29.1118512Z [36;1m# Verification[0m
+2025-10-10T16:36:29.1118705Z [36;1m$verificationErrors = 0[0m
+2025-10-10T16:36:29.1118969Z [36;1m$tools = @('eslint','tsc','vitest','playwright','tsx')[0m
+2025-10-10T16:36:29.1119248Z [36;1mforeach ($t in $tools) {[0m
+2025-10-10T16:36:29.1119493Z [36;1m  $binPath = Join-Path 'node_modules/.bin' $t[0m
+2025-10-10T16:36:29.1119828Z [36;1m  $binCmdPath = Join-Path 'node_modules/.bin' ("{0}.cmd" -f $t)[0m
+2025-10-10T16:36:29.1120326Z [36;1m  $hasTool = Test-Path $binPath[0m
+2025-10-10T16:36:29.1120551Z [36;1m  if (-not $hasTool) {[0m
+2025-10-10T16:36:29.1120772Z [36;1m    $hasTool = Test-Path $binCmdPath[0m
+2025-10-10T16:36:29.1121002Z [36;1m  }[0m
+2025-10-10T16:36:29.1121150Z [36;1m  if ($hasTool) {[0m
+2025-10-10T16:36:29.1121422Z [36;1m    Write-Host ("SUCCESS: {0} available in node_modules/.bin" -f $t)[0m
+2025-10-10T16:36:29.1121764Z [36;1m  } elseif ((npm list $t | Out-Null) -ne $true) {[0m
+2025-10-10T16:36:29.1122095Z [36;1m    Write-Warning ("{0} not detected in node_modules" -f $t)[0m
+2025-10-10T16:36:29.1122388Z [36;1m    $verificationErrors++[0m
+2025-10-10T16:36:29.1122699Z [36;1m  }[0m
+2025-10-10T16:36:29.1122844Z [36;1m}[0m
+2025-10-10T16:36:29.1122974Z [36;1m[0m
+2025-10-10T16:36:29.1123228Z [36;1mWrite-Host "Verifying Rollup native platform package for Windows..."[0m
+2025-10-10T16:36:29.1123632Z [36;1mnode -e "require('@rollup/rollup-win32-x64-msvc')" 2>$null[0m
+2025-10-10T16:36:29.1124213Z [36;1mif ($LASTEXITCODE -eq 0) { Write-Host "SUCCESS: rollup native ok" } else { Write-Warning "rollup native package not found (non-critical)" }[0m
+2025-10-10T16:36:29.1124696Z [36;1m[0m
+2025-10-10T16:36:29.1124882Z [36;1m$hasNodeModules = Test-Path 'node_modules'[0m
+2025-10-10T16:36:29.1125191Z [36;1m$hasNodeModulesBin = Test-Path 'node_modules/.bin'[0m
+2025-10-10T16:36:29.1125510Z [36;1mif ($hasNodeModules -and $hasNodeModulesBin) {[0m
+2025-10-10T16:36:29.1125886Z [36;1m  $pkgCount = (Get-ChildItem 'node_modules' -Directory | Measure-Object).Count[0m
+2025-10-10T16:36:29.1126419Z [36;1m  Write-Host ("SUCCESS: node_modules verification passed ({0} top-level packages)" -f $pkgCount)[0m
+2025-10-10T16:36:29.1126826Z [36;1m} else {[0m
+2025-10-10T16:36:29.1127056Z [36;1m  Write-Error 'node_modules structure verification failed'[0m
+2025-10-10T16:36:29.1127358Z [36;1m  $verificationErrors++[0m
+2025-10-10T16:36:29.1127561Z [36;1m}[0m
+2025-10-10T16:36:29.1127700Z [36;1m[0m
+2025-10-10T16:36:29.1127828Z [36;1mtry {[0m
+2025-10-10T16:36:29.1128055Z [36;1m  $pkg = Get-Content package.json -Raw | ConvertFrom-Json[0m
+2025-10-10T16:36:29.1128578Z [36;1m  if ($pkg.type -eq 'module') { Write-Host 'SUCCESS: ESM module system verification passed' }[0m
+2025-10-10T16:36:29.1128952Z [36;1m} catch {}[0m
+2025-10-10T16:36:29.1129121Z [36;1m[0m
+2025-10-10T16:36:29.1129520Z [36;1mif ($verificationErrors -gt 0) { Write-Warning ("Found {0} verification issues (non-blocking)" -f $verificationErrors) }[0m
+2025-10-10T16:36:29.1189080Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:36:29.1189392Z env:
+2025-10-10T16:36:29.1189568Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:36:29.1189791Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:36:29.1189967Z   SENTRY_DSN: 
+2025-10-10T16:36:29.1190136Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:36:29.1190329Z   CL: /std:c++20 /EHsc
+2025-10-10T16:36:29.1190504Z   CXXFLAGS: -std=c++20
+2025-10-10T16:36:29.1190996Z   NODE_ENV: development
+2025-10-10T16:36:29.1191271Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:36:29.1191468Z ##[endgroup]
+2025-10-10T16:36:29.5040966Z Starting Windows-focused npm installation...
+2025-10-10T16:36:29.5049055Z Runner: Windows
+2025-10-10T16:36:29.5055137Z Current npm configuration (subset):
+2025-10-10T16:36:29.7872777Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:36:29.8919473Z Attempt 1 (timeout=480s args='')
+2025-10-10T16:37:52.1170591Z SUCCESS: npm ci completed
+2025-10-10T16:37:52.1253619Z SUCCESS: eslint available in node_modules/.bin
+2025-10-10T16:37:52.1265393Z SUCCESS: tsc available in node_modules/.bin
+2025-10-10T16:37:52.1275678Z SUCCESS: vitest available in node_modules/.bin
+2025-10-10T16:37:52.1700689Z SUCCESS: playwright available in node_modules/.bin
+2025-10-10T16:37:52.1710559Z SUCCESS: tsx available in node_modules/.bin
+2025-10-10T16:37:52.1716728Z Verifying Rollup native platform package for Windows...
+2025-10-10T16:37:52.2248032Z SUCCESS: rollup native ok
+2025-10-10T16:37:52.2767510Z SUCCESS: node_modules verification passed (1171 top-level packages)
+2025-10-10T16:37:52.2949533Z SUCCESS: ESM module system verification passed
+2025-10-10T16:37:52.3402894Z ##[group]Run npm run lint
+2025-10-10T16:37:52.3403354Z [36;1mnpm run lint[0m
+2025-10-10T16:37:52.3469705Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:37:52.3470023Z env:
+2025-10-10T16:37:52.3470193Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:37:52.3470424Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:37:52.3470614Z   SENTRY_DSN: 
+2025-10-10T16:37:52.3470786Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:37:52.3471177Z   CL: /std:c++20 /EHsc
+2025-10-10T16:37:52.3471364Z   CXXFLAGS: -std=c++20
+2025-10-10T16:37:52.3471548Z   NODE_ENV: development
+2025-10-10T16:37:52.3471734Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:37:52.3471929Z ##[endgroup]
+2025-10-10T16:37:52.8619612Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:37:52.9213791Z 
+2025-10-10T16:37:52.9214148Z > gametp@0.1.0 lint
+2025-10-10T16:37:52.9214555Z > npm run lint:src && npm run lint:tests
+2025-10-10T16:37:52.9214781Z 
+2025-10-10T16:37:53.2772920Z npm WARN config production Use `--omit=dev` instead.
+2025-10-10T16:37:53.3607858Z 
+2025-10-10T16:37:53.3608374Z > gametp@0.1.0 lint:src
+2025-10-10T16:37:53.3608760Z > eslint "src/**/*.{ts,tsx}" --max-warnings 115
+2025-10-10T16:37:53.3608975Z 
+2025-10-10T16:38:00.6103959Z 
+2025-10-10T16:38:00.6105546Z D:\a\gametp\gametp\src\app.tsx
+2025-10-10T16:38:00.6140525Z ##[warning]  40:27  warning  'setShowPerfHarness' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6149286Z 
+2025-10-10T16:38:00.6149615Z D:\a\gametp\gametp\src\components\GameCanvas.tsx
+2025-10-10T16:38:00.6151753Z ##[warning]   39:10  warning  'isPending' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6154399Z ##[warning]  217:9   warning  'loadGame' is assigned a value but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6155734Z 
+2025-10-10T16:38:00.6156045Z D:\a\gametp\gametp\src\components\GameVerticalSlice.tsx
+2025-10-10T16:38:00.6157715Z ##[warning]  10:15  warning  'DomainEvent' is defined but never used. Allowed unused vars must match /^_/u                  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6160422Z ##[warning]  45:15  warning  'deferredSliceState' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6161816Z 
+2025-10-10T16:38:00.6162084Z D:\a\gametp\gametp\src\components\LazyGame.tsx
+2025-10-10T16:38:00.6163651Z ##[warning]  20:10  warning  'isPending' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6164999Z 
+2025-10-10T16:38:00.6165346Z D:\a\gametp\gametp\src\components\game\GameNotifications.tsx
+2025-10-10T16:38:00.6167590Z ##[warning]  268:15  warning  'colors' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6168975Z 
+2025-10-10T16:38:00.6169303Z D:\a\gametp\gametp\src\game\GameEngineAdapter.ts
+2025-10-10T16:38:00.6171214Z ##[warning]    6:29  warning  'SceneManagerConfig' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6173810Z ##[warning]  434:28  warning  'delta' is defined but never used. Allowed unused args must match /^_/u               @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6175148Z 
+2025-10-10T16:38:00.6175381Z D:\a\gametp\gametp\src\game\SceneManager.ts
+2025-10-10T16:38:00.6176780Z ##[warning]  200:31  warning  'event' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6178948Z ##[warning]  224:13  warning  Empty block statement                                                    no-empty
+2025-10-10T16:38:00.6183773Z ##[warning]  274:13  warning  Empty block statement                                                    no-empty
+2025-10-10T16:38:00.6186084Z ##[warning]  289:13  warning  Empty block statement                                                    no-empty
+2025-10-10T16:38:00.6187235Z 
+2025-10-10T16:38:00.6187928Z D:\a\gametp\gametp\src\game\__tests__\GameStateManager.test.ts
+2025-10-10T16:38:00.6189835Z ##[warning]  147:13  warning  'saveId1' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6192728Z ##[warning]  148:13  warning  'saveId2' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6194079Z 
+2025-10-10T16:38:00.6194410Z D:\a\gametp\gametp\src\game\__tests__\SceneManager.test.ts
+2025-10-10T16:38:00.6196028Z ##[warning]  49:13  warning  'mockError' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6197399Z 
+2025-10-10T16:38:00.6197718Z D:\a\gametp\gametp\src\game\__tests__\__mocks__\phaser.ts
+2025-10-10T16:38:00.6199430Z ##[warning]  98:15  warning  'config' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6200848Z 
+2025-10-10T16:38:00.6201087Z D:\a\gametp\gametp\src\game\factory.ts
+2025-10-10T16:38:00.6202557Z ##[warning]  28:5  warning  'width' is assigned a value but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6205122Z ##[warning]  29:5  warning  'height' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6206492Z 
+2025-10-10T16:38:00.6206765Z D:\a\gametp\gametp\src\game\scenes\BaseScene.ts
+2025-10-10T16:38:00.6209022Z ##[warning]    7:15  warning  'Phaser' is defined but never used. Allowed unused vars must match /^_/u                                                 @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6210916Z    15:41  warning  The `Function` type accepts any function-like value.
+2025-10-10T16:38:00.6212016Z Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+2025-10-10T16:38:00.6213094Z    53:57  warning  The `Function` type accepts any function-like value.
+2025-10-10T16:38:00.6214150Z Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+2025-10-10T16:38:00.6215206Z    63:59  warning  The `Function` type accepts any function-like value.
+2025-10-10T16:38:00.6216311Z Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+2025-10-10T16:38:00.6218167Z ##[warning]   99:13  warning  Empty block statement                                                                                                    no-empty
+2025-10-10T16:38:00.6220443Z ##[warning]  119:13  warning  Empty block statement                                                                                                    no-empty
+2025-10-10T16:38:00.6221612Z 
+2025-10-10T16:38:00.6221884Z D:\a\gametp\gametp\src\game\scenes\GameScene.ts
+2025-10-10T16:38:00.6223422Z ##[warning]   7:15  warning  'Phaser' is defined but never used. Allowed unused vars must match /^_/u       @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6225935Z ##[warning]  11:3   warning  'Position' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6228898Z ##[warning]  14:15  warning  'DomainEvent' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6230376Z 
+2025-10-10T16:38:00.6230643Z D:\a\gametp\gametp\src\game\scenes\MenuScene.ts
+2025-10-10T16:38:00.6232109Z ##[warning]  155:15  warning  'time' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6235339Z ##[warning]  155:29  warning  'delta' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6236762Z 
+2025-10-10T16:38:00.6237049Z D:\a\gametp\gametp\src\game\scenes\TestScene.ts
+2025-10-10T16:38:00.6238703Z ##[warning]    7:15  warning  'Phaser' is defined but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6241346Z ##[warning]    9:15  warning  'GameState' is defined but never used. Allowed unused vars must match /^_/u        @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6244864Z ##[warning]   10:15  warning  'GameDomainEvent' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6247640Z ##[warning]  523:15  warning  'time' is defined but never used. Allowed unused args must match /^_/u             @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6249209Z ##[warning]  523:29  warning  'delta' is defined but never used. Allowed unused args must match /^_/u            @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6250019Z 
+2025-10-10T16:38:00.6250220Z D:\a\gametp\gametp\src\game\state\StateSynchronizer.ts
+2025-10-10T16:38:00.6251095Z ##[warning]  339:9  warning  Unexpected lexical declaration in case block  no-case-declarations
+2025-10-10T16:38:00.6251875Z 
+2025-10-10T16:38:00.6252054Z D:\a\gametp\gametp\src\hooks\useEventLoopDelay.ts
+2025-10-10T16:38:00.6254850Z ##[warning]  32:15  warning  Empty block statement  no-empty
+2025-10-10T16:38:00.6255651Z 
+2025-10-10T16:38:00.6255888Z D:\a\gametp\gametp\src\hooks\useGameStateEvents.ts
+2025-10-10T16:38:00.6257099Z ##[warning]  10:15  warning  'GameDomainEvent' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6258769Z ##[warning]  91:13  warning  Unexpected lexical declaration in case block                                       no-case-declarations
+2025-10-10T16:38:00.6259605Z 
+2025-10-10T16:38:00.6259795Z D:\a\gametp\gametp\src\hooks\useWebVitals.ts
+2025-10-10T16:38:00.6260918Z ##[warning]   47:5   warning  'trackInteractions' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6262778Z ##[warning]  292:12  warning  Constraining the generic type `T` to `any` does nothing and is unnecessary                    @typescript-eslint/no-unnecessary-type-constraint
+2025-10-10T16:38:00.6264952Z ##[warning]  362:12  warning  Constraining the generic type `T` to `any` does nothing and is unnecessary                    @typescript-eslint/no-unnecessary-type-constraint
+2025-10-10T16:38:00.6265927Z 
+2025-10-10T16:38:00.6266092Z D:\a\gametp\gametp\src\preload\bridge.ts
+2025-10-10T16:38:00.6266854Z ##[warning]  27:9  warning  Empty block statement  no-empty
+2025-10-10T16:38:00.6267499Z 
+2025-10-10T16:38:00.6267790Z D:\a\gametp\gametp\src\shared\adapters\sqlite.bak\__tests__\config-manager.spec.ts
+2025-10-10T16:38:00.6269384Z ##[warning]  152:13  warning  'config' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6270233Z 
+2025-10-10T16:38:00.6270466Z D:\a\gametp\gametp\src\shared\devtools\performance-devtools.ts
+2025-10-10T16:38:00.6271632Z ##[warning]  346:11  warning  'startTime' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6273177Z ##[warning]  385:46  warning  'name' is defined but never used. Allowed unused args must match /^_/u                @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6273973Z 
+2025-10-10T16:38:00.6274260Z D:\a\gametp\gametp\src\shared\middleware\__tests__\cloud-events-validator.spec.ts
+2025-10-10T16:38:00.6275585Z ##[warning]   12:8   warning  'ValidationConfig' is defined but never used. Allowed unused vars must match /^_/u        @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6277450Z ##[warning]  143:13  warning  'validResult' is assigned a value but never used. Allowed unused vars must match /^_/u    @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6279065Z ##[warning]  144:13  warning  'invalidResult' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6279893Z 
+2025-10-10T16:38:00.6280126Z D:\a\gametp\gametp\src\shared\middleware\cloudevents-validation.ts
+2025-10-10T16:38:00.6281209Z ##[warning]  151:17  warning  'context' is defined but never used. Allowed unused args must match /^_/u                                                @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6282415Z   478:19  warning  The `Function` type accepts any function-like value.
+2025-10-10T16:38:00.6283053Z Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+2025-10-10T16:38:00.6283688Z   478:35  warning  The `Function` type accepts any function-like value.
+2025-10-10T16:38:00.6284315Z Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+2025-10-10T16:38:00.6285002Z 
+2025-10-10T16:38:00.6285346Z D:\a\gametp\gametp\src\shared\observability\__tests__\observability-test-suite.ts
+2025-10-10T16:38:00.6286886Z ##[warning]  369:13  warning  'degradationLevels' is assigned a value but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6288614Z ##[warning]  673:11  warning  'suspiciousPatterns' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6289466Z 
+2025-10-10T16:38:00.6289700Z D:\a\gametp\gametp\src\shared\observability\config-validator.main.ts
+2025-10-10T16:38:00.6290622Z ##[warning]  664:5   warning  'schema' is defined but never used. Allowed unused args must match /^_/u    @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6292068Z ##[warning]  822:28  warning  'endpoint' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6292848Z 
+2025-10-10T16:38:00.6293090Z D:\a\gametp\gametp\src\shared\observability\cost-optimization-manager.ts
+2025-10-10T16:38:00.6294069Z ##[warning]  367:13  warning  'trends' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6295527Z ##[warning]  643:5   warning  'recent' is defined but never used. Allowed unused args must match /^_/u           @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6296999Z ##[warning]  644:5   warning  'previous' is defined but never used. Allowed unused args must match /^_/u         @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6298486Z ##[warning]  863:5   warning  'recommendation' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6299958Z ##[warning]  872:5   warning  'recommendation' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6301458Z ##[warning]  879:5   warning  'recommendation' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6302949Z ##[warning]  886:5   warning  'recommendation' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6303739Z 
+2025-10-10T16:38:00.6303993Z D:\a\gametp\gametp\src\shared\observability\enterprise-alerting-system.ts
+2025-10-10T16:38:00.6305325Z ##[warning]  624:13  warning  'message' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6306978Z ##[warning]  672:5   warning  'resolution' is defined but never used. Allowed unused args must match /^_/u        @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6307774Z 
+2025-10-10T16:38:00.6308192Z D:\a\gametp\gametp\src\shared\observability\enterprise-monitoring-platform.ts
+2025-10-10T16:38:00.6309332Z ##[warning]   21:3   warning  'DistributedTracingManager' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6310974Z ##[warning]   25:3   warning  'ServiceMeshIntegration' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6312597Z ##[warning]   29:3   warning  'EnterpriseAlertingSystem' is defined but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6314356Z ##[warning]   33:3   warning  'CostOptimizationManager' is defined but never used. Allowed unused vars must match /^_/u    @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6315937Z ##[warning]  641:17  warning  'report' is assigned a value but never used. Allowed unused vars must match /^_/u            @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6317505Z ##[warning]  736:5   warning  'component' is defined but never used. Allowed unused args must match /^_/u                  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6319012Z ##[warning]  757:5   warning  'period' is defined but never used. Allowed unused args must match /^_/u                     @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6320493Z ##[warning]  769:5   warning  'period' is defined but never used. Allowed unused args must match /^_/u                     @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6321967Z ##[warning]  779:5   warning  'period' is defined but never used. Allowed unused args must match /^_/u                     @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6323436Z ##[warning]  793:5   warning  'period' is defined but never used. Allowed unused args must match /^_/u                     @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6324784Z ##[warning]  889:12  warning  'error' is defined but never used                                                            @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6325885Z 
+2025-10-10T16:38:00.6326120Z D:\a\gametp\gametp\src\shared\observability\longtask-monitor.ts
+2025-10-10T16:38:00.6326776Z ##[warning]  45:17  warning  Empty block statement  no-empty
+2025-10-10T16:38:00.6327753Z ##[warning]  56:15  warning  Empty block statement  no-empty
+2025-10-10T16:38:00.6328308Z 
+2025-10-10T16:38:00.6328508Z D:\a\gametp\gametp\src\shared\observability\sentry-main.ts
+2025-10-10T16:38:00.6329051Z ##[warning]  193:23  warning  Empty block statement  no-empty
+2025-10-10T16:38:00.6329940Z ##[warning]  199:19  warning  Empty block statement  no-empty
+2025-10-10T16:38:00.6330499Z 
+2025-10-10T16:38:00.6330698Z D:\a\gametp\gametp\src\shared\observability\sentry-perf.ts
+2025-10-10T16:38:00.6331239Z ##[warning]  23:17  warning  Empty block statement  no-empty
+2025-10-10T16:38:00.6331802Z 
+2025-10-10T16:38:00.6332002Z D:\a\gametp\gametp\src\shared\observability\sentry-renderer.ts
+2025-10-10T16:38:00.6332731Z ##[warning]  165:19  warning  Empty block statement                                                    no-empty
+2025-10-10T16:38:00.6334042Z ##[warning]  376:8   warning  'React' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6334807Z 
+2025-10-10T16:38:00.6334974Z D:\a\gametp\gametp\src\shared\performance\idle.ts
+2025-10-10T16:38:00.6336004Z ##[warning]  16:8   warning  'deadline' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+2025-10-10T16:38:00.6337285Z ##[warning]  19:17  warning  Empty block statement                                                       no-empty
+2025-10-10T16:38:00.6338413Z ##[warning]  41:15  warning  Empty block statement                                                       no-empty
+2025-10-10T16:38:00.6339525Z ##[warning]  63:15  warning  Empty block statement                                                       no-empty
+2025-10-10T16:38:00.6340170Z 
+2025-10-10T16:38:00.6341279Z ✖ 87 problems (0 errors, 87 warnings)
+2025-10-10T16:38:00.6341484Z 
+2025-10-10T16:38:00.9844727Z npm WARN config production Use `--omit=dev` instead.
+2025-10-10T16:38:01.0699755Z 
+2025-10-10T16:38:01.0700271Z > gametp@0.1.0 lint:tests
+2025-10-10T16:38:01.0700881Z > eslint "tests/**/*.{ts,tsx,js,mjs}" --max-warnings 300
+2025-10-10T16:38:01.0701227Z 
+2025-10-10T16:38:06.0212038Z ##[group]Run npm run typecheck
+2025-10-10T16:38:06.0212888Z [36;1mnpm run typecheck[0m
+2025-10-10T16:38:06.0271254Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:38:06.0271563Z env:
+2025-10-10T16:38:06.0271733Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:06.0271954Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:06.0272138Z   SENTRY_DSN: 
+2025-10-10T16:38:06.0272306Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:06.0272496Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:06.0272670Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:06.0273237Z   NODE_ENV: development
+2025-10-10T16:38:06.0273499Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:38:06.0273702Z ##[endgroup]
+2025-10-10T16:38:06.5266289Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:38:06.5744776Z 
+2025-10-10T16:38:06.5745074Z > gametp@0.1.0 typecheck
+2025-10-10T16:38:06.5745451Z > tsc -p tsconfig.json --noEmit
+2025-10-10T16:38:06.5745632Z 
+2025-10-10T16:38:06.9657203Z ##[group]Run npm run typecheck:shared
+2025-10-10T16:38:06.9657571Z [36;1mnpm run typecheck:shared[0m
+2025-10-10T16:38:06.9716890Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:38:06.9717195Z env:
+2025-10-10T16:38:06.9717370Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:06.9717599Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:06.9717785Z   SENTRY_DSN: 
+2025-10-10T16:38:06.9717971Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:06.9718182Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:06.9718363Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:06.9718534Z   NODE_ENV: development
+2025-10-10T16:38:06.9718729Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:38:06.9718927Z ##[endgroup]
+2025-10-10T16:38:07.4982313Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:38:07.5405378Z 
+2025-10-10T16:38:07.5405804Z > gametp@0.1.0 typecheck:shared
+2025-10-10T16:38:07.5406399Z > tsc -p tsconfig.shared.json --noEmit
+2025-10-10T16:38:07.5406910Z 
+2025-10-10T16:38:12.0514601Z ##[error]src/shared/adapters/sqlite.bak/config-manager.ts(12,31): error TS7016: Could not find a declaration file for module 'better-sqlite3'. 'D:/a/gametp/gametp/node_modules/better-sqlite3/lib/index.js' implicitly has an 'any' type.
+2025-10-10T16:38:12.0518113Z   Try `npm i --save-dev @types/better-sqlite3` if it exists or add a new declaration (.d.ts) file containing `declare module 'better-sqlite3';`
+2025-10-10T16:38:12.0530209Z ##[error]src/shared/adapters/sqlite.bak/config-manager.ts(205,7): error TS2322: Type 'ConfigProfile | undefined' is not assignable to type 'ConfigProfile'.
+2025-10-10T16:38:12.0533597Z   Type 'undefined' is not assignable to type 'ConfigProfile'.
+2025-10-10T16:38:12.0535990Z ##[error]src/shared/adapters/sqlite.bak/config-manager.ts(207,7): error TS2322: Type 'ConfigProfile | undefined' is not assignable to type 'ConfigProfile'.
+2025-10-10T16:38:12.0538017Z   Type 'undefined' is not assignable to type 'ConfigProfile'.
+2025-10-10T16:38:12.0540339Z ##[error]src/shared/adapters/sqlite.bak/config-manager.ts(209,7): error TS2322: Type 'ConfigProfile | undefined' is not assignable to type 'ConfigProfile'.
+2025-10-10T16:38:12.0544494Z   Type 'undefined' is not assignable to type 'ConfigProfile'.
+2025-10-10T16:38:12.0567002Z ##[error]src/shared/contracts/events.ts(361,5): error TS4115: This parameter property must have an 'override' modifier because it overrides a member in base class 'Error'.
+2025-10-10T16:38:12.0571832Z ##[error]src/shared/contracts/repos.ts(371,5): error TS4115: This parameter property must have an 'override' modifier because it overrides a member in base class 'Error'.
+2025-10-10T16:38:12.0575415Z ##[error]src/shared/contracts/repos.ts(405,5): error TS4115: This parameter property must have an 'override' modifier because it overrides a member in base class 'Error'.
+2025-10-10T16:38:12.0579173Z ##[error]src/shared/devtools/performance-devtools.ts(388,7): error TS2322: Type 'string | undefined' is not assignable to type 'string | CanvasGradient | CanvasPattern'.
+2025-10-10T16:38:12.0581225Z   Type 'undefined' is not assignable to type 'string | CanvasGradient | CanvasPattern'.
+2025-10-10T16:38:12.0583898Z ##[error]src/shared/middleware/cloudevents-validation.ts(317,24): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+2025-10-10T16:38:12.0585686Z   Type 'undefined' is not assignable to type 'string'.
+2025-10-10T16:38:12.0587593Z ##[error]src/shared/middleware/cloudevents-validation.ts(317,46): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+2025-10-10T16:38:12.0589355Z   Type 'undefined' is not assignable to type 'string'.
+2025-10-10T16:38:12.0591370Z ##[error]src/shared/observability/cost-guardrail-manager.ts(119,44): error TS2532: Object is possibly 'undefined'.
+2025-10-10T16:38:12.0593571Z ##[error]src/shared/observability/game-metrics.ts(205,49): error TS18046: 'error' is of type 'unknown'.
+2025-10-10T16:38:12.0598704Z ##[error]src/shared/observability/logging-health-checker.main.ts(683,46): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+2025-10-10T16:38:12.0600686Z   Type 'undefined' is not assignable to type 'string'.
+2025-10-10T16:38:12.0602255Z ##[error]src/shared/observability/observability-gatekeeper.ts(223,11): error TS18048: 'checkResult' is possibly 'undefined'.
+2025-10-10T16:38:12.0604705Z ##[error]src/shared/observability/observability-gatekeeper.ts(224,49): error TS18048: 'checkResult' is possibly 'undefined'.
+2025-10-10T16:38:12.0609371Z ##[error]src/shared/observability/observability-gatekeeper.ts(224,61): error TS2339: Property 'value' does not exist on type 'PromiseSettledResult<{ duration: number; result: SentryDetectionResult; } | { duration: number; result: ConfigValidationResult; } | { duration: number; result: LoggingHealthResult; }>'.
+2025-10-10T16:38:12.0612493Z   Property 'value' does not exist on type 'PromiseRejectedResult'.
+2025-10-10T16:38:12.0614154Z ##[error]src/shared/observability/observability-gatekeeper.ts(225,39): error TS2538: Type 'undefined' cannot be used as an index type.
+2025-10-10T16:38:12.0616632Z ##[error]src/shared/observability/observability-gatekeeper.ts(243,55): error TS18048: 'checkResult' is possibly 'undefined'.
+2025-10-10T16:38:12.0621374Z ##[error]src/shared/observability/observability-gatekeeper.ts(243,67): error TS2339: Property 'reason' does not exist on type 'PromiseSettledResult<{ duration: number; result: SentryDetectionResult; } | { duration: number; result: ConfigValidationResult; } | { duration: number; result: LoggingHealthResult; }>'.
+2025-10-10T16:38:12.0625182Z   Property 'reason' does not exist on type 'PromiseFulfilledResult<{ duration: number; result: SentryDetectionResult; } | { duration: number; result: ConfigValidationResult; } | { duration: number; result: LoggingHealthResult; }>'.
+2025-10-10T16:38:12.0627723Z ##[error]src/shared/observability/observability-gatekeeper.ts(249,65): error TS18048: 'checkResult' is possibly 'undefined'.
+2025-10-10T16:38:12.0632946Z ##[error]src/shared/observability/observability-gatekeeper.ts(249,77): error TS2339: Property 'reason' does not exist on type 'PromiseSettledResult<{ duration: number; result: SentryDetectionResult; } | { duration: number; result: ConfigValidationResult; } | { duration: number; result: LoggingHealthResult; }>'.
+2025-10-10T16:38:12.0636864Z   Property 'reason' does not exist on type 'PromiseFulfilledResult<{ duration: number; result: SentryDetectionResult; } | { duration: number; result: ConfigValidationResult; } | { duration: number; result: LoggingHealthResult; }>'.
+2025-10-10T16:38:12.0639949Z ##[error]src/shared/observability/posthog-integration.main.ts(69,5): error TS2322: Type 'PostHogConfig | undefined' is not assignable to type 'PostHogConfig'.
+2025-10-10T16:38:12.0641847Z   Type 'undefined' is not assignable to type 'PostHogConfig'.
+2025-10-10T16:38:12.0643466Z ##[error]src/shared/observability/resilience-manager.main.ts(461,29): error TS18046: 'recoveryError' is of type 'unknown'.
+2025-10-10T16:38:12.0645969Z ##[error]src/shared/observability/resilience-manager.main.ts(499,29): error TS18046: 'recoveryError' is of type 'unknown'.
+2025-10-10T16:38:12.0649446Z ##[error]src/shared/observability/sentry-detector.ts(411,9): error TS2322: Type 'SentryDetectionResult | undefined' is not assignable to type 'SentryDetectionResult | null'.
+2025-10-10T16:38:12.0651803Z   Type 'undefined' is not assignable to type 'SentryDetectionResult | null'.
+2025-10-10T16:38:12.0654380Z ##[error]src/shared/observability/sentry-main-detector.ts(511,9): error TS2322: Type 'SentryMainDetectionResult | undefined' is not assignable to type 'SentryMainDetectionResult | null'.
+2025-10-10T16:38:12.0656716Z   Type 'undefined' is not assignable to type 'SentryMainDetectionResult | null'.
+2025-10-10T16:38:12.0660764Z ##[error]src/shared/observability/sentry-main.ts(109,33): error TS2345: Argument of type '(SentryEnvironmentConfig & { dynamicSampling: DynamicSamplingConfig; }) | undefined' is not assignable to parameter of type 'SentryEnvironmentConfig'.
+2025-10-10T16:38:12.0663189Z   Type 'undefined' is not assignable to type 'SentryEnvironmentConfig'.
+2025-10-10T16:38:12.0664588Z ##[error]src/shared/observability/sentry-main.ts(119,14): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0666639Z ##[error]src/shared/observability/sentry-main.ts(120,22): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0668720Z ##[error]src/shared/observability/sentry-main.ts(121,18): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0671207Z ##[error]src/shared/observability/sentry-main.ts(122,15): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0673276Z ##[error]src/shared/observability/sentry-main.ts(125,21): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0675293Z ##[error]src/shared/observability/sentry-main.ts(126,51): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0679014Z ##[error]src/shared/observability/sentry-main.ts(183,33): error TS2345: Argument of type '(SentryEnvironmentConfig & { dynamicSampling: DynamicSamplingConfig; }) | undefined' is not assignable to parameter of type 'SentryEnvironmentConfig'.
+2025-10-10T16:38:12.0681338Z   Type 'undefined' is not assignable to type 'SentryEnvironmentConfig'.
+2025-10-10T16:38:12.0684374Z ##[error]src/shared/observability/sentry-main.ts(184,34): error TS2345: Argument of type '(SentryEnvironmentConfig & { dynamicSampling: DynamicSamplingConfig; }) | undefined' is not assignable to parameter of type 'SentryEnvironmentConfig'.
+2025-10-10T16:38:12.0686659Z   Type 'undefined' is not assignable to type 'SentryEnvironmentConfig'.
+2025-10-10T16:38:12.0687966Z ##[error]src/shared/observability/sentry-main.ts(196,30): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0691317Z ##[error]src/shared/observability/sentry-renderer.ts(91,35): error TS2345: Argument of type 'RendererSentryConfig | undefined' is not assignable to parameter of type 'RendererSentryConfig'.
+2025-10-10T16:38:12.0693319Z   Type 'undefined' is not assignable to type 'RendererSentryConfig'.
+2025-10-10T16:38:12.0694692Z ##[error]src/shared/observability/sentry-renderer.ts(101,14): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0696784Z ##[error]src/shared/observability/sentry-renderer.ts(102,22): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0698860Z ##[error]src/shared/observability/sentry-renderer.ts(103,18): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0700928Z ##[error]src/shared/observability/sentry-renderer.ts(104,15): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0703006Z ##[error]src/shared/observability/sentry-renderer.ts(107,21): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0705077Z ##[error]src/shared/observability/sentry-renderer.ts(108,27): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0707310Z ##[error]src/shared/observability/sentry-renderer.ts(109,30): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0710085Z ##[error]src/shared/observability/sentry-renderer.ts(110,24): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0713126Z ##[error]src/shared/observability/sentry-renderer.ts(157,35): error TS2345: Argument of type 'RendererSentryConfig | undefined' is not assignable to parameter of type 'RendererSentryConfig'.
+2025-10-10T16:38:12.0715365Z   Type 'undefined' is not assignable to type 'RendererSentryConfig'.
+2025-10-10T16:38:12.0716705Z ##[error]src/shared/observability/sentry-renderer.ts(161,57): error TS18048: 'config' is possibly 'undefined'.
+2025-10-10T16:38:12.0719418Z ##[error]src/shared/observability/service-mesh-integration.ts(556,5): error TS2322: Type 'ServiceInstance | undefined' is not assignable to type 'ServiceInstance'.
+2025-10-10T16:38:12.0721398Z   Type 'undefined' is not assignable to type 'ServiceInstance'.
+2025-10-10T16:38:12.0723532Z ##[error]src/shared/observability/web-vitals-collector.ts(241,16): error TS2551: Property 'electronAPI' does not exist on type 'Window & typeof globalThis'. Did you mean 'Electron'?
+2025-10-10T16:38:12.0726310Z ##[error]src/shared/observability/web-vitals-collector.ts(604,5): error TS2322: Type 'number | undefined' is not assignable to type 'number'.
+2025-10-10T16:38:12.0727912Z   Type 'undefined' is not assignable to type 'number'.
+2025-10-10T16:38:12.0730555Z ##[error]src/shared/performance/integration-examples.ts(18,7): error TS4114: This member must have an 'override' modifier because it overrides a member in the base class 'Component<T, {}, any>'.
+2025-10-10T16:38:12.0734359Z ##[error]src/shared/performance/integration-examples.ts(27,7): error TS4114: This member must have an 'override' modifier because it overrides a member in the base class 'Component<T, {}, any>'.
+2025-10-10T16:38:12.0737889Z ##[error]src/shared/performance/integration-examples.ts(31,7): error TS4114: This member must have an 'override' modifier because it overrides a member in the base class 'Component<T, {}, any>'.
+2025-10-10T16:38:12.0740589Z ##[error]src/shared/performance/integration-examples.ts(32,36): error TS2769: No overload matches this call.
+2025-10-10T16:38:12.0742035Z   The last overload gave the following error.
+2025-10-10T16:38:12.0743054Z     Argument of type 'ComponentType<T>' is not assignable to parameter of type 'string | FunctionComponent<{}> | ComponentClass<{}, any>'.
+2025-10-10T16:38:12.0744407Z       Type 'ComponentClass<T, any>' is not assignable to type 'string | FunctionComponent<{}> | ComponentClass<{}, any>'.
+2025-10-10T16:38:12.0745467Z         Type 'ComponentClass<T, any>' is not assignable to type 'ComponentClass<{}, any>'.
+2025-10-10T16:38:12.0746272Z           Types of property 'getDerivedStateFromProps' are incompatible.
+2025-10-10T16:38:12.0747396Z             Type 'GetDerivedStateFromProps<T, any> | undefined' is not assignable to type 'GetDerivedStateFromProps<{}, any> | undefined'.
+2025-10-10T16:38:12.0748713Z               Type 'GetDerivedStateFromProps<T, any>' is not assignable to type 'GetDerivedStateFromProps<{}, any>'.
+2025-10-10T16:38:12.0749686Z                 Types of parameters 'nextProps' and 'nextProps' are incompatible.
+2025-10-10T16:38:12.0750400Z                   Type 'Readonly<{}>' is not assignable to type 'Readonly<T>'.
+2025-10-10T16:38:12.0751751Z ##[error]src/shared/performance/integration-examples.ts(52,33): error TS2503: Cannot find namespace 'Phaser'.
+2025-10-10T16:38:12.0754978Z ##[error]src/shared/performance/integration-examples.ts(164,9): error TS2345: Argument of type '(() => Promise<T>) | undefined' is not assignable to parameter of type '() => T | Promise<T>'.
+2025-10-10T16:38:12.0756883Z   Type 'undefined' is not assignable to type '() => T | Promise<T>'.
+2025-10-10T16:38:12.0758814Z ##[error]src/shared/performance/integration-examples.ts(207,35): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+2025-10-10T16:38:12.0760539Z   Type 'undefined' is not assignable to type 'string'.
+2025-10-10T16:38:12.0762040Z ##[error]src/shared/performance/integration-examples.ts(221,25): error TS2532: Object is possibly 'undefined'.
+2025-10-10T16:38:12.0764815Z ##[error]src/shared/performance/integration-examples.ts(224,9): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+2025-10-10T16:38:12.0766593Z   Type 'undefined' is not assignable to type 'string'.
+2025-10-10T16:38:12.0768199Z ##[error]src/shared/performance/UserTiming.ts(197,5): error TS2322: Type 'number | undefined' is not assignable to type 'number | null'.
+2025-10-10T16:38:12.0769824Z   Type 'undefined' is not assignable to type 'number | null'.
+2025-10-10T16:38:12.0771444Z ##[error]src/shared/performance/UserTiming.ts(209,5): error TS2322: Type 'number | undefined' is not assignable to type 'number | null'.
+2025-10-10T16:38:12.0773218Z   Type 'undefined' is not assignable to type 'number | null'.
+2025-10-10T16:38:12.0775255Z ##[error]src/shared/validation/CloudEventValidator.ts(167,7): error TS2698: Spread types may only be created from object types.
+2025-10-10T16:38:12.2560049Z ##[error]Process completed with exit code 1.
+2025-10-10T16:38:12.2711928Z ##[group]Run npm run typecheck:services
+2025-10-10T16:38:12.2712274Z [36;1mnpm run typecheck:services[0m
+2025-10-10T16:38:12.2772881Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:38:12.2773243Z env:
+2025-10-10T16:38:12.2773513Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:12.2773907Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:12.2774121Z   SENTRY_DSN: 
+2025-10-10T16:38:12.2774289Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:12.2774497Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:12.2774942Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:12.2775131Z   NODE_ENV: development
+2025-10-10T16:38:12.2775331Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:38:12.2775532Z ##[endgroup]
+2025-10-10T16:38:12.8084012Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:38:12.8534325Z 
+2025-10-10T16:38:12.8534887Z > gametp@0.1.0 typecheck:services
+2025-10-10T16:38:12.8535446Z > tsc -p tsconfig.services.json --noEmit
+2025-10-10T16:38:12.8536005Z 
+2025-10-10T16:38:14.8890205Z ##[error]src/shared/contracts/events.ts(361,5): error TS4115: This parameter property must have an 'override' modifier because it overrides a member in base class 'Error'.
+2025-10-10T16:38:15.0304394Z ##[error]Process completed with exit code 1.
+2025-10-10T16:38:15.0451471Z ##[group]Run npm run typecheck:middleware
+2025-10-10T16:38:15.0451810Z [36;1mnpm run typecheck:middleware[0m
+2025-10-10T16:38:15.0511577Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:38:15.0511881Z env:
+2025-10-10T16:38:15.0512043Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:15.0512270Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:15.0512449Z   SENTRY_DSN: 
+2025-10-10T16:38:15.0512617Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:15.0512813Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:15.0512983Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:15.0513178Z   NODE_ENV: development
+2025-10-10T16:38:15.0513367Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:38:15.0513560Z ##[endgroup]
+2025-10-10T16:38:15.5476459Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:38:15.5896829Z 
+2025-10-10T16:38:15.5897317Z > gametp@0.1.0 typecheck:middleware
+2025-10-10T16:38:15.5897745Z > tsc -p tsconfig.middleware.json --noEmit
+2025-10-10T16:38:15.5898040Z 
+2025-10-10T16:38:17.4151684Z ##[error]src/shared/contracts/events.ts(361,5): error TS4115: This parameter property must have an 'override' modifier because it overrides a member in base class 'Error'.
+2025-10-10T16:38:17.4155299Z ##[error]src/shared/middleware/cloudevents-validation.ts(317,24): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+2025-10-10T16:38:17.4157906Z   Type 'undefined' is not assignable to type 'string'.
+2025-10-10T16:38:17.4159375Z ##[error]src/shared/middleware/cloudevents-validation.ts(317,46): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+2025-10-10T16:38:17.4161439Z   Type 'undefined' is not assignable to type 'string'.
+2025-10-10T16:38:17.5531493Z ##[error]Process completed with exit code 1.
+2025-10-10T16:38:17.5667865Z ##[group]Run npm run typecheck:events
+2025-10-10T16:38:17.5668224Z [36;1mnpm run typecheck:events[0m
+2025-10-10T16:38:17.5727466Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:38:17.5727774Z env:
+2025-10-10T16:38:17.5727944Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:17.5728170Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:17.5728361Z   SENTRY_DSN: 
+2025-10-10T16:38:17.5728536Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:17.5728730Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:17.5728907Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:17.5729084Z   NODE_ENV: development
+2025-10-10T16:38:17.5729277Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:38:17.5729471Z ##[endgroup]
+2025-10-10T16:38:18.0799690Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:38:18.1225251Z 
+2025-10-10T16:38:18.1225683Z > gametp@0.1.0 typecheck:events
+2025-10-10T16:38:18.1226060Z > tsc -p tsconfig.events.json --noEmit
+2025-10-10T16:38:18.1226330Z 
+2025-10-10T16:38:19.9854919Z ##[error]src/shared/contracts/events.ts(361,5): error TS4115: This parameter property must have an 'override' modifier because it overrides a member in base class 'Error'.
+2025-10-10T16:38:20.1217839Z ##[error]Process completed with exit code 1.
+2025-10-10T16:38:20.1355315Z ##[group]Run npm run typecheck:security
+2025-10-10T16:38:20.1355681Z [36;1mnpm run typecheck:security[0m
+2025-10-10T16:38:20.1414845Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:38:20.1415149Z env:
+2025-10-10T16:38:20.1415319Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:20.1415552Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:20.1415729Z   SENTRY_DSN: 
+2025-10-10T16:38:20.1415899Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:20.1416128Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:20.1416311Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:20.1416488Z   NODE_ENV: development
+2025-10-10T16:38:20.1416680Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:38:20.1416918Z ##[endgroup]
+2025-10-10T16:38:20.6495308Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:38:20.7177931Z 
+2025-10-10T16:38:20.7178390Z > gametp@0.1.0 typecheck:security
+2025-10-10T16:38:20.7178853Z > tsc -p tsconfig.security.json --noEmit
+2025-10-10T16:38:20.7179174Z 
+2025-10-10T16:38:22.4768730Z ##[group]Run node scripts/ci/guard-artifacts.mjs
+2025-10-10T16:38:22.4769118Z [36;1mnode scripts/ci/guard-artifacts.mjs[0m
+2025-10-10T16:38:22.4827316Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:38:22.4827612Z env:
+2025-10-10T16:38:22.4827771Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:22.4827994Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:22.4828167Z   SENTRY_DSN: 
+2025-10-10T16:38:22.4828344Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:22.4828534Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:22.4828700Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:22.4828865Z   NODE_ENV: development
+2025-10-10T16:38:22.4829057Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:38:22.4829248Z ##[endgroup]
+2025-10-10T16:38:22.9524741Z [guard-artifacts] OK: No tracked build artifacts under dist/ or dist-electron/.
+2025-10-10T16:38:23.0903905Z ##[group]Run npx --no-install commitlint --from=HEAD~1 --to=HEAD --verbose
+2025-10-10T16:38:23.0904459Z [36;1mnpx --no-install commitlint --from=HEAD~1 --to=HEAD --verbose[0m
+2025-10-10T16:38:23.0962687Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:38:23.0962988Z env:
+2025-10-10T16:38:23.0963147Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:23.0963362Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:23.0963543Z   SENTRY_DSN: 
+2025-10-10T16:38:23.0963712Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:23.0964103Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:23.0964277Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:23.0964450Z   NODE_ENV: development
+2025-10-10T16:38:23.0964633Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:38:23.0964816Z ##[endgroup]
+2025-10-10T16:38:23.7255001Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T16:38:26.3950518Z ⧗   input: Merge 49a95a27bfbb9c910dbd39ede44caa8cbfdd17cb into e1a2702b992654c40fdf749cd29695642d416d4b
+2025-10-10T16:38:26.3951465Z 
+2025-10-10T16:38:26.3951485Z 
+2025-10-10T16:38:26.3951885Z ✔   found 0 problems, 0 warnings
+2025-10-10T16:38:26.3952682Z ⧗   input: ci(infra): skip commitlint for dependabot[bot] to avoid false negatives
+2025-10-10T16:38:26.3953420Z ✔   found 0 problems, 0 warnings
+2025-10-10T16:38:26.3954224Z ⧗   input: ci(infra): correct Windows E2E artifact check to use productName.exe
+2025-10-10T16:38:26.3954926Z ✔   found 0 problems, 0 warnings
+2025-10-10T16:38:26.3955817Z ⧗   input: ci(infra): fix commitlint YAML, Playwright install, TruffleHog handling for stable Windows CI
+2025-10-10T16:38:26.3956582Z ✔   found 0 problems, 0 warnings
+2025-10-10T16:38:26.3957022Z ⧗   input: fix: skip release copy when dist output exists (ADR-0005)
+2025-10-10T16:38:26.3957430Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3957603Z 
+2025-10-10T16:38:26.3957745Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3958323Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3958633Z 
+2025-10-10T16:38:26.3958834Z ⧗   input: chore: add lightweight ci trigger note
+2025-10-10T16:38:26.3959229Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3959395Z 
+2025-10-10T16:38:26.3959543Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3960040Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3960347Z 
+2025-10-10T16:38:26.3960609Z ⧗   input: chore: patch tree-sitter gyp to enforce c++20 (ADR-0005)
+2025-10-10T16:38:26.3961060Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3961610Z 
+2025-10-10T16:38:26.3961893Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3962901Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3963442Z 
+2025-10-10T16:38:26.3963841Z ⧗   input: chore: lock node-gyp VS lookup to 2022 (ADR-0005)
+2025-10-10T16:38:26.3967960Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3968295Z 
+2025-10-10T16:38:26.3968561Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3969662Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3970257Z 
+2025-10-10T16:38:26.3971438Z ⧗   input: chore: pin node-gyp flags for release C++20 rebuild (ADR-0005)
+2025-10-10T16:38:26.3972086Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3972378Z 
+2025-10-10T16:38:26.3972636Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3973400Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3973870Z 
+2025-10-10T16:38:26.3974259Z ⧗   input: chore: document C++20 env for release build (ADR-0005)
+2025-10-10T16:38:26.3974852Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3975101Z 
+2025-10-10T16:38:26.3975317Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3978762Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3979337Z 
+2025-10-10T16:38:26.3979759Z ⧗   input: fix: align release build env for C++20 (ADR-0005)
+2025-10-10T16:38:26.3980335Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3980608Z 
+2025-10-10T16:38:26.3980835Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3981602Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3982095Z 
+2025-10-10T16:38:26.3982556Z ⧗   input: fix: restore scene transition playwright project (ADR-0005)
+2025-10-10T16:38:26.3983530Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3983807Z 
+2025-10-10T16:38:26.3984045Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3984836Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3985324Z 
+2025-10-10T16:38:26.3985719Z ⧗   input: fix: make otel stubs erasable for CI build (ADR-0005)
+2025-10-10T16:38:26.3986349Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3986976Z 
+2025-10-10T16:38:26.3987231Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3988046Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3988532Z 
+2025-10-10T16:38:26.3988933Z ⧗   input: chore: fix otel stub formatting for lint (ADR-0005)
+2025-10-10T16:38:26.3989521Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3989790Z 
+2025-10-10T16:38:26.3990014Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3990845Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3991400Z 
+2025-10-10T16:38:26.3991817Z ⧗   input: chore: normalize otel stub newline (ADR-0005)
+2025-10-10T16:38:26.3992386Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3992637Z 
+2025-10-10T16:38:26.3992865Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3993655Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3994179Z 
+2025-10-10T16:38:26.3994629Z ⧗   input: fix: stabilize perf smoke auto-hide (ADR-0003, ADR-0005)
+2025-10-10T16:38:26.3995284Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.3995560Z 
+2025-10-10T16:38:26.3995807Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.3996616Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.3997107Z 
+2025-10-10T16:38:26.3997473Z ⧗   input: fix(e2e): unblock perf smoke gate with otel stubs
+2025-10-10T16:38:26.3998549Z ✖   scope must be one of [core, renderer, electron, ci, docs, tests, security, build, deps, infra] [scope-enum]
+2025-10-10T16:38:26.3999135Z 
+2025-10-10T16:38:26.3999428Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4000260Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4000786Z 
+2025-10-10T16:38:26.4001226Z ⧗   input: chore: document card regex boundaries (ADR-0003)
+2025-10-10T16:38:26.4001849Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4002120Z 
+2025-10-10T16:38:26.4002344Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4003132Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4003619Z 
+2025-10-10T16:38:26.4003907Z ⧗   input: chore: trigger ci rerun (ADR-0005)
+2025-10-10T16:38:26.4004435Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4004699Z 
+2025-10-10T16:38:26.4004919Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4005719Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4006200Z 
+2025-10-10T16:38:26.4006586Z ⧗   input: chore: scrub sentry regex control chars (ADR-0003)
+2025-10-10T16:38:26.4007484Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4007757Z 
+2025-10-10T16:38:26.4007990Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4009573Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4010127Z 
+2025-10-10T16:38:26.4010507Z ⧗   input: chore: support (?i) flags in task alias regex
+2025-10-10T16:38:26.4011083Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4011342Z 
+2025-10-10T16:38:26.4011578Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4012380Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4012900Z 
+2025-10-10T16:38:26.4013323Z ⧗   input: ci: force c++20 toolchain for native rebuilds (ADR-0005)
+2025-10-10T16:38:26.4014458Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4014731Z 
+2025-10-10T16:38:26.4014953Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4015736Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4016252Z 
+2025-10-10T16:38:26.4016651Z ⧗   input: chore: align task schema with draft-07 for validator
+2025-10-10T16:38:26.4017277Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4017536Z 
+2025-10-10T16:38:26.4017763Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4018527Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4019025Z 
+2025-10-10T16:38:26.4019466Z ⧗   input: ci: register json-schema meta for task validator (ADR-0005)
+2025-10-10T16:38:26.4020116Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4020380Z 
+2025-10-10T16:38:26.4020612Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4021394Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4021905Z 
+2025-10-10T16:38:26.4022295Z ⧗   input: chore: add task schema for gate validation (ADR-0005)
+2025-10-10T16:38:26.4022912Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4023179Z 
+2025-10-10T16:38:26.4023403Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4024208Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4024701Z 
+2025-10-10T16:38:26.4025125Z ⧗   input: test: fix lint blockers in playwright suites (ADR-0005)
+2025-10-10T16:38:26.4025739Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4025997Z 
+2025-10-10T16:38:26.4026218Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4027288Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4027803Z 
+2025-10-10T16:38:26.4028111Z ⧗   input: fix: unblock docs shell guard on Windows (ADR-0011, ADR-0005)
+2025-10-10T16:38:26.4028531Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4028689Z 
+2025-10-10T16:38:26.4028828Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4029325Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4029621Z 
+2025-10-10T16:38:26.4029884Z ⧗   input: chore: enforce pwsh default for CodeQL workflow (ADR-0011)
+2025-10-10T16:38:26.4030275Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4030442Z 
+2025-10-10T16:38:26.4030587Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4031062Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4031364Z 
+2025-10-10T16:38:26.4031605Z ⧗   input: chore: add observability config baselines (ADR-0003)
+2025-10-10T16:38:26.4031995Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4032166Z 
+2025-10-10T16:38:26.4032310Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4032829Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4033126Z 
+2025-10-10T16:38:26.4033421Z ⧗   input: chore: relax security scan exit codes (ADR-0002 ADR-0004 ADR-0005)
+2025-10-10T16:38:26.4033833Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4034000Z 
+2025-10-10T16:38:26.4034136Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4034754Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4035053Z 
+2025-10-10T16:38:26.4035251Z ⧗   input: chore: normalize workflow files to LF
+2025-10-10T16:38:26.4035574Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4035743Z 
+2025-10-10T16:38:26.4035876Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4036343Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4036631Z 
+2025-10-10T16:38:26.4036822Z ⧗   input: chore: harden npm install verification
+2025-10-10T16:38:26.4037247Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4037408Z 
+2025-10-10T16:38:26.4037544Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4038018Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4038316Z 
+2025-10-10T16:38:26.4038511Z ⧗   input: chore: strip BOM from workflow manifests
+2025-10-10T16:38:26.4038855Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4039015Z 
+2025-10-10T16:38:26.4039153Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4039617Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4039915Z 
+2025-10-10T16:38:26.4040148Z ⧗   input: fix: ensure npm install uses resolved executable path
+2025-10-10T16:38:26.4040523Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4040680Z 
+2025-10-10T16:38:26.4040818Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4041442Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4041995Z 
+2025-10-10T16:38:26.4042468Z ⧗   input: fix: rebuild security summary output to satisfy actionlint
+2025-10-10T16:38:26.4043221Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4043502Z 
+2025-10-10T16:38:26.4043733Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4044567Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4045056Z 
+2025-10-10T16:38:26.4045277Z ⧗   input: docs: fix pull request template encoding
+2025-10-10T16:38:26.4045615Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4045777Z 
+2025-10-10T16:38:26.4045917Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4046382Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4046679Z 
+2025-10-10T16:38:26.4046863Z ⧗   input: fix: repair ci workflows for snyk bump
+2025-10-10T16:38:26.4047478Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4047713Z 
+2025-10-10T16:38:26.4047877Z ✖   found 1 problems, 0 warnings
+2025-10-10T16:38:26.4048354Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4048645Z 
+2025-10-10T16:38:26.4048843Z ⧗   input: deps: bump snyk from 1.1299.0 to 1.1299.1
+2025-10-10T16:38:26.4049028Z 
+2025-10-10T16:38:26.4049257Z Bumps [snyk](https://github.com/snyk/snyk) from 1.1299.0 to 1.1299.1.
+2025-10-10T16:38:26.4049677Z - [Release notes](https://github.com/snyk/snyk/releases)
+2025-10-10T16:38:26.4050117Z - [Commits](https://github.com/snyk/snyk/compare/v1.1299.0...v1.1299.1)
+2025-10-10T16:38:26.4050370Z 
+2025-10-10T16:38:26.4050433Z ---
+2025-10-10T16:38:26.4050597Z updated-dependencies:
+2025-10-10T16:38:26.4050808Z - dependency-name: snyk
+2025-10-10T16:38:26.4051029Z   dependency-version: 1.1299.1
+2025-10-10T16:38:26.4051278Z   dependency-type: direct:development
+2025-10-10T16:38:26.4051553Z   update-type: version-update:semver-patch
+2025-10-10T16:38:26.4051787Z ...
+2025-10-10T16:38:26.4051869Z 
+2025-10-10T16:38:26.4052033Z Signed-off-by: dependabot[bot] <support@github.com>
+2025-10-10T16:38:26.4052631Z ✖   type must be one of [build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test] [type-enum]
+2025-10-10T16:38:26.4053139Z ✖   scope may not be empty [scope-empty]
+2025-10-10T16:38:26.4053306Z 
+2025-10-10T16:38:26.4053603Z ✖   found 2 problems, 0 warnings
+2025-10-10T16:38:26.4054112Z ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+2025-10-10T16:38:26.4054424Z 
+2025-10-10T16:38:26.5295976Z ##[error]Process completed with exit code 1.
+2025-10-10T16:38:26.5469659Z Post job cleanup.
+2025-10-10T16:38:26.7821815Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-10-10T16:38:26.8132402Z git version 2.51.0.windows.2
+2025-10-10T16:38:26.8239402Z Temporarily overriding HOME='D:\a\_temp\a67521eb-40e0-4192-8417-c19d5e27ac98' before making global git config changes
+2025-10-10T16:38:26.8241006Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-10T16:38:26.8251267Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\gametp\gametp
+2025-10-10T16:38:26.8576096Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-10-10T16:38:26.8879014Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-10-10T16:38:27.5202310Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-10T16:38:27.5458129Z http.https://github.com/.extraheader
+2025-10-10T16:38:27.5508460Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+2025-10-10T16:38:27.5825704Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-10-10T16:38:28.3791307Z Cleaning up orphan processes

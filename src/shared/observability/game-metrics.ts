@@ -202,7 +202,10 @@ export class GameMetricsManager {
       //
       this.bufferMetric(metricKey, value, finalTags);
     } catch (error) {
-      console.warn(`⚠️ 指标记录失败 [${metricKey}]:`, error.message);
+      console.warn(
+        `⚠️ 指标记录失败 [${metricKey}]:`,
+        error instanceof Error ? error.message : String(error)
+      );
     }
   }
 

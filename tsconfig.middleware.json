@@ -8,6 +8,12 @@
   },
   "include": [
     "src/shared/middleware/**/*"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "src/**/*.spec.tsx",
+    "src/**/*.test.tsx",
+    "src/**/__tests__/**"
   ]
 }
-

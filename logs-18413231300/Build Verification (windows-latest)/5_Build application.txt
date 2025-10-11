@@ -1,0 +1,41 @@
+﻿2025-10-10T17:17:53.6202299Z ##[group]Run npm run build
+2025-10-10T17:17:53.6202713Z [36;1mnpm run build[0m
+2025-10-10T17:17:53.6270998Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:17:53.6271388Z env:
+2025-10-10T17:17:53.6271625Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:17:53.6271894Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:17:53.6272149Z   SENTRY_DSN: 
+2025-10-10T17:17:53.6272384Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:17:53.6272620Z   CL: /std:c++20 /EHsc
+2025-10-10T17:17:53.6272863Z   CXXFLAGS: -std=c++20
+2025-10-10T17:17:53.6273102Z   NODE_ENV: development
+2025-10-10T17:17:53.6273328Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:17:53.6273589Z ##[endgroup]
+2025-10-10T17:17:54.1579368Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T17:17:54.2168319Z 
+2025-10-10T17:17:54.2168676Z > gametp@0.1.0 build
+2025-10-10T17:17:54.2169631Z > tsc -p electron && tsc -b && vite build && node scripts/ci/postbuild-electron-commonjs.mjs
+2025-10-10T17:17:54.2170421Z 
+2025-10-10T17:18:05.0945352Z [36mvite v7.1.7 [32mbuilding for production...[36m[39m
+2025-10-10T17:18:05.2044219Z transforming...
+2025-10-10T17:18:14.2110636Z [32m✓[39m 535 modules transformed.
+2025-10-10T17:18:14.7049429Z rendering chunks...
+2025-10-10T17:18:24.0733304Z computing gzip size...
+2025-10-10T17:18:24.2144450Z [2mdist/[22m[32massets/computation.worker-CdC_Me8w.js  [39m[1m[2m    0.34 kB[22m[1m[22m
+2025-10-10T17:18:24.2147832Z [2mdist/[22m[32mindex.html                             [39m[1m[2m    1.02 kB[22m[1m[22m[2m │ gzip:   0.51 kB[22m
+2025-10-10T17:18:24.2149722Z [2mdist/[22m[35massets/index-CkJaZ1tk.css              [39m[1m[2m    0.73 kB[22m[1m[22m[2m │ gzip:   0.41 kB[22m
+2025-10-10T17:18:24.2151726Z [2mdist/[22m[35massets/GameCanvas-9dvl0rtk.css         [39m[1m[2m    1.44 kB[22m[1m[22m[2m │ gzip:   0.50 kB[22m
+2025-10-10T17:18:24.2153843Z [2mdist/[22m[36massets/workerBridge-BosBcgwm.js        [39m[1m[2m    0.58 kB[22m[1m[22m[2m │ gzip:   0.34 kB[22m[2m │ map:      2.18 kB[22m
+2025-10-10T17:18:24.2155819Z [2mdist/[22m[36massets/PerfTestHarness-D2Vlle_w.js     [39m[1m[2m    2.76 kB[22m[1m[22m[2m │ gzip:   1.06 kB[22m[2m │ map:      7.01 kB[22m
+2025-10-10T17:18:24.2157705Z [2mdist/[22m[36massets/LevelResultService-DTQld7En.js  [39m[1m[2m    6.56 kB[22m[1m[22m[2m │ gzip:   2.41 kB[22m[2m │ map:     21.88 kB[22m
+2025-10-10T17:18:24.2159562Z [2mdist/[22m[36massets/GameCanvas-CU1GSv3g.js          [39m[1m[2m    6.73 kB[22m[1m[22m[2m │ gzip:   1.99 kB[22m[2m │ map:     17.60 kB[22m
+2025-10-10T17:18:24.2161213Z [2mdist/[22m[36massets/vendor-veTYsopi.js              [39m[1m[2m   10.05 kB[22m[1m[22m[2m │ gzip:   4.05 kB[22m[2m │ map:     33.33 kB[22m
+2025-10-10T17:18:24.2163401Z [2mdist/[22m[36massets/GameVerticalSlice-DHOT7Q9l.js   [39m[1m[2m   13.19 kB[22m[1m[22m[2m │ gzip:   3.86 kB[22m[2m │ map:     26.63 kB[22m
+2025-10-10T17:18:24.2165126Z [2mdist/[22m[36massets/index-szarP7t_.js               [39m[1m[2m   26.97 kB[22m[1m[22m[2m │ gzip:   8.35 kB[22m[2m │ map:     81.59 kB[22m
+2025-10-10T17:18:24.2167408Z [2mdist/[22m[36massets/GameEngineAdapter-CJV3ETKa.js   [39m[1m[2m   46.36 kB[22m[1m[22m[2m │ gzip:  11.80 kB[22m[2m │ map:    165.79 kB[22m
+2025-10-10T17:18:24.2168983Z [2mdist/[22m[36massets/react-vendor-DGnxJ53u.js        [39m[1m[2m  356.76 kB[22m[1m[22m[2m │ gzip: 106.30 kB[22m[2m │ map:  1,514.32 kB[22m
+2025-10-10T17:18:24.2170552Z [2mdist/[22m[36massets/sentry-DR1Y47Jk.js              [39m[1m[2m  362.23 kB[22m[1m[22m[2m │ gzip: 120.69 kB[22m[2m │ map:  1,783.83 kB[22m
+2025-10-10T17:18:24.2172122Z [2mdist/[22m[36massets/phaser-Btm_6COX.js              [39m[1m[2m1,481.90 kB[22m[1m[22m[2m │ gzip: 339.91 kB[22m[2m │ map: 10,169.96 kB[22m
+2025-10-10T17:18:24.2173113Z [32m✓ built in 19.08s[39m
+2025-10-10T17:18:24.3802963Z [postbuild] wrote dist-electron/package.json { type: commonjs }
+2025-10-10T17:18:24.3883000Z [postbuild] ensured .cjs duplicates for 9 files

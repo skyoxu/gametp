@@ -1,0 +1,513 @@
+﻿2025-10-11T05:34:22.6799325Z Current runner version: '2.328.0'
+2025-10-11T05:34:22.6823297Z ##[group]Runner Image Provisioner
+2025-10-11T05:34:22.6824134Z Hosted Compute Agent
+2025-10-11T05:34:22.6824787Z Version: 20250912.392
+2025-10-11T05:34:22.6825368Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-11T05:34:22.6826254Z Build Date: 2025-09-12T15:23:14Z
+2025-10-11T05:34:22.6826925Z ##[endgroup]
+2025-10-11T05:34:22.6827455Z ##[group]Operating System
+2025-10-11T05:34:22.6828011Z Ubuntu
+2025-10-11T05:34:22.6828582Z 24.04.3
+2025-10-11T05:34:22.6829053Z LTS
+2025-10-11T05:34:22.6829487Z ##[endgroup]
+2025-10-11T05:34:22.6830065Z ##[group]Runner Image
+2025-10-11T05:34:22.6830616Z Image: ubuntu-24.04
+2025-10-11T05:34:22.6831092Z Version: 20250929.60.1
+2025-10-11T05:34:22.6832145Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250929.60/images/ubuntu/Ubuntu2404-Readme.md
+2025-10-11T05:34:22.6833647Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250929.60
+2025-10-11T05:34:22.6834692Z ##[endgroup]
+2025-10-11T05:34:22.6835915Z ##[group]GITHUB_TOKEN Permissions
+2025-10-11T05:34:22.6837773Z Contents: read
+2025-10-11T05:34:22.6838330Z Metadata: read
+2025-10-11T05:34:22.6838828Z Packages: read
+2025-10-11T05:34:22.6839444Z ##[endgroup]
+2025-10-11T05:34:22.6841780Z Secret source: None
+2025-10-11T05:34:22.6842678Z Prepare workflow directory
+2025-10-11T05:34:22.7173125Z Prepare all required actions
+2025-10-11T05:34:22.7211706Z Getting action download info
+2025-10-11T05:34:23.1008151Z Download action repository 'github/dependabot-action@main' (SHA:c8de751372d5acafc7b816320710eb0a5d457d40)
+2025-10-11T05:34:23.9844938Z Complete job name: Dependabot
+2025-10-11T05:34:24.0581089Z ##[group]Run mkdir -p  ./dependabot-job-1122660593-1760160857
+2025-10-11T05:34:24.0581917Z [36;1mmkdir -p  ./dependabot-job-1122660593-1760160857[0m
+2025-10-11T05:34:24.0618757Z shell: /usr/bin/bash -e {0}
+2025-10-11T05:34:24.0619536Z ##[endgroup]
+2025-10-11T05:34:24.0888753Z ##[group]Run github/dependabot-action@main
+2025-10-11T05:34:24.0889359Z env:
+2025-10-11T05:34:24.0889750Z   DEPENDABOT_DISABLE_CLEANUP: 1
+2025-10-11T05:34:24.0890253Z   DEPENDABOT_ENABLE_CONNECTIVITY_CHECK: 0
+2025-10-11T05:34:24.0891016Z   GITHUB_TOKEN: ***
+2025-10-11T05:34:24.0891784Z   GITHUB_DEPENDABOT_JOB_TOKEN: ***
+2025-10-11T05:34:24.0892631Z   GITHUB_DEPENDABOT_CRED_TOKEN: ***
+2025-10-11T05:34:24.0893128Z   GITHUB_REGISTRIES_PROXY: 
+2025-10-11T05:34:24.0893633Z ##[endgroup]
+2025-10-11T05:34:24.2906279Z 🤖 ~ starting update ~
+2025-10-11T05:34:24.2929878Z Fetching job details
+2025-10-11T05:34:24.9034960Z 🤖 ~ Failed to parse GITHUB_REGISTRIES_PROXY environment variable ~
+2025-10-11T05:34:24.9040844Z ##[group]Pulling updater images
+2025-10-11T05:34:24.9100209Z Pulling image ghcr.io/dependabot/dependabot-updater-npm:b19c9947b2d1911df815cfbc0338a2758ba69b07 (attempt 1)...
+2025-10-11T05:34:25.1082521Z Successfully sent metric (dependabot.action.ghcr_image_pull) to remote API endpoint
+2025-10-11T05:34:54.4892819Z Pulled image ghcr.io/dependabot/dependabot-updater-npm:b19c9947b2d1911df815cfbc0338a2758ba69b07
+2025-10-11T05:34:54.4906739Z Pulling image ghcr.io/github/dependabot-update-job-proxy/dependabot-update-job-proxy:v2.0.20251010195543@sha256:69739532eb171be7b7d27b37d529e3f24c48052463bf075c0b26fc355a03c2a3 (attempt 1)...
+2025-10-11T05:34:54.6921768Z Successfully sent metric (dependabot.action.ghcr_image_pull) to remote API endpoint
+2025-10-11T05:34:55.8458824Z Pulled image ghcr.io/github/dependabot-update-job-proxy/dependabot-update-job-proxy:v2.0.20251010195543@sha256:69739532eb171be7b7d27b37d529e3f24c48052463bf075c0b26fc355a03c2a3
+2025-10-11T05:34:55.8461188Z ##[endgroup]
+2025-10-11T05:34:55.8461698Z Starting update process
+2025-10-11T05:34:56.1733666Z Created proxy container: 6d27ee9c866e2f0e850c53bfc144efef425f3199da65ba345da15f88a66ce4a8
+2025-10-11T05:34:56.3781339Z Created container: ced6facd453fb0d8de773274ac9383122ccf1dc1396a95eb09db9309c9c1ffaa
+2025-10-11T05:34:56.4752980Z   proxy | 2025/10/11 05:34:56 proxy starting, commit: 7ad08b608e5b56f5557a1a72ef26ce969df722a2
+2025-10-11T05:34:56.4756052Z   proxy | 2025/10/11 05:34:56 Listening (:1080)
+2025-10-11T05:34:56.4874038Z Started container ced6facd453fb0d8de773274ac9383122ccf1dc1396a95eb09db9309c9c1ffaa
+2025-10-11T05:34:56.5252324Z updater | Updating certificates in /etc/ssl/certs...
+2025-10-11T05:34:57.2240426Z updater | rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2025-10-11T05:34:57.2290112Z updater | 1 added, 0 removed; done.
+2025-10-11T05:34:57.2291160Z updater | Running hooks in /etc/ca-certificates/update.d...
+2025-10-11T05:34:57.2302017Z updater | done.
+2025-10-11T05:34:59.2410027Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Starting job processing
+2025-10-11T05:34:59.2478345Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Job definition: {"job":{"command":"security","allowed-updates":[{"dependency-type":"direct","update-type":"all"}],"commit-message-options":{"prefix":"deps","prefix-development":null,"include-scope":null},"credentials-metadata":[{"type":"git_source","host":"github.com"}],"debug":null,"dependencies":["ip"],"dependency-groups":[],"dependency-group-to-refresh":null,"existing-pull-requests":[[{"dependency-name":"jsdom","dependency-version":"27.0.0","directory":"/","pr-number":1}],[{"dependency-name":"lint-staged","dependency-version":"16.2.1","directory":"/","pr-number":2}],[{"dependency-name":"@sentry/node","dependency-version":"10.15.0","directory":"/","pr-number":3}],[{"dependency-name":"@sentry/electron","dependency-version":"7.1.1","directory":"/","pr-number":4}],[{"dependency-name":"@commitlint/config-conventional","dependency-version":"20.0.0","directory":"/","pr-number":5}],[{"dependency-name":"posthog-js","dependency-version":"1.268.6","directory":"/","pr-number":6}],[{"dependency-name":"size-limit","dependency-version":"11.2.0","directory":"/","pr-number":7}],[{"dependency-name":"better-sqlite3","dependency-version":"12.4.1","directory":"/","pr-number":8}],[{"dependency-name":"@upstash/context7-mcp","dependency-version":"1.0.18","directory":"/","pr-number":9}],[{"dependency-name":"@kazuph/mcp-fetch","dependency-version":"1.6.0","directory":"/","pr-number":10}],[{"dependency-name":"@sentry/browser","dependency-version":"10.15.0","directory":"/","pr-number":11}],[{"dependency-name":"@electron/fuses","dependency-version":"2.0.0","directory":"/","pr-number":12}],[{"dependency-name":"@vitejs/plugin-react","dependency-version":"5.0.3","directory":"/","pr-number":14}],[{"dependency-name":"@size-limit/file","dependency-version":"11.2.0","directory":"/","pr-number":15}],[{"dependency-name":"@commitlint/cli","dependency-version":"20.0.0","directory":"/","pr-number":17}],[{"dependency-name":"eslint-plugin-react-refresh","dependency-version":"0.4.22","directory":"/","pr-number":18}],[{"dependency-name":"typescript","dependency-version":"5.9.2","directory":"/","pr-number":19}],[{"dependency-name":"@playwright/test","dependency-version":"1.55.1","directory":"/","pr-number":20}],[{"dependency-name":"@brave/brave-search-mcp-server","dependency-version":"2.0.24","directory":"/","pr-number":21}],[{"dependency-name":"@types/react","dependency-version":"19.1.14","directory":"/","pr-number":22}],[{"dependency-name":"@types/react","dependency-version":"19.1.15","directory":"/","pr-number":24}],[{"dependency-name":"@vitejs/plugin-react","dependency-version":"5.0.4","directory":"/","pr-number":25}],[{"dependency-name":"@types/react","dependency-version":"19.1.16","directory":"/","pr-number":26}],[{"dependency-name":"@commitlint/cli","dependency-version":"20.1.0","directory":"/","pr-number":27}],[{"dependency-name":"typescript","dependency-version":"5.9.3","directory":"/","pr-number":28}],[{"dependency-name":"@types/react","dependency-version":"19.1.17","directory":"/","pr-number":29}],[{"dependency-name":"eslint-plugin-react-refresh","dependency-version":"0.4.23","directory":"/","pr-number":30}],[{"dependency-name":"@brave/brave-search-mcp-server","dependency-version":"2.0.31","directory":"/","pr-number":32}],[{"dependency-name":"@brave/brave-search-mcp-server","dependency-version":"2.0.36","directory":"/","pr-number":33}],[{"dependency-name":"@playwright/test","dependency-version":"1.56.0","directory":"/","pr-number":34}],[{"dependency-name":"@brave/brave-search-mcp-server","dependency-version":"2.0.49","directory":"/","pr-number":37}],[{"dependency-name":"@brave/brave-search-mcp-server","dependency-version":"2.0.53","directory":"/","pr-number":38}],[{"dependency-name":"@brave/brave-search-mcp-server","dependency-version":"2.0.54","directory":"/","pr-number":39}],[{"dependency-name":"@kazuph/mcp-fetch","dependency-version":"1.6.0","directory":"/","pr-number":23},{"dependency-name":"@mozilla/readability","dependency-version":"0.6.0","directory":"/","pr-number":23}],[{"dependency-name":"@types/react","dependency-version":"19.2.0","directory":"/","pr-number":31},{"dependency-name":"react","dependency-version":"19.2.0","directory":"/","pr-number":31}]],"existing-group-pull-requests":[],"experiments":{"record-ecosystem-versions":true,"record-update-job-unknown-error":true,"proxy-cached":true,"move-job-token":true,"dependency-change-validation":true,"enable-file-parser-python-local":true,"npm-fallback-version-above-v6":true,"lead-security-dependency":true,"enable-record-ecosystem-meta":true,"enable-corepack-for-npm-and-yarn":true,"enable-shared-helpers-command-timeout":true,"enable-dependabot-setting-up-cronjob":true,"enable-engine-version-detection":true,"avoid-duplicate-updates-package-json":true,"allow-refresh-for-existing-pr-dependencies":true,"allow-refresh-group-with-all-dependencies":true,"exclude-local-composer-packages":true,"enable-enhanced-error-details-for-updater":true,"gradle-lockfile-updater":true,"enable-exclude-paths-subdirectory-manifest-files":true,"group-membership-enforcement":true,"deprecate-close-command":true,"deprecate-reopen-command":true,"deprecate-merge-command":true,"deprecate-cancel-merge-command":true,"deprecate-squash-merge-command":true},"ignore-conditions":[{"dependency-name":"electron","version-requirement":null,"update-types":["version-update:semver-major"],"source":".github/dependabot.yml","updated-at":"2025-09-27T08:18:17.000Z"}],"lockfile-only":false,"max-updater-run-time":2700,"package-manager":"npm_and_yarn","proxy-log-response-body-on-auth-failure":true,"requirements-update-strategy":null,"reject-external-code":false,"security-advisories":[{"dependency-name":"ip","patched-versions":[],"unaffected-versions":[],"affected-versions":["<= 2.0.1"]},{"dependency-name":"ip","patched-versions":[],"unaffected-versions":[],"affected-versions":["= 2.0.0","< 1.1.9"]}],"security-updates-only":true,"source":{"provider":"github","repo":"skyoxu/gametp","branch":null,"api-endpoint":"https://api.github.com/","hostname":"github.com","directories":["/."]},"updating-a-pull-request":false,"update-subdependencies":false,"vendor-dependencies":false,"enable-beta-ecosystems":false,"repo-private":false,"multi-ecosystem-update":false,"exclude-paths":null}}
+2025-10-11T05:34:59.2519167Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Started process PID: 1089 with command: {} git config --global credential.helper '!/home/dependabot/common/lib/dependabot/../../bin/git-credential-store-immutable --file /home/dependabot/dependabot-updater/git.store' {}
+2025-10-11T05:34:59.2560409Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Process PID: 1089 completed with status: pid 1089 exit 0
+2025-10-11T05:34:59.2561801Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:34:59.2569395Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Started process PID: 1097 with command: {} git config --global --replace-all url.https://github.com/.insteadOf ssh://git@github.com/ {}
+2025-10-11T05:34:59.2607377Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Process PID: 1097 completed with status: pid 1097 exit 0
+2025-10-11T05:34:59.2608420Z 2025/10/11 05:34:59 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:34:59.2613033Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Started process PID: 1104 with command: {} git config --global --add url.https://github.com/.insteadOf ssh://git@github.com: {}
+2025-10-11T05:34:59.2652365Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Process PID: 1104 completed with status: pid 1104 exit 0
+2025-10-11T05:34:59.2653438Z 2025/10/11 05:34:59 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:34:59.2657719Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Started process PID: 1111 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com: {}
+2025-10-11T05:34:59.2697756Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Process PID: 1111 completed with status: pid 1111 exit 0
+2025-10-11T05:34:59.2698743Z 2025/10/11 05:34:59 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:34:59.2702781Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Started process PID: 1118 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com/ {}
+2025-10-11T05:34:59.2743724Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Process PID: 1118 completed with status: pid 1118 exit 0
+2025-10-11T05:34:59.2744310Z 2025/10/11 05:34:59 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:34:59.2748897Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Started process PID: 1125 with command: {} git config --global --add url.https://github.com/.insteadOf git://github.com/ {}
+2025-10-11T05:34:59.2790559Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Process PID: 1125 completed with status: pid 1125 exit 0
+2025-10-11T05:34:59.2791182Z 2025/10/11 05:34:59 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:34:59.2972841Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Started process PID: 1132 with command: {} git config --global --replace-all url.https://github.com/.insteadOf ssh://git@github.com/ {}
+2025-10-11T05:34:59.2974859Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Process PID: 1132 completed with status: pid 1132 exit 0
+2025-10-11T05:34:59.2976549Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Total execution time: 0.02 seconds
+2025-10-11T05:34:59.2978349Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Started process PID: 1139 with command: {} git config --global --add url.https://github.com/.insteadOf ssh://git@github.com: {}
+2025-10-11T05:34:59.3020259Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Process PID: 1139 completed with status: pid 1139 exit 0
+2025-10-11T05:34:59.3021289Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:34:59.3028936Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Started process PID: 1146 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com: {}
+2025-10-11T05:34:59.3070337Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Process PID: 1146 completed with status: pid 1146 exit 0
+2025-10-11T05:34:59.3071273Z 2025/10/11 05:34:59 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:34:59.3075415Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Started process PID: 1152 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com/ {}
+2025-10-11T05:34:59.3111405Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Process PID: 1152 completed with status: pid 1152 exit 0
+2025-10-11T05:34:59.3112169Z 2025/10/11 05:34:59 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:34:59.3118130Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Started process PID: 1159 with command: {} git config --global --add url.https://github.com/.insteadOf git://github.com/ {}
+2025-10-11T05:34:59.3156526Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Process PID: 1159 completed with status: pid 1159 exit 0
+2025-10-11T05:34:59.3157496Z 2025/10/11 05:34:59 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:34:59.3169373Z updater | 2025/10/11 05:34:59 INFO <job_1122660593> Started process PID: 1166 with command: {} git clone --no-tags --depth 1 --recurse-submodules --shallow-submodules https://github.com/skyoxu/gametp /home/dependabot/dependabot-updater/repo {}
+2025-10-11T05:34:59.4611909Z   proxy | 2025/10/11 05:34:59 [002] GET https://github.com:443/skyoxu/gametp/info/refs?service=git-upload-pack
+2025-10-11T05:34:59.4615411Z   proxy | 2025/10/11 05:34:59 [002] * authenticating git server request (host: github.com)
+2025-10-11T05:34:59.6562144Z   proxy | 2025/10/11 05:34:59 [002] 200 https://github.com:443/skyoxu/gametp/info/refs?service=git-upload-pack
+2025-10-11T05:34:59.6938856Z   proxy | 2025/10/11 05:34:59 [004] POST https://github.com:443/skyoxu/gametp/git-upload-pack
+2025-10-11T05:34:59.6939884Z 2025/10/11 05:34:59 [004] * authenticating git server request (host: github.com)
+2025-10-11T05:34:59.8137598Z   proxy | 2025/10/11 05:34:59 [004] 200 https://github.com:443/skyoxu/gametp/git-upload-pack
+2025-10-11T05:34:59.8477261Z   proxy | 2025/10/11 05:34:59 [006] POST https://github.com:443/skyoxu/gametp/git-upload-pack
+2025-10-11T05:34:59.8478192Z 2025/10/11 05:34:59 [006] * authenticating git server request (host: github.com)
+2025-10-11T05:35:00.0215229Z   proxy | 2025/10/11 05:35:00 [006] 200 https://github.com:443/skyoxu/gametp/git-upload-pack
+2025-10-11T05:35:00.3239614Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1166 completed with status: pid 1166 exit 0
+2025-10-11T05:35:00.3240398Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 1.01 seconds
+2025-10-11T05:35:00.3245594Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1208 with command: {} git -C /home/dependabot/dependabot-updater/repo ls-files --stage {}
+2025-10-11T05:35:00.3293324Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1208 completed with status: pid 1208 exit 0
+2025-10-11T05:35:00.3294297Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.01 seconds
+2025-10-11T05:35:00.3349092Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1223 with command: {} git config --global credential.helper '!/home/dependabot/common/lib/dependabot/../../bin/git-credential-store-immutable --file /home/dependabot/dependabot-updater/git.store' {}
+2025-10-11T05:35:00.3399318Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1223 completed with status: pid 1223 exit 0
+2025-10-11T05:35:00.3400893Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.01 seconds
+2025-10-11T05:35:00.3406162Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1231 with command: {} git config --global --replace-all url.https://github.com/.insteadOf ssh://git@github.com/ {}
+2025-10-11T05:35:00.3446664Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1231 completed with status: pid 1231 exit 0
+2025-10-11T05:35:00.3447555Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.3456892Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1238 with command: {} git config --global --add url.https://github.com/.insteadOf ssh://git@github.com: {}
+2025-10-11T05:35:00.3489253Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1238 completed with status: pid 1238 exit 0
+2025-10-11T05:35:00.3489835Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.3496338Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1245 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com: {}
+2025-10-11T05:35:00.3533203Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1245 completed with status: pid 1245 exit 0
+2025-10-11T05:35:00.3538405Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.3539447Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1252 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com/ {}
+2025-10-11T05:35:00.3578422Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1252 completed with status: pid 1252 exit 0
+2025-10-11T05:35:00.3579641Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.3585728Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1259 with command: {} git config --global --add url.https://github.com/.insteadOf git://github.com/ {}
+2025-10-11T05:35:00.3620994Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1259 completed with status: pid 1259 exit 0
+2025-10-11T05:35:00.3621984Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.3634814Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1266 with command: {} git config --global --replace-all url.https://github.com/.insteadOf ssh://git@github.com/ {}
+2025-10-11T05:35:00.3677193Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1266 completed with status: pid 1266 exit 0
+2025-10-11T05:35:00.3680292Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.01 seconds
+2025-10-11T05:35:00.3685274Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1273 with command: {} git config --global --add url.https://github.com/.insteadOf ssh://git@github.com: {}
+2025-10-11T05:35:00.3729198Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1273 completed with status: pid 1273 exit 0
+2025-10-11T05:35:00.3730942Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.01 seconds
+2025-10-11T05:35:00.3739539Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1281 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com: {}
+2025-10-11T05:35:00.3781014Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1281 completed with status: pid 1281 exit 0
+2025-10-11T05:35:00.3785614Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.01 seconds
+2025-10-11T05:35:00.3788893Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1288 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com/ {}
+2025-10-11T05:35:00.3823424Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1288 completed with status: pid 1288 exit 0
+2025-10-11T05:35:00.3824127Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.3829071Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1295 with command: {} git config --global --add url.https://github.com/.insteadOf git://github.com/ {}
+2025-10-11T05:35:00.3877100Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1295 completed with status: pid 1295 exit 0
+2025-10-11T05:35:00.3878664Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.01 seconds
+2025-10-11T05:35:00.3884065Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1302 with command: {} git lfs pull --include .yarn,./yarn/cache {}
+2025-10-11T05:35:00.4279450Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1302 completed with status: pid 1302 exit 0
+2025-10-11T05:35:00.4280526Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.04 seconds
+2025-10-11T05:35:00.4325009Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1344 with command: {} git config --global credential.helper '!/home/dependabot/common/lib/dependabot/../../bin/git-credential-store-immutable --file /home/dependabot/dependabot-updater/git.store' {}
+2025-10-11T05:35:00.4368417Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1344 completed with status: pid 1344 exit 0
+2025-10-11T05:35:00.4370174Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.4374957Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1352 with command: {} git config --global --replace-all url.https://github.com/.insteadOf ssh://git@github.com/ {}
+2025-10-11T05:35:00.4408132Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1352 completed with status: pid 1352 exit 0
+2025-10-11T05:35:00.4409035Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.4413591Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1359 with command: {} git config --global --add url.https://github.com/.insteadOf ssh://git@github.com: {}
+2025-10-11T05:35:00.4451350Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1359 completed with status: pid 1359 exit 0
+2025-10-11T05:35:00.4451891Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.4456499Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1366 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com: {}
+2025-10-11T05:35:00.4492701Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1366 completed with status: pid 1366 exit 0
+2025-10-11T05:35:00.4493625Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.4498563Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1373 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com/ {}
+2025-10-11T05:35:00.4532994Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1373 completed with status: pid 1373 exit 0
+2025-10-11T05:35:00.4533923Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.4540220Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1380 with command: {} git config --global --add url.https://github.com/.insteadOf git://github.com/ {}
+2025-10-11T05:35:00.4580299Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1380 completed with status: pid 1380 exit 0
+2025-10-11T05:35:00.4581391Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.4588193Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1387 with command: {} git config --global --replace-all url.https://github.com/.insteadOf ssh://git@github.com/ {}
+2025-10-11T05:35:00.4621263Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1387 completed with status: pid 1387 exit 0
+2025-10-11T05:35:00.4622141Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.4628266Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1394 with command: {} git config --global --add url.https://github.com/.insteadOf ssh://git@github.com: {}
+2025-10-11T05:35:00.4666792Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1394 completed with status: pid 1394 exit 0
+2025-10-11T05:35:00.4667705Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.4671648Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1401 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com: {}
+2025-10-11T05:35:00.4707678Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1401 completed with status: pid 1401 exit 0
+2025-10-11T05:35:00.4708536Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.4713962Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1408 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com/ {}
+2025-10-11T05:35:00.4753063Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1408 completed with status: pid 1408 exit 0
+2025-10-11T05:35:00.4753911Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.4759471Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1414 with command: {} git config --global --add url.https://github.com/.insteadOf git://github.com/ {}
+2025-10-11T05:35:00.4798396Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1414 completed with status: pid 1414 exit 0
+2025-10-11T05:35:00.4799469Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.4804017Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1420 with command: {} git rev-parse HEAD {}
+2025-10-11T05:35:00.4843891Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1420 completed with status: pid 1420 exit 0
+2025-10-11T05:35:00.4844911Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.4886258Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1435 with command: {} git config --global credential.helper '!/home/dependabot/common/lib/dependabot/../../bin/git-credential-store-immutable --file /home/dependabot/dependabot-updater/git.store' {}
+2025-10-11T05:35:00.4926018Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1435 completed with status: pid 1435 exit 0
+2025-10-11T05:35:00.4926901Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.4931506Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1443 with command: {} git config --global --replace-all url.https://github.com/.insteadOf ssh://git@github.com/ {}
+2025-10-11T05:35:00.4972418Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1443 completed with status: pid 1443 exit 0
+2025-10-11T05:35:00.4974034Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.4975515Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1450 with command: {} git config --global --add url.https://github.com/.insteadOf ssh://git@github.com: {}
+2025-10-11T05:35:00.5016031Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1450 completed with status: pid 1450 exit 0
+2025-10-11T05:35:00.5022160Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.5024639Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1456 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com: {}
+2025-10-11T05:35:00.5065423Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1456 completed with status: pid 1456 exit 0
+2025-10-11T05:35:00.5066526Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.01 seconds
+2025-10-11T05:35:00.5071971Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1463 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com/ {}
+2025-10-11T05:35:00.5119770Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1463 completed with status: pid 1463 exit 0
+2025-10-11T05:35:00.5120919Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.01 seconds
+2025-10-11T05:35:00.5124349Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1470 with command: {} git config --global --add url.https://github.com/.insteadOf git://github.com/ {}
+2025-10-11T05:35:00.5175140Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1470 completed with status: pid 1470 exit 0
+2025-10-11T05:35:00.5176620Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.01 seconds
+2025-10-11T05:35:00.5182564Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1477 with command: {} git config --global --replace-all url.https://github.com/.insteadOf ssh://git@github.com/ {}
+2025-10-11T05:35:00.5227664Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1477 completed with status: pid 1477 exit 0
+2025-10-11T05:35:00.5229433Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.5237404Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1484 with command: {} git config --global --add url.https://github.com/.insteadOf ssh://git@github.com: {}
+2025-10-11T05:35:00.5276293Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1484 completed with status: pid 1484 exit 0
+2025-10-11T05:35:00.5279392Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.5284058Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1491 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com: {}
+2025-10-11T05:35:00.5329263Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1491 completed with status: pid 1491 exit 0
+2025-10-11T05:35:00.5331191Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.01 seconds
+2025-10-11T05:35:00.5337314Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1497 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com/ {}
+2025-10-11T05:35:00.5373217Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1497 completed with status: pid 1497 exit 0
+2025-10-11T05:35:00.5374334Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.5389346Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1504 with command: {} git config --global --add url.https://github.com/.insteadOf git://github.com/ {}
+2025-10-11T05:35:00.5431364Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1504 completed with status: pid 1504 exit 0
+2025-10-11T05:35:00.5432201Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.01 seconds
+2025-10-11T05:35:00.5437517Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1511 with command: {} git rev-parse HEAD {}
+2025-10-11T05:35:00.5479171Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1511 completed with status: pid 1511 exit 0
+2025-10-11T05:35:00.5480148Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.5531494Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1526 with command: {} git config --global credential.helper '!/home/dependabot/common/lib/dependabot/../../bin/git-credential-store-immutable --file /home/dependabot/dependabot-updater/git.store' {}
+2025-10-11T05:35:00.5578337Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1526 completed with status: pid 1526 exit 0
+2025-10-11T05:35:00.5579101Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.01 seconds
+2025-10-11T05:35:00.5584875Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1534 with command: {} git config --global --replace-all url.https://github.com/.insteadOf ssh://git@github.com/ {}
+2025-10-11T05:35:00.5617975Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1534 completed with status: pid 1534 exit 0
+2025-10-11T05:35:00.5618731Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.5623121Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1541 with command: {} git config --global --add url.https://github.com/.insteadOf ssh://git@github.com: {}
+2025-10-11T05:35:00.5661208Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1541 completed with status: pid 1541 exit 0
+2025-10-11T05:35:00.5662072Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.5665969Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1548 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com: {}
+2025-10-11T05:35:00.5704963Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1548 completed with status: pid 1548 exit 0
+2025-10-11T05:35:00.5706049Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.5710146Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1555 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com/ {}
+2025-10-11T05:35:00.5748582Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1555 completed with status: pid 1555 exit 0
+2025-10-11T05:35:00.5749133Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.5754188Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1562 with command: {} git config --global --add url.https://github.com/.insteadOf git://github.com/ {}
+2025-10-11T05:35:00.5789671Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1562 completed with status: pid 1562 exit 0
+2025-10-11T05:35:00.5794513Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.5795577Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1569 with command: {} git config --global --replace-all url.https://github.com/.insteadOf ssh://git@github.com/ {}
+2025-10-11T05:35:00.5839368Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1569 completed with status: pid 1569 exit 0
+2025-10-11T05:35:00.5840215Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.5847671Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1576 with command: {} git config --global --add url.https://github.com/.insteadOf ssh://git@github.com: {}
+2025-10-11T05:35:00.5886569Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1576 completed with status: pid 1576 exit 0
+2025-10-11T05:35:00.5887261Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.5891643Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1583 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com: {}
+2025-10-11T05:35:00.5926583Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1583 completed with status: pid 1583 exit 0
+2025-10-11T05:35:00.5927478Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.5932852Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1590 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com/ {}
+2025-10-11T05:35:00.5966860Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1590 completed with status: pid 1590 exit 0
+2025-10-11T05:35:00.5967681Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.5972089Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1597 with command: {} git config --global --add url.https://github.com/.insteadOf git://github.com/ {}
+2025-10-11T05:35:00.6006853Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1597 completed with status: pid 1597 exit 0
+2025-10-11T05:35:00.6007426Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.6049196Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1612 with command: {} git config --global credential.helper '!/home/dependabot/common/lib/dependabot/../../bin/git-credential-store-immutable --file /home/dependabot/dependabot-updater/git.store' {}
+2025-10-11T05:35:00.6091934Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1612 completed with status: pid 1612 exit 0
+2025-10-11T05:35:00.6092956Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.6101273Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1620 with command: {} git config --global --replace-all url.https://github.com/.insteadOf ssh://git@github.com/ {}
+2025-10-11T05:35:00.6141887Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1620 completed with status: pid 1620 exit 0
+2025-10-11T05:35:00.6142834Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.01 seconds
+2025-10-11T05:35:00.6148702Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1627 with command: {} git config --global --add url.https://github.com/.insteadOf ssh://git@github.com: {}
+2025-10-11T05:35:00.6181189Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1627 completed with status: pid 1627 exit 0
+2025-10-11T05:35:00.6181908Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.6190769Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1634 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com: {}
+2025-10-11T05:35:00.6226512Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1634 completed with status: pid 1634 exit 0
+2025-10-11T05:35:00.6227251Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.6231568Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1641 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com/ {}
+2025-10-11T05:35:00.6272059Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1641 completed with status: pid 1641 exit 0
+2025-10-11T05:35:00.6272838Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.6281997Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1648 with command: {} git config --global --add url.https://github.com/.insteadOf git://github.com/ {}
+2025-10-11T05:35:00.6325138Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1648 completed with status: pid 1648 exit 0
+2025-10-11T05:35:00.6326366Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.01 seconds
+2025-10-11T05:35:00.6330678Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1655 with command: {} git config --global --replace-all url.https://github.com/.insteadOf ssh://git@github.com/ {}
+2025-10-11T05:35:00.6367667Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1655 completed with status: pid 1655 exit 0
+2025-10-11T05:35:00.6369319Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.6370576Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1662 with command: {} git config --global --add url.https://github.com/.insteadOf ssh://git@github.com: {}
+2025-10-11T05:35:00.6406915Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1662 completed with status: pid 1662 exit 0
+2025-10-11T05:35:00.6407817Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.6412031Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1669 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com: {}
+2025-10-11T05:35:00.6447908Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1669 completed with status: pid 1669 exit 0
+2025-10-11T05:35:00.6448638Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.6452872Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1675 with command: {} git config --global --add url.https://github.com/.insteadOf git@github.com/ {}
+2025-10-11T05:35:00.6491903Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1675 completed with status: pid 1675 exit 0
+2025-10-11T05:35:00.6492741Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.6497796Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1682 with command: {} git config --global --add url.https://github.com/.insteadOf git://github.com/ {}
+2025-10-11T05:35:00.6536169Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1682 completed with status: pid 1682 exit 0
+2025-10-11T05:35:00.6537034Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:00.6542188Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1689 with command: {} git lfs pull --include .yarn,./yarn/cache {}
+2025-10-11T05:35:00.6871360Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1689 completed with status: pid 1689 exit 0
+2025-10-11T05:35:00.6872250Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.03 seconds
+2025-10-11T05:35:00.6911859Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Detected package manager: npm
+2025-10-11T05:35:00.6912654Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Resolving package manager for: npm
+2025-10-11T05:35:00.7358883Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Guessed version info "npm" : "10"
+2025-10-11T05:35:00.7363681Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Fetching version for package manager: npm
+2025-10-11T05:35:00.7371843Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1721 with command: {} corepack npm -v {}
+2025-10-11T05:35:00.8618349Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Process PID: 1721 completed with status: pid 1721 exit 0
+2025-10-11T05:35:00.8620903Z 2025/10/11 05:35:00 INFO <job_1122660593> Total execution time: 0.13 seconds
+2025-10-11T05:35:00.8621662Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Installed version of npm: 10.9.3
+2025-10-11T05:35:00.8622324Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Installed version for npm: 10.9.3
+2025-10-11T05:35:00.8622823Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Processing engine constraints for npm
+2025-10-11T05:35:00.8623440Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> No version requirement found for npm
+2025-10-11T05:35:00.8624206Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Detected package manager: npm
+2025-10-11T05:35:00.8624740Z 2025/10/11 05:35:00 INFO <job_1122660593> Resolving package manager for: npm
+2025-10-11T05:35:00.8694454Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Guessed version info "npm" : "10"
+2025-10-11T05:35:00.8696225Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Installed version for npm: 10.9.3
+2025-10-11T05:35:00.8696875Z 2025/10/11 05:35:00 INFO <job_1122660593> Processing engine constraints for npm
+2025-10-11T05:35:00.8697354Z 2025/10/11 05:35:00 INFO <job_1122660593> No version requirement found for npm
+2025-10-11T05:35:00.8797340Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Guessed version info "npm" : "10"
+2025-10-11T05:35:00.8799758Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Installing "npm@10"
+2025-10-11T05:35:00.8808293Z updater | 2025/10/11 05:35:00 INFO <job_1122660593> Started process PID: 1733 with command: {} corepack install npm@10 --global --cache-only {}
+2025-10-11T05:35:01.0941285Z   proxy | 2025/10/11 05:35:01 [008] GET https://registry.npmjs.org:443/npm
+2025-10-11T05:35:01.2079527Z   proxy | 2025/10/11 05:35:01 [008] 200 https://registry.npmjs.org:443/npm
+2025-10-11T05:35:01.3306085Z   proxy | 2025/10/11 05:35:01 [010] GET https://registry.npmjs.org:443/npm/-/npm-10.9.4.tgz
+2025-10-11T05:35:01.3697638Z   proxy | 2025/10/11 05:35:01 [010] 200 https://registry.npmjs.org:443/npm/-/npm-10.9.4.tgz
+2025-10-11T05:35:02.3925430Z   proxy | 2025/10/11 05:35:02 [012] GET https://registry.npmjs.org:443/npm/10.9.4
+2025-10-11T05:35:02.4984612Z   proxy | 2025/10/11 05:35:02 [012] 200 https://registry.npmjs.org:443/npm/10.9.4
+2025-10-11T05:35:02.5207514Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Process PID: 1733 completed with status: pid 1733 exit 0
+2025-10-11T05:35:02.5208586Z 2025/10/11 05:35:02 INFO <job_1122660593> Total execution time: 1.64 seconds
+2025-10-11T05:35:02.5209286Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> npm@10 successfully installed.
+2025-10-11T05:35:02.5210094Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Activating currently installed version of npm: 10
+2025-10-11T05:35:02.5216115Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Started process PID: 1745 with command: {} corepack prepare npm@10 --activate {}
+2025-10-11T05:35:02.5873766Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Process PID: 1745 completed with status: pid 1745 exit 0
+2025-10-11T05:35:02.5875001Z 2025/10/11 05:35:02 INFO <job_1122660593> Total execution time: 0.07 seconds
+2025-10-11T05:35:02.5875709Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Fetching version for package manager: npm
+2025-10-11T05:35:02.5880447Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Started process PID: 1757 with command: {} corepack npm -v {}
+2025-10-11T05:35:02.7085401Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Process PID: 1757 completed with status: pid 1757 exit 0
+2025-10-11T05:35:02.7086476Z 2025/10/11 05:35:02 INFO <job_1122660593> Total execution time: 0.12 seconds
+2025-10-11T05:35:02.7087161Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Installed version of npm: 10.9.4
+2025-10-11T05:35:02.7163244Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Detected package manager: npm
+2025-10-11T05:35:02.7163996Z 2025/10/11 05:35:02 INFO <job_1122660593> Resolving package manager for: npm
+2025-10-11T05:35:02.7624195Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Guessed version info "npm" : "10"
+2025-10-11T05:35:02.7625500Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Installed version for npm: 10.9.3
+2025-10-11T05:35:02.7626786Z 2025/10/11 05:35:02 INFO <job_1122660593> Processing engine constraints for npm
+2025-10-11T05:35:02.7627521Z 2025/10/11 05:35:02 INFO <job_1122660593> No version requirement found for npm
+2025-10-11T05:35:02.7628247Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Detected package manager: npm
+2025-10-11T05:35:02.7628959Z 2025/10/11 05:35:02 INFO <job_1122660593> Resolving package manager for: npm
+2025-10-11T05:35:02.7699073Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Guessed version info "npm" : "10"
+2025-10-11T05:35:02.7700166Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Installed version for npm: 10.9.3
+2025-10-11T05:35:02.7700896Z 2025/10/11 05:35:02 INFO <job_1122660593> Processing engine constraints for npm
+2025-10-11T05:35:02.7701860Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> No version requirement found for npm
+2025-10-11T05:35:02.7703549Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Detected package manager: npm
+2025-10-11T05:35:02.7704292Z 2025/10/11 05:35:02 INFO <job_1122660593> Resolving package manager for: npm
+2025-10-11T05:35:02.7805021Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Guessed version info "npm" : "10"
+2025-10-11T05:35:02.7806325Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Installed version for npm: 10.9.3
+2025-10-11T05:35:02.7807301Z 2025/10/11 05:35:02 INFO <job_1122660593> Processing engine constraints for npm
+2025-10-11T05:35:02.7808292Z 2025/10/11 05:35:02 INFO <job_1122660593> No version requirement found for npm
+2025-10-11T05:35:02.7809063Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Detected package manager: npm
+2025-10-11T05:35:02.7809628Z 2025/10/11 05:35:02 INFO <job_1122660593> Resolving package manager for: npm
+2025-10-11T05:35:02.7875046Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Guessed version info "npm" : "10"
+2025-10-11T05:35:02.7876838Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Installed version for npm: 10.9.3
+2025-10-11T05:35:02.7877619Z 2025/10/11 05:35:02 INFO <job_1122660593> Processing engine constraints for npm
+2025-10-11T05:35:02.7878147Z 2025/10/11 05:35:02 INFO <job_1122660593> No version requirement found for npm
+2025-10-11T05:35:02.7970100Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Detected package manager: npm
+2025-10-11T05:35:02.7970878Z 2025/10/11 05:35:02 INFO <job_1122660593> Resolving package manager for: npm
+2025-10-11T05:35:02.8040697Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Guessed version info "npm" : "10"
+2025-10-11T05:35:02.8041676Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Installed version for npm: 10.9.3
+2025-10-11T05:35:02.8042432Z 2025/10/11 05:35:02 INFO <job_1122660593> Processing engine constraints for npm
+2025-10-11T05:35:02.8043185Z 2025/10/11 05:35:02 INFO <job_1122660593> No version requirement found for npm
+2025-10-11T05:35:02.8044222Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Detected package manager: npm
+2025-10-11T05:35:02.8044727Z 2025/10/11 05:35:02 INFO <job_1122660593> Resolving package manager for: npm
+2025-10-11T05:35:02.8118514Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Guessed version info "npm" : "10"
+2025-10-11T05:35:02.8119576Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Installed version for npm: 10.9.3
+2025-10-11T05:35:02.8120180Z 2025/10/11 05:35:02 INFO <job_1122660593> Processing engine constraints for npm
+2025-10-11T05:35:02.8121007Z 2025/10/11 05:35:02 INFO <job_1122660593> No version requirement found for npm
+2025-10-11T05:35:02.8122250Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Detected package manager: npm
+2025-10-11T05:35:02.8197445Z 2025/10/11 05:35:02 INFO <job_1122660593> Resolving package manager for: npm
+2025-10-11T05:35:02.8198381Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Guessed version info "npm" : "10"
+2025-10-11T05:35:02.8199363Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Installed version for npm: 10.9.3
+2025-10-11T05:35:02.8200394Z 2025/10/11 05:35:02 INFO <job_1122660593> Processing engine constraints for npm
+2025-10-11T05:35:02.8201361Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> No version requirement found for npm
+2025-10-11T05:35:02.8202401Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Detected package manager: npm
+2025-10-11T05:35:02.8203046Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Resolving package manager for: npm
+2025-10-11T05:35:02.8276096Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Guessed version info "npm" : "10"
+2025-10-11T05:35:02.8277608Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> Installed version for npm: 10.9.3
+2025-10-11T05:35:02.8278348Z 2025/10/11 05:35:02 INFO <job_1122660593> Processing engine constraints for npm
+2025-10-11T05:35:02.8279452Z updater | 2025/10/11 05:35:02 INFO <job_1122660593> No version requirement found for npm
+2025-10-11T05:35:02.9263267Z   proxy | 2025/10/11 05:35:02 [014] POST /update_jobs/1122660593/record_ecosystem_versions
+2025-10-11T05:35:03.1241796Z   proxy | 2025/10/11 05:35:03 [014] 204 /update_jobs/1122660593/record_ecosystem_versions
+2025-10-11T05:35:03.1250689Z updater | 2025/10/11 05:35:03 INFO <job_1122660593> Base commit SHA: 73672be6cd2109487441e7ea260d65513e9d753e
+2025-10-11T05:35:03.1401397Z updater | 2025/10/11 05:35:03 INFO <job_1122660593> Finished job processing
+2025-10-11T05:35:05.0474095Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Starting job processing
+2025-10-11T05:35:05.0538712Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Detected package manager: npm
+2025-10-11T05:35:05.0539931Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Resolving package manager for: npm
+2025-10-11T05:35:05.0629077Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Guessed version info "npm" : "10"
+2025-10-11T05:35:05.0635174Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Fetching version for package manager: npm
+2025-10-11T05:35:05.0647278Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Started process PID: 1781 with command: {} corepack npm -v {}
+2025-10-11T05:35:05.1911167Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Process PID: 1781 completed with status: pid 1781 exit 0
+2025-10-11T05:35:05.1912155Z 2025/10/11 05:35:05 INFO <job_1122660593> Total execution time: 0.13 seconds
+2025-10-11T05:35:05.1913216Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Installed version of npm: 10.9.4
+2025-10-11T05:35:05.1916500Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Installed version for npm: 10.9.4
+2025-10-11T05:35:05.1917589Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Processing engine constraints for npm
+2025-10-11T05:35:05.1918444Z 2025/10/11 05:35:05 INFO <job_1122660593> No version requirement found for npm
+2025-10-11T05:35:05.1919302Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Running node command: node -v
+2025-10-11T05:35:05.1924242Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Started process PID: 1793 with command: {} node -v {}
+2025-10-11T05:35:05.1966318Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Process PID: 1793 completed with status: pid 1793 exit 0
+2025-10-11T05:35:05.1967376Z 2025/10/11 05:35:05 INFO <job_1122660593> Total execution time: 0.0 seconds
+2025-10-11T05:35:05.1968479Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Command executed successfully: node -v
+2025-10-11T05:35:05.1969493Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Processing engine constraints for node
+2025-10-11T05:35:05.1974308Z updater | 2025/10/11 05:35:05 INFO <job_1122660593> Parsed constraints for node: >=20, <21
+2025-10-11T05:35:06.8078382Z   proxy | 2025/10/11 05:35:06 [017] POST /update_jobs/1122660593/update_dependency_list
+2025-10-11T05:35:07.0505604Z   proxy | 2025/10/11 05:35:07 [017] 204 /update_jobs/1122660593/update_dependency_list
+2025-10-11T05:35:07.0961049Z   proxy | 2025/10/11 05:35:07 [019] POST /update_jobs/1122660593/increment_metric
+2025-10-11T05:35:07.1987292Z   proxy | 2025/10/11 05:35:07 [019] 204 /update_jobs/1122660593/increment_metric
+2025-10-11T05:35:07.1998151Z updater | 2025/10/11 05:35:07 INFO <job_1122660593> Starting security update job for skyoxu/gametp
+2025-10-11T05:35:07.2030681Z updater | 2025/10/11 05:35:07 INFO <job_1122660593> Checking if ip 2.0.0 needs updating
+2025-10-11T05:35:07.2941653Z   proxy | 2025/10/11 05:35:07 [021] GET https://registry.npmjs.org/ip
+2025-10-11T05:35:07.3279032Z   proxy | 2025/10/11 05:35:07 [021] 200 https://registry.npmjs.org/ip
+2025-10-11T05:35:07.4402078Z   proxy | 2025/10/11 05:35:07 [025] HEAD https://registry.npmjs.org/ip/-/ip-2.0.1.tgz
+2025-10-11T05:35:07.4801138Z   proxy | 2025/10/11 05:35:07 [025] 200 https://registry.npmjs.org/ip/-/ip-2.0.1.tgz
+2025-10-11T05:35:07.5306140Z updater | 2025/10/11 05:35:07 INFO <job_1122660593> Latest version is 2.0.1
+2025-10-11T05:35:07.5337550Z updater | 2025/10/11 05:35:07 INFO <job_1122660593> VulnerabilityAuditor: starting audit
+2025-10-11T05:35:07.5373960Z updater | 2025/10/11 05:35:07 INFO <job_1122660593> Started process PID: 1800 with command: node /opt/npm_and_yarn/run.js
+2025-10-11T05:35:08.6467553Z   proxy | 2025/10/11 05:35:08 [027] GET https://registry.npmjs.org:443/ip
+2025-10-11T05:35:08.6843376Z   proxy | 2025/10/11 05:35:08 [027] 200 https://registry.npmjs.org:443/ip
+2025-10-11T05:35:08.7143699Z   proxy | 2025/10/11 05:35:08 [029] GET https://registry.npmjs.org:443/socks
+2025-10-11T05:35:08.7496325Z   proxy | 2025/10/11 05:35:08 [029] 200 https://registry.npmjs.org:443/socks
+2025-10-11T05:35:08.7694579Z   proxy | 2025/10/11 05:35:08 [031] GET https://registry.npmjs.org:443/socks-proxy-agent
+2025-10-11T05:35:08.8077343Z   proxy | 2025/10/11 05:35:08 [031] 200 https://registry.npmjs.org:443/socks-proxy-agent
+2025-10-11T05:35:09.6068029Z updater | 2025/10/11 05:35:09 INFO <job_1122660593> Process PID: 1800 completed with status: pid 1800 exit 0
+2025-10-11T05:35:09.6069135Z 2025/10/11 05:35:09 INFO <job_1122660593> Total execution time: 2.07 seconds
+2025-10-11T05:35:09.6074214Z updater | 2025/10/11 05:35:09 INFO <job_1122660593> VulnerabilityAuditor: audit result viable
+2025-10-11T05:35:09.6114354Z updater | 2025/10/11 05:35:09 INFO <job_1122660593> Started process PID: 1824 with command: node /opt/npm_and_yarn/run.js
+2025-10-11T05:35:10.4786391Z updater | 2025/10/11 05:35:10 INFO <job_1122660593> Process PID: 1824 completed with status: pid 1824 exit 0
+2025-10-11T05:35:10.4787423Z 2025/10/11 05:35:10 INFO <job_1122660593> Total execution time: 0.87 seconds
+2025-10-11T05:35:10.4797181Z updater | 2025/10/11 05:35:10 INFO <job_1122660593> Requirements to unlock all
+2025-10-11T05:35:10.4800623Z updater | 2025/10/11 05:35:10 INFO <job_1122660593> Requirements update strategy bump_versions
+2025-10-11T05:35:12.0401271Z updater | 2025/10/11 05:35:12 INFO <job_1122660593> Updating ip, socks
+2025-10-11T05:35:12.3226612Z   proxy | 2025/10/11 05:35:12 [033] POST /update_jobs/1122660593/record_update_job_unknown_error
+2025-10-11T05:35:12.4517251Z   proxy | 2025/10/11 05:35:12 [033] 204 /update_jobs/1122660593/record_update_job_unknown_error
+2025-10-11T05:35:12.4980679Z   proxy | 2025/10/11 05:35:12 [035] POST /update_jobs/1122660593/record_update_job_error
+2025-10-11T05:35:12.5914720Z   proxy | 2025/10/11 05:35:12 [035] 204 /update_jobs/1122660593/record_update_job_error
+2025-10-11T05:35:12.6360251Z   proxy | 2025/10/11 05:35:12 [037] POST /update_jobs/1122660593/increment_metric
+2025-10-11T05:35:12.7163257Z   proxy | 2025/10/11 05:35:12 [037] 204 /update_jobs/1122660593/increment_metric
+2025-10-11T05:35:12.7213577Z   proxy | 2025/10/11 05:35:12 [039] POST /update_jobs/1122660593/record_update_job_unknown_error
+2025-10-11T05:35:12.8552270Z   proxy | 2025/10/11 05:35:12 [039] 204 /update_jobs/1122660593/record_update_job_unknown_error
+2025-10-11T05:35:12.8568230Z updater | 2025/10/11 05:35:12 ERROR <job_1122660593> Error processing ip (Dependabot::NpmAndYarn::FileUpdater::NoChangeError)
+2025-10-11T05:35:12.8569382Z 2025/10/11 05:35:12 ERROR <job_1122660593> No files were updated!
+2025-10-11T05:35:12.8570953Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/npm_and_yarn/lib/dependabot/npm_and_yarn/file_updater.rb:70:in 'Dependabot::NpmAndYarn::FileUpdater#updated_dependency_files'
+2025-10-11T05:35:12.8573134Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'UnboundMethod#bind_call'
+2025-10-11T05:35:12.8575665Z updater | 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'T::Private::Methods::CallValidation.validate_call'
+2025-10-11T05:35:12.8579239Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/_methods.rb:277:in 'block in Dependabot::NpmAndYarn::FileUpdater#_on_method_added'
+2025-10-11T05:35:12.8581751Z updater | 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/lib/dependabot/dependency_change_builder.rb:148:in 'Dependabot::DependencyChangeBuilder#generate_dependency_files'
+2025-10-11T05:35:12.8584155Z updater | 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'UnboundMethod#bind_call'
+2025-10-11T05:35:12.8587067Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'T::Private::Methods::CallValidation.validate_call'
+2025-10-11T05:35:12.8589712Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/_methods.rb:277:in 'block in Dependabot::DependencyChangeBuilder#_on_method_added'
+2025-10-11T05:35:12.8592204Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/lib/dependabot/dependency_change_builder.rb:74:in 'Dependabot::DependencyChangeBuilder#run'
+2025-10-11T05:35:12.8594181Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'UnboundMethod#bind_call'
+2025-10-11T05:35:12.8596722Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'T::Private::Methods::CallValidation.validate_call'
+2025-10-11T05:35:12.8599476Z updater | 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/_methods.rb:277:in 'block in Dependabot::DependencyChangeBuilder#_on_method_added'
+2025-10-11T05:35:12.8601667Z updater | 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/lib/dependabot/dependency_change_builder.rb:44:in 'Dependabot::DependencyChangeBuilder.create_from'
+2025-10-11T05:35:12.8603213Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'UnboundMethod#bind_call'
+2025-10-11T05:35:12.8604751Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'T::Private::Methods::CallValidation.validate_call'
+2025-10-11T05:35:12.8606604Z updater | 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/_methods.rb:277:in 'block in Dependabot::DependencyChangeBuilder._on_method_added'
+2025-10-11T05:35:12.8608252Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/lib/dependabot/updater/operations/create_security_update_pull_request.rb:193:in 'Dependabot::Updater::Operations::CreateSecurityUpdatePullRequest#check_and_create_pull_request'
+2025-10-11T05:35:12.8609900Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'UnboundMethod#bind_call'
+2025-10-11T05:35:12.8611363Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'T::Private::Methods::CallValidation.validate_call'
+2025-10-11T05:35:12.8613032Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/_methods.rb:277:in 'block in Dependabot::Updater::Operations::CreateSecurityUpdatePullRequest#_on_method_added'
+2025-10-11T05:35:12.8614897Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/lib/dependabot/updater/operations/create_security_update_pull_request.rb:98:in 'Dependabot::Updater::Operations::CreateSecurityUpdatePullRequest#check_and_create_pr_with_error_handling'
+2025-10-11T05:35:12.8617169Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'UnboundMethod#bind_call'
+2025-10-11T05:35:12.8619587Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'T::Private::Methods::CallValidation.validate_call'
+2025-10-11T05:35:12.8622529Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/_methods.rb:277:in 'block in Dependabot::Updater::Operations::CreateSecurityUpdatePullRequest#_on_method_added'
+2025-10-11T05:35:12.8625433Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/lib/dependabot/updater/operations/create_security_update_pull_request.rb:71:in 'block in Dependabot::Updater::Operations::CreateSecurityUpdatePullRequest#perform'
+2025-10-11T05:35:12.8628348Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/lib/dependabot/updater/operations/create_security_update_pull_request.rb:71:in 'Array#each'
+2025-10-11T05:35:12.8630797Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/lib/dependabot/updater/operations/create_security_update_pull_request.rb:71:in 'Dependabot::Updater::Operations::CreateSecurityUpdatePullRequest#perform'
+2025-10-11T05:35:12.8633414Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'UnboundMethod#bind_call'
+2025-10-11T05:35:12.8636391Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'T::Private::Methods::CallValidation.validate_call'
+2025-10-11T05:35:12.8638485Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/_methods.rb:277:in 'block in Dependabot::Updater::Operations::CreateSecurityUpdatePullRequest#_on_method_added'
+2025-10-11T05:35:12.8639894Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/lib/dependabot/updater.rb:56:in 'Dependabot::Updater#run'
+2025-10-11T05:35:12.8641037Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'UnboundMethod#bind_call'
+2025-10-11T05:35:12.8642485Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'T::Private::Methods::CallValidation.validate_call'
+2025-10-11T05:35:12.8644000Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/_methods.rb:277:in 'block in Dependabot::Updater#_on_method_added'
+2025-10-11T05:35:12.8645340Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/lib/dependabot/update_files_command.rb:51:in 'block in Dependabot::UpdateFilesCommand#perform_job'
+2025-10-11T05:35:12.8646861Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/opentelemetry-api-1.5.0/lib/opentelemetry/trace/tracer.rb:37:in 'block in OpenTelemetry::Trace::Tracer#in_span'
+2025-10-11T05:35:12.8648421Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/opentelemetry-api-1.5.0/lib/opentelemetry/trace.rb:70:in 'block in OpenTelemetry::Trace#with_span'
+2025-10-11T05:35:12.8649695Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/opentelemetry-api-1.5.0/lib/opentelemetry/context.rb:88:in 'OpenTelemetry::Context.with_value'
+2025-10-11T05:35:12.8650964Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/opentelemetry-api-1.5.0/lib/opentelemetry/trace.rb:70:in 'OpenTelemetry::Trace#with_span'
+2025-10-11T05:35:12.8652372Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/opentelemetry-api-1.5.0/lib/opentelemetry/trace/tracer.rb:37:in 'OpenTelemetry::Trace::Tracer#in_span'
+2025-10-11T05:35:12.8653590Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/lib/dependabot/update_files_command.rb:24:in 'Dependabot::UpdateFilesCommand#perform_job'
+2025-10-11T05:35:12.8654878Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'UnboundMethod#bind_call'
+2025-10-11T05:35:12.8656604Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'T::Private::Methods::CallValidation.validate_call'
+2025-10-11T05:35:12.8658117Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/_methods.rb:277:in 'block in Dependabot::UpdateFilesCommand#_on_method_added'
+2025-10-11T05:35:12.8659480Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/lib/dependabot/base_command.rb:42:in 'Dependabot::BaseCommand#run'
+2025-10-11T05:35:12.8660647Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'UnboundMethod#bind_call'
+2025-10-11T05:35:12.8662163Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/call_validation.rb:282:in 'T::Private::Methods::CallValidation.validate_call'
+2025-10-11T05:35:12.8663724Z 2025/10/11 05:35:12 ERROR <job_1122660593> /home/dependabot/dependabot-updater/vendor/ruby/3.4.0/gems/sorbet-runtime-0.6.12544/lib/types/private/methods/_methods.rb:277:in 'block in Dependabot::BaseCommand#_on_method_added'
+2025-10-11T05:35:12.8664688Z 2025/10/11 05:35:12 ERROR <job_1122660593> bin/update_files.rb:44:in '<main>'
+2025-10-11T05:35:12.9041227Z   proxy | 2025/10/11 05:35:12 [041] POST /update_jobs/1122660593/record_ecosystem_meta
+2025-10-11T05:35:12.9964434Z   proxy | 2025/10/11 05:35:12 [041] 204 /update_jobs/1122660593/record_ecosystem_meta
+2025-10-11T05:35:13.0421992Z   proxy | 2025/10/11 05:35:13 [043] PATCH /update_jobs/1122660593/mark_as_processed
+2025-10-11T05:35:13.2026889Z   proxy | 2025/10/11 05:35:13 [043] 204 /update_jobs/1122660593/mark_as_processed
+2025-10-11T05:35:13.2034172Z updater | 2025/10/11 05:35:13 INFO <job_1122660593> Finished job processing
+2025-10-11T05:35:13.2046929Z updater | 2025/10/11 05:35:13 INFO Results:
+2025-10-11T05:35:13.2047547Z Dependabot encountered '1' error(s) during execution, please check the logs for more details.
+2025-10-11T05:35:13.2048349Z +--------------------------------------------+
+2025-10-11T05:35:13.2049005Z |       Dependencies failed to update        |
+2025-10-11T05:35:13.2049507Z +------------+---------------+---------------+
+2025-10-11T05:35:13.2050079Z | Dependency | Error Type    | Error Details |
+2025-10-11T05:35:13.2050695Z +------------+---------------+---------------+
+2025-10-11T05:35:13.2051245Z | ip         | unknown_error | null          |
+2025-10-11T05:35:13.2051851Z +------------+---------------+---------------+
+2025-10-11T05:35:13.3321969Z Failure running container ced6facd453fb0d8de773274ac9383122ccf1dc1396a95eb09db9309c9c1ffaa: Error: Command failed with exit code 1: /bin/sh -c $DEPENDABOT_HOME/dependabot-updater/bin/run update_files
+2025-10-11T05:35:13.5247015Z Cleaned up container ced6facd453fb0d8de773274ac9383122ccf1dc1396a95eb09db9309c9c1ffaa
+2025-10-11T05:35:13.5344544Z   proxy | 2025/10/11 05:35:13 0/20 calls cached (0%)
+2025-10-11T05:35:13.5345345Z   proxy | 2025/10/11 05:35:13 Posting metrics to remote API endpoint
+2025-10-11T05:35:14.1872785Z ##[error]Dependabot encountered an error performing the update
+
+Error: The updater encountered one or more errors.
+
+For more information see: https://github.com/skyoxu/gametp/network/updates/1122660593 (write access to the repository is required to view the log)
+2025-10-11T05:35:14.1881357Z 🤖 ~ finished: error reported to Dependabot ~
+2025-10-11T05:35:14.2021828Z Post job cleanup.
+2025-10-11T05:35:14.3616716Z Cleaning up orphan processes

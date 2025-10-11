@@ -1,0 +1,80 @@
+﻿2025-10-10T16:32:12.5136248Z ##[group]Run actions/checkout@v4
+2025-10-10T16:32:12.5138329Z with:
+2025-10-10T16:32:12.5139057Z   repository: skyoxu/gametp
+2025-10-10T16:32:12.5140336Z   token: ***
+2025-10-10T16:32:12.5141018Z   ssh-strict: true
+2025-10-10T16:32:12.5141710Z   ssh-user: git
+2025-10-10T16:32:12.5142404Z   persist-credentials: true
+2025-10-10T16:32:12.5143183Z   clean: true
+2025-10-10T16:32:12.5143940Z   sparse-checkout-cone-mode: true
+2025-10-10T16:32:12.5144834Z   fetch-depth: 1
+2025-10-10T16:32:12.5145520Z   fetch-tags: false
+2025-10-10T16:32:12.5146253Z   show-progress: true
+2025-10-10T16:32:12.5146980Z   lfs: false
+2025-10-10T16:32:12.5147642Z   submodules: false
+2025-10-10T16:32:12.5148356Z   set-safe-directory: true
+2025-10-10T16:32:12.5149365Z env:
+2025-10-10T16:32:12.5150019Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:32:12.5150941Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:32:12.5152065Z   SENTRY_DSN: 
+2025-10-10T16:32:12.5152784Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:32:12.5153697Z   CL: /std:c++20 /EHsc
+2025-10-10T16:32:12.5154464Z   CXXFLAGS: -std=c++20
+2025-10-10T16:32:12.5155169Z ##[endgroup]
+2025-10-10T16:32:12.7347571Z Syncing repository: skyoxu/gametp
+2025-10-10T16:32:12.7349966Z ##[group]Getting Git version info
+2025-10-10T16:32:12.7350990Z Working directory is 'D:\a\gametp\gametp'
+2025-10-10T16:32:12.9083256Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-10-10T16:32:13.5315581Z git version 2.51.0.windows.2
+2025-10-10T16:32:13.5368978Z ##[endgroup]
+2025-10-10T16:32:13.5389776Z Temporarily overriding HOME='D:\a\_temp\2a47d297-80b8-4fd2-a832-00765f3cf1ac' before making global git config changes
+2025-10-10T16:32:13.5392057Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-10T16:32:13.5401078Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\gametp\gametp
+2025-10-10T16:32:13.5957111Z Deleting the contents of 'D:\a\gametp\gametp'
+2025-10-10T16:32:13.5964520Z ##[group]Initializing the repository
+2025-10-10T16:32:13.5974141Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\gametp\gametp
+2025-10-10T16:32:13.7318219Z Initialized empty Git repository in D:/a/gametp/gametp/.git/
+2025-10-10T16:32:13.7366383Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/skyoxu/gametp
+2025-10-10T16:32:13.8028872Z ##[endgroup]
+2025-10-10T16:32:13.8030170Z ##[group]Disabling automatic garbage collection
+2025-10-10T16:32:13.8038797Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2025-10-10T16:32:13.8319526Z ##[endgroup]
+2025-10-10T16:32:13.8320699Z ##[group]Setting up auth
+2025-10-10T16:32:13.8332966Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-10-10T16:32:13.8619845Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-10-10T16:32:15.7531114Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-10T16:32:15.7827932Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-10-10T16:32:16.3528687Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2025-10-10T16:32:16.3906578Z ##[endgroup]
+2025-10-10T16:32:16.3907777Z ##[group]Fetching the repository
+2025-10-10T16:32:16.3926895Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +1a64442db4a5e073e50677e36ddf882284d88302:refs/remotes/pull/13/merge
+2025-10-10T16:32:18.0001731Z From https://github.com/skyoxu/gametp
+2025-10-10T16:32:18.0003299Z  * [new ref]         1a64442db4a5e073e50677e36ddf882284d88302 -> pull/13/merge
+2025-10-10T16:32:18.0465657Z ##[endgroup]
+2025-10-10T16:32:18.0466413Z ##[group]Determining the checkout info
+2025-10-10T16:32:18.0467819Z ##[endgroup]
+2025-10-10T16:32:18.0484661Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2025-10-10T16:32:18.1085322Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2025-10-10T16:32:18.1444276Z ##[group]Checking out the ref
+2025-10-10T16:32:18.1455745Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/13/merge
+2025-10-10T16:32:18.4319936Z Note: switching to 'refs/remotes/pull/13/merge'.
+2025-10-10T16:32:18.4320425Z 
+2025-10-10T16:32:18.4320714Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-10-10T16:32:18.4321502Z changes and commit them, and you can discard any commits you make in this
+2025-10-10T16:32:18.4322182Z state without impacting any branches by switching back to a branch.
+2025-10-10T16:32:18.4322710Z 
+2025-10-10T16:32:18.4322975Z If you want to create a new branch to retain commits you create, you may
+2025-10-10T16:32:18.4325240Z do so (now or later) by using -c with the switch command. Example:
+2025-10-10T16:32:18.4325755Z 
+2025-10-10T16:32:18.4325980Z   git switch -c <new-branch-name>
+2025-10-10T16:32:18.4326253Z 
+2025-10-10T16:32:18.4326365Z Or undo this operation with:
+2025-10-10T16:32:18.4326549Z 
+2025-10-10T16:32:18.4326639Z   git switch -
+2025-10-10T16:32:18.4326820Z 
+2025-10-10T16:32:18.4327071Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-10-10T16:32:18.4327434Z 
+2025-10-10T16:32:18.4327848Z HEAD is now at 1a64442 Merge 49a95a27bfbb9c910dbd39ede44caa8cbfdd17cb into e1a2702b992654c40fdf749cd29695642d416d4b
+2025-10-10T16:32:18.4375658Z ##[endgroup]
+2025-10-10T16:32:18.5002988Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2025-10-10T16:32:18.5364980Z 1a64442db4a5e073e50677e36ddf882284d88302

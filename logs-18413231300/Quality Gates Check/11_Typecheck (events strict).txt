@@ -1,0 +1,20 @@
+﻿2025-10-10T17:10:11.0690603Z ##[group]Run npm run typecheck:events
+2025-10-10T17:10:11.0691207Z [36;1mnpm run typecheck:events[0m
+2025-10-10T17:10:11.0758637Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:10:11.0758950Z env:
+2025-10-10T17:10:11.0759111Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:10:11.0759340Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:10:11.0759515Z   SENTRY_DSN: 
+2025-10-10T17:10:11.0759681Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:10:11.0759895Z   CL: /std:c++20 /EHsc
+2025-10-10T17:10:11.0760069Z   CXXFLAGS: -std=c++20
+2025-10-10T17:10:11.0760234Z   NODE_ENV: development
+2025-10-10T17:10:11.0760418Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:10:11.0760611Z ##[endgroup]
+2025-10-10T17:10:11.5803108Z npm warn config production Use `--omit=dev` instead.
+2025-10-10T17:10:11.6242032Z 
+2025-10-10T17:10:11.6242625Z > gametp@0.1.0 typecheck:events
+2025-10-10T17:10:11.6243115Z > tsc -p tsconfig.events.json --noEmit
+2025-10-10T17:10:11.6243382Z 
+2025-10-10T17:10:13.4248479Z ##[error]src/shared/contracts/events.ts(361,5): error TS4115: This parameter property must have an 'override' modifier because it overrides a member in base class 'Error'.
+2025-10-10T17:10:13.5637703Z ##[error]Process completed with exit code 1.

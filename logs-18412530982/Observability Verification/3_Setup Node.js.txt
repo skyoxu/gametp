@@ -1,0 +1,35 @@
+﻿2025-10-10T16:38:09.5882257Z ##[group]Run actions/setup-node@v5.0.0
+2025-10-10T16:38:09.5882600Z with:
+2025-10-10T16:38:09.5882756Z   node-version: 20.x
+2025-10-10T16:38:09.5882925Z   cache: npm
+2025-10-10T16:38:09.5883074Z   always-auth: false
+2025-10-10T16:38:09.5883246Z   check-latest: false
+2025-10-10T16:38:09.5883571Z   token: ***
+2025-10-10T16:38:09.5883739Z   package-manager-cache: true
+2025-10-10T16:38:09.5883936Z env:
+2025-10-10T16:38:09.5884080Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:38:09.5884299Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:38:09.5884465Z   SENTRY_DSN: 
+2025-10-10T16:38:09.5884625Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:38:09.5884824Z   CL: /std:c++20 /EHsc
+2025-10-10T16:38:09.5885020Z   CXXFLAGS: -std=c++20
+2025-10-10T16:38:09.5885183Z ##[endgroup]
+2025-10-10T16:38:09.7913137Z Found in cache @ C:\hostedtoolcache\windows\node\20.19.5\x64
+2025-10-10T16:38:09.7922080Z (node:1432) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-10-10T16:38:09.7923312Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-10-10T16:38:09.7926373Z ##[group]Environment details
+2025-10-10T16:38:17.4315131Z node: v20.19.5
+2025-10-10T16:38:17.4315441Z npm: 10.8.2
+2025-10-10T16:38:17.4315590Z yarn: 1.22.22
+2025-10-10T16:38:17.4316491Z ##[endgroup]
+2025-10-10T16:38:17.5089174Z [command]C:\Windows\system32\cmd.exe /D /S /C "C:\hostedtoolcache\windows\node\20.19.5\x64\npm.cmd config get cache"
+2025-10-10T16:38:18.2489738Z C:\npm\cache
+2025-10-10T16:38:18.6134693Z Cache hit for: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee
+2025-10-10T16:38:18.6260082Z (node:1432) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2025-10-10T16:38:19.8056461Z Received 134217728 of 315413375 (42.6%), 121.7 MBs/sec
+2025-10-10T16:38:20.8029429Z Received 302830463 of 315413375 (96.0%), 140.7 MBs/sec
+2025-10-10T16:38:20.8776397Z Received 315413375 of 315413375 (100.0%), 141.4 MBs/sec
+2025-10-10T16:38:20.8779814Z Cache Size: ~301 MB (315413375 B)
+2025-10-10T16:38:20.8924443Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/8597a849-ecec-4a4c-a431-8b30c5b136ed/cache.tzst -P -C D:/a/gametp/gametp --force-local --use-compress-program "zstd -d"
+2025-10-10T16:38:50.5123979Z Cache restored successfully
+2025-10-10T16:38:50.5384574Z Cache restored from key: node-cache-Windows-x64-npm-fc17fb8d376abc8248800f4e980364e44d85f17a5d262a0278bfbe6dc7cc9aee

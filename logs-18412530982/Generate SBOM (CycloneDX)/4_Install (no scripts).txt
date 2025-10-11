@@ -1,0 +1,60 @@
+﻿2025-10-10T16:32:54.9383364Z ##[group]Run npm ci --ignore-scripts
+2025-10-10T16:32:54.9383742Z [36;1mnpm ci --ignore-scripts[0m
+2025-10-10T16:32:55.0302110Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T16:32:55.0302796Z env:
+2025-10-10T16:32:55.0303032Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:32:55.0303348Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:32:55.0303597Z   SENTRY_DSN: 
+2025-10-10T16:32:55.0303818Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:32:55.0304071Z   CL: /std:c++20 /EHsc
+2025-10-10T16:32:55.0304308Z   CXXFLAGS: -std=c++20
+2025-10-10T16:32:55.0304545Z ##[endgroup]
+2025-10-10T16:33:14.2199883Z npm warn skipping integrity check for git dependency ssh://git@github.com/electron/node-gyp.git
+2025-10-10T16:33:24.3215077Z npm warn deprecated readdir-scoped-modules@1.1.0: This functionality has been moved to @npmcli/fs
+2025-10-10T16:33:24.3388257Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2025-10-10T16:33:24.3457094Z npm warn deprecated debuglog@1.0.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2025-10-10T16:33:24.4349681Z npm warn deprecated npmlog@5.0.1: This package is no longer supported.
+2025-10-10T16:33:24.4561161Z npm warn deprecated @npmcli/move-file@2.0.1: This functionality has been moved to @npmcli/fs
+2025-10-10T16:33:24.6027300Z npm warn deprecated @humanwhocodes/config-array@0.5.0: Use @eslint/config-array instead
+2025-10-10T16:33:24.6530230Z npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+2025-10-10T16:33:24.7437904Z npm warn deprecated read-package-json@2.1.2: This package is no longer supported. Please use @npmcli/package-json instead.
+2025-10-10T16:33:24.8336059Z npm warn deprecated read-package-tree@5.3.1: The functionality that this package provided is now in @npmcli/arborist
+2025-10-10T16:33:24.8984100Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported
+2025-10-10T16:33:25.1844904Z npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+2025-10-10T16:33:25.4254960Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.4260529Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.4267992Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.4268870Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.4318847Z npm warn deprecated glob@8.1.0: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.4322118Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.4442154Z npm warn deprecated glob@8.1.0: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.4450046Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-10T16:33:25.9917789Z npm warn deprecated are-we-there-yet@2.0.0: This package is no longer supported.
+2025-10-10T16:33:27.8410053Z npm warn deprecated @humanwhocodes/object-schema@1.2.1: Use @eslint/object-schema instead
+2025-10-10T16:33:28.4719784Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2025-10-10T16:33:28.5413475Z npm warn deprecated gauge@3.0.2: This package is no longer supported.
+2025-10-10T16:33:31.7742445Z npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+2025-10-10T16:33:49.6126676Z npm warn deprecated eslint@7.32.0: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+2025-10-10T16:34:02.2811599Z npm warn cleanup Failed to remove some directories [
+2025-10-10T16:34:02.2815562Z npm warn cleanup   [
+2025-10-10T16:34:02.2816357Z npm warn cleanup     'D:\\a\\gametp\\gametp\\node_modules\\dmg-license\\node_modules\\json-schema-traverse',
+2025-10-10T16:34:02.2817883Z npm warn cleanup     [Error: EPERM: operation not permitted, rmdir 'D:\a\gametp\gametp\node_modules\dmg-license\node_modules\json-schema-traverse\spec'] {
+2025-10-10T16:34:02.2819087Z npm warn cleanup       errno: -4048,
+2025-10-10T16:34:02.2819596Z npm warn cleanup       code: 'EPERM',
+2025-10-10T16:34:02.2820109Z npm warn cleanup       syscall: 'rmdir',
+2025-10-10T16:34:02.2821066Z npm warn cleanup       path: 'D:\\a\\gametp\\gametp\\node_modules\\dmg-license\\node_modules\\json-schema-traverse\\spec'
+2025-10-10T16:34:02.2821843Z npm warn cleanup     }
+2025-10-10T16:34:02.2822193Z npm warn cleanup   ]
+2025-10-10T16:34:02.2822530Z npm warn cleanup ]
+2025-10-10T16:34:02.7549861Z 
+2025-10-10T16:34:02.7550638Z added 1927 packages, and audited 2176 packages in 59s
+2025-10-10T16:34:02.7553562Z 
+2025-10-10T16:34:02.7554111Z 414 packages are looking for funding
+2025-10-10T16:34:02.7554530Z   run `npm fund` for details
+2025-10-10T16:34:02.7728831Z 
+2025-10-10T16:34:02.7729612Z 15 vulnerabilities (5 low, 7 moderate, 3 high)
+2025-10-10T16:34:02.7729897Z 
+2025-10-10T16:34:02.7730571Z To address all issues, run:
+2025-10-10T16:34:02.7730837Z   npm audit fix
+2025-10-10T16:34:02.7730953Z 
+2025-10-10T16:34:02.7731067Z Run `npm audit` for details.

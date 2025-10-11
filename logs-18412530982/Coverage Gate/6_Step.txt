@@ -1,0 +1,28 @@
+﻿2025-10-10T16:41:50.0503022Z ##[group]Run actions/download-artifact@v4
+2025-10-10T16:41:50.0503389Z with:
+2025-10-10T16:41:50.0503551Z   name: coverage-summary
+2025-10-10T16:41:50.0503752Z   path: coverage/
+2025-10-10T16:41:50.0503932Z   merge-multiple: false
+2025-10-10T16:41:50.0504143Z   repository: skyoxu/gametp
+2025-10-10T16:41:50.0504430Z   run-id: 18412530982
+2025-10-10T16:41:50.0504710Z env:
+2025-10-10T16:41:50.0504902Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T16:41:50.0505220Z   COVERAGE_THRESHOLD: 90
+2025-10-10T16:41:50.0505404Z   SENTRY_DSN: 
+2025-10-10T16:41:50.0505572Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T16:41:50.0505760Z   CL: /std:c++20 /EHsc
+2025-10-10T16:41:50.0505936Z   CXXFLAGS: -std=c++20
+2025-10-10T16:41:50.0506108Z   NODE_ENV: development
+2025-10-10T16:41:50.0506287Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T16:41:50.0506479Z ##[endgroup]
+2025-10-10T16:41:50.3238168Z Downloading single artifact
+2025-10-10T16:41:50.4840141Z Preparing to download the following artifacts:
+2025-10-10T16:41:50.4841336Z - coverage-summary (ID: 4239366308, Size: 1493, Expected Digest: sha256:8b8556768dd3a4eee10b1e86a9f091f670102591eeef7417f30a457353491ed6)
+2025-10-10T16:41:50.5695656Z Redirecting to blob download url: https://productionresultssa11.blob.core.windows.net/actions-results/52af0192-ff74-4035-a3b0-a60a208fef0a/workflow-job-run-fc48e94e-fed9-53de-bfc4-9a9c3bd2cebf/artifacts/9d20e7018c65f83988f2e1e40f4cd503d12854bb00fded1364eb0ea3dfb1de34.zip
+2025-10-10T16:41:50.5697702Z Starting download of artifact to: D:\a\gametp\gametp\coverage
+2025-10-10T16:41:50.7128137Z (node:8304) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2025-10-10T16:41:50.7129801Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-10-10T16:41:50.7202944Z SHA256 digest of downloaded artifact is 8b8556768dd3a4eee10b1e86a9f091f670102591eeef7417f30a457353491ed6
+2025-10-10T16:41:50.7203721Z Artifact download completed successfully.
+2025-10-10T16:41:50.7204328Z Total of 1 artifact(s) downloaded
+2025-10-10T16:41:50.7219410Z Download artifact has finished successfully

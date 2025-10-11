@@ -1,0 +1,4 @@
+﻿2025-10-10T16:35:22.7956198Z ##[warning]Unexpected input(s) 'actionlint_flags', valid inputs are ['version', 'matcher', 'files', 'flags', 'json', 'shellcheck', 'pyflakes', 'fail-on-error', 'group-result', 'cache', 'working-directory', 'token', 'github-token']
+2025-10-10T16:35:22.7961107Z Post job cleanup.
+2025-10-10T16:35:22.8095785Z Post job cleanup.
+2025-10-10T16:35:23.0087514Z Cache hit occurred on the primary key actionlint-1.7.7-Windows-X64, not saving cache.

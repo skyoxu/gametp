@@ -194,7 +194,7 @@ export class UserTimingManager {
 
     const sorted = [...measurements].sort((a, b) => a - b);
     const p95Index = Math.ceil(sorted.length * 0.95) - 1;
-    return sorted[p95Index];
+    return sorted[p95Index] ?? null;
   }
 
   /**
@@ -206,7 +206,7 @@ export class UserTimingManager {
 
     const sorted = [...measurements].sort((a, b) => a - b);
     const p99Index = Math.ceil(sorted.length * 0.99) - 1;
-    return sorted[p99Index];
+    return sorted[p99Index] ?? null;
   }
 
   /**

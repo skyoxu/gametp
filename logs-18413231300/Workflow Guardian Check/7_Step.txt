@@ -1,0 +1,119 @@
+﻿2025-10-10T17:07:49.5839902Z ##[group]Run node scripts/ci/workflow-guardian.mjs
+2025-10-10T17:07:49.5840581Z [36;1mnode scripts/ci/workflow-guardian.mjs[0m
+2025-10-10T17:07:49.5942485Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2025-10-10T17:07:49.5943082Z env:
+2025-10-10T17:07:49.5943383Z   NODE_VERSION_MATRIX: 18.x, 20.x, 22.x
+2025-10-10T17:07:49.5943827Z   COVERAGE_THRESHOLD: 90
+2025-10-10T17:07:49.5944173Z   SENTRY_DSN: 
+2025-10-10T17:07:49.5944497Z   SENTRY_TRACES_SAMPLE_RATE: 0
+2025-10-10T17:07:49.5944868Z   CL: /std:c++20 /EHsc
+2025-10-10T17:07:49.5945211Z   CXXFLAGS: -std=c++20
+2025-10-10T17:07:49.5945552Z   NODE_ENV: development
+2025-10-10T17:07:49.5945916Z   NPM_CONFIG_PRODUCTION: false
+2025-10-10T17:07:49.5946314Z ##[endgroup]
+2025-10-10T17:07:49.9388766Z 🛡️ 工作流守护自检 - Needs 依赖校验
+2025-10-10T17:07:49.9396346Z ==================================================
+2025-10-10T17:07:49.9506033Z 
+2025-10-10T17:07:49.9506923Z 🔍 检查工作流: validate-workflows.yml
+2025-10-10T17:07:49.9509685Z 📋 Jobs: pull_request, push, workflow_dispatch, contents, group, cancel-in-progress, actionlint, actionlint-windows, needs-guard, encoding-guard, encoding-guard-windows, shell-guard, windows-only-guard, ascii-guard, docs-shell-scan, docs-shell-pr-gate
+2025-10-10T17:07:49.9511948Z 🔗 Needs: actionlint, actionlint-windows, actionlint, actionlint-windows, actionlint, actionlint-windows, shell-guard, shell-guard
+2025-10-10T17:07:49.9512924Z ✅ 无问题
+2025-10-10T17:07:49.9515184Z 
+2025-10-10T17:07:49.9515843Z 🔍 检查工作流: tasks-governance.yml
+2025-10-10T17:07:49.9517720Z 📋 Jobs: contents, actions, run, NODE_VERSION, CI_RETRY_COUNT, CI_TIMEOUT_MINUTES, CACHE_STRATEGY, pull_request, push, group, cancel-in-progress, validate-tasks
+2025-10-10T17:07:49.9519420Z 🔗 Needs: 
+2025-10-10T17:07:49.9519909Z ✅ 无问题
+2025-10-10T17:07:49.9521828Z 
+2025-10-10T17:07:49.9522393Z 🔍 检查工作流: staged-release.yml
+2025-10-10T17:07:49.9523727Z 📋 Jobs: contents, actions, packages, run, workflow_dispatch, pre-check, e2e-perf-smoke, health-check
+2025-10-10T17:07:49.9524873Z 🔗 Needs: pre-check, pre-check
+2025-10-10T17:07:49.9525743Z ✅ 无问题
+2025-10-10T17:07:49.9528660Z 
+2025-10-10T17:07:49.9529234Z 🔍 检查工作流: soft-gates.yml
+2025-10-10T17:07:49.9531917Z 📋 Jobs: contents, actions, run, push, pull_request, workflow_dispatch, NODE_VERSION, CI_RETRY_COUNT, CI_TIMEOUT_MINUTES, CACHE_STRATEGY, ACTIONS_RUNNER_DEBUG, ACTIONS_STEP_DEBUG, soft-gate-guardian, quality-gate-check, group, cancel-in-progress
+2025-10-10T17:07:49.9533831Z 🔗 Needs: soft-gate-guardian
+2025-10-10T17:07:49.9534302Z ✅ 无问题
+2025-10-10T17:07:49.9537754Z 
+2025-10-10T17:07:49.9538374Z 🔍 检查工作流: security-unified.yml
+2025-10-10T17:07:49.9541174Z 📋 Jobs: contents, actions, security-events, pull-requests, issues, id-token, run, push, pull_request, workflow_dispatch, group, cancel-in-progress, NODE_VERSION, security-scan, build-and-package, e2e-security-test-sharded, e2e-security-aggregate, unified-security-gate
+2025-10-10T17:07:49.9543990Z 🔗 Needs: security-scan, build-and-package, e2e-security-test-sharded, security-scan, e2e-security-aggregate
+2025-10-10T17:07:49.9548959Z ✅ 无问题
+2025-10-10T17:07:49.9550874Z 
+2025-10-10T17:07:49.9551421Z 🔍 检查工作流: release.yml
+2025-10-10T17:07:49.9553247Z 📋 Jobs: push, workflow_dispatch, contents, actions, CL, CXXFLAGS, GYP_MSVS_ARGS, GYP_CXXFLAGS, GYP_MSVS_VERSION, npm_config_msvs_version, run, prepare, build, summary
+2025-10-10T17:07:49.9554641Z 🔗 Needs: prepare, build
+2025-10-10T17:07:49.9555116Z ✅ 无问题
+2025-10-10T17:07:49.9555297Z 
+2025-10-10T17:07:49.9555638Z 🔍 检查工作流: release-ramp.yml
+2025-10-10T17:07:49.9558018Z 📋 Jobs: contents, actions, run, workflow_run, workflow_dispatch, SENTRY_ORG, SENTRY_PROJECT, APP_VERSION, PREV_GA_VERSION, THRESHOLD_CF_USERS, THRESHOLD_CF_SESSIONS, WEBHOOK_URL, group, cancel-in-progress, ramp, post_actions
+2025-10-10T17:07:49.9559817Z 🔗 Needs: ramp
+2025-10-10T17:07:49.9560232Z ✅ 无问题
+2025-10-10T17:07:49.9560413Z 
+2025-10-10T17:07:49.9560763Z 🔍 检查工作流: release-prepare.yml
+2025-10-10T17:07:49.9561866Z 📋 Jobs: contents, actions, run, workflow_dispatch, group, cancel-in-progress, prepare
+2025-10-10T17:07:49.9565893Z 🔗 Needs: 
+2025-10-10T17:07:49.9566575Z ✅ 无问题
+2025-10-10T17:07:49.9566752Z 
+2025-10-10T17:07:49.9567111Z 🔍 检查工作流: release-monitor.yml
+2025-10-10T17:07:49.9569360Z 📋 Jobs: contents, actions, run, schedule, workflow_dispatch, SENTRY_ORG, SENTRY_PROJECT, APP_VERSION, PREV_GA_VERSION, THRESHOLD_CF_USERS, THRESHOLD_CF_SESSIONS, WEBHOOK_URL, group, cancel-in-progress, monitor
+2025-10-10T17:07:49.9570885Z 🔗 Needs: 
+2025-10-10T17:07:49.9571265Z ✅ 无问题
+2025-10-10T17:07:49.9571443Z 
+2025-10-10T17:07:49.9571876Z 🔍 检查工作流: release-emergency-rollback.yml
+2025-10-10T17:07:49.9573256Z 📋 Jobs: contents, actions, run, workflow_dispatch, PREV_GA_VERSION, WEBHOOK_URL, group, emergency_rollback
+2025-10-10T17:07:49.9574196Z 🔗 Needs: 
+2025-10-10T17:07:49.9574537Z ✅ 无问题
+2025-10-10T17:07:49.9574714Z 
+2025-10-10T17:07:49.9575103Z 🔍 检查工作流: pr-performance-check.yml
+2025-10-10T17:07:49.9576539Z 📋 Jobs: pull_request, workflow_dispatch, contents, actions, run, performance-check, group, cancel-in-progress
+2025-10-10T17:07:49.9577532Z 🔗 Needs: 
+2025-10-10T17:07:49.9577909Z ✅ 无问题
+2025-10-10T17:07:49.9578079Z 
+2025-10-10T17:07:49.9578411Z 🔍 检查工作流: pr-gatekeeper.yml
+2025-10-10T17:07:49.9580022Z 📋 Jobs: pull_request, GATEKEEPER_TIMEOUT, contents, actions, checks, group, cancel-in-progress, windows-ci-gatekeeper, workflow-health-check
+2025-10-10T17:07:49.9581382Z 🔗 Needs: 
+2025-10-10T17:07:49.9581761Z ✅ 无问题
+2025-10-10T17:07:49.9582773Z 
+2025-10-10T17:07:49.9583361Z 🔍 检查工作流: observability-gate.yml
+2025-10-10T17:07:49.9584539Z 📋 Jobs: contents, actions, run, push, pull_request, NODE_VERSION, observability-gate
+2025-10-10T17:07:49.9585641Z 🔗 Needs: 
+2025-10-10T17:07:49.9586322Z ✅ 无问题
+2025-10-10T17:07:49.9586522Z 
+2025-10-10T17:07:49.9586946Z 🔍 检查工作流: nightly-scene-transition.yml
+2025-10-10T17:07:49.9587974Z 📋 Jobs: schedule, contents, actions, run, scene-transition-nightly
+2025-10-10T17:07:49.9588668Z 🔗 Needs: 
+2025-10-10T17:07:49.9589099Z ✅ 无问题
+2025-10-10T17:07:49.9589367Z 
+2025-10-10T17:07:49.9589886Z 🔍 检查工作流: config-management.yml
+2025-10-10T17:07:49.9591649Z 📋 Jobs: contents, actions, run, push, pull_request, NODE_ENV, RELEASE_PREFIX, group, cancel-in-progress, config-validation-and-docs, documentation-build
+2025-10-10T17:07:49.9593098Z 🔗 Needs: config-validation-and-docs
+2025-10-10T17:07:49.9593633Z ✅ 无问题
+2025-10-10T17:07:49.9593821Z 
+2025-10-10T17:07:49.9594091Z 🔍 检查工作流: codeql.yml
+2025-10-10T17:07:49.9595103Z 📋 Jobs: push, pull_request, schedule, contents, security-events, actions, analyze
+2025-10-10T17:07:49.9595865Z 🔗 Needs: 
+2025-10-10T17:07:49.9596211Z ✅ 无问题
+2025-10-10T17:07:49.9599023Z 
+2025-10-10T17:07:49.9599630Z 🔍 检查工作流: ci.yml
+2025-10-10T17:07:49.9604681Z 📋 Jobs: push, pull_request, schedule, NODE_VERSION_MATRIX, COVERAGE_THRESHOLD, SENTRY_DSN, SENTRY_TRACES_SAMPLE_RATE, CL, CXXFLAGS, contents, actions, run, group, cancel-in-progress, workflow-guardian, quality-gates, unit-tests-core, coverage-gate, sonarcloud-analysis, build-verification-core, release-health-gate, extended-tests-matrix, electron-security-gate, observability-verification, performance-benchmarks, performance-trend-weekly, deployment-readiness, sbom, security-summary
+2025-10-10T17:07:49.9610788Z 🔗 Needs: workflow-guardian, workflow-guardian, unit-tests-core, unit-tests-core, unit-tests-core, unit-tests-core, coverage-gate, electron-security-gate, quality-gates, quality-gates, build-verification-core, unit-tests-core, build-verification-core, electron-security-gate
+2025-10-10T17:07:49.9612928Z ✅ 无问题
+2025-10-10T17:07:49.9613169Z 
+2025-10-10T17:07:49.9613546Z 🔍 检查工作流: build-and-test.yml
+2025-10-10T17:07:49.9614572Z 📋 Jobs: pull_request, push, build-artifacts, build-and-unit, e2e-perf-smoke
+2025-10-10T17:07:49.9615741Z 🔗 Needs: build-artifacts, build-artifacts, build-and-unit
+2025-10-10T17:07:49.9616368Z ✅ 无问题
+2025-10-10T17:07:49.9616542Z 
+2025-10-10T17:07:49.9617032Z 🔍 检查工作流: branch-protection-encoding-guard.yml
+2025-10-10T17:07:49.9619119Z 📋 Jobs: workflow_dispatch, contents, protect
+2025-10-10T17:07:49.9619679Z 🔗 Needs: 
+2025-10-10T17:07:49.9620000Z ✅ 无问题
+2025-10-10T17:07:49.9620155Z 
+2025-10-10T17:07:49.9620351Z 🔍 检查工作流: agents-lock.yml
+2025-10-10T17:07:49.9620921Z 📋 Jobs: pull_request, push, contents, run, group, cancel-in-progress, agents-lock
+2025-10-10T17:07:49.9621323Z 🔗 Needs: 
+2025-10-10T17:07:49.9621516Z ✅ 无问题
+2025-10-10T17:07:49.9621615Z 
+2025-10-10T17:07:49.9621798Z ==================================================
+2025-10-10T17:07:49.9622203Z 📊 检查完成: 20 个工作流, 0 个问题
+2025-10-10T17:07:49.9622504Z ✅ 所有工作流依赖检查通过
