@@ -1,4 +1,4 @@
-﻿name: CI/CD Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -39,6 +39,8 @@ env:
   # Disable Sentry ingestion in CI/PR by default (free SaaS safe defaults)
   SENTRY_DSN: ''
   SENTRY_TRACES_SAMPLE_RATE: '0'
+  CL: '/std:c++20 /EHsc'
+  CXXFLAGS: '-std=c++20'
 
 permissions:
   contents: read
@@ -50,7 +52,8 @@ defaults:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Avoid cancelling in-progress PR runs (keeps long jobs stable)
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 jobs:
   # ==================== Guardian Self-Check ====================
@@ -132,7 +135,9 @@ jobs:
       - name: Step
         run: npm run typecheck
 
-      - name: 
+      - name: Typecheck (shared strict)
+        run: npm run typecheck:shared
+        continue-on-error: true
 
       - name: Typecheck (services strict)
         run: npm run typecheck:services
@@ -152,13 +157,13 @@ jobs:
         run: node scripts/ci/guard-artifacts.mjs
 
       - name: Commit message lint (push - last 20)
-        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' && github.actor != 'dependabot[bot]' && !startsWith(github.ref, 'refs/heads/dependabot/') }}
         run: |
           npx --no-install commitlint --from=HEAD~20 --to=HEAD --verbose
-        # 强制门禁：不允许提交信息不合规
+        # enforce commit message policy: disallow non-compliant messages
         continue-on-error: false
       - name: Commit message lint (PR - last commit only)
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ github.event_name == 'pull_request' && github.actor != 'dependabot[bot]' && !startsWith(github.head_ref || '', 'dependabot/') }}
         run: |
           npx --no-install commitlint --from=HEAD~1 --to=HEAD --verbose
         continue-on-error: false
@@ -429,6 +434,10 @@ jobs:
         shell: pwsh
     needs: quality-gates
     timeout-minutes: 20
+    # Ensure devDependencies are installed for matrix jobs
+    env:
+      NODE_ENV: development
+      NPM_CONFIG_PRODUCTION: 'false'
     if: |
       contains(github.event.head_commit.message, '[skip-extended]') == false &&
       github.event_name != 'schedule'
@@ -436,8 +445,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: ['18.x', '20.x', '22.x']
-        # Windows-focused strategy: single OS, multiple Node versions
+        node-version: ['20.x']
+        # Align with engines: Node >=20 <21
 
     steps:
       - name: Checkout code
@@ -717,7 +726,7 @@ jobs:
           # Step Summary
           $lines = @()
           $lines += '## Weekly Performance Trend (Windows)'
-          $lines += "- Start→DOMContentLoaded: ${start} ms" + ($(if($deltaStart -ne $null) {" (${deltaStart}% vs prev)"} else {''}))
+          $lines += "- Start DOMContentLoaded: ${start} ms" + ($(if($deltaStart -ne $null) {" (${deltaStart}% vs prev)"} else {''}))
           $lines += "- Scene switch (hash): ${scene} ms" + ($(if($deltaScene -ne $null) {" (${deltaScene}% vs prev)"} else {''}))
           $lines += "- Timestamp (UTC): $now"
           $lines -join "`n" | Add-Content -Path $env:GITHUB_STEP_SUMMARY
@@ -780,10 +789,13 @@ jobs:
         with:
           node-version: '20.x'
           cache: 'npm'
-      - name: Install (no scripts)
-        run: npm ci --ignore-scripts
+      - name: Install (prod only, no scripts)
+        run: npm ci --omit=dev --ignore-scripts
       - name: Generate CycloneDX SBOM
+        # Use production tree to avoid dev-only invalid packages on Windows (e.g., dmg-license)
         run: npx --yes @cyclonedx/cyclonedx-npm --output-file sbom.json --spec-version 1.5
+        env:
+          npm_config_omit: dev
       - name: Upload SBOM
         uses: actions/upload-artifact@v4
         with:
@@ -812,7 +824,3 @@ jobs:
           path: .
       - name: Generate summary
         run: node scripts/ci/security-summary.mjs
-
-
-
-

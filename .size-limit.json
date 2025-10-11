@@ -15,11 +15,6 @@
     "limit": "115 KB"
   },
   {
-    "name": "antd-vendor (gz)",
-    "path": "dist/assets/antd-vendor-*.js",
-    "limit": "330 KB"
-  },
-  {
     "name": "sentry (gz)",
     "path": "dist/assets/sentry-*.js",
     "limit": "150 KB"

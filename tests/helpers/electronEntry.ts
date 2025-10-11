@@ -20,8 +20,7 @@ export function assertElectronEntry(): string {
   const entry = getElectronEntry();
   if (!existsSync(entry)) {
     throw new Error(
-      `Electron entry not found: ${entry}. Please run \"npm run build\" first ` +
-        `or set ELECTRON_MAIN_PATH to a valid path (e.g. dist-electron/electron/main.js).`
+      `Electron entry not found: ${entry}. Please run "npm run build" first or set ELECTRON_MAIN_PATH to a valid path (e.g. dist-electron/electron/main.js).`
     );
   }
   return entry;

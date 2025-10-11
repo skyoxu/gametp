@@ -32,22 +32,28 @@ npm run release:stage:25
 
 ### 鐩存帴璋冪敤鑴氭湰
 
-```bash
-# 鍒嗛樁娈靛彂甯?node scripts/release/patch-staging-percentage.mjs dist/latest.yml 25
+```powershell
+# 分阶段发布
+node scripts/release/patch-staging-percentage.mjs dist/latest.yml 25
 
-# 鍋ュ悍妫€鏌?SENTRY_AUTH_TOKEN=xxx APP_VERSION=1.2.3 node scripts/release/auto-rollback.mjs
+# 稳健性检测
+$env:SENTRY_AUTH_TOKEN = 'xxx'
+$env:APP_VERSION = '1.2.3'
+try {
+  node scripts/release/auto-rollback.mjs
+}
+finally {
+  Remove-Item Env:SENTRY_AUTH_TOKEN -ErrorAction SilentlyContinue
+  Remove-Item Env:APP_VERSION -ErrorAction SilentlyContinue
+}
 
-# 瀹屾暣鍥炴粴
-node scripts/release/execute-rollback.mjs \
-  --feed=dist/latest.yml \
-  --previous-version=1.1.0 \
-  --manifest=artifacts/manifest.json \
-  --reason="Critical issue detected"
+# 完整回滚
+node scripts/release/execute-rollback.mjs --feed=dist/latest.yml --previous-version=1.1.0 --manifest=artifacts/manifest.json --reason 'Critical issue detected'
 
-# 鐗堟湰鍥炴粴
+# 版本回滚
 node scripts/release/rollback-feed.mjs dist/latest.yml artifacts/manifest.json 1.1.0
 
-# 鐗堟湰绠＄悊
+# 版本管理
 node scripts/release/manage-manifest.mjs add --version=1.2.3 --path=dist/app.exe
 ```
 
@@ -151,20 +157,22 @@ cleanup  // 娓呯悊杩囨湡鐗堟湰
 
 ### 蹇呴渶鐜鍙橀噺
 
-```bash
-# Sentry 閰嶇疆锛堝仴搴锋鏌ョ敤锛?SENTRY_AUTH_TOKEN=sntrys_xxx      # Sentry API 璁よ瘉浠ょ墝
-SENTRY_ORG=your-organization      # Sentry 缁勭粐鍚嶇О
-SENTRY_PROJECT=your-project       # Sentry 椤圭洰鍚嶇О
-APP_VERSION=1.2.3                 # 褰撳墠搴旂敤鐗堟湰
+```powershell
+# Sentry 环境变量（健康检查用）
+$env:SENTRY_AUTH_TOKEN = 'sntrys_xxx'      # Sentry API 认证令牌
+$env:SENTRY_ORG = 'your-organization'      # Sentry 组织名称
+$env:SENTRY_PROJECT = 'your-project'       # Sentry 项目名称
+$env:APP_VERSION = '1.2.3'                 # 当前应用版本
 
-# 鍋ュ悍搴﹂槇鍊硷紙鍙€夛級
-THRESHOLD_CF_USERS=0.995          # Crash-Free Users 闃堝€硷紝榛樿 99.5%
-THRESHOLD_CF_SESSIONS=0.995       # Crash-Free Sessions 闃堝€硷紝榛樿 99.5%
+# 健康度阈值（可按需调整）
+$env:THRESHOLD_CF_USERS = '0.995'          # Crash-Free Users 阈值，默认 99.5%
+$env:THRESHOLD_CF_SESSIONS = '0.995'       # Crash-Free Sessions 阈值，默认 99.5%
 
-# 鍥炴粴閰嶇疆锛堝彲閫夛級
-WEBHOOK_URL=https://hooks.slack.com/xxx  # 閫氱煡 Webhook URL
-ROLLBACK_LOG_DIR=logs/rollback           # 鍥炴粴鏃ュ織鐩綍锛岄粯璁?logs/rollback
-SENTRY_API_TIMEOUT=10000                 # API 璇锋眰瓒呮椂鏃堕棿(ms)锛岄粯璁?10 绉?```
+# 回滚通知配置（可选）
+$env:WEBHOOK_URL = 'https://hooks.slack.com/xxx'  # 通知 Webhook URL
+$env:ROLLBACK_LOG_DIR = 'logs/rollback'           # 回滚日志目录
+$env:SENTRY_API_TIMEOUT = '10000'                # API 请求超时 (ms)
+```
 
 ### 鏂囦欢缁撴瀯瑕佹眰
 
@@ -182,32 +190,35 @@ project/
 
 ### 1. Shell 鑴氭湰闆嗘垚
 
-```bash
-#!/bin/bash
-set -e
+```powershell
+$ErrorActionPreference = 'Stop'
 
-VERSION="1.2.3"
-PREV_VERSION="1.1.0"
+$version = '1.2.3'
+$previousVersion = '1.1.0'
 
-echo "馃殌 寮€濮嬫笎杩涘彂甯?$VERSION"
+Write-Host "🚀 开始灰度发布 $version"
 
-# 闃舵 1: 5% 鍙戝竷
-echo "馃搳 闃舵 1: 5% 鍙戝竷"
+# 阶段 1: 5% 发布
+Write-Host "📊 阶段 1: 5% 发布"
 npm run release:stage:5
 
-# 绛夊緟鏁版嵁鏀堕泦
-echo "鈴?绛夊緟 10 鍒嗛挓鏀堕泦鍋ュ悍鏁版嵁..."
-sleep 600
+Write-Host "⏱️ 等待 10 分钟收集健康数据..."
+Start-Sleep -Seconds 600
 
-# 鍋ュ悍妫€鏌?if ! npm run release:health-check; then
-  echo "鉂?5% 闃舵鍋ュ悍妫€鏌ュけ璐ワ紝鎵ц鍥炴粴"
-  npm run release:rollback:to-version -- dist/latest.yml artifacts/manifest.json "$PREV_VERSION"
-  exit 1
-echo "鉁?5% 闃舵鍋ュ悍搴﹁壇濂斤紝缁х画涓嬩竴闃舵"
+try {
+  npm run release:health-check
+}
+catch {
+  Write-Warning "❌ 5% 阶段健康检查失败，执行回滚"
+  npm run release:rollback:to-version -- dist/latest.yml artifacts/manifest.json $previousVersion
+  throw
+}
 
-# 闃舵 2: 25% 鍙戝竷
+Write-Host "✅ 5% 阶段健康通过，继续下一阶段"
+
+# 阶段 2: 25% 发布
 npm run release:stage:25
-# ... 缁х画鍚庣画闃舵
+# TODO: 后续阶段按发布策略继续扩容
 ```
 
 ### 2. Node.js 绋嬪簭闆嗘垚
@@ -257,12 +268,16 @@ async function progressiveRelease(version, stages = [5, 25, 50, 100]) {
 ## 馃攳 璋冭瘯鍜屾棩蹇?
 ### 璋冭瘯妯″紡
 
-```bash
-# 鍚敤璇︾粏鏃ュ織杈撳嚭
-DEBUG=release:* npm run release:stage:25
+```powershell
+# 启用详细日志
+$env:DEBUG = 'release:*'
+npm run release:stage:25
+Remove-Item Env:DEBUG -ErrorAction SilentlyContinue
 
-# 浠呮ā鎷熸墽琛岋紙涓嶅疄闄呬慨鏀规枃浠讹級
-DRY_RUN=true npm run release:health-check
+# 模拟执行（不会实际改动文件）
+$env:DRY_RUN = 'true'
+npm run release:health-check
+Remove-Item Env:DRY_RUN -ErrorAction SilentlyContinue
 ```
 
 ### 鏃ュ織鏂囦欢浣嶇疆
@@ -291,7 +306,7 @@ DRY_RUN=true npm run release:health-check
 
 #### 1. Sentry API 璁よ瘉澶辫触
 
-```bash
+```text
 # 閿欒淇℃伅
 鉂?Request failed: Request failed with status 401
 
@@ -303,7 +318,7 @@ DRY_RUN=true npm run release:health-check
 
 #### 2. 鐗堟湰娓呭崟鏂囦欢闂
 
-```bash
+```text
 # 閿欒淇℃伅
 鉂?Version 1.2.3 not found in manifest
 
@@ -314,7 +329,7 @@ DRY_RUN=true npm run release:health-check
 
 #### 3. Feed 鏂囦欢鏍煎紡閿欒
 
-```bash
+```text
 # 閿欒淇℃伅
 鉂?Failed to parse YAML response
 
@@ -325,7 +340,7 @@ DRY_RUN=true npm run release:health-check
 ```
 
 #### 4. 鍋ュ悍鏁版嵁涓嶅彲鐢?
-```bash
+```text
 # 閿欒淇℃伅
 鉂?Health metrics not available for release
 
@@ -335,12 +350,13 @@ DRY_RUN=true npm run release:health-check
 
 ### 鑴氭湰娴嬭瘯
 
-```bash
-# 娴嬭瘯鑴氭湰鍔熻兘锛堜娇鐢ㄧず渚嬫暟鎹級
-npm test                    # 杩愯鍗曞厓娴嬭瘯
-npm run test:integration    # 闆嗘垚娴嬭瘯
-npm run test:e2e           # 绔埌绔祴璇?
-# 鎵嬪姩楠岃瘉
+```powershell
+# 测试脚本功能（使用示例数据）
+npm test                    # 运行单元测试
+npm run test:integration    # 集成测试
+npm run test:e2e           # 端到端测试
+
+# 手动验证
 node scripts/release/patch-staging-percentage.mjs --help
 node scripts/release/manage-manifest.mjs validate
 ```

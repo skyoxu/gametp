@@ -54,6 +54,12 @@ export default defineConfig({
       '@core': path.resolve(__dirname, './src/core'),
       '@domain': path.resolve(__dirname, './src/domain'),
       '@infra': path.resolve(__dirname, './src/infra'),
+      '@opentelemetry/api': path.resolve(__dirname, './src/shared/observability/stubs/opentelemetry-api.ts'),
+      '@opentelemetry/sdk-node': path.resolve(__dirname, './src/shared/observability/stubs/opentelemetry-sdk-node.ts'),
+      '@opentelemetry/resources': path.resolve(__dirname, './src/shared/observability/stubs/opentelemetry-resources.ts'),
+      '@opentelemetry/semantic-conventions': path.resolve(__dirname, './src/shared/observability/stubs/opentelemetry-semantic-conventions.ts'),
+      '@opentelemetry/sdk-trace-base': path.resolve(__dirname, './src/shared/observability/stubs/opentelemetry-sdk-trace-base.ts'),
+      '@opentelemetry/exporter-jaeger': path.resolve(__dirname, './src/shared/observability/stubs/opentelemetry-exporter-jaeger.ts'),
     },
   },
   test: {

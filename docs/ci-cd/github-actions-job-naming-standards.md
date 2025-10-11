@@ -201,7 +201,7 @@ steps:
 1. **渚濊禆寮曠敤閿欒**
 
    ```
-   Error: Job 'coverage-gate' depends on 'unit-tests' which doesn't exist
+   Error: Job 'coverage-gate' depends on missing job 'unit-tests'
    ```
 
    **瑙ｅ喅鏂规**锛氬皢 `unit-tests` 鏇存柊涓?`unit-tests-core`

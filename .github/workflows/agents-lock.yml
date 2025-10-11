@@ -1,0 +1,50 @@
+name: Agents File Lock
+
+on:
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'AGENTS.md'
+      - 'scripts/ci/agents-lock.mjs'
+      - '.github/workflows/agents-lock.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'AGENTS.md'
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: pwsh
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  agents-lock:
+    name: Guard AGENTS.md changes
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version: '20.x'
+
+      - name: Enforce AGENTS.md lock
+        run: node scripts/ci/agents-lock.mjs
+        env:
+          # Provide PR labels for allow-list check
+          PR_LABELS: ${{ github.event.pull_request && join(github.event.pull_request.labels.*.name, ',') || '' }}
+          AGENTS_ALLOW_LABELS: agents-update,agents-waive
+          # Base refs for diffing (PR)
+          GITHUB_BASE_REF: ${{ github.base_ref || github.event.pull_request.base.ref }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha || '' }}
+

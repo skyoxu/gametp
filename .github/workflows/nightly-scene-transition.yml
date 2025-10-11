@@ -32,7 +32,7 @@ jobs:
       - name: Install deps
         run: npm ci
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install
       - name: Build (for Electron E2E)
         run: npm run build
         env:

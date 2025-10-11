@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Architecture Task List",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id"
+    ],
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "title": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "todo",
+          "in-progress",
+          "blocked",
+          "done"
+        ]
+      },
+      "owners": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "uniqueItems": true
+      },
+      "summary": {
+        "type": "string"
+      },
+      "adrRefs": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "uniqueItems": true
+      },
+      "archRefs": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "uniqueItems": true
+      },
+      "overlay": {
+        "type": "string"
+      },
+      "acceptance": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "meta": {
+        "type": "object",
+        "properties": {
+          "prdId": {
+            "type": "string"
+          },
+          "prdChunk": {
+            "type": "integer"
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "P0",
+              "P1",
+              "P2",
+              "P3"
+            ]
+          },
+          "labels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "additionalProperties": true
+  }
+}

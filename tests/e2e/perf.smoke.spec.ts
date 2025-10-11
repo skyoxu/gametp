@@ -6,6 +6,9 @@ import { test, expect, ElectronApplication, Page } from '@playwright/test';
 import { launchApp, prepareWindowForInteraction } from '../helpers/launch';
 import { PerformanceTestUtils } from '../utils/PerformanceTestUtils';
 
+const APP_ROOT_SELECTOR = '[data-testid="app-root"]';
+const START_GAME_SELECTOR = '[data-testid="start-game"]';
+
 let electronApp: ElectronApplication;
 let page: Page;
 
@@ -26,8 +29,10 @@ test.afterAll(async () => {
 
 test.describe('@smoke Perf Smoke Suite', () => {
   test('@smoke App renders', async () => {
-    await page.waitForSelector('[data-testid="app-root"]', { timeout: 15000 });
-    expect(await page.locator('[data-testid="app-root"]').count()).toBeGreaterThan(0);
+    const appRoot = page.locator(APP_ROOT_SELECTOR);
+    await appRoot.first().waitFor({ timeout: 15000 });
+    const rootCount = await appRoot.count();
+    expect(rootCount).toBeGreaterThan(0);
   });
 
   test('@smoke Interaction P95', async () => {
@@ -42,30 +47,25 @@ test.describe('@smoke Perf Smoke Suite', () => {
         ? 150
         : 150;
 
-    await page.waitForSelector('[data-testid="app-root"]');
+    await page.waitForSelector(APP_ROOT_SELECTOR);
     await page.bringToFront();
     await page.evaluate(
       () =>
-        new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
+        new Promise(resolve =>
+          requestAnimationFrame(() => requestAnimationFrame(resolve))
+        )
     );
 
-    // Use the stable start-game button for smoke P95 to avoid harness flakiness
-    const startBtn = page.locator('[data-testid="start-game"]').first();
-    if (await startBtn.count()) {
+    const startButton = page.locator(START_GAME_SELECTOR).first();
+    if (await startButton.count()) {
       for (let i = 0; i < 3; i++) {
-        await page.evaluate(() => {
-          const el = document.querySelector('[data-testid="start-game"]') as HTMLElement | null;
-          el?.click();
-        });
+        await startButton.click({ delay: 10 });
         await page.waitForTimeout(80);
       }
       await PerformanceTestUtils.runInteractionP95Test(
         async () => {
           const t0 = Date.now();
-          await page.evaluate(() => {
-            const el = document.querySelector('[data-testid="start-game"]') as HTMLElement | null;
-            el?.click();
-          });
+          await page.click(START_GAME_SELECTOR, { timeout: 5000 });
           await page.waitForTimeout(50);
           return Date.now() - t0;
         },
@@ -77,5 +77,3 @@ test.describe('@smoke Perf Smoke Suite', () => {
     }
   });
 });
-
-

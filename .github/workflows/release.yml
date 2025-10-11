@@ -1,4 +1,4 @@
-﻿name: Release Pipeline - Dev to CI to Prod (Simplified)
+name: Release Pipeline - Dev to CI to Prod (Simplified)
 
 on:
   push:
@@ -16,6 +16,15 @@ on:
 permissions:
   contents: write
   actions: read
+
+env:
+  # Ensure native rebuilds (tree-sitter, node-gyp) compile against C++20 on Windows runners (ADR-0005)
+  CL: '/std:c++20 /EHsc'
+  CXXFLAGS: '-std=c++20'
+  GYP_MSVS_ARGS: '/std:c++20'
+  GYP_CXXFLAGS: '-std=c++20'
+  GYP_MSVS_VERSION: '2022'
+  npm_config_msvs_version: '2022'
 
 defaults:
   run:
@@ -175,4 +184,3 @@ jobs:
     needs: build
     steps:
       - run: Write-Output "Release build completed"
-

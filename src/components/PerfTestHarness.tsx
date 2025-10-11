@@ -9,13 +9,32 @@ import { createComputationWorker } from '@/shared/workers/workerBridge';
 
 export default function PerfTestHarness() {
   const e2eSmoke = (import.meta as any)?.env?.VITE_E2E_SMOKE === 'true';
+  console.log(`[PerfTestHarness] e2eSmoke=${e2eSmoke}`);
   const [responded, setResponded] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [isPending] = useTransition();
   const workerRef = useRef<ReturnType<typeof createComputationWorker> | null>(
     null
   );
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearAutoHideTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+
+  const startAutoHideTimer = useCallback(
+    (delay: number) => {
+      clearAutoHideTimer();
+      timerRef.current = setTimeout(() => {
+        setResponded(false);
+        timerRef.current = null;
+      }, delay);
+    },
+    [clearAutoHideTimer, setResponded]
+  );
 
   const ensureWorker = () => {
     if (!workerRef.current) workerRef.current = createComputationWorker();
@@ -26,19 +45,27 @@ export default function PerfTestHarness() {
     const t0 = performance.now();
     performance.mark('test_button_click_start');
 
-    // 立即设置responded状态，确保同步DOM更新
     setResponded(true);
+    startAutoHideTimer(e2eSmoke ? 80 : 120);
 
-    // 后台重计算：不阻塞主线程
+    if (e2eSmoke) {
+      const t1 = performance.now();
+      console.log(
+        `[PerfTestHarness] smoke-mode handler time=${(t1 - t0).toFixed(2)}ms`
+      );
+      return;
+    }
+
     setBusy(true);
+
     const { heavyTask } = ensureWorker();
     try {
-      const res = await heavyTask(5_000_00); // 50万次演示
+      const res = await heavyTask(5_000_00);
       console.log(
         `[PerfTestHarness] worker heavyTask duration=${res.duration.toFixed(2)}ms`
       );
-    } catch (e) {
-      console.warn('[PerfTestHarness] worker error', e);
+    } catch (error) {
+      console.warn('[PerfTestHarness] worker error', error);
     } finally {
       setBusy(false);
       const t1 = performance.now();
@@ -46,40 +73,54 @@ export default function PerfTestHarness() {
         `[PerfTestHarness] total handler time=${(t1 - t0).toFixed(2)}ms`
       );
     }
-  }, []);
+  }, [e2eSmoke, startAutoHideTimer]);
 
-  // 使用useLayoutEffect确保response-indicator的同步显示和性能标记
+  // Manage response indicator visibility and auto-hide
   useLayoutEffect(() => {
-    if (responded) {
-      // 立即标记指示器可见，确保在DOM更新后同步执行
+    if (!responded) {
+      clearAutoHideTimer();
+      return clearAutoHideTimer;
+    }
+
+    const autoHideDelay = e2eSmoke ? 80 : 120;
+    startAutoHideTimer(autoHideDelay);
+
+    const canMeasure =
+      typeof performance !== 'undefined' &&
+      typeof performance.mark === 'function' &&
+      typeof performance.measure === 'function';
+
+    if (canMeasure) {
       performance.mark('response_indicator_visible');
-      performance.measure(
-        'click_to_indicator',
-        'test_button_click_start',
-        'response_indicator_visible'
-      );
 
-      const m = performance.getEntriesByName('click_to_indicator').pop();
-      if (m) {
-        console.log(
-          `[PerfTestHarness] click_to_indicator=${m.duration.toFixed(2)}ms`
+      try {
+        performance.measure(
+          'click_to_indicator',
+          'test_button_click_start',
+          'response_indicator_visible'
         );
-      }
-
-      // E2E烟雾测试模式下120ms后隐藏
-      if (e2eSmoke) {
-        timerRef.current = setTimeout(() => setResponded(false), 120);
+        const measure = performance
+          .getEntriesByName('click_to_indicator')
+          .pop();
+        if (measure) {
+          console.log(
+            `[PerfTestHarness] click_to_indicator=${measure.duration.toFixed(2)}ms`
+          );
+        }
+      } catch (error) {
+        console.warn('[PerfTestHarness] performance.measure failed', error);
+      } finally {
+        if (typeof performance.clearMarks === 'function') {
+          performance.clearMarks('response_indicator_visible');
+        }
+        if (typeof performance.clearMeasures === 'function') {
+          performance.clearMeasures('click_to_indicator');
+        }
       }
     }
 
-    // 清理函数：组件卸载时清理定时器
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
-      }
-    };
-  }, [responded, e2eSmoke]);
+    return clearAutoHideTimer;
+  }, [responded, e2eSmoke, clearAutoHideTimer, startAutoHideTimer]);
 
   return (
     <div className="mt-6 flex items-center gap-3" data-testid="perf-harness">
@@ -89,14 +130,14 @@ export default function PerfTestHarness() {
         onClick={onClick}
         disabled={busy}
       >
-        {busy ? 'Working…' : 'Test Interaction'}
+        {busy ? 'Working...' : 'Test Interaction'}
       </button>
       {responded && (
         <span data-testid="response-indicator" className="text-green-400">
           OK
         </span>
       )}
-      {isPending && <span className="text-yellow-400">…</span>}
+      {isPending && <span className="text-yellow-400">...</span>}
     </div>
   );
 }

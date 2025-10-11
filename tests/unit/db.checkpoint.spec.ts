@@ -313,7 +313,10 @@ test('checkpoint script JSON output format consistency', () => {
     if (e.stdout) {
       try {
         errorData = JSON.parse(e.stdout);
-      } catch {}
+      } catch (parseError) {
+        console.warn('[db.checkpoint] failed to parse stdout JSON', parseError);
+        errorData = undefined;
+      }
     }
   }
 

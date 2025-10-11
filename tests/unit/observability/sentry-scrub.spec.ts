@@ -3,11 +3,13 @@ import {
   filterPIIWithOTelSemantics,
   sanitizeMessage,
   filterSensitiveBreadcrumb,
+  type SentryEvent,
+  type SentryBreadcrumb,
 } from '../../../src/shared/observability/sentry-scrub';
 
 describe('Sentry PII scrubbing (main)', () => {
   it('removes user/email/ip and auth headers', () => {
-    const event: any = {
+    const event: SentryEvent = {
       user: { id: 'real-user', email: 'a@b.com', ip_address: '1.2.3.4' },
       request: {
         headers: {
@@ -17,7 +19,7 @@ describe('Sentry PII scrubbing (main)', () => {
         },
       },
     };
-    const scrubbed = filterPIIWithOTelSemantics(event as any, undefined) as any;
+    const scrubbed = filterPIIWithOTelSemantics(event, undefined);
     expect(scrubbed.user?.email).toBeUndefined();
     expect(scrubbed.user?.ip_address).toBeUndefined();
     expect(scrubbed.user?.id).toBe('anonymous');
@@ -28,19 +30,20 @@ describe('Sentry PII scrubbing (main)', () => {
 
   it('sanitizes secrets in messages', () => {
     const msg = 'error password=123 token=abc key=zzz secret=hahaha';
-    const s = sanitizeMessage(msg);
-    expect(s).not.toMatch(/123|abc|zzz|hahaha/);
+    const sanitized = sanitizeMessage(msg);
+    expect(sanitized).not.toMatch(/123|abc|zzz|hahaha/);
   });
 
   it('removes sensitive breadcrumbs', () => {
-    const b1 = filterSensitiveBreadcrumb({
+    const breadcrumb: SentryBreadcrumb = {
       category: 'http',
       level: 'info',
       data: { url: 'https://api.example.com?token=abcd' },
       message: 'fetch',
       timestamp: Date.now() / 1000,
       type: 'default',
-    } as any);
-    expect(b1).toBeNull();
+    };
+    const result = filterSensitiveBreadcrumb(breadcrumb);
+    expect(result).toBeNull();
   });
 });

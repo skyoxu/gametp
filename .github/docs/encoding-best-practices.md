@@ -1,168 +1,162 @@
-﻿# GitHub Actions 缂栫爜鏈€浣冲疄璺?- P2浼樺寲鎸囧崡
+# GitHub Actions 编码最佳实践 - P2优化指南
 
-## 姒傝堪
+## 概述
 
-纭繚Windows runner鐜涓婼tep Summary鍜屽伐浠惰緭鍑虹殑UTF-8缂栫爜涓€鑷存€э紝閬垮厤涔辩爜鍜屾樉绀洪棶棰樸€?
-## 鏍稿績鍘熷垯
+该文档给出在 Windows runner 上生成 Step Summary 与构建产物时的统一编码策略，确保所有输出满足 ADR-0011（Windows-only 平台策略）和 ADR-0005（质量门禁）要求，避免乱码、换行异常以及 Shell 混用造成的失败。
 
-### 1. Shell閫夋嫨浼樺厛绾?
+## 基础规则
+
+### 1. Shell 选择优先级
+
 ```yaml
-# 鉁?鎺ㄨ崘锛氫娇鐢╞ash纭繚璺ㄥ钩鍙颁竴鑷存€?- name: 鐢熸垚鎶ュ憡
-  shell: bash
-  run: |
-    cat >> $GITHUB_STEP_SUMMARY << 'EOF'
-    ## 馃搳 鏋勫缓鎶ュ憡
-    - 鐘舵€? 鉁?鎴愬姛
-    EOF
-
-# 鉁?鍙€夛細闇€瑕乄indows鐗瑰畾鍔熻兘鏃朵娇鐢╬wsh
-- name: Windows鐗瑰畾鎿嶄綔
-  shell: pwsh
-  run: |
-    $content = "## 馃搳 Windows鏋勫缓鎶ュ憡`n- 鐘舵€? 鉁?鎴愬姛"
-    $content | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Encoding utf8NoBom -Append
+# ✅ 推荐：统一使用 pwsh
+action:
+  runs-on: windows-latest
+  defaults:
+    run:
+      shell: pwsh
+  steps:
+    - name: 生成汇总
+      run: |
+        $summary = "## 构建汇总`n- 状态: ✅ 成功"
+        $summary | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Encoding utf8NoBom -Append
 ```
 
-### 2. Step Summary缂栫爜妯″紡
+- 默认 shell 指定为 `pwsh`；只有在调用历史脚本时才用 `cmd`，禁止 `bash`、`sh`。
+- 在同一 job 内保持 shell 一致，减少编码切换导致的乱码风险。
 
-#### Bash妯″紡锛堟帹鑽愶級
+### 2. Step Summary 模板
 
-```yaml
-- name: 鐢熸垚Step Summary
-  shell: bash
-  run: |
-    cat >> $GITHUB_STEP_SUMMARY << 'EOF'
-    ## 馃洝锔?瀹夊叏妫€鏌ユ姤鍛?
-    ### 鉁?妫€鏌ョ粨鏋?    - **婕忔礊鎵弿**: 閫氳繃
-    - **渚濊禆瀹¤**: 閫氳繃
-    - **浠ｇ爜璐ㄩ噺**: 浼樼
-
-    ### 馃搳 缁熻鏁版嵁
-    - 妫€鏌ユ枃浠? 156涓?    - 鍙戠幇闂: 0涓?    - 淇寤鸿: 3涓?    EOF
-```
-
-#### PowerShell妯″紡锛堢壒娈婂満鏅級
+#### PowerShell 模板（推荐）
 
 ```yaml
-- name: Windows鐗瑰畾Step Summary
+- name: 写入 Step Summary
   shell: pwsh
   run: |
     $summary = @"
-    ## 馃枼锔?Windows鏋勫缓鎶ュ憡
+    ## ✅ 安全扫描结果
+    - 依赖安全：通过
+    - Electron 防护：通过
+    - 代码质量：待关注
 
-    ### 鉁?缂栬瘧缁撴灉  
-    - **涓荤▼搴?*: 缂栬瘧鎴愬姛
-    - **渚濊禆椤?*: 瑙ｆ瀽瀹屾垚
-    - **鎵撳寘**: 鐢熸垚瀹屾垚
-
-    ### 馃搧 杈撳嚭鏂囦欢
-    - ViteGame.exe (52.4 MB)
-    - 閰嶇疆鏂囦欢 (1.2 MB)
+    ### 📊 覆盖率
+    - Lines ≥ 92%
+    - Branches ≥ 88%
     "@
-
-    # 鍏抽敭锛氫娇鐢╱tf8NoBom缂栫爜
     $summary | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Encoding utf8NoBom -Append
 ```
 
-### 3. 鏂囦欢杈撳嚭缂栫爜瑙勮寖
-
-#### JSON/XML閰嶇疆鏂囦欢
+#### Node.js 模板
 
 ```yaml
-- name: 鐢熸垚閰嶇疆鏂囦欢
+- name: Append Step Summary (Node)
   shell: pwsh
   run: |
-    $config = @{
-      version = "${{ github.run_number }}"
-      platform = "windows"
-      timestamp = Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ"
-    } | ConvertTo-Json -Depth 10
-
-    $config | Out-File -FilePath "config/build-info.json" -Encoding utf8NoBom
+    node -e "
+    import { appendFileSync } from 'node:fs';
+    const summary = `## 🧪 测试结果
+- Vitest: ✅
+- Playwright: ✅`;
+    appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary + '
+', { encoding: 'utf8' });
+    "
 ```
 
-#### 宸ヤ欢鍏冩暟鎹?
+### 3. 构建文件编码规范
+
 ```yaml
-- name: 鍒涘缓宸ヤ欢娓呭崟
-  shell: bash
+- name: 生成构建信息
+  shell: pwsh
   run: |
-    cat > manifest.json << EOF
-    {
-      "build_id": "${{ github.run_number }}",
-      "commit": "${{ github.sha }}",
-      "branch": "${{ github.ref_name }}",
-      "platform": "windows",
-      "artifacts": [
-        {
-          "name": "vitegame.exe",
-          "size": "$(stat -c%s dist/vitegame.exe)",
-          "hash": "$(sha256sum dist/vitegame.exe | cut -d' ' -f1)"
-        }
-      ]
+    $config = [ordered]@{
+      version   = "${{ github.run_number }}"
+      commit    = "${{ github.sha }}"
+      generated = (Get-Date -Format 'yyyy-MM-ddTHH:mm:ssZ')
+      platform  = 'windows'
+    } | ConvertTo-Json -Depth 4
+
+    New-Item -ItemType Directory -Force -Path config | Out-Null
+    $config | Out-File -FilePath 'config/build-info.json' -Encoding utf8NoBom
+```
+
+```yaml
+- name: 生成 manifest.json
+  shell: pwsh
+  run: |
+    $artifact = [ordered]@{
+      name = 'vitegame.exe'
+      size = (Get-Item 'dist/vitegame.exe').Length
+      hash = (Get-FileHash 'dist/vitegame.exe' -Algorithm SHA256).Hash
     }
-    EOF
+
+    $manifest = [ordered]@{
+      build_id = "${{ github.run_number }}"
+      commit   = "${{ github.sha }}"
+      artifacts = @($artifact)
+    } | ConvertTo-Json -Depth 4
+
+    $manifest | Out-File -FilePath 'dist/manifest.json' -Encoding utf8NoBom
 ```
 
-## 闂鎺掓煡鎸囧崡
+## 常见问题排查
 
-### 甯歌缂栫爜闂
+### 1. 误用 `shell: powershell`
 
-#### 鉂?闂锛歅owerShell閲嶅畾鍚戜贡鐮?
 ```yaml
-# 閿欒绀轰緥
+# ❌ 问题示例
 - shell: powershell
-  run: echo "鍚腑鏂囧唴瀹? > $env:GITHUB_STEP_SUMMARY
+  run: echo "含中文的摘要" > $env:GITHUB_STEP_SUMMARY
 ```
 
-#### 鉁?瑙ｅ喅鏂规
-
 ```yaml
-# 姝ｇ‘鏂规硶
+# ✅ 修复示例
 - shell: pwsh
   run: |
-    "鍚腑鏂囧唴瀹? | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Encoding utf8NoBom -Append
+    "含中文的摘要" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Encoding utf8NoBom -Append
 ```
 
-#### 鉂?闂锛歮ixed shell鐜
+### 2. 混用多种 Shell
 
 ```yaml
-# 閬垮厤鍦ㄥ悓涓€浣滀笟涓贩鐢╯hell绫诲瀷
+# ❌ 问题示例
 jobs:
   build:
     runs-on: windows-latest
     steps:
-      - shell: bash
-        run: echo "bash content" >> $GITHUB_STEP_SUMMARY
-      - shell: powershell # 鍙兘瀵艰嚧缂栫爜涓嶄竴鑷?        run: echo "ps content" >> $env:GITHUB_STEP_SUMMARY
+      - shell: pwsh
+        run: echo "pwsh output" >> $env:GITHUB_STEP_SUMMARY
+      - shell: cmd
+        run: echo cmd output >> %GITHUB_STEP_SUMMARY%
 ```
 
-#### 鉁?瑙ｅ喅鏂规锛氱粺涓€shell绫诲瀷
-
 ```yaml
+# ✅ 修复示例
 jobs:
   build:
     runs-on: windows-latest
     steps:
-      - shell: bash
-        run: echo "bash content" >> $GITHUB_STEP_SUMMARY
-      - shell: bash # 淇濇寔涓€鑷?        run: echo "more bash content" >> $GITHUB_STEP_SUMMARY
+      - shell: pwsh
+        run: |
+          "pwsh output" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Encoding utf8NoBom -Append
+          "cmd output"  | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Encoding utf8NoBom -Append
 ```
 
-## 楠岃瘉娓呭崟
+## 检查清单
 
-- [ ] Step Summary浣跨敤bash鎴杙wsh锛堥伩鍏峱owershell锛?- [ ] PowerShell杈撳嚭浣跨敤`-Encoding utf8NoBom`
-- [ ] 鍚屼竴浣滀笟鍐卻hell绫诲瀷淇濇寔涓€鑷?- [ ] 涓枃鍐呭鍦⊿tep Summary涓纭樉绀?- [ ] 宸ヤ欢鏂囦欢浣跨敤UTF-8缂栫爜
-- [ ] JSON/XML鏂囦欢涓嶅寘鍚獴OM
+- [ ] job 默认 shell 设为 `pwsh`
+- [ ] Step Summary 使用 `utf8NoBom`
+- [ ] JSON/日志文件输出统一 `UTF-8`
+- [ ] 未混用 `bash`/`sh`/`cmd`
+- [ ] 中文内容在 Windows 下验证无乱码
 
-## P2浼樺寲鏍囧噯
+## P2 优化对照表
 
-| 鍦烘櫙             | 鎺ㄨ崘Shell | 缂栫爜鏂瑰紡                       | 绀轰緥                                   |
-| ---------------- | --------- | ------------------------------ | -------------------------------------- |
-| 閫氱敤Step Summary | `bash`    | heredoc + 閲嶅畾鍚?              | `cat >> $GITHUB_STEP_SUMMARY << 'EOF'` |
-| Windows鐗瑰畾鍔熻兘  | `pwsh`    | `Out-File -Encoding utf8NoBom` | 涓婅堪PowerShell绀轰緥                     |
-| JSON閰嶇疆鐢熸垚     | `pwsh`    | `ConvertTo-Json + Out-File`    | 閰嶇疆鏂囦欢绀轰緥                           |
-| 宸ヤ欢娓呭崟鍒涘缓     | `bash`    | heredoc                        | manifest.json绀轰緥                      |
+| 场景 | 推荐 Shell | 编码方式 | 范例 |
+| ---- | ---------- | -------- | ---- |
+| Step Summary | `pwsh` | `Out-File -Encoding utf8NoBom` | Step Summary 模板 |
+| 构建产物 | `pwsh` | `ConvertTo-Json + Out-File` | manifest 示例 |
+| 自定义脚本 | `pwsh` | `Set-Content -Encoding UTF8` | 生成配置文件 |
 
 ---
 
-_姝ゆ枃妗ｄ綔涓篜2浼樺寲闃舵缂栫爜涓€鑷存€ф爣鍑嗭紝纭繚鎵€鏈塆itHub Actions杈撳嚭鍦╓indows鐜涓嬫纭樉绀恒€俖
+> 本指南用于在 Windows-only 流水线中统一编码策略，保证文字与指标在 Step Summary 和构建产物中稳定可读。

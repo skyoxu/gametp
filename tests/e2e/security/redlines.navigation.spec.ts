@@ -62,7 +62,9 @@ test('Internal navigation allowed - app protocol should work', async () => {
   // Still within our app and not chrome-error
   const finalUrl = page.url();
   expect(finalUrl.startsWith('chrome-error://')).toBeFalsy();
-  expect(finalUrl.startsWith('app://') || finalUrl.startsWith('file://')).toBeTruthy();
+  expect(
+    finalUrl.startsWith('app://') || finalUrl.startsWith('file://')
+  ).toBeTruthy();
 
   await app.close();
 });

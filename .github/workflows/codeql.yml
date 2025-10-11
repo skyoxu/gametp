@@ -17,6 +17,9 @@ jobs:
   analyze:
     name: Analyze (CodeQL)
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
