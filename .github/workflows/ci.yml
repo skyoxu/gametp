@@ -455,7 +455,7 @@ jobs:
           fetch-depth: 0
 
       - name: Step
-        uses: tj-actions/changed-files@v44
+        uses: tj-actions/changed-files@v46
         id: changed-files
         with:
           files: |

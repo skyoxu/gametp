@@ -110,7 +110,7 @@ jobs:
           cache: 'npm'
       - name: Detect changes for E2E
         id: changes-e2e
-        uses: tj-actions/changed-files@v44
+        uses: tj-actions/changed-files@v46
         with:
           files: |
             src/**
