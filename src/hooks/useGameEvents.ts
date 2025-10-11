@@ -1,6 +1,6 @@
 /**
  * React Hook for Game Event Communication
- * 为React组件提供与Phaser游戏引擎的事件通信能力
+ * React Phaser
  */
 
 import { useEffect, useRef, useCallback, useMemo } from 'react';
@@ -11,7 +11,7 @@ import type {
 } from '../shared/contracts/events/GameEvents';
 import { EventPriority } from '../shared/contracts/events/GameEvents';
 
-// 全局事件总线实例（单例模式）
+// Note
 const globalEventBus = new EventBus({
   maxListeners: 200,
   enableLogging: process.env.NODE_ENV === 'development',
@@ -19,13 +19,13 @@ const globalEventBus = new EventBus({
   queueSize: 2000,
 });
 
-// 导出全局事件总线以供其他模块使用
+// Note
 export { globalEventBus };
 
 export interface UseGameEventsOptions {
-  context?: string; // 标识组件上下文
+  context?: string; // Note
   priority?: EventPriority;
-  enableAutoCleanup?: boolean; // 组件卸载时自动清理
+  enableAutoCleanup?: boolean; // Note
 }
 
 export interface GameEventSubscription {
@@ -40,11 +40,11 @@ export function useGameEvents(options: UseGameEventsOptions = {}) {
     enableAutoCleanup = true,
   } = options;
 
-  // 保存订阅信息以便清理
+  // Note
   const subscriptionsRef = useRef<GameEventSubscription[]>([]);
   const eventBusRef = useRef(globalEventBus);
 
-  // 订阅事件
+  // Subscribe to events
   const subscribe = useCallback(
     <T extends GameDomainEvent>(
       eventType: T['type'],
@@ -60,7 +60,7 @@ export function useGameEvents(options: UseGameEventsOptions = {}) {
         context,
       });
 
-      // 记录订阅信息
+      // Note
       subscriptionsRef.current.push({
         eventType,
         subscriptionId,
@@ -71,12 +71,12 @@ export function useGameEvents(options: UseGameEventsOptions = {}) {
     [context, priority]
   );
 
-  // 取消订阅
+  // Note
   const unsubscribe = useCallback((subscriptionId: string): boolean => {
     const success = eventBusRef.current.unsubscribe(subscriptionId);
 
     if (success) {
-      // 从本地记录中移除
+      // Note
       subscriptionsRef.current = subscriptionsRef.current.filter(
         sub => sub.subscriptionId !== subscriptionId
       );
@@ -85,7 +85,7 @@ export function useGameEvents(options: UseGameEventsOptions = {}) {
     return success;
   }, []);
 
-  // 发布事件（同步）
+  // Note
   const publish = useCallback(
     (event: GameDomainEvent): void => {
       eventBusRef.current.publish(event, {
@@ -96,7 +96,7 @@ export function useGameEvents(options: UseGameEventsOptions = {}) {
     [context, priority]
   );
 
-  // 发布事件（异步）
+  // Note
   const publishAsync = useCallback(
     async (event: GameDomainEvent): Promise<void> => {
       await eventBusRef.current.publishAsync(event, {
@@ -107,7 +107,7 @@ export function useGameEvents(options: UseGameEventsOptions = {}) {
     [context, priority]
   );
 
-  // 发布命令事件到Phaser（便捷方法）
+  // Phaser
   const sendCommandToPhaser = useCallback(
     (
       command: 'pause' | 'resume' | 'save' | 'load' | 'restart',
@@ -144,7 +144,7 @@ export function useGameEvents(options: UseGameEventsOptions = {}) {
     [publish]
   );
 
-  // 监听Phaser响应（便捷方法）
+  // Listen for Phaser responses
   const onPhaserResponse = useCallback(
     (
       handler: (
@@ -165,7 +165,7 @@ export function useGameEvents(options: UseGameEventsOptions = {}) {
     [subscribe]
   );
 
-  // 监听游戏状态变化（便捷方法）
+  // Note
   const onGameStateChange = useCallback(
     (
       handler: (
@@ -183,7 +183,7 @@ export function useGameEvents(options: UseGameEventsOptions = {}) {
     [subscribe]
   );
 
-  // 监听游戏错误（便捷方法）
+  // Note
   const onGameError = useCallback(
     (
       handler: (
@@ -198,7 +198,7 @@ export function useGameEvents(options: UseGameEventsOptions = {}) {
     [subscribe]
   );
 
-  // 获取事件总线统计信息
+  // Note
   const getStats = useCallback(
     () => ({
       listenerStats: eventBusRef.current.getListenerStats(),
@@ -208,7 +208,7 @@ export function useGameEvents(options: UseGameEventsOptions = {}) {
     []
   );
 
-  // 检查是否有监听器
+  // Note
   const hasListeners = useCallback(
     (eventType: GameDomainEvent['type']): boolean => {
       return eventBusRef.current.hasListeners(eventType);
@@ -216,7 +216,7 @@ export function useGameEvents(options: UseGameEventsOptions = {}) {
     []
   );
 
-  // 清理函数
+  // Note
   const cleanup = useCallback(() => {
     subscriptionsRef.current.forEach(({ subscriptionId }) => {
       eventBusRef.current.unsubscribe(subscriptionId);
@@ -224,34 +224,34 @@ export function useGameEvents(options: UseGameEventsOptions = {}) {
     subscriptionsRef.current = [];
   }, []);
 
-  // 组件卸载时自动清理
+  // Note
   useEffect(() => {
     if (enableAutoCleanup) {
       return cleanup;
     }
   }, [cleanup, enableAutoCleanup]);
 
-  // 返回API对象
+  // API
   return useMemo(
     () => ({
-      // 基础事件API
+      // API
       subscribe,
       unsubscribe,
       publish,
       publishAsync,
 
-      // 便捷方法
+      // Note
       sendCommandToPhaser,
       onPhaserResponse,
       onGameStateChange,
       onGameError,
 
-      // 工具方法
+      // Note
       getStats,
       hasListeners,
       cleanup,
 
-      // 事件总线实例（高级用法）
+      // Note
       eventBus: eventBusRef.current,
     }),
     [
@@ -270,7 +270,7 @@ export function useGameEvents(options: UseGameEventsOptions = {}) {
   );
 }
 
-// Hook的类型化版本，用于特定事件类型
+// Hook
 export function useGameEvent<T extends GameDomainEvent>(
   eventType: T['type'],
   handler: GameEventHandler<T>,
@@ -304,7 +304,7 @@ export function useGameEvent<T extends GameDomainEvent>(
     return false;
   }, [unsubscribe]);
 
-  // 自动订阅
+  // Note
   useEffect(() => {
     if (autoSubscribe) {
       subscribeToEvent();

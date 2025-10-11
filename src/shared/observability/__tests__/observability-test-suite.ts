@@ -261,7 +261,7 @@ export class ObservabilityTestSuite {
       const testEntries = 100;
 
       for (let i = 0; i < testEntries; i++) {
-        this.formatLogEntry({ level: 'info', message: `性能测试 ${i}` });
+        this.formatLogEntry({ level: 'info', message: ` ${i}` });
       }
 
       const duration = Date.now() - startTime;
@@ -647,7 +647,7 @@ export class ObservabilityTestSuite {
         details: result,
       });
 
-      console.log(`  ✅ ${name} (${duration}ms)`);
+      console.log(`   ${name} (${duration}ms)`);
     } catch (error) {
       const duration = Date.now() - startTime;
 
@@ -658,7 +658,7 @@ export class ObservabilityTestSuite {
         error: error instanceof Error ? error.message : String(error),
       });
 
-      console.log(`  ❌ ${name} (${duration}ms): ${error}`);
+      console.log(`   ${name} (${duration}ms): ${error}`);
     }
   }
 
@@ -772,12 +772,12 @@ export class ObservabilityTestSuite {
       (result.passedTests / result.totalTests) * 100
     );
 
-    let summary = `测试套件${result.overall === 'passed' ? '' : ''}\n`;
-    summary += `总计: ${result.totalTests} 个测试\n`;
-    summary += `通过: ${result.passedTests} 个\n`;
-    summary += `失败: ${result.failedTests} 个\n`;
-    summary += `成功率: ${successRate}%\n`;
-    summary += `总耗时: ${result.duration}ms`;
+    let summary = `${result.overall === 'passed' ? '' : ''}\n`;
+    summary += `: ${result.totalTests} \n`;
+    summary += `: ${result.passedTests} \n`;
+    summary += `: ${result.failedTests} \n`;
+    summary += `: ${successRate}%\n`;
+    summary += `: ${result.duration}ms`;
 
     if (result.failedTests > 0) {
       summary += '\n\n:';

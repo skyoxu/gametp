@@ -1,6 +1,6 @@
 /**
- * 公会管理器核心类型定义
- * 包含值对象、数据传输对象和领域特定类型
+ * Note
+ * Note
  */
 
 import {
@@ -21,7 +21,7 @@ import {
   EffectType,
 } from './guild-manager-interfaces';
 
-// ============== 值对象类型 ==============
+// ============== ==============
 
 export class GuildId {
   constructor(public readonly value: string) {
@@ -177,7 +177,7 @@ export enum SatisfactionCategory {
   VERY_SATISFIED = 'VERY_SATISFIED',
 }
 
-// ============== 数据传输对象 ==============
+// ============== ==============
 
 export interface GuildDTO {
   readonly id: string;
@@ -211,28 +211,28 @@ export interface GuildMemberDTO {
   readonly legendaryType?: LegendaryType;
   readonly rarity: MemberRarity;
 
-  // 核心属性
+  // Note
   readonly skill: number;
   readonly loyalty: number;
   readonly teamwork: number;
   readonly ambition: number;
 
-  // 状态属性
+  // Note
   readonly satisfaction: number;
   readonly fatigue: number;
   readonly morale: number;
   readonly availability: number;
 
-  // 社交属性
+  // Note
   readonly intimacyWithLeader: number;
   readonly personality: readonly PersonalityTrait[];
 
-  // 游戏机制属性
+  // Note
   readonly recruitmentSource: RecruitmentSource;
   readonly joinDate: string;
   readonly currentRole: GuildRole;
 
-  // 统计数据
+  // Note
   readonly activityStats: ActivityStatsDTO;
   readonly experience: MemberExperienceDTO;
 }
@@ -410,7 +410,7 @@ export interface DiplomaticAttitudeFactorsDTO {
   readonly personalityAlignment: number;
 }
 
-// ============== 业务规则类型 ==============
+// ============== ==============
 
 export interface ValidationRule<T> {
   readonly name: string;
@@ -444,7 +444,7 @@ export enum ValidationSeverity {
   INFO = 'INFO',
 }
 
-// ============== 查询和过滤类型 ==============
+// ============== ==============
 
 export interface MemberSearchCriteria {
   readonly classFilter?: readonly string[];
@@ -487,7 +487,7 @@ export interface SortOptions {
   readonly direction: 'ASC' | 'DESC';
 }
 
-// ============== 事件相关类型 ==============
+// ============== ==============
 
 export interface DomainEvent {
   readonly eventId: string;
@@ -511,7 +511,7 @@ export interface EventStore {
   ) => Promise<readonly DomainEvent[]>;
 }
 
-// ============== 枚举补充 ==============
+// ============== ==============
 
 export enum SlotPriority {
   CRITICAL = 'CRITICAL',
@@ -579,7 +579,7 @@ export enum UnlockMethod {
   SPECIAL_EVENT = 'SPECIAL_EVENT',
 }
 
-// ============== 扩展的DTO类型 ==============
+// ============== DTO ==============
 
 export interface EncounterPhaseDTO {
   readonly phaseId: string;

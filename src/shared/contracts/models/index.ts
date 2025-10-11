@@ -1,6 +1,6 @@
 /**
- * 领域模型类型定义
- * 符合 CLAUDE.md 第6节 TS强化约定：公共DTO/事件/端口类型统一位置
+ * Note
+ * CLAUDE.md 6 TS DTO/ /
  */
 
 export interface Guild {

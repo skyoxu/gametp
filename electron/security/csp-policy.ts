@@ -1,11 +1,11 @@
-﻿/**
- * CSP统一策略管理器
+/**
+ * Unified CSP Policy Manager
  *
- * 功能：
- * - 统一管理开发/生产环境的CSP策略
- * - 支持nonce机制增强安全性
- * - 提供策略验证和一致性检查
- * - 与现有安全基础设施集成
+ * Purpose:
+ * - Generate consistent CSP for development/production environments
+ * - Support nonce-based script hardening
+ * - Provide validation and compatibility checks
+ * - Capture common security risks for audit
  */
 
 interface CSPDirectives {
@@ -50,16 +50,16 @@ export class CSPManager {
   ];
 
   /**
-   * 生成环境特定的CSP策略
+   * Generate CSP string from base directives and environment
    */
   static generateCSP(config: CSPConfig): string {
     const policy = { ...this.BASE_POLICY };
 
-    // 开发环境配置
+    // Development allowances
     if (config.environment === 'development') {
       policy['script-src'] = [
         "'self'",
-        "'unsafe-inline'", // 开发时需要，生产环境通过nonce替代
+        "'unsafe-inline'", // Allow only during dev; prefer nonce
         'localhost:*',
         '127.0.0.1:*',
       ];
@@ -72,14 +72,14 @@ export class CSPManager {
       ];
     }
 
-    // Nonce支持（生产环境推荐）
+    // Nonce support (recommended for production)
     if (config.nonce) {
       policy['script-src'] = policy['script-src']
         .filter(src => src !== "'unsafe-inline'")
         .concat([`'nonce-${config.nonce}'`]);
     }
 
-    // Sentry集成
+    // Sentry allow-list (connect-src)
     if (config.sentryDsn) {
       const sentryDomain = new URL(config.sentryDsn).origin;
       policy['connect-src'].push(sentryDomain, `${sentryDomain}/*`);
@@ -89,7 +89,7 @@ export class CSPManager {
   }
 
   /**
-   * 生成开发环境CSP（通过响应头注入）
+   * Development CSP (typically via response header)
    */
   static generateDevelopmentCSP(nonce?: string): string {
     return this.generateCSP({
@@ -100,7 +100,7 @@ export class CSPManager {
   }
 
   /**
-   * 生成生产环境CSP（用于index.html meta标签）
+   * Production CSP (e.g., index.html meta tag)
    */
   static generateProductionCSP(): string {
     return this.generateCSP({
@@ -110,7 +110,7 @@ export class CSPManager {
   }
 
   /**
-   * 验证CSP策略完整性
+   * Validate CSP string for required directives and common risks
    */
   static validateCSP(csp: string): {
     isValid: boolean;
@@ -123,17 +123,17 @@ export class CSPManager {
 
     const risks: string[] = [];
 
-    // 检查危险值
+    // Common pitfalls
     if (csp.includes("'unsafe-inline'") && !csp.includes('nonce-')) {
-      risks.push("使用'unsafe-inline'但未配置nonce，存在XSS风险");
+      risks.push("'unsafe-inline' without nonce increases XSS risk");
     }
 
     if (csp.includes("'unsafe-eval'")) {
-      risks.push("使用'unsafe-eval'存在代码注入风险");
+      risks.push("'unsafe-eval' permits dynamic code execution");
     }
 
     if (csp.includes('*') && !csp.includes('data:')) {
-      risks.push("使用通配符'*'可能过于宽松");
+      risks.push("Wildcard '*' is overly permissive; restrict sources");
     }
 
     return {
@@ -144,7 +144,7 @@ export class CSPManager {
   }
 
   /**
-   * 检查两个CSP策略的兼容性
+   * Compare two CSP strings for compatibility and conflicts
    */
   static checkPolicyCompatibility(
     policy1: string,
@@ -157,7 +157,7 @@ export class CSPManager {
     const conflicts: string[] = [];
     const suggestions: string[] = [];
 
-    // 解析策略差异
+    // Parse policies into directive maps
     const directives1 = this.parsePolicy(policy1);
     const directives2 = this.parsePolicy(policy2);
 
@@ -170,14 +170,14 @@ export class CSPManager {
         !values1.every(val => values2.includes(val))
       ) {
         conflicts.push(
-          `${directive}指令不一致: [${values1.join(', ')}] vs [${values2.join(', ')}]`
+          `${directive} differs: [${values1.join(', ')}] vs [${values2.join(', ')}]`
         );
       }
     }
 
     if (conflicts.length > 0) {
-      suggestions.push('建议使用CSPManager.generateCSP()统一生成策略');
-      suggestions.push('检查环境变量配置是否一致');
+      suggestions.push('Use CSPManager.generateCSP() to unify policy generation');
+      suggestions.push('Ensure environments/devices use the same base policy');
     }
 
     return {
@@ -188,7 +188,7 @@ export class CSPManager {
   }
 
   /**
-   * 为测试环境生成最小化配置
+   * Lightweight preset for automated tests
    */
   static generateTestingConfig(): {
     cspEnabled: boolean;
@@ -214,7 +214,7 @@ export class CSPManager {
   }
 
   /**
-   * 格式化策略为字符串
+   * Format directives map into CSP string
    */
   private static formatPolicy(policy: CSPDirectives): string {
     return Object.entries(policy)
@@ -223,7 +223,7 @@ export class CSPManager {
   }
 
   /**
-   * 解析CSP策略字符串
+   * Parse CSP string into directives map
    */
   private static parsePolicy(csp: string): Record<string, string[]> {
     const directives: Record<string, string[]> = {};
@@ -241,6 +241,7 @@ export class CSPManager {
 }
 
 /**
- * CSP管理器单例
+ * CSP manager singleton
  */
 export const cspManager = new CSPManager();
+

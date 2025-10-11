@@ -1,5 +1,5 @@
 /**
- * 测试专用Guild仓库实现
+ * Test-only Guild repository implementation.
  */
 
 import { TestRepository } from './TestRepository';

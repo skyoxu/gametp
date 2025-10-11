@@ -262,7 +262,7 @@ export class EnterpriseAlertingSystem extends EventEmitter {
       this.config = { ...this.config, ...config };
 
       console.log(' ...');
-      console.log(`📢 启用渠道: ${this.getEnabledChannels().join(', ')}`);
+      console.log(` : ${this.getEnabledChannels().join(', ')}`);
 
       //
       await this.validateConfiguration();
@@ -307,7 +307,7 @@ export class EnterpriseAlertingSystem extends EventEmitter {
       if (this.config.aggregation.enabled) {
         const shouldAggregate = await this.checkAggregation(fullEvent);
         if (shouldAggregate) {
-          console.log(`🔄 告警已聚合: ${alertId}`);
+          console.log(` : ${alertId}`);
           return alertId;
         }
       }
@@ -317,7 +317,7 @@ export class EnterpriseAlertingSystem extends EventEmitter {
       this.alertHistory.push(fullEvent);
 
       console.log(
-        `🚨 新告警触发: ${fullEvent.severity.toUpperCase()} - ${fullEvent.title}`
+        ` : ${fullEvent.severity.toUpperCase()} - ${fullEvent.title}`
       );
 
       //
@@ -355,7 +355,7 @@ export class EnterpriseAlertingSystem extends EventEmitter {
     try {
       const alert = this.activeAlerts.get(alertId);
       if (!alert) {
-        throw new Error(`告警不存在: ${alertId}`);
+        throw new Error(`: ${alertId}`);
       }
 
       alert.status = 'resolved';
@@ -365,7 +365,7 @@ export class EnterpriseAlertingSystem extends EventEmitter {
       //
       this.activeAlerts.delete(alertId);
 
-      console.log(`✅ 告警已解决: ${alert.title}`);
+      console.log(` : ${alert.title}`);
 
       //
       await this.sendResolutionNotification(alert, resolution);
@@ -432,7 +432,7 @@ export class EnterpriseAlertingSystem extends EventEmitter {
             timestamp: new Date().toISOString(),
             action: 'incident-created',
             author: 'system',
-            details: `事件由告警 ${alert.id} 自动创建`,
+            details: ` ${alert.id} `,
           },
         ],
         impact: {
@@ -449,7 +449,7 @@ export class EnterpriseAlertingSystem extends EventEmitter {
       this.activeIncidents.set(incidentId, incident);
 
       console.log(
-        `🔥 事件已创建: ${incidentId} (优先级: ${incident.priority})`
+        ` : ${incidentId} (: ${incident.priority})`
       );
 
       //
@@ -590,7 +590,7 @@ export class EnterpriseAlertingSystem extends EventEmitter {
     existing.push(alert);
 
     if (existing.length >= this.config.aggregation.maxSimilarAlerts) {
-      console.log(`🔄 达到聚合阈值，聚合 ${existing.length} 个告警`);
+      console.log(`  ${existing.length} `);
       this.aggregationCache.set(key, []);
       return true;
     }
@@ -626,7 +626,7 @@ export class EnterpriseAlertingSystem extends EventEmitter {
         attachments: [
           {
             color,
-            title: `🚨 ${alert.title}`,
+            title: ` ${alert.title}`,
             text: alert.description,
             fields: [
               {
@@ -671,13 +671,13 @@ export class EnterpriseAlertingSystem extends EventEmitter {
     alert: AlertEvent,
     resolution: any
   ): Promise<void> {
-    console.log(`✅ 解决通知已发送: ${alert.title}`);
+    console.log(` : ${alert.title}`);
   }
 
   private async sendIncidentNotification(
     incident: IncidentResponse
   ): Promise<void> {
-    console.log(`🔥 事件通知已发送: ${incident.id}`);
+    console.log(` : ${incident.id}`);
   }
 
   private getSeverityColor(severity: string): string {
@@ -724,7 +724,7 @@ export class EnterpriseAlertingSystem extends EventEmitter {
 
   private scheduleEscalation(alert: AlertEvent): void {
     //
-    console.log(`⏰ 升级策略已启动: ${alert.id}`);
+    console.log(` : ${alert.id}`);
   }
 
   private async updateRelatedIncident(
@@ -732,7 +732,7 @@ export class EnterpriseAlertingSystem extends EventEmitter {
     status: string
   ): Promise<void> {
     //
-    console.log(`🔄 更新相关事件: ${alertId} -> ${status}`);
+    console.log(` : ${alertId} -> ${status}`);
   }
 
   private startMetricsEvaluation(): void {
@@ -844,8 +844,8 @@ export async function triggerPerformanceAlert(
   return enterpriseAlerting.triggerAlert({
     severity: currentValue > threshold * 2 ? 'critical' : 'high',
     source: 'performance-monitor',
-    title: `性能指标超阈值: ${metric}`,
-    description: `${metric} 当前值 ${currentValue}${unit} 超过阈值 ${threshold}${unit}`,
+    title: `: ${metric}`,
+    description: `${metric}  ${currentValue}${unit}  ${threshold}${unit}`,
     metrics: { currentValue, threshold, unit, trend: 'increasing' },
     labels: { type: 'performance', metric },
     annotations: {},

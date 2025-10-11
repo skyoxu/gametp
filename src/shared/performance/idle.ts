@@ -1,5 +1,5 @@
 /**
- * 非阻塞排程工具：优先使用 requestIdleCallback，其次双 rAF，最后 setTimeout(0)
+ * requestIdleCallback rAF setTimeout(0)
  */
 
 export type IdleHandle = { cancel: () => void };

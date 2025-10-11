@@ -166,9 +166,9 @@ export class DistributedTracingManager extends EventEmitter {
 
       console.log(' ...');
       console.log(
-        `📊 服务: ${this.config.serviceName}@${this.config.serviceVersion}`
+        ` : ${this.config.serviceName}@${this.config.serviceVersion}`
       );
-      console.log(`🎯 采样率: ${this.config.sampling.defaultRate * 100}%`);
+      console.log(` : ${this.config.sampling.defaultRate * 100}%`);
 
       //
       const resource = resourceFromAttributes({
@@ -460,7 +460,7 @@ export class DistributedTracingManager extends EventEmitter {
     }
 
     this.adaptiveSampling.currentRate = newRate;
-    console.log(`🎯 采样率调整: ${(newRate * 100).toFixed(1)}%`);
+    console.log(` : ${(newRate * 100).toFixed(1)}%`);
   }
 
   private calculateErrorRate(): number {

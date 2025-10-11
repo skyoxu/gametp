@@ -1,12 +1,15 @@
 /**
- * 游戏引擎端口定义 - 六边形架构
- * 定义游戏引擎的核心能力接口
+ * Game engine ports - layered architecture
+ * Definitions for core DTOs and ports
  */
 
 import type { DomainEvent } from '../shared/contracts/events';
 
 /**
- * 游戏状态接口
+ * Game state interface
+ */
+/**
+ * Core game state DTO
  */
 export interface GameState {
   readonly id: string;
@@ -19,7 +22,7 @@ export interface GameState {
 }
 
 /**
- * 位置坐标
+ * Position (2D/optional Z)
  */
 export interface Position {
   x: number;
@@ -28,7 +31,10 @@ export interface Position {
 }
 
 /**
- * 游戏配置
+ * Immutable game configuration DTO
+ */
+/**
+ * Game configuration
  */
 export interface GameConfig {
   readonly maxLevel: number;
@@ -36,71 +42,79 @@ export interface GameConfig {
   readonly scoreMultiplier: number;
   readonly autoSave: boolean;
   readonly difficulty: 'easy' | 'medium' | 'hard';
+/**
+ * Primary input port for the game engine
+ * Adheres to ports-and-adapters (ADR-0007).
+ */
 }
 
 /**
- * 游戏引擎输入端口
- * 定义外部系统调用游戏引擎的接口
+ * Game engine input port
+ * External systems use this to operate the engine
+ */
+/**
+ * Primary input port for the game engine
+ * Adheres to ports-and-adapters (ADR-0007).
  */
 export interface GameEnginePort {
   /**
-   * 初始化游戏
+   * Initialize game
    */
   initializeGame(config: GameConfig): Promise<GameState>;
 
   /**
-   * 开始游戏会话
+   * Start game session
    */
   startGame(saveId?: string): Promise<GameState>;
 
   /**
-   * 暂停游戏
+   * Pause game
    */
   pauseGame(): Promise<void>;
 
   /**
-   * 恢复游戏
+   * Resume game
    */
   resumeGame(): Promise<void>;
 
   /**
-   * 保存游戏状态
+   * Save game state
    */
   saveGame(): Promise<string>;
 
   /**
-   * 加载游戏状态
+   * Load game state
    */
   loadGame(saveId: string): Promise<GameState>;
 
   /**
-   * 处理用户输入
+   * Handle user input
    */
   handleInput(input: GameInput): Promise<void>;
 
   /**
-   * 获取当前游戏状态
+   * Get current game state
    */
   getCurrentState(): GameState;
 
   /**
-   * 订阅游戏事件
+   * Subscribe to game events
    */
   onGameEvent(callback: (event: DomainEvent) => void): void;
 
   /**
-   * 取消订阅游戏事件
+   * Unsubscribe from game events
    */
   offGameEvent(callback: (event: DomainEvent) => void): void;
 
   /**
-   * 结束游戏
+   * End game
    */
   endGame(): Promise<GameResult>;
 }
 
 /**
- * 游戏输入类型
+ * Game input
  */
 export interface GameInput {
   type: 'keyboard' | 'mouse' | 'touch' | 'gamepad';
@@ -110,7 +124,7 @@ export interface GameInput {
 }
 
 /**
- * 游戏结果
+ * Game result
  */
 export interface GameResult {
   finalScore: number;
@@ -121,10 +135,14 @@ export interface GameResult {
 }
 
 /**
- * 游戏统计信息
+ * Game statistics
  */
 export interface GameStatistics {
   totalMoves: number;
+/**
+ * Output port for rendering/audio/persistence/network
+ * Implementations adapt engine to external systems.
+ */
   itemsCollected: number;
   enemiesDefeated: number;
   distanceTraveled: number;
@@ -132,42 +150,46 @@ export interface GameStatistics {
 }
 
 /**
- * 游戏引擎输出端口
- * 定义游戏引擎对外部系统的依赖接口
+ * Game engine output port
+ * Adapter-facing capabilities for rendering, I/O and events
+ */
+/**
+ * Output port for rendering/audio/persistence/network
+ * Implementations adapt engine to external systems.
  */
 export interface GameEngineOutputPort {
   /**
-   * 渲染游戏画面
+   * Render frame
    */
   renderFrame(renderData: RenderData): Promise<void>;
 
   /**
-   * 播放音频
+   * Play audio
    */
   playAudio(audioData: AudioData): Promise<void>;
 
   /**
-   * 保存数据到存储
+   * Save data to storage
    */
   saveData(key: string, data: unknown): Promise<void>;
 
   /**
-   * 从存储加载数据
+   * Load data from storage
    */
   loadData(key: string): Promise<unknown>;
 
   /**
-   * 发送网络请求
+   * Send network request
    */
   sendNetworkRequest(request: NetworkRequest): Promise<NetworkResponse>;
 
   /**
-   * 发布域事件
+   * Publish domain event
    */
   publishEvent(event: DomainEvent): Promise<void>;
 
   /**
-   * 记录日志
+   * Log message
    */
   logMessage(
     level: 'debug' | 'info' | 'warn' | 'error',
@@ -177,7 +199,7 @@ export interface GameEngineOutputPort {
 }
 
 /**
- * 渲染数据
+ * Render data
  */
 export interface RenderData {
   sprites: SpriteData[];
@@ -187,7 +209,7 @@ export interface RenderData {
 }
 
 /**
- * 精灵数据
+ * Sprite data
  */
 export interface SpriteData {
   id: string;
@@ -200,7 +222,7 @@ export interface SpriteData {
 }
 
 /**
- * UI数据
+ * UI
  */
 export interface UIData {
   id: string;
@@ -211,7 +233,7 @@ export interface UIData {
 }
 
 /**
- * 特效数据
+ * Effect data
  */
 export interface EffectData {
   id: string;
@@ -222,7 +244,7 @@ export interface EffectData {
 }
 
 /**
- * 相机数据
+ * Camera data
  */
 export interface CameraData {
   position: Position;
@@ -232,7 +254,7 @@ export interface CameraData {
 }
 
 /**
- * 音频数据
+ * Audio data
  */
 export interface AudioData {
   id: string;
@@ -244,7 +266,7 @@ export interface AudioData {
 }
 
 /**
- * 网络请求
+ * Request
  */
 export interface NetworkRequest {
   url: string;
@@ -255,7 +277,7 @@ export interface NetworkRequest {
 }
 
 /**
- * 网络响应
+ * Response
  */
 export interface NetworkResponse {
   status: number;

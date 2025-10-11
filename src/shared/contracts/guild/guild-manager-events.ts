@@ -1,12 +1,12 @@
 /**
- * 公会管理器 CloudEvents 契约定义
- * 基于 CloudEvents v1.0 规范
+ * CloudEvents
+ * CloudEvents v1.0
  */
 
 import type { CloudEvent } from '../cloudevents-core';
 import { mkEvent, assertCe } from '../cloudevents-core';
 
-// CloudEvent 扩展接口
+// CloudEvent
 export interface GuildManagerCloudEvent<T = any> extends CloudEvent<T> {
   readonly specversion: '1.0';
   readonly source: string;
@@ -16,47 +16,47 @@ export interface GuildManagerCloudEvent<T = any> extends CloudEvent<T> {
   readonly dataschema?: string;
 }
 
-// 公会事件类型枚举
+// Note
 export enum GuildEventType {
-  // 公会生命周期事件
+  // Note
   GUILD_CREATED = 'com.guildmanager.guild.created',
 
-  // 成员管理事件
+  // Note
   MEMBER_RECRUITED = 'com.guildmanager.member.recruited',
   MEMBER_PROMOTED = 'com.guildmanager.member.promoted',
   MEMBER_DEPARTED = 'com.guildmanager.member.departed',
   MEMBER_SATISFACTION_CHANGED = 'com.guildmanager.member.satisfaction.changed',
   MEMBER_EXPERIENCE_GAINED = 'com.guildmanager.member.experience.gained',
 
-  // 战斗相关事件
+  // Note
   RAID_STARTED = 'com.guildmanager.raid.started',
   RAID_COMPLETED = 'com.guildmanager.raid.completed',
   BOSS_DEFEATED = 'com.guildmanager.boss.defeated',
   COMPOSITION_UPDATED = 'com.guildmanager.composition.updated',
   COMPOSITION_VALIDATED = 'com.guildmanager.composition.validated',
 
-  // 资源管理事件
+  // Note
   RESOURCE_UPDATED = 'com.guildmanager.resource.updated',
   FACILITY_UPGRADED = 'com.guildmanager.facility.upgraded',
   RESEARCH_COMPLETED = 'com.guildmanager.research.completed',
 
-  // 外交系统事件
+  // Note
   DIPLOMATIC_PROPOSAL = 'com.guildmanager.diplomacy.proposal',
   DIPLOMATIC_RESPONSE = 'com.guildmanager.diplomacy.response',
   ATTITUDE_CHANGED = 'com.guildmanager.diplomacy.attitude.changed',
 
-  // 世界状态事件
+  // Note
   WORLD_STATE_UPDATED = 'com.guildmanager.world.state.updated',
   COMPETITION_RESULT = 'com.guildmanager.competition.result',
   RANKING_CHANGED = 'com.guildmanager.ranking.changed',
 
-  // 亲密度系统事件
+  // Note
   INTIMACY_LEVEL_CHANGED = 'com.guildmanager.intimacy.level.changed',
   CONTACT_ADDED = 'com.guildmanager.contact.added',
   SOCIAL_ACTION_PERFORMED = 'com.guildmanager.social.action.performed',
 }
 
-// 事件数据类型定义
+// Note
 
 export interface MemberRecruitedEventData {
   readonly memberId: string;
@@ -166,14 +166,14 @@ export interface IntimacyLevelChangedEventData {
   readonly addedToContacts: boolean;
 }
 
-// CloudEvent 构建器类
+// CloudEvent
 export class GuildEventBuilder {
   private static readonly DEFAULT_SOURCE = '/guild-manager/core';
   private static readonly DEFAULT_SPEC_VERSION = '1.0';
   private static readonly DEFAULT_CONTENT_TYPE = 'application/json';
 
   /**
-   * 生成公会事件专用的ID格式: guild-event-{timestamp}-{randomString}
+   * ID : guild-event-{timestamp}-{randomString}
    */
   private static generateGuildEventId(): string {
     const timestamp = Date.now();
@@ -182,7 +182,7 @@ export class GuildEventBuilder {
   }
 
   /**
-   * 创建成员招募事件
+   * Note
    */
   static createMemberRecruitedEvent(
     guildId: string,
@@ -203,7 +203,7 @@ export class GuildEventBuilder {
   }
 
   /**
-   * 创建副本开始事件
+   * Note
    */
   static createRaidStartedEvent(
     data: RaidStartedEventData,
@@ -223,7 +223,7 @@ export class GuildEventBuilder {
   }
 
   /**
-   * 创建副本完成事件
+   * Note
    */
   static createRaidCompletedEvent(
     data: RaidCompletedEventData,
@@ -243,7 +243,7 @@ export class GuildEventBuilder {
   }
 
   /**
-   * 创建阵容更新事件
+   * Note
    */
   static createCompositionUpdatedEvent(
     data: CompositionUpdatedEventData,
@@ -263,7 +263,7 @@ export class GuildEventBuilder {
   }
 
   /**
-   * 创建资源更新事件
+   * Note
    */
   static createResourceUpdatedEvent(
     data: ResourceUpdatedEventData,
@@ -284,7 +284,7 @@ export class GuildEventBuilder {
   }
 
   /**
-   * 创建外交态度变化事件
+   * Note
    */
   static createDiplomaticAttitudeChangedEvent(
     data: DiplomaticAttitudeChangedEventData,
@@ -306,7 +306,7 @@ export class GuildEventBuilder {
   }
 
   /**
-   * 创建亲密度等级变化事件
+   * Note
    */
   static createIntimacyLevelChangedEvent(
     data: IntimacyLevelChangedEventData,
@@ -326,7 +326,7 @@ export class GuildEventBuilder {
   }
 
   /**
-   * 创建通用CloudEvent
+   * CloudEvent
    */
   static createGenericEvent<T>(
     type: GuildEventType,
@@ -341,7 +341,7 @@ export class GuildEventBuilder {
   }
 
   /**
-   * 创建基础CloudEvent - 使用自定义ID生成器确保格式一致性
+   * CloudEvent - ID
    */
   private static createBaseEvent<T>(
     type: GuildEventType,
@@ -361,22 +361,22 @@ export class GuildEventBuilder {
       dataschema: options.dataschema,
     });
 
-    // 使用公会事件专用ID格式覆盖默认UUID
+    // ID UUID
     (baseEvent as any).id = this.generateGuildEventId();
 
-    // 验证事件符合 CloudEvents v1.0 规范
+    // CloudEvents v1.0
     assertCe(baseEvent);
 
     return baseEvent as GuildManagerCloudEvent<T>;
   }
 
-  // 注意：事件ID生成现在由 cloudevents-core.mkEvent() 自动处理
+  // ID cloudevents-core.mkEvent()
 }
 
-// 事件验证器 - 基于 cloudevents-core 核心验证
+// - cloudevents-core
 export class GuildEventValidator {
   /**
-   * 验证CloudEvent是否符合规范 - 使用核心 CloudEvents 验证器
+   * CloudEvent - CloudEvents
    */
   static validate<T>(event: GuildManagerCloudEvent<T>): {
     valid: boolean;
@@ -385,10 +385,10 @@ export class GuildEventValidator {
     const errors: string[] = [];
 
     try {
-      // 使用 cloudevents-core 的核心验证
+      // cloudevents-core
       assertCe(event);
 
-      // 额外验证 Guild 特定的事件类型
+      // Guild
       if (!event.type || !Object.values(GuildEventType).includes(event.type)) {
         errors.push('type is required and must be a valid GuildEventType');
       }
@@ -414,7 +414,7 @@ export class GuildEventValidator {
   }
 
   /**
-   * 验证事件数据结构
+   * Note
    */
   static validateEventData(
     type: GuildEventType,
@@ -435,7 +435,7 @@ export class GuildEventValidator {
       case GuildEventType.COMPOSITION_UPDATED:
         this.validateCompositionUpdatedData(data, errors);
         break;
-      // 可以添加更多事件类型的验证
+      // Note
       default:
         break;
     }

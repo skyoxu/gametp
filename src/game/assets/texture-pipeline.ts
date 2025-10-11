@@ -1,5 +1,5 @@
 /**
- * 轻量纹理/atlas 管线占位：不引入第三方工具，仅定义清单与加载顺序。
+ * /atlas
  */
 
 export interface AtlasDef {
@@ -19,7 +19,7 @@ export interface TexturePipelineConfig {
 }
 
 /**
- * 在 Phaser.Scene 的 preload 中使用：
+ * Phaser.Scene preload
  *   setupTexturePipeline(this.load, config)
  */
 export function setupTexturePipeline(loader: any, cfg: TexturePipelineConfig) {
@@ -38,7 +38,7 @@ export function setupTexturePipeline(loader: any, cfg: TexturePipelineConfig) {
 }
 
 /**
- * 示例清单：按需填充真实资源路径
+ * Note
  */
 export const DEFAULT_TEXTURES: TexturePipelineConfig = {
   atlases: [

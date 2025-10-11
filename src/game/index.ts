@@ -1,19 +1,19 @@
 /**
- * 游戏引擎模块导出
- * 提供统一的游戏引擎接口
+ * Note
+ * Note
  */
 
-// 核心适配器
+// Note
 export { GameEngineAdapter } from './GameEngineAdapter';
 
-// 场景管理
+// Note
 export { SceneManager } from './SceneManager';
 export type { SceneManagerConfig, SceneKey } from './SceneManager';
 
-// 场景类
+// Note
 export { BaseScene } from './scenes/BaseScene';
 export { GameScene } from './scenes/GameScene';
 export { MenuScene } from './scenes/MenuScene';
 
-// 便捷创建函数
+// Note
 export { createGameEngine } from './factory';

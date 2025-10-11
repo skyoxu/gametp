@@ -1,9 +1,9 @@
 /**
- * 公会管理器核心接口定义
- * 定义系统中主要实体和值对象的接口契约
+ * Note
+ * Note
  */
 
-// ============== 公会核心接口 ==============
+// ============== ==============
 
 export interface IGuild {
   readonly id: string;
@@ -15,7 +15,7 @@ export interface IGuild {
   readonly createdAt: Date;
   readonly updatedAt: Date;
 
-  // 方法
+  // Note
   recruitMember(
     candidate: IMemberCandidate,
     cost: IResourceCost
@@ -34,7 +34,7 @@ export interface IGuild {
   ): Promise<IOperationResult<IRaidInstance>>;
   upgradeGuild(targetLevel: number): Promise<IOperationResult<void>>;
 
-  // 查询方法
+  // Note
   getMembers(): readonly IGuildMember[];
   getMember(memberId: string): IGuildMember | undefined;
   getFacilities(): readonly IGuildFacility[];
@@ -62,31 +62,31 @@ export interface IGuildMember extends IBaseCharacter {
   readonly legendaryAbilities?: readonly ILegendaryAbility[];
   readonly rarity: MemberRarity;
 
-  // 核心属性
+  // Note
   readonly skill: number;
   readonly loyalty: number;
   readonly teamwork: number;
   readonly ambition: number;
 
-  // 状态属性
+  // Note
   readonly satisfaction: number;
   readonly fatigue: number;
   readonly morale: number;
   readonly availability: number;
 
-  // 社交和AI属性
+  // AI
   readonly intimacyWithLeader: number;
   readonly memberRelationships: ReadonlyMap<string, number>;
   readonly personality: readonly PersonalityTrait[];
   readonly aiGoals: readonly IPersonalGoal[];
   readonly behaviorPattern: IBehaviorPattern;
 
-  // 游戏机制属性
+  // Note
   readonly recruitmentSource: RecruitmentSource;
   readonly joinDate: Date;
   readonly currentRole: GuildRole;
 
-  // 方法
+  // Note
   updateSatisfaction(change: number, reason: string): void;
   gainExperience(activityType: ActivityType, amount: number): void;
   canParticipateInActivity(activityType: ActivityType): boolean;
@@ -102,7 +102,7 @@ export interface IBaseCharacter {
   readonly activityStats: IActivityStats;
 }
 
-// ============== 资源和设施接口 ==============
+// ============== ==============
 
 export interface IGuildResources {
   readonly gold: number;
@@ -149,7 +149,7 @@ export enum BenefitType {
   UNLOCK_FEATURE = 'UNLOCK_FEATURE',
 }
 
-// ============== 战斗和副本接口 ==============
+// ============== ==============
 
 export interface IRaidConfiguration {
   readonly id: string;
@@ -212,7 +212,7 @@ export interface IRaidComposition {
     readonly healers: readonly IRaidMemberSlot[];
   };
 
-  // 方法
+  // Note
   assignMember(slotId: string, memberId: string): IOperationResult<void>;
   removeMember(slotId: string): IOperationResult<void>;
   validate(): IValidationResult;
@@ -248,7 +248,7 @@ export interface IRaidInstance {
   readonly result?: IRaidResult;
   readonly participants: readonly string[];
 
-  // 方法
+  // Note
   start(): Promise<void>;
   complete(result: IRaidResult): Promise<void>;
   calculateResult(): Promise<IRaidResult>;
@@ -265,7 +265,7 @@ export interface IRaidResult {
   readonly combatLog: readonly ICombatLogEntry[];
 }
 
-// ============== 战术系统接口 ==============
+// ============== ==============
 
 export interface ITacticalCenter {
   readonly raidCompositionManager: IRaidCompositionManager;
@@ -319,7 +319,7 @@ export interface ITacticEffect {
   readonly conditions: readonly IEffectCondition[];
 }
 
-// ============== 亲密度和社交系统接口 ==============
+// ============== ==============
 
 export interface IIntimacySystem {
   readonly globalIntimacyMap: ReadonlyMap<string, IIntimacyData>;
@@ -361,7 +361,7 @@ export interface IContactAction {
   readonly possibleEvents: readonly string[];
 }
 
-// ============== NPC公会和世界生成接口 ==============
+// ============== NPC ==============
 
 export interface IWorldGenerationSystem {
   readonly guildArchetypes: readonly INPCGuildArchetype[];
@@ -427,7 +427,7 @@ export interface IDiplomaticAttitude {
   readonly lastUpdateTime: Date;
 }
 
-// ============== 招募系统接口 ==============
+// ============== ==============
 
 export interface IRecruitmentSystem {
   readonly searchFilters: IRecruitmentFilters;
@@ -467,7 +467,7 @@ export interface IRecruitmentFilters {
   readonly intimacyLevelFilter: number;
 }
 
-// ============== 服务接口 ==============
+// ============== ==============
 
 export interface ICompositionValidationService {
   validateComposition(
@@ -506,7 +506,7 @@ export interface IGuildEventService {
   unsubscribeFromEvents(eventType: string, handler: Function): void;
 }
 
-// ============== 通用接口 ==============
+// ============== ==============
 
 export interface IOperationResult<T> {
   readonly success: boolean;
@@ -541,7 +541,7 @@ export interface IPaginatedResult<T> {
   readonly hasPreviousPage: boolean;
 }
 
-// ============== 枚举类型 ==============
+// ============== ==============
 
 export enum GuildRole {
   LEADER = 'LEADER',
@@ -674,7 +674,7 @@ export enum EffectType {
   COORDINATION_ENHANCEMENT = 'COORDINATION_ENHANCEMENT',
 }
 
-// ============== 扩展接口定义 ==============
+// ============== ==============
 
 export interface IActivityStats {
   readonly totalActivities: number;
@@ -738,7 +738,7 @@ export enum GoalType {
   LEGENDARY_STATUS = 'LEGENDARY_STATUS',
 }
 
-// ============== 缺失的核心接口定义 ==============
+// ============== ==============
 
 export interface IAbilityEffect {
   readonly id: string;

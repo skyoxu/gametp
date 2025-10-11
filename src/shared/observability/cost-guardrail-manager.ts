@@ -385,8 +385,8 @@ export class CostGuardrailManager {
       costUtilization < 0.7 ? '' : costUtilization < 0.9 ? '' : '';
 
     return (
-      `SLO评分${sloScore}分(${sloStatus})，成本使用率${(costUtilization * 100).toFixed(1)}%(${costStatus})。` +
-      `基于SLO达标情况${sloScore < 80 ? '' : ''}采样率，同时考虑成本控制${costUtilization > 0.8 ? '' : ''}采样。`
+      `SLO${sloScore}(${sloStatus})${(costUtilization * 100).toFixed(1)}%(${costStatus})` +
+      `SLO${sloScore < 80 ? '' : ''}${costUtilization > 0.8 ? '' : ''}`
     );
   }
 

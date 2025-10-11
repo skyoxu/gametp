@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * 轮询 Preload 暴露的 eventLoopDelay 统计（仅测试/CI 启用）
- * - 依赖 window.api.perf.eventLoopDelay（src/preload/bridge.ts）
- * - 默认每 5 秒采样一次，打印到控制台
+ * Preload eventLoopDelay /CI
+ * - window.api.perf.eventLoopDelay src/preload/bridge.ts
+ * - 5
  */
 export function useEventLoopDelayMonitor(intervalMs: number = 5000) {
   const timerRef = useRef<number | null>(null);
@@ -15,9 +15,9 @@ export function useEventLoopDelayMonitor(intervalMs: number = 5000) {
     const tick = async () => {
       try {
         const s = await api.perf.eventLoopDelay();
-        // perf_hooks 以纳秒为单位，换算为毫秒
+        // perf_hooks
         const toMs = (n: number) => Math.round((n / 1_000_000) * 10) / 10;
-        // 仅在测试/CI 打印，避免污染用户日志
+        // /CI
         if (process?.env?.NODE_ENV === 'test' || process?.env?.CI === 'true') {
           console.log('[eld]', {
             min: toMs(s.min),
@@ -33,7 +33,7 @@ export function useEventLoopDelayMonitor(intervalMs: number = 5000) {
     };
 
     timerRef.current = window.setInterval(tick, intervalMs);
-    // 立即采样一次
+    // Note
     void tick();
     return () => {
       if (timerRef.current) window.clearInterval(timerRef.current);

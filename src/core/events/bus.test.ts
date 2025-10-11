@@ -1,6 +1,5 @@
 /*
- * Event Bus 单元测试
- * 演示 TDD 开发模式和测试最佳实践
+ * InMemoryEventBus tests
  */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
@@ -15,14 +14,14 @@ describe('InMemoryEventBus', () => {
     eventBus = new InMemoryEventBus();
   });
 
-  describe('事件发布 (publish)', () => {
-    it('应该成功发布有效格式的事件', async () => {
+  describe('publish', () => {
+    it('', async () => {
       const event: AppEvent = { type: 'guild.create', name: 'Test Guild' };
 
       await expect(eventBus.publish(event)).resolves.not.toThrow();
     });
 
-    it('应该拒绝无效格式的事件类型', async () => {
+    it('', async () => {
       const invalidEvent = { type: 'invalid_format', name: 'Test' } as any;
 
       await expect(eventBus.publish(invalidEvent)).rejects.toThrow(
@@ -30,7 +29,7 @@ describe('InMemoryEventBus', () => {
       );
     });
 
-    it('应该拒绝空事件类型', async () => {
+    it('', async () => {
       const emptyEvent = { type: '', name: 'Test' } as any;
 
       await expect(eventBus.publish(emptyEvent)).rejects.toThrow(
@@ -38,7 +37,7 @@ describe('InMemoryEventBus', () => {
       );
     });
 
-    it('应该拒绝单段事件类型', async () => {
+    it('', async () => {
       const singleEvent = { type: 'guild', name: 'Test' } as any;
 
       await expect(eventBus.publish(singleEvent)).rejects.toThrow(
@@ -47,8 +46,8 @@ describe('InMemoryEventBus', () => {
     });
   });
 
-  describe('事件订阅 (subscribe)', () => {
-    it('应该成功订阅事件并返回订阅对象', () => {
+  describe('subscribe', () => {
+    it('', () => {
       const handler: EventHandler = vi.fn();
 
       const subscription = eventBus.subscribe('guild.create', handler);
@@ -57,7 +56,7 @@ describe('InMemoryEventBus', () => {
       expect(subscription.unsubscribe).toBeTypeOf('function');
     });
 
-    it('应该支持多个处理器订阅同一事件类型', async () => {
+    it('', async () => {
       const handler1 = vi.fn();
       const handler2 = vi.fn();
       const event: AppEvent = { type: 'guild.create', name: 'Test Guild' };
@@ -71,7 +70,7 @@ describe('InMemoryEventBus', () => {
       expect(handler2).toHaveBeenCalledWith(event);
     });
 
-    it('应该按订阅顺序依次调用处理器 (FIFO)', async () => {
+    it(' (FIFO)', async () => {
       const callOrder: number[] = [];
       const handler1 = vi.fn(() => callOrder.push(1));
       const handler2 = vi.fn(() => callOrder.push(2));
@@ -88,8 +87,8 @@ describe('InMemoryEventBus', () => {
     });
   });
 
-  describe('事件处理器调用', () => {
-    it('应该传递正确的事件数据给处理器', async () => {
+  describe('', () => {
+    it('', async () => {
       const handler = vi.fn();
       const event: AppEvent = {
         type: 'guild.rename',
@@ -104,7 +103,7 @@ describe('InMemoryEventBus', () => {
       expect(handler).toHaveBeenCalledWith(event);
     });
 
-    it('应该支持异步处理器', async () => {
+    it('', async () => {
       const asyncHandler = vi.fn(async () => {
         await new Promise(resolve => setTimeout(resolve, 10));
       });
@@ -116,7 +115,7 @@ describe('InMemoryEventBus', () => {
       expect(asyncHandler).toHaveBeenCalledWith(event);
     });
 
-    it('应该等待所有异步处理器完成', async () => {
+    it('', async () => {
       let completed = false;
       const slowHandler = vi.fn(async () => {
         await new Promise(resolve => setTimeout(resolve, 50));
@@ -131,8 +130,8 @@ describe('InMemoryEventBus', () => {
     });
   });
 
-  describe('取消订阅 (unsubscribe)', () => {
-    it('应该能够取消订阅并停止接收事件', async () => {
+  describe(' (unsubscribe)', () => {
+    it('', async () => {
       const handler = vi.fn();
       const event: AppEvent = { type: 'guild.create', name: 'Test Guild' };
 
@@ -144,7 +143,7 @@ describe('InMemoryEventBus', () => {
       expect(handler).not.toHaveBeenCalled();
     });
 
-    it('应该只取消特定的订阅，不影响其他订阅', async () => {
+    it('', async () => {
       const handler1 = vi.fn();
       const handler2 = vi.fn();
       const event: AppEvent = { type: 'guild.create', name: 'Test Guild' };
@@ -159,20 +158,20 @@ describe('InMemoryEventBus', () => {
       expect(handler2).toHaveBeenCalledWith(event);
     });
 
-    it('应该安全处理重复取消订阅', () => {
+    it('', () => {
       const handler = vi.fn();
 
       const subscription = eventBus.subscribe('guild.create', handler);
 
       expect(() => {
         subscription.unsubscribe();
-        subscription.unsubscribe(); // 重复取消订阅
+        subscription.unsubscribe(); // 
       }).not.toThrow();
     });
   });
 
-  describe('清空事件总线 (clear)', () => {
-    it('应该清空所有订阅', async () => {
+  describe(' (clear)', () => {
+    it('', async () => {
       const handler1 = vi.fn();
       const handler2 = vi.fn();
       const event1: AppEvent = { type: 'guild.create', name: 'Guild 1' };
@@ -195,8 +194,8 @@ describe('InMemoryEventBus', () => {
     });
   });
 
-  describe('类型安全', () => {
-    it('应该正确处理不同事件类型', async () => {
+  describe('', () => {
+    it('', async () => {
       const guildHandler = vi.fn();
       const inventoryHandler = vi.fn();
 
@@ -224,8 +223,8 @@ describe('InMemoryEventBus', () => {
     });
   });
 
-  describe('错误处理', () => {
-    it('应该处理处理器中的同步错误', async () => {
+  describe('', () => {
+    it('', async () => {
       const errorHandler = vi.fn(() => {
         throw new Error('Handler error');
       });
@@ -236,7 +235,7 @@ describe('InMemoryEventBus', () => {
       await expect(eventBus.publish(event)).rejects.toThrow('Handler error');
     });
 
-    it('应该处理处理器中的异步错误', async () => {
+    it('', async () => {
       const asyncErrorHandler = vi.fn(async () => {
         throw new Error('Async handler error');
       });
@@ -253,8 +252,8 @@ describe('InMemoryEventBus', () => {
     });
   });
 
-  describe('性能特性', () => {
-    it('应该能处理大量订阅者', async () => {
+  describe('', () => {
+    it('', async () => {
       const handlers = Array.from({ length: 1000 }, () => vi.fn());
       const event: AppEvent = {
         type: 'guild.create',
@@ -273,11 +272,11 @@ describe('InMemoryEventBus', () => {
         expect(handler).toHaveBeenCalledWith(event);
       });
 
-      // 性能断言：1000个处理器应该在100ms内完成
+      // Should process 1000 subscribers within 100 ms
       expect(endTime - startTime).toBeLessThan(100);
     });
 
-    it('应该能处理快速连续发布', async () => {
+    it('', async () => {
       const handler = vi.fn();
       eventBus.subscribe('guild.create', handler);
 
@@ -292,7 +291,7 @@ describe('InMemoryEventBus', () => {
 
       expect(handler).toHaveBeenCalledTimes(100);
 
-      // 性能断言：100个事件应该在50ms内完成
+      // Should publish 100 events within 50 ms
       expect(endTime - startTime).toBeLessThan(50);
     });
   });

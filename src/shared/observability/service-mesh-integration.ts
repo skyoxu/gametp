@@ -171,8 +171,8 @@ export class ServiceMeshIntegration extends EventEmitter {
       this.config = { ...this.config, ...config };
 
       console.log(' ...');
-      console.log(`🏗️ 网格类型: ${this.config.meshProvider}`);
-      console.log(`🎯 命名空间: ${this.config.namespace}`);
+      console.log(` : ${this.config.meshProvider}`);
+      console.log(` : ${this.config.namespace}`);
 
       //
       if (this.config.serviceDiscovery.enabled) {
@@ -216,7 +216,7 @@ export class ServiceMeshIntegration extends EventEmitter {
       this.serviceRegistry.set(serviceId, fullInstance);
 
       console.log(
-        `📝 服务已注册: ${instance.name}@${instance.address}:${instance.port}`
+        ` : ${instance.name}@${instance.address}:${instance.port}`
       );
 
       //
@@ -240,7 +240,7 @@ export class ServiceMeshIntegration extends EventEmitter {
       const instance = this.serviceRegistry.get(serviceId);
       if (instance) {
         this.serviceRegistry.delete(serviceId);
-        console.log(`🗑️ 服务已注销: ${instance.name}`);
+        console.log(` : ${instance.name}`);
         this.emit('service-deregistered', instance);
       }
     } catch (error) {
@@ -282,13 +282,13 @@ export class ServiceMeshIntegration extends EventEmitter {
     try {
       //
       if (!this.canCallService(serviceName)) {
-        throw new Error(`🚫 服务 ${serviceName} 熔断器开启，拒绝调用`);
+        throw new Error(`  ${serviceName} `);
       }
 
       //
       const instances = this.discoverServices(serviceName);
       if (instances.length === 0) {
-        throw new Error(`🔍 未找到健康的 ${serviceName} 服务实例`);
+        throw new Error(`  ${serviceName} `);
       }
 
       //
@@ -375,13 +375,13 @@ export class ServiceMeshIntegration extends EventEmitter {
       instance.lastHealthCheck = new Date().toISOString();
 
       if (!isHealthy) {
-        console.warn(`⚠️ 服务健康检查失败: ${instance.name}`);
+        console.warn(` : ${instance.name}`);
         this.emit('service-unhealthy', instance);
       }
 
       return isHealthy;
     } catch (error) {
-      console.error(`❌ 健康检查失败 ${serviceId}:`, error);
+      console.error(`  ${serviceId}:`, error);
       return false;
     }
   }
@@ -516,7 +516,7 @@ export class ServiceMeshIntegration extends EventEmitter {
 
       if (now - lastFailure >= this.config.circuitBreaker.recoveryTimeout) {
         breaker.state = 'half-open';
-        console.log(`🔥 熔断器进入半开状态: ${serviceName}`);
+        console.log(` : ${serviceName}`);
         return true;
       }
       return false;
@@ -536,7 +536,7 @@ export class ServiceMeshIntegration extends EventEmitter {
       if (breaker.state === 'half-open' && breaker.successCount >= 3) {
         breaker.state = 'closed';
         breaker.failureCount = 0;
-        console.log(`✅ 熔断器恢复正常: ${serviceName}`);
+        console.log(` : ${serviceName}`);
       }
     } else {
       breaker.failureCount++;
@@ -544,7 +544,7 @@ export class ServiceMeshIntegration extends EventEmitter {
 
       if (breaker.failureCount >= this.config.circuitBreaker.failureThreshold) {
         breaker.state = 'open';
-        console.log(`🚨 熔断器开启: ${serviceName}`);
+        console.log(` : ${serviceName}`);
         this.emit('circuit-breaker-opened', breaker);
       }
     }
@@ -618,7 +618,7 @@ export class ServiceMeshIntegration extends EventEmitter {
   ): void {
     //
     console.log(
-      `📊 服务调用记录: ${serviceName}, ${durationMs}ms, ${success ? '' : ''}`
+      ` : ${serviceName}, ${durationMs}ms, ${success ? '' : ''}`
     );
   }
 

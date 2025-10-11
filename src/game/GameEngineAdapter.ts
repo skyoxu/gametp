@@ -180,7 +180,7 @@ export class GameEngineAdapter implements GameEnginePort {
         await this.sceneManager.initialize(this.container, 800, 600);
 
         // TestScene
-        console.log('🚀 GameEngineAdapter: 启动TestScene');
+        console.log(' GameEngineAdapter: TestScene');
         this.sceneManager.startTestScene();
       }
 
@@ -329,7 +329,7 @@ export class GameEngineAdapter implements GameEnginePort {
    */
   async handleInput(input: GameInput): Promise<void> {
     console.log(
-      '🎛️ GameEngineAdapter.handleInput:',
+      ' GameEngineAdapter.handleInput:',
       input.type,
       input.action,
       input.data
@@ -465,10 +465,10 @@ export class GameEngineAdapter implements GameEnginePort {
    *
    */
   private handleDomainEvent(event: DomainEvent): void {
-    console.log('🎯 GameEngineAdapter.handleDomainEvent:', event.type, event);
+    console.log(' GameEngineAdapter.handleDomainEvent:', event.type, event);
 
     //
-    console.log('🎯 转发事件给', this.eventCallbacks.size, '个监听器');
+    console.log(' ', this.eventCallbacks.size, '');
     this.eventCallbacks.forEach(callback => {
       try {
         callback(event);

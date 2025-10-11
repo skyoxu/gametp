@@ -1,11 +1,12 @@
 /**
- * 游戏通知系统组件
- * 显示游戏事件、提示和错误消息
+ * Game notifications overlay
+ * Toast-style messages for state changes, errors, and actions
  */
 
 import { useState, useEffect, useCallback } from 'react';
 import { useGameEvents } from '../../hooks/useGameEvents';
 import './GameNotifications.css';
+import { useI18n } from '@/i18n';
 
 interface GameNotification {
   id: string;
@@ -13,8 +14,8 @@ interface GameNotification {
   title: string;
   message: string;
   timestamp: Date;
-  duration?: number; // 显示持续时间（毫秒），0表示手动关闭
-  persistent?: boolean; // 是否持久显示
+  duration?: number; // ms; 0 or undefined => no auto-dismiss
+  persistent?: boolean; // if true, never auto-dismiss
 }
 
 interface GameNotificationsProps {
@@ -31,12 +32,13 @@ export function GameNotifications({
   defaultDuration = 4000,
 }: GameNotificationsProps) {
   const [notifications, setNotifications] = useState<GameNotification[]>([]);
+  const t = useI18n();
 
   const gameEvents = useGameEvents({
     context: 'game-notifications',
   });
 
-  // 添加通知
+  // Create and enqueue a notification
   const addNotification = useCallback(
     (notification: Omit<GameNotification, 'id' | 'timestamp'>) => {
       const newNotification: GameNotification = {
@@ -51,7 +53,7 @@ export function GameNotifications({
         return updated;
       });
 
-      // 自动移除（如果设置了duration且不是持久通知）
+      // Auto-dismiss after duration unless persistent
       if (
         newNotification.duration &&
         newNotification.duration > 0 &&
@@ -67,56 +69,56 @@ export function GameNotifications({
     [defaultDuration, maxNotifications]
   );
 
-  // 移除通知
+  // Remove single notification by id
   const removeNotification = useCallback((notificationId: string) => {
     setNotifications(prev => prev.filter(n => n.id !== notificationId));
   }, []);
 
-  // 清除所有通知
+  // Clear all notifications
   const clearAllNotifications = useCallback(() => {
     setNotifications([]);
   }, []);
 
-  // 监听游戏事件并转换为通知
+  // Wire event sources to notifications
   useEffect(() => {
-    // 监听游戏状态变化
+    // Game state updates
     const stateSubscriptions = gameEvents.onGameStateChange(event => {
       const { gameState } = event.data;
 
-      // 等级提升通知
+      // Note
       if (gameState.level > 1) {
         addNotification({
           type: 'success',
-          title: '等级提升！',
-          message: `恭喜达到 ${gameState.level} 级！`,
+          title: t('notifications.levelUpTitle'),
+          message: t('notifications.levelUpMessage', { level: gameState.level }),
           duration: 3000,
         });
       }
 
-      // 低血量警告
+      // Low health warning
       if (gameState.health <= 20) {
         addNotification({
           type: 'warning',
-          title: '生命值过低！',
-          message: `当前生命值: ${gameState.health}，请注意安全！`,
+          title: t('notifications.lowHealthTitle'),
+          message: t('notifications.lowHealthMessage', { hp: gameState.health }),
           duration: 5000,
         });
       }
     });
 
-    // 监听错误事件
+    // Game error surface
     const errorSubscriptions = gameEvents.onGameError(event => {
       const errorData = event.data as { error?: string; message?: string };
       addNotification({
         type: 'error',
-        title: '游戏错误',
-        message: errorData.error || errorData.message || '发生未知错误',
+        title: t('notifications.errorTitle'),
+        message: errorData.error || errorData.message || '',
         duration: 6000,
         persistent: false,
       });
     });
 
-    // 监听Phaser响应
+    // Listen for Phaser responses
     const responseSubscriptions = gameEvents.onPhaserResponse(event => {
       if (event.type === 'phaser.response.completed') {
         const { command, result } = event.data;
@@ -126,8 +128,8 @@ export function GameNotifications({
             if (result?.saveId) {
               addNotification({
                 type: 'success',
-                title: '游戏已保存',
-                message: `存档ID: ${result.saveId.substring(0, 8)}...`,
+                title: '',
+                message: `ID: ${result.saveId.substring(0, 8)}...`,
                 duration: 3000,
               });
             }
@@ -135,32 +137,32 @@ export function GameNotifications({
           case 'load':
             addNotification({
               type: 'info',
-              title: '游戏已加载',
-              message: '存档加载成功',
+              title: '',
+              message: '',
               duration: 3000,
             });
             break;
           case 'pause':
             addNotification({
               type: 'info',
-              title: '游戏已暂停',
-              message: '点击继续按钮恢复游戏',
+              title: '',
+              message: '',
               duration: 2000,
             });
             break;
           case 'resume':
             addNotification({
               type: 'info',
-              title: '游戏已恢复',
-              message: '欢迎回来！',
+              title: '',
+              message: '',
               duration: 2000,
             });
             break;
           case 'restart':
             addNotification({
               type: 'info',
-              title: '游戏已重启',
-              message: '新的冒险开始了！',
+              title: '',
+              message: '',
               duration: 3000,
             });
             break;
@@ -168,7 +170,7 @@ export function GameNotifications({
       }
     });
 
-    // 监听UI通知事件
+    // UI-triggered notifications
     const uiSubscription = gameEvents.subscribe(
       'game.ui.notification.shown',
       event => {
@@ -178,8 +180,8 @@ export function GameNotifications({
         };
         addNotification({
           type: notificationData.type || 'info',
-          title: '游戏消息',
-          message: notificationData.message || '收到通知',
+          title: '',
+          message: notificationData.message || '',
           duration: 4000,
         });
       }
@@ -193,22 +195,22 @@ export function GameNotifications({
     };
   }, [gameEvents, addNotification]);
 
-  // 获取通知图标
+  // Icon glyphs per type (ASCII-safe)
   const getNotificationIcon = (type: GameNotification['type']) => {
     switch (type) {
       case 'success':
-        return '✅';
+        return '';
       case 'warning':
-        return '⚠️';
+        return '';
       case 'error':
-        return '❌';
+        return '';
       case 'info':
       default:
-        return 'ℹ️';
+        return '';
     }
   };
 
-  // 获取通知颜色
+  // Colors per type
   const getNotificationColor = (type: GameNotification['type']) => {
     switch (type) {
       case 'success':
@@ -239,7 +241,7 @@ export function GameNotifications({
     }
   };
 
-  // 获取容器位置类名
+  // Container position modifier
   const getContainerClassName = () => {
     switch (position) {
       case 'top-center':
@@ -272,20 +274,21 @@ export function GameNotifications({
             key={notification.id}
             className={`game-notifications__item game-notifications__item--${notification.type}`}
             onClick={() => removeNotification(notification.id)}
-            title="点击关闭"
+            title={t('notifications.itemTitle')}
           >
-            {/* 关闭按钮 */}
+            {/* Close button */}
             <button
               onClick={e => {
                 e.stopPropagation();
                 removeNotification(notification.id);
               }}
               className="game-notifications__close-btn"
+              aria-label={t('notifications.close')}
             >
               ×
             </button>
 
-            {/* 通知内容 */}
+            {/* Content container */}
             <div className="game-notifications__content">
               <span className="game-notifications__icon">
                 {getNotificationIcon(notification.type)}
@@ -302,14 +305,14 @@ export function GameNotifications({
                   {notification.message}
                 </div>
 
-                {/* 时间戳 */}
+                {/* Timestamp (local time) */}
                 <div className="game-notifications__timestamp">
                   {notification.timestamp.toLocaleTimeString()}
                 </div>
               </div>
             </div>
 
-            {/* 进度条（显示剩余时间） */}
+            {/* Progress bar for auto-dismiss */}
             {notification.duration &&
               notification.duration > 0 &&
               !notification.persistent && (
@@ -326,13 +329,14 @@ export function GameNotifications({
         );
       })}
 
-      {/* 清除所有按钮（当有多个通知时） */}
+      {/* Clear all if more than one notification */}
       {notifications.length > 1 && (
         <button
           onClick={clearAllNotifications}
           className="game-notifications__clear-all"
+          aria-label={t('notifications.clearAll', { count: notifications.length })}
         >
-          清除所有 ({notifications.length})
+          {t('notifications.clearAll', { count: notifications.length })}
         </button>
       )}
     </div>

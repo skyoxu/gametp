@@ -204,7 +204,7 @@ export class ResilienceManager {
       type: 'sentry_unavailable',
       severity: 'high',
       startTime: new Date().toISOString(),
-      description: `Sentry服务不可用: ${error.message}`,
+      description: `Sentry: ${error.message}`,
       impact: 'Sentry',
       recoveryStrategy: 'circuit_breaker',
       attemptCount: 0,
@@ -226,7 +226,7 @@ export class ResilienceManager {
       type: 'logging_failure',
       severity: 'medium',
       startTime: new Date().toISOString(),
-      description: `日志系统故障: ${error.message}`,
+      description: `: ${error.message}`,
       impact: '',
       recoveryStrategy: 'graceful_degradation',
       attemptCount: 0,
@@ -248,8 +248,8 @@ export class ResilienceManager {
       type: 'network_error',
       severity: 'medium',
       startTime: new Date().toISOString(),
-      description: `网络错误: ${error.message}`,
-      impact: `网络操作失败: ${operation}`,
+      description: `: ${error.message}`,
+      impact: `: ${operation}`,
       recoveryStrategy: 'exponential_backoff',
       attemptCount: 0,
       resolved: false,
@@ -311,7 +311,7 @@ export class ResilienceManager {
     error: Error,
     context?: any
   ): Promise<void> {
-    this.log(`🔧 执行Sentry恢复策略: ${failure.recoveryStrategy}`);
+    this.log(` Sentry: ${failure.recoveryStrategy}`);
 
     const circuitBreaker = this.getCircuitBreaker('sentry');
 
@@ -362,7 +362,7 @@ export class ResilienceManager {
     error: Error,
     logData?: any
   ): Promise<void> {
-    this.log(`🔧 执行日志恢复策略: ${failure.recoveryStrategy}`);
+    this.log(` : ${failure.recoveryStrategy}`);
 
     failure.attemptCount++;
     failure.lastAttempt = new Date().toISOString();
@@ -402,7 +402,7 @@ export class ResilienceManager {
     error: Error,
     operation: string
   ): Promise<void> {
-    this.log(`🔧 执行网络恢复策略: ${failure.recoveryStrategy}`);
+    this.log(` : ${failure.recoveryStrategy}`);
 
     failure.attemptCount++;
     failure.lastAttempt = new Date().toISOString();
@@ -436,7 +436,7 @@ export class ResilienceManager {
    *
    */
   private async executeStorageRecovery(failure: ActiveFailure): Promise<void> {
-    this.log(`🔧 执行存储恢复策略: ${failure.recoveryStrategy}`);
+    this.log(` : ${failure.recoveryStrategy}`);
 
     failure.attemptCount++;
     failure.lastAttempt = new Date().toISOString();
@@ -458,7 +458,7 @@ export class ResilienceManager {
         this.updateDegradationLevel('moderate');
       }
     } catch (recoveryError) {
-      this.log(`❌ 存储恢复失败: ${recoveryError.message}`);
+      this.log(` : ${recoveryError.message}`);
       this.enableStorageDegradation();
       this.updateDegradationLevel('severe');
     }
@@ -468,7 +468,7 @@ export class ResilienceManager {
    *
    */
   private async executeMemoryRecovery(failure: ActiveFailure): Promise<void> {
-    this.log(`🔧 执行内存恢复策略: ${failure.recoveryStrategy}`);
+    this.log(` : ${failure.recoveryStrategy}`);
 
     failure.attemptCount++;
     failure.lastAttempt = new Date().toISOString();
@@ -496,7 +496,7 @@ export class ResilienceManager {
         this.updateDegradationLevel('severe');
       }
     } catch (recoveryError) {
-      this.log(`❌ 内存恢复失败: ${recoveryError.message}`);
+      this.log(` : ${recoveryError.message}`);
       this.updateDegradationLevel('critical');
     }
   }
@@ -625,7 +625,7 @@ export class ResilienceManager {
       //
       this.cleanupResolvedFailures();
     } catch (error) {
-      this.log(`❌ 健康检查失败: ${error}`);
+      this.log(` : ${error}`);
     }
   }
 
@@ -679,7 +679,7 @@ export class ResilienceManager {
 
   private updateDegradationLevel(level: DegradationLevel): void {
     this.systemHealth.degradationLevel = level;
-    this.log(`⚠️ 系统降级级别更新为: ${level}`);
+    this.log(` : ${level}`);
   }
 
   private getCircuitBreaker(service: string): CircuitBreakerState {
@@ -697,7 +697,7 @@ export class ResilienceManager {
     cb.state = 'open';
     cb.nextRetryTime = new Date(Date.now() + 60000).toISOString(); // 1
     this.circuitBreakers.set(service, cb);
-    this.log(`🔌 ${service} 断路器已打开`);
+    this.log(` ${service} `);
   }
 
   private resetCircuitBreaker(service: string): void {
@@ -707,11 +707,11 @@ export class ResilienceManager {
     cb.successCount = 0;
     cb.nextRetryTime = undefined;
     this.circuitBreakers.set(service, cb);
-    this.log(`🔌 ${service} 断路器已重置`);
+    this.log(` ${service} `);
   }
 
   private scheduleRetry(failure: ActiveFailure, delay: number): void {
-    this.log(`⏰ 安排 ${delay}ms 后重试 ${failure.type}`);
+    this.log(`  ${delay}ms  ${failure.type}`);
 
     const timer = setTimeout(async () => {
       await this.retryFailure(failure);
@@ -721,7 +721,7 @@ export class ResilienceManager {
   }
 
   private async retryFailure(failure: ActiveFailure): Promise<void> {
-    this.log(`🔄 重试故障恢复: ${failure.type}`);
+    this.log(` : ${failure.type}`);
 
     switch (failure.type) {
       case 'sentry_unavailable':
@@ -778,9 +778,9 @@ export class ResilienceManager {
       const bufferFile = join(this.cacheDir, 'log-buffer.json');
       writeFileSync(bufferFile, JSON.stringify(this.localBuffer, null, 2));
       this.localBuffer = [];
-      this.log(`✅ 日志缓冲区已刷新 (${this.localBuffer.length} 条记录)`);
+      this.log(`  (${this.localBuffer.length} )`);
     } catch (error) {
-      this.log(`❌ 刷新日志缓冲区失败: ${error}`);
+      this.log(` : ${error}`);
     }
   }
 
@@ -805,7 +805,7 @@ export class ResilienceManager {
       const testFile = join(this.cacheDir, 'logging-test.log');
       writeFileSync(testFile, 'recovery test\n');
     } catch (error) {
-      throw new Error(`日志恢复失败: ${error}`);
+      throw new Error(`: ${error}`);
     }
   }
 
@@ -817,7 +817,7 @@ export class ResilienceManager {
           // 60%
           resolve();
         } else {
-          reject(new Error(`网络操作失败: ${operation}`));
+          reject(new Error(`: ${operation}`));
         }
       }, 500);
     });

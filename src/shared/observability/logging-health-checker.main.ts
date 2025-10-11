@@ -173,13 +173,13 @@ export class LoggingHealthChecker {
       this.calculateOverallHealth(result);
       this.generateRecommendations(result);
 
-      this.log(`✅ 日志系统健康检查完成，总分: ${result.overall.score}`);
+      this.log(` : ${result.overall.score}`);
     } catch (error) {
-      this.log(`❌ 日志系统健康检查失败: ${error}`);
+      this.log(` : ${error}`);
       result.issues.push({
         severity: 'critical',
         category: 'reliability',
-        message: `健康检查过程失败: ${error}`,
+        message: `: ${error}`,
         recommendation: '',
       });
     }
@@ -201,7 +201,7 @@ export class LoggingHealthChecker {
 
       //
       const testFile = join(this.logDirectory, 'health-check-write-test.log');
-      const testData = `[${new Date().toISOString()}] INFO 日志写入测试 - ${Math.random()}`;
+      const testData = `[${new Date().toISOString()}] INFO  - ${Math.random()}`;
 
       writeFileSync(testFile, testData);
 
@@ -219,7 +219,7 @@ export class LoggingHealthChecker {
         passed: writeSuccess && concurrentWrites.success,
         score: writeSuccess && concurrentWrites.success ? 100 : 0,
         duration,
-        details: `基础写入: ${writeSuccess ? '' : ''}, 并发写入: ${concurrentWrites.success ? '' : ''}`,
+        details: `: ${writeSuccess ? '' : ''}, : ${concurrentWrites.success ? '' : ''}`,
         metrics: {
           basicWrite: writeSuccess,
           concurrentWrites: concurrentWrites.count,
@@ -276,7 +276,7 @@ export class LoggingHealthChecker {
         passed: allValid,
         score,
         duration: Date.now() - startTime,
-        details: `${validFormats}/${testLogs.length} 格式验证通过`,
+        details: `${validFormats}/${testLogs.length} `,
         metrics: {
           validFormats,
           totalTests: testLogs.length,
@@ -330,7 +330,7 @@ export class LoggingHealthChecker {
         passed,
         score: overallScore,
         duration: Date.now() - startTime,
-        details: `吞吐量: ${throughput} entries/sec, 平均延迟: ${avgLatency.toFixed(2)}ms`,
+        details: `: ${throughput} entries/sec, : ${avgLatency.toFixed(2)}ms`,
         metrics: {
           throughput,
           avgLatency,
@@ -392,7 +392,7 @@ export class LoggingHealthChecker {
         passed,
         score: overallScore,
         duration: Date.now() - startTime,
-        details: `存储使用: ${sizeMB.toFixed(2)}MB, 日志文件: ${logFiles.length}个`,
+        details: `: ${sizeMB.toFixed(2)}MB, : ${logFiles.length}`,
         metrics: {
           directorySizeBytes: directorySize,
           directorySizeMB: sizeMB,
@@ -452,7 +452,7 @@ export class LoggingHealthChecker {
         passed,
         score: rotationScore,
         duration: Date.now() - startTime,
-        details: `轮转文件: ${rotatedFiles.length}个, 时间轮转: ${hasTimeBasedRotation ? '' : ''}`,
+        details: `: ${rotatedFiles.length}, : ${hasTimeBasedRotation ? '' : ''}`,
         metrics: {
           rotatedFiles: rotatedFiles.length,
           hasTimeBasedRotation,
@@ -523,7 +523,7 @@ export class LoggingHealthChecker {
         passed,
         score,
         duration: Date.now() - startTime,
-        details: `${passedTests}/${recoveryTests} 恢复测试通过`,
+        details: `${passedTests}/${recoveryTests} `,
         metrics: {
           totalTests: recoveryTests,
           passedTests,
@@ -582,7 +582,7 @@ export class LoggingHealthChecker {
         passed,
         score,
         duration: Date.now() - startTime,
-        details: `结构化日志器: ${hasStructuredLogger ? '' : ''}, JSON格式: ${isValidJson ? '' : ''}`,
+        details: `: ${hasStructuredLogger ? '' : ''}, JSON: ${isValidJson ? '' : ''}`,
         metrics: {
           hasStructuredLogger,
           isValidJson,
@@ -644,7 +644,7 @@ export class LoggingHealthChecker {
         passed,
         score,
         duration: Date.now() - startTime,
-        details: `${filteredCorrectly}/${piiTestData.length} PII过滤测试通过`,
+        details: `${filteredCorrectly}/${piiTestData.length} PII`,
         metrics: {
           totalTests: piiTestData.length,
           correctlyFiltered: filteredCorrectly,
@@ -701,7 +701,7 @@ export class LoggingHealthChecker {
         passed,
         score,
         duration: Date.now() - startTime,
-        details: `当前级别: ${currentLevel}, ${correctFiltering}/${levels.length} 级别过滤正确`,
+        details: `: ${currentLevel}, ${correctFiltering}/${levels.length} `,
         metrics: {
           currentLevel,
           correctFiltering,
@@ -749,7 +749,7 @@ export class LoggingHealthChecker {
         passed,
         score,
         duration: Date.now() - startTime,
-        details: `${successful}/${testEntries} 异步操作成功，失败: ${failed}`,
+        details: `${successful}/${testEntries} : ${failed}`,
         metrics: {
           totalTests: testEntries,
           successful,
@@ -796,7 +796,7 @@ export class LoggingHealthChecker {
 
   private async writeTestEntry(id: number): Promise<void> {
     const testFile = join(this.logDirectory, `concurrent-test-${id}.log`);
-    const testData = `[${new Date().toISOString()}] INFO 并发写入测试 ${id}`;
+    const testData = `[${new Date().toISOString()}] INFO  ${id}`;
     writeFileSync(testFile, testData);
   }
 
@@ -814,7 +814,7 @@ export class LoggingHealthChecker {
     const data = [];
     for (let i = 0; i < count; i++) {
       data.push(
-        `[${new Date().toISOString()}] INFO 性能测试条目 ${i} - ${'x'.repeat(this.options.testDataSize)}`
+        `[${new Date().toISOString()}] INFO  ${i} - ${'x'.repeat(this.options.testDataSize)}`
       );
     }
     return data;
@@ -855,7 +855,7 @@ export class LoggingHealthChecker {
       setTimeout(() => {
         try {
           const testFile = join(this.logDirectory, 'async-test.log');
-          writeFileSync(testFile, `异步测试 ${id}\n`, { flag: 'a' });
+          writeFileSync(testFile, ` ${id}\n`, { flag: 'a' });
           resolve();
         } catch (error) {
           reject(error);
@@ -939,15 +939,15 @@ export class LoggingHealthChecker {
           issues.push({
             severity: 'high',
             category: 'reliability',
-            message: `${check.name} 检查失败`,
-            recommendation: `修复 ${check.name} 相关问题`,
+            message: `${check.name} `,
+            recommendation: ` ${check.name} `,
           });
         } else {
           issues.push({
             severity: 'medium',
             category: 'performance',
-            message: `${check.name} 需要改进`,
-            recommendation: `优化 ${check.name} 配置`,
+            message: `${check.name} `,
+            recommendation: ` ${check.name} `,
           });
         }
       }

@@ -1,12 +1,12 @@
 /**
- * 基础场景类 - 所有游戏场景的父类
- * 提供通用的场景功能和事件处理
+ * Base Phaser Scene abstraction
+ * Bridges Phaser scenes with the domain event bus
  */
 
-// 顶层移除对 phaser 的静态导入，改用全局 Phaser（由 SceneManager.initialize 注入）
+// phaser Phaser SceneManager.initialize
 declare const Phaser: any;
-// 在单元测试（未注入全局 Phaser）时，提供一个最小的基类以避免模块评估期抛错
-// 生产/集成环境下 SceneManager.initialize 会注入全局 Phaser，此分支不会被命中
+// Phaser
+// / SceneManager.initialize Phaser
 const PhaserSceneBase: any = (globalThis as any)?.Phaser?.Scene ?? class {};
 import type { DomainEvent } from '../../shared/contracts/events';
 import { globalEventBus } from '../../hooks/useGameEvents';
@@ -19,36 +19,33 @@ export abstract class BaseScene extends PhaserSceneBase {
   }
 
   /**
-   * 发布域事件到 React 层
+   * Publish a domain event to Phaser and global event bus
    */
   protected publishEvent(event: DomainEvent): void {
-    console.log('🎪 BaseScene.publishEvent: 发布事件', event.type, event);
+    console.log('[BaseScene] publishEvent', event.type, event);
 
-    // 方法1: 通过Scene事件系统（原有方式）
+    // 1: Scene
     this.events.emit('domain-event', event);
-    console.log('🎪 BaseScene.publishEvent: domain-event 已emit');
+    console.log('[BaseScene] domain-event emitted');
 
-    // 方法2: 直接发布到全局事件总线（绕过SceneManager）
+    // 2: SceneManager
     try {
-      console.log('🎪 BaseScene.publishEvent: 直接发布到globalEventBus');
-      // 类型转换：DomainEvent兼容GameDomainEvent
+      console.log('[BaseScene] publish to globalEventBus');
+      // DomainEvent GameDomainEvent
       globalEventBus.publish(event as any, {
         id: `scene-direct-${Date.now()}`,
         timestamp: new Date(),
         source: 'base-scene-direct',
         priority: 'normal' as any,
       });
-      console.log('🎪 BaseScene.publishEvent: globalEventBus发布成功');
+      console.log('[BaseScene] published to globalEventBus');
     } catch (error) {
-      console.error(
-        '🎪 BaseScene.publishEvent: globalEventBus发布失败:',
-        error
-      );
+      console.error('[BaseScene] globalEventBus publish error:', error);
     }
   }
 
   /**
-   * 订阅域事件
+   * Subscribe a local callback for a domain event type
    */
   protected subscribeEvent(eventType: string, callback: Function): void {
     if (!this.eventCallbacks.has(eventType)) {
@@ -58,7 +55,7 @@ export abstract class BaseScene extends PhaserSceneBase {
   }
 
   /**
-   * 取消订阅域事件
+   * Unsubscribe a local callback for a domain event type
    */
   protected unsubscribeEvent(eventType: string, callback: Function): void {
     const callbacks = this.eventCallbacks.get(eventType);
@@ -71,7 +68,7 @@ export abstract class BaseScene extends PhaserSceneBase {
   }
 
   /**
-   * 场景销毁时清理事件监听器
+   * Release scene-local resources
    */
   destroy(): void {
     this.eventCallbacks.clear();
@@ -79,17 +76,17 @@ export abstract class BaseScene extends PhaserSceneBase {
   }
 
   /**
-   * 抽象方法：场景特定的初始化逻辑
+   * Abstract: initialize scene assets and state
    */
   abstract initializeScene(): void;
 
   /**
-   * 抽象方法：场景特定的更新逻辑
+   * Abstract: per-frame update
    */
   abstract updateScene(time: number, delta: number): void;
 
   /**
-   * 通用的 create 方法
+   * create
    */
   create(): void {
     try {
@@ -100,7 +97,7 @@ export abstract class BaseScene extends PhaserSceneBase {
 
     this.initializeScene();
 
-    // 设置更新循环
+    // Wire Phaser 'update' to updateScene
     this.events.on('update', this.updateScene, this);
 
     try {
@@ -120,7 +117,7 @@ export abstract class BaseScene extends PhaserSceneBase {
   }
 
   /**
-   * 通用的 update 方法
+   * update
    */
   update(time: number, delta: number): void {
     this.updateScene(time, delta);

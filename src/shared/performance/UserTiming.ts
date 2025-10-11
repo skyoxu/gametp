@@ -1,6 +1,6 @@
 /**
- * User Timing API 包装器
- * 提供关键交互测点和P95断言支持
+ * User Timing API
+ * P95
  */
 
 export interface PerformanceMark {
@@ -27,14 +27,14 @@ export interface TimingThresholds {
 }
 
 /**
- * 性能测点管理器
+ * Note
  */
 export class UserTimingManager {
   private static instance: UserTimingManager;
   private measurements: Map<string, number[]> = new Map();
   private thresholds: Map<string, TimingThresholds> = new Map();
 
-  // 关键交互测点定义
+  // Note
   private readonly CRITICAL_INTERACTIONS = {
     'app.startup': { p95: 3000, p99: 5000, warning: 2000, critical: 8000 },
     'game.scene.load': { p95: 1500, p99: 2500, warning: 1000, critical: 4000 },
@@ -59,31 +59,31 @@ export class UserTimingManager {
   }
 
   constructor() {
-    // 初始化关键交互阈值
+    // Note
     Object.entries(this.CRITICAL_INTERACTIONS).forEach(([name, thresholds]) => {
       this.thresholds.set(name, thresholds);
     });
   }
 
   /**
-   * 标记性能测点开始
+   * Note
    */
   mark(name: string, detail?: any): void {
     if (!performance || !performance.mark) {
-      console.warn('[UserTiming] Performance API不可用');
+      console.warn('[UserTiming] Performance API');
       return;
     }
 
     try {
       performance.mark(name, { detail });
-      console.log(`[UserTiming] 标记: ${name}`);
+      console.log(`[UserTiming] : ${name}`);
     } catch (error) {
-      console.error('[UserTiming] 标记失败:', error);
+      console.error('[UserTiming] :', error);
     }
   }
 
   /**
-   * 测量性能区间
+   * Note
    */
   measure(
     name: string,
@@ -91,7 +91,7 @@ export class UserTimingManager {
     endMark?: string
   ): PerformanceMeasurement | null {
     if (!performance || !performance.measure) {
-      console.warn('[UserTiming] Performance API不可用');
+      console.warn('[UserTiming] Performance API');
       return null;
     }
 
@@ -106,24 +106,24 @@ export class UserTimingManager {
         detail: measurement.detail,
       };
 
-      // 记录测量结果用于P95计算
+      // P95
       this.recordMeasurement(name, measurement.duration);
 
-      // 检查是否超过阈值
+      // Note
       this.checkThresholds(name, measurement.duration);
 
       console.log(
-        `[UserTiming] 测量: ${name} = ${measurement.duration.toFixed(2)}ms`
+        `[UserTiming] : ${name} = ${measurement.duration.toFixed(2)}ms`
       );
       return result;
     } catch (error) {
-      console.error('[UserTiming] 测量失败:', error);
+      console.error('[UserTiming] :', error);
       return null;
     }
   }
 
   /**
-   * 便捷方法：测量函数执行时间
+   * Note
    */
   async measureFunction<T>(
     name: string,
@@ -151,7 +151,7 @@ export class UserTimingManager {
   }
 
   /**
-   * 记录测量结果
+   * Note
    */
   private recordMeasurement(name: string, duration: number): void {
     if (!this.measurements.has(name)) {
@@ -161,14 +161,14 @@ export class UserTimingManager {
     const measurements = this.measurements.get(name)!;
     measurements.push(duration);
 
-    // 保留最近100个测量结果
+    // 100
     if (measurements.length > 100) {
       measurements.shift();
     }
   }
 
   /**
-   * 检查性能阈值
+   * Note
    */
   private checkThresholds(name: string, duration: number): void {
     const threshold = this.thresholds.get(name);
@@ -176,17 +176,17 @@ export class UserTimingManager {
 
     if (duration > threshold.critical) {
       console.error(
-        `[UserTiming] 🔴 关键性能问题: ${name} = ${duration.toFixed(2)}ms (临界值: ${threshold.critical}ms)`
+        `[UserTiming]  : ${name} = ${duration.toFixed(2)}ms (: ${threshold.critical}ms)`
       );
     } else if (duration > threshold.warning) {
       console.warn(
-        `[UserTiming] ⚠️  性能警告: ${name} = ${duration.toFixed(2)}ms (警告值: ${threshold.warning}ms)`
+        `[UserTiming]   : ${name} = ${duration.toFixed(2)}ms (: ${threshold.warning}ms)`
       );
     }
   }
 
   /**
-   * 计算P95性能指标
+   * P95
    */
   getP95(name: string): number | null {
     const measurements = this.measurements.get(name);
@@ -198,7 +198,7 @@ export class UserTimingManager {
   }
 
   /**
-   * 计算P99性能指标
+   * P99
    */
   getP99(name: string): number | null {
     const measurements = this.measurements.get(name);
@@ -210,7 +210,7 @@ export class UserTimingManager {
   }
 
   /**
-   * 获取性能报告
+   * Note
    */
   getPerformanceReport(): Record<string, any> {
     const report: Record<string, any> = {};
@@ -244,7 +244,7 @@ export class UserTimingManager {
   }
 
   /**
-   * 获取阈值状态
+   * Note
    */
   private getThresholdStatus(name: string, p95: number | null): string {
     const threshold = this.thresholds.get(name);
@@ -257,7 +257,7 @@ export class UserTimingManager {
   }
 
   /**
-   * CI断言：检查P95是否超过阈值
+   * CI P95
    */
   assertP95Thresholds(): { passed: boolean; violations: string[] } {
     const violations: string[] = [];
@@ -268,7 +268,7 @@ export class UserTimingManager {
 
       if (p95 && p95 > threshold.p95) {
         violations.push(
-          `${name}: P95=${p95.toFixed(2)}ms 超过阈值 ${threshold.p95}ms`
+          `${name}: P95=${p95.toFixed(2)}ms  ${threshold.p95}ms`
         );
       }
     }
@@ -280,7 +280,7 @@ export class UserTimingManager {
   }
 
   /**
-   * 清除所有测量数据
+   * Note
    */
   clearMeasurements(): void {
     this.measurements.clear();
@@ -293,10 +293,10 @@ export class UserTimingManager {
   }
 }
 
-// 导出单例实例
+// Note
 export const userTiming = UserTimingManager.getInstance();
 
-// 便捷的全局方法
+// Note
 export const mark = (name: string, detail?: any) =>
   userTiming.mark(name, detail);
 export const measure = (name: string, startMark: string, endMark?: string) =>

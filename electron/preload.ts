@@ -1,21 +1,21 @@
-﻿import { contextBridge } from 'electron';
+import { contextBridge } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
 
-// 验证上下文隔离是否正确启用
+// Verify context isolation is correctly enabled
 if (!process.contextIsolated) {
   throw new Error('Context isolation must be enabled for security');
 }
 
-// 预加载API：暴露白名单API到渲染进程
+// Preload API: expose a strict allow-list to the renderer
 if (process.contextIsolated) {
   try {
-    // 验证沙盒模式状态
+    // Verify sandbox mode status
     const isSandboxed = process.sandboxed;
     if (!isSandboxed) {
-      console.warn('⚠️ Sandbox is not enabled - security may be compromised');
+      console.warn('WARNING: Sandbox is not enabled - security may be compromised');
     }
 
-    // 统一使用 electronAPI 命名，与测试保持一致
+    // Use unified name 'electronAPI' (align with tests)
     contextBridge.exposeInMainWorld(
       'electronAPI',
       Object.freeze({
@@ -23,10 +23,10 @@ if (process.contextIsolated) {
         version: process.versions.electron,
         isSandboxed: process.sandboxed,
         contextIsolated: process.contextIsolated,
-        // CI测试专用：窗口前置API
+        // CI-only helper: bring window to front
         bringToFront: () => {
           if (process.env.CI === 'true' || process.env.NODE_ENV === 'test') {
-            // 通过IPC请求主进程前置窗口
+            // Request main process via IPC to bring window to front
             electronAPI.ipcRenderer?.invoke?.('window:bring-to-front');
           }
         },
@@ -34,7 +34,7 @@ if (process.contextIsolated) {
       })
     );
 
-    // 安全配置验证API（仅测试模式）
+    // Security validation API (test mode only)
     if (process.env.SECURITY_TEST_MODE === 'true') {
       contextBridge.exposeInMainWorld(
         '__SECURITY_VALIDATION__',
@@ -43,7 +43,7 @@ if (process.contextIsolated) {
           contextIsolated: process.contextIsolated,
           nodeIntegrationDisabled: typeof require === 'undefined',
           exposedAt: new Date().toISOString(),
-          // 增强安全配置验证 - 支持enhanced-electron-security.spec.ts
+          // Extended security validation - supports enhanced-electron-security.spec.ts
           securityConfigs: Object.freeze({
             cspConfig: Object.freeze({
               enabled: true,
@@ -73,7 +73,7 @@ if (process.contextIsolated) {
               strictValidation: true,
             }),
           }),
-          // 红线拦截状态查询支持
+          // Redline status inquiry helpers (test-only)
           redlineStatus: Object.freeze({
             navigationInterceptActive: true,
             externalRequestBlocked: true,
@@ -85,11 +85,11 @@ if (process.contextIsolated) {
         })
       );
 
-      // 参数校验测试占位（仅测试模式）：避免扩大攻击面
+      // Parameter validation placeholder for test-mode misuse tests
       contextBridge.exposeInMainWorld(
         '__PARAM_VALIDATION__',
         Object.freeze({
-          // 简单示例：校验并回显 message 字段（本地轻量守卫，避免跨项目导入）
+          // Demonstration: validate and echo 'message' field (strict type checks)
           safeEcho(payload: unknown): string {
             if (
               payload === null ||
@@ -107,13 +107,13 @@ if (process.contextIsolated) {
       );
     }
 
-    // 应用版本信息 - 用于Sentry Release Health
+    // App version info - supports Sentry Release Health
     contextBridge.exposeInMainWorld(
       '__APP_VERSION__',
       process.env.APP_VERSION || '0.1.1'
     );
 
-    // 简化的测试API标识（减少信息泄露）
+    // Minimal demo flag API to avoid leaking sensitive info
     contextBridge.exposeInMainWorld(
       '__CUSTOM_API__',
       Object.freeze({
@@ -122,9 +122,10 @@ if (process.contextIsolated) {
     );
   } catch (error) {
     console.error('Failed to expose API:', error);
-    // 预加载失败时不应回退到非隔离模式
+    // If preload fails, fail fast (secure mode)
     throw error;
   }
 } else {
   throw new Error('Context isolation is required and must be enabled');
 }
+

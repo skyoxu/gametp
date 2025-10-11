@@ -262,9 +262,9 @@ export class EnterpriseMonitoringPlatform extends EventEmitter {
       this.config = { ...this.config, ...config };
 
       console.log(' ...');
-      console.log(`🏗️ 组织: ${this.config.organization.name}`);
-      console.log(`🌍 环境: ${this.config.organization.environment}`);
-      console.log(`📍 区域: ${this.config.organization.region}`);
+      console.log(` : ${this.config.organization.name}`);
+      console.log(` : ${this.config.organization.environment}`);
+      console.log(` : ${this.config.organization.region}`);
 
       //
       await this.validateConfiguration();
@@ -296,7 +296,7 @@ export class EnterpriseMonitoringPlatform extends EventEmitter {
         severity: 'info',
         source: 'monitoring-platform',
         title: '',
-        description: `监控平台在 ${this.config.organization.environment} 环境成功启动`,
+        description: ` ${this.config.organization.environment} `,
         metadata: {
           components: Object.keys(this.config.components).filter(
             key =>
@@ -332,7 +332,7 @@ export class EnterpriseMonitoringPlatform extends EventEmitter {
     period: string = '30d'
   ): Promise<PerformanceReport> {
     try {
-      console.log(`📊 生成 ${period} 性能报告...`);
+      console.log(`  ${period} ...`);
 
       const report: PerformanceReport = {
         period,
@@ -423,7 +423,7 @@ export class EnterpriseMonitoringPlatform extends EventEmitter {
       this.emit('monitoring-event', fullEvent);
 
       console.log(
-        `📊 监控事件: ${fullEvent.severity.toUpperCase()} - ${fullEvent.title}`
+        ` : ${fullEvent.severity.toUpperCase()} - ${fullEvent.title}`
       );
     } catch (error) {
       console.error(' :', error);
@@ -578,7 +578,7 @@ export class EnterpriseMonitoringPlatform extends EventEmitter {
         severity: 'info',
         source: 'distributed-tracing',
         title: ' Span ',
-        description: `创建了新的追踪 Span: ${span.name}`,
+        description: ` Span: ${span.name}`,
         metadata: { span },
         correlation: { traceId: span.traceId, spanId: span.spanId },
       });
@@ -591,7 +591,7 @@ export class EnterpriseMonitoringPlatform extends EventEmitter {
         severity: 'info',
         source: 'service-mesh',
         title: '',
-        description: `服务 ${service.name} 已注册到网格`,
+        description: ` ${service.name} `,
         metadata: { service },
       });
     });
@@ -616,7 +616,7 @@ export class EnterpriseMonitoringPlatform extends EventEmitter {
         severity: 'warning',
         source: 'cost-optimization',
         title: '',
-        description: `月度预算使用已达到 ${(budget.percentage * 100).toFixed(1)}%`,
+        description: ` ${(budget.percentage * 100).toFixed(1)}%`,
         metadata: { budget },
       });
     });

@@ -54,7 +54,7 @@ export interface ConfigProfile {
 export const CONFIG_PROFILES: Record<string, ConfigProfile> = {
   development: {
     name: 'Development',
-    description: '开发环境：平衡性能和调试便利性',
+    description: '',
     config: {
       journal_mode: 'WAL',
       synchronous: 'NORMAL',
@@ -72,7 +72,7 @@ export const CONFIG_PROFILES: Record<string, ConfigProfile> = {
 
   test: {
     name: 'Test',
-    description: '测试环境：快速、隔离、可重现',
+    description: '',
     config: {
       journal_mode: 'MEMORY',
       synchronous: 'OFF',
@@ -89,7 +89,7 @@ export const CONFIG_PROFILES: Record<string, ConfigProfile> = {
 
   staging: {
     name: 'Staging',
-    description: '预生产环境：接近生产配置，保持调试能力',
+    description: '',
     config: {
       journal_mode: 'WAL',
       synchronous: 'FULL',
@@ -107,7 +107,7 @@ export const CONFIG_PROFILES: Record<string, ConfigProfile> = {
 
   production: {
     name: 'Production',
-    description: '生产环境：最大数据安全性和性能',
+    description: '',
     config: {
       journal_mode: 'WAL',
       synchronous: 'FULL',
@@ -126,7 +126,7 @@ export const CONFIG_PROFILES: Record<string, ConfigProfile> = {
 
   lowMemory: {
     name: 'Low Memory',
-    description: '低内存环境：最小内存占用',
+    description: '',
     config: {
       journal_mode: 'WAL',
       synchronous: 'NORMAL',
@@ -144,7 +144,7 @@ export const CONFIG_PROFILES: Record<string, ConfigProfile> = {
 
   highPerformance: {
     name: 'High Performance',
-    description: '高性能：最大化读写性能',
+    description: '',
     config: {
       journal_mode: 'WAL',
       synchronous: 'NORMAL', //
@@ -211,7 +211,7 @@ export class SqliteConfigManager {
     }
 
     console.log(
-      `📊 Selected SQLite profile: ${selectedProfile.name} (Available Memory: ${availableMemoryMB}MB)`
+      ` Selected SQLite profile: ${selectedProfile.name} (Available Memory: ${availableMemoryMB}MB)`
     );
 
     return { ...selectedProfile.config, ...this.customOverrides };
@@ -224,7 +224,7 @@ export class SqliteConfigManager {
     const targetConfig = config || this.getAdaptiveConfig();
     this.currentConfig = targetConfig;
 
-    console.log('🔧 Applying SQLite configuration...');
+    console.log(' Applying SQLite configuration...');
 
     try {
       // PRAGMA
@@ -232,18 +232,18 @@ export class SqliteConfigManager {
         if (value !== undefined) {
           const sql = `PRAGMA ${pragma} = ${value}`;
           db.exec(sql);
-          console.log(`  ✅ ${pragma} = ${value}`);
+          console.log(`   ${pragma} = ${value}`);
         }
       }
 
       //
       await this.validateConfiguration(db);
 
-      console.log('✅ SQLite configuration applied successfully');
+      console.log(' SQLite configuration applied successfully');
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Unknown error';
-      console.error(`❌ Failed to apply SQLite configuration: ${errorMessage}`);
+      console.error(` Failed to apply SQLite configuration: ${errorMessage}`);
       throw error;
     }
   }
@@ -255,19 +255,19 @@ export class SqliteConfigManager {
     const advice: string[] = [];
 
     if (this.environment === 'production') {
-      advice.push('✅ 生产环境已启用完全同步模式，确保数据安全性');
-      advice.push('📈 建议定期监控WAL文件大小和检查点频率');
-      advice.push('💾 大缓存配置已启用，确保服务器有足够内存');
+      advice.push(' ');
+      advice.push(' WAL');
+      advice.push(' ');
     }
 
     if (this.environment === 'development') {
-      advice.push('🔧 开发环境已优化调试体验，外键约束已启用');
-      advice.push('⚡ 使用普通同步模式平衡性能和安全性');
+      advice.push(' ');
+      advice.push(' ');
     }
 
     if (this.environment === 'test') {
-      advice.push('🧪 测试环境使用内存日志模式，提供最快启动速度');
-      advice.push('🔄 每次测试运行都会重置数据库状态');
+      advice.push(' ');
+      advice.push(' ');
     }
 
     return advice;
@@ -292,7 +292,7 @@ export class SqliteConfigManager {
         metrics.walCheckpointedPages = walInfo[0][2];
 
         if (walInfo[0][1] > 10000) {
-          issues.push('WAL文件过大，建议手动执行CHECKPOINT');
+          issues.push('WALCHECKPOINT');
         }
       }
 
@@ -303,32 +303,36 @@ export class SqliteConfigManager {
       // ()
       const integrityCheck = db.pragma('quick_check');
       if (integrityCheck[0] !== 'ok') {
-        issues.push(`数据库完整性检查失败: ${integrityCheck[0]}`);
+        issues.push(`: ${integrityCheck[0]}`);
       }
 
       //
       const foreignKeyCheck = db.pragma('foreign_key_check');
       if (foreignKeyCheck.length > 0) {
-        issues.push(`外键约束违规: ${foreignKeyCheck.length} 个问题`);
+        issues.push(`: ${foreignKeyCheck.length} `);
       }
 
       metrics.pageCount = db.pragma('page_count')[0];
       metrics.pageSize = db.pragma('page_size')[0];
       metrics.freePages = db.pragma('freelist_count')[0];
 
+      // Classify status:
+      // - healthy: no issues
+      // - warning: only WALCHECKPOINT present (large WAL pages)
+      // - error: any other issue (integrity/foreign keys/etc.)
       const status =
         issues.length === 0
           ? 'healthy'
-          : issues.some(i => i.includes('完整性') || i.includes('外键'))
-            ? 'error'
-            : 'warning';
+          : issues.every(i => i === 'WALCHECKPOINT')
+            ? 'warning'
+            : 'error';
 
       return { status, issues, metrics };
     } catch (error) {
       return {
         status: 'error',
         issues: [
-          `健康检查失败: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          `: ${error instanceof Error ? error.message : 'Unknown error'}`,
         ],
         metrics: {},
       };
@@ -379,7 +383,7 @@ export class SqliteConfigManager {
 
     if (Object.keys(envOverrides).length > 0) {
       console.log(
-        '🔧 Loaded SQLite config overrides from environment variables:',
+        ' Loaded SQLite config overrides from environment variables:',
         envOverrides
       );
     }
@@ -418,14 +422,14 @@ export class SqliteConfigManager {
     //
     const foreignKeys = db.pragma('foreign_keys')[0];
     if (this.currentConfig?.foreign_keys === 'ON' && foreignKeys !== 1) {
-      console.warn('⚠️  Foreign key constraints are not enabled');
+      console.warn('  Foreign key constraints are not enabled');
     }
 
     //
     const cacheSize = db.pragma('cache_size')[0];
     if (Math.abs(cacheSize) !== Math.abs(this.currentConfig?.cache_size || 0)) {
       console.warn(
-        `⚠️  Cache size mismatch: expected ${this.currentConfig?.cache_size}, got ${cacheSize}`
+        `  Cache size mismatch: expected ${this.currentConfig?.cache_size}, got ${cacheSize}`
       );
     }
   }
@@ -465,7 +469,7 @@ export async function quickSetupDatabase(
   //
   const advice = manager.getConfigurationAdvice();
   if (advice.length > 0) {
-    console.log('\n💡 Configuration advice:');
+    console.log('\n Configuration advice:');
     advice.forEach(tip => console.log(`  ${tip}`));
   }
 

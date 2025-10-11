@@ -1,17 +1,17 @@
 /**
- * 端口-适配器模式基础类型定义 - ADR-0007
+ * Ports-and-adapters foundational type definitions - ADR-0007
  *
- * 提供清洁架构的端口接口和通用类型
- * 支持Repository模式和端口抽象
+ * Provides clean-architecture port interfaces and common types
+ * Supports Repository pattern and port abstractions
  */
 
 /**
- * 通用ID类型
+ * Generic ID type
  */
 export type Id = string | number;
 
 /**
- * 基础实体接口
+ * Base entity interface
  */
 export interface Entity<TId = Id> {
   readonly id: TId;
@@ -20,7 +20,7 @@ export interface Entity<TId = Id> {
 }
 
 /**
- * 通用端口接口
+ * Generic port interface
  */
 export interface Port {
   readonly name: string;
@@ -28,7 +28,7 @@ export interface Port {
 }
 
 /**
- * 仓储模式基础接口
+ * Repository base interface
  */
 export interface IRepository<TEntity extends Entity, TId = Id> {
   findById(id: TId): Promise<TEntity | null>;
@@ -42,7 +42,7 @@ export interface IRepository<TEntity extends Entity, TId = Id> {
 }
 
 /**
- * 查询接口
+ * Query interface
  */
 export interface Query<TResult = unknown> {
   readonly type: string;
@@ -50,7 +50,7 @@ export interface Query<TResult = unknown> {
 }
 
 /**
- * 命令接口
+ * Command interface
  */
 export interface Command<TResult = unknown> {
   readonly type: string;
@@ -58,7 +58,7 @@ export interface Command<TResult = unknown> {
 }
 
 /**
- * 端口适配器接口
+ * Port adapter interface
  */
 export interface PortAdapter<TInput = unknown, TOutput = unknown> {
   readonly port: Port;
@@ -66,14 +66,14 @@ export interface PortAdapter<TInput = unknown, TOutput = unknown> {
 }
 
 /**
- * 领域服务接口
+ * Domain service interface
  */
 export interface DomainService {
   readonly name: string;
 }
 
 /**
- * 应用服务接口
+ * Application service interface
  */
 export interface ApplicationService {
   readonly name: string;

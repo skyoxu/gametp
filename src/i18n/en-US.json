@@ -1,0 +1,177 @@
+{
+  "saveManager": {
+    "title": "Save Manager",
+    "refresh": "Refresh",
+    "close": "Close",
+    "loading": "Loading saves...",
+    "emptyTitle": "No saves yet",
+    "emptySubtitle": "Start a game and save; files will appear here.",
+    "itemTitle": "Save #{{id}}",
+    "level": "Level {{lv}}",
+    "score": "Score {{score}}",
+    "health": "{{hp}} HP",
+    "created": "Created:",
+    "updated": "Updated:",
+    "size": "Size:",
+    "inventoryMore": "+{{n}} more",
+    "btnLoad": "Load",
+    "btnExport": "Export",
+    "btnDelete": "Delete",
+    "tipLoad": "Load this save",
+    "tipExport": "Export save file",
+    "tipDelete": "Delete this save",
+    "deleteTitle": "Confirm Delete",
+    "deleteMessage": "Are you sure you want to delete this save? This action cannot be undone.",
+    "cancel": "Cancel",
+    "confirmDelete": "Delete",
+    "errList": "Failed to load save list",
+    "errLoad": "Failed to load save",
+    "errExport": "Failed to export save",
+    "errDelete": "Failed to delete save"
+  }
+  ,
+  "controlPanel": {
+    "pause": "Pause",
+    "resume": "Resume",
+    "save": "Save",
+    "saving": "Saving...",
+    "load": "Load",
+    "restart": "Restart",
+    "confirmRestart": "Restart the game? Current progress may be lost.",
+    "statusProcessing": "Processing...",
+    "statusRunning": "Running",
+    "statusPaused": "Paused",
+    "quickSave": "Quick Save",
+    "quickLoad": "Quick Load",
+    "hintEsc": "ESC: Pause/Resume",
+    "hintF5": "F5: Quick Save",
+    "hintF9": "F9: Save Manager",
+    "titlePause": "Pause game",
+    "titleResume": "Resume game",
+    "titleSave": "Save game",
+    "titleLoad": "Open Save Manager",
+    "titleRestart": "Restart game",
+    "titleQuickSave": "Quick Save (F5)",
+    "titleQuickLoad": "Quick Load (F9)",
+    "ariaPause": "Pause",
+    "ariaResume": "Resume",
+    "ariaSave": "Save",
+    "ariaLoad": "Load",
+    "ariaRestart": "Restart",
+    "ariaQuickSave": "Quick Save",
+    "ariaQuickLoad": "Quick Load"
+  },
+  "notifications": {
+    "levelUpTitle": "Level Up",
+    "levelUpMessage": "Level {{level}} reached",
+    "lowHealthTitle": "Low Health",
+    "lowHealthMessage": "Health: {{hp}}",
+    "errorTitle": "Error",
+    "itemTitle": "Click to dismiss",
+    "close": "Close",
+    "clearAll": "Clear all ({{count}})"
+  },
+  "interface": {
+    "settings": "Settings",
+    "saveManager": "Save Manager",
+    "guildManager": "Guild Manager",
+    "titleSettings": "Settings (F10)",
+    "titleSaveManager": "Save Manager (F9)",
+    "titleGuildManager": "Guild Manager (G)",
+    "loading": "Loading...",
+    "loadingSubtitle": "Please wait",
+    "errorClose": "Close",
+    "debug": "Debug",
+    "state": "State",
+    "position": "Position",
+    "shortcuts": "Shortcuts"
+  }
+  ,
+  "statusPanel": {
+    "title": "Status",
+    "health": "Health",
+    "score": "Score",
+    "level": "Level",
+    "inventory": "Inventory ({{count}})",
+    "inventoryEmpty": "Inventory is empty",
+    "position": "Position",
+    "id": "ID",
+    "timestamp": "Time",
+    "expand": "Expand",
+    "collapse": "Collapse"
+  },
+  "settingsPanel": {
+    "title": "Game Settings",
+    "tabs": {
+      "graphics": "Graphics",
+      "audio": "Audio",
+      "gameplay": "Gameplay",
+      "controls": "Controls",
+      "ui": "Interface"
+    },
+    "actions": {
+      "close": "Close",
+      "resetToDefault": "Reset to Default",
+      "cancel": "Cancel",
+      "save": "Save Changes",
+      "rebinding": "Binding...",
+      "confirmReset": "Reset all settings to defaults?"
+    },
+    "graphics": {
+      "quality": "Quality",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "fullscreen": "Fullscreen",
+      "vsync": "VSync",
+      "showFPS": "Show FPS"
+    },
+    "audio": {
+      "muted": "Muted",
+      "masterVolume": "Master Volume",
+      "musicVolume": "Music Volume",
+      "sfxVolume": "SFX Volume"
+    },
+    "gameplay": {
+      "difficulty": "Difficulty",
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard",
+      "autoSave": "Auto Save",
+      "autoSaveInterval": "Auto Save Interval (s)",
+      "showNotifications": "Show Notifications",
+      "showTutorials": "Show Tutorials"
+    },
+    "controls": {
+      "keyboard": "Keyboard Controls",
+      "mouseSensitivity": "Mouse Sensitivity",
+      "labels": {
+        "moveUp": "Move Up",
+        "moveDown": "Move Down",
+        "moveLeft": "Move Left",
+        "moveRight": "Move Right",
+        "action": "Action",
+        "pause": "Pause"
+      }
+    },
+    "ui": {
+      "theme": "Theme",
+      "themeDark": "Dark",
+      "themeLight": "Light",
+      "themeAuto": "Auto",
+      "language": "Language",
+      "langEN": "English (US)",
+      "langZH": "Chinese (Simplified)",
+      "notificationPosition": "Notification Position",
+      "posTR": "Top Right",
+      "posTL": "Top Left",
+      "posBR": "Bottom Right",
+      "posBL": "Bottom Left",
+      "showAdvancedStats": "Show Advanced Stats"
+    },
+    "notify": {
+      "saved": "Settings have been saved",
+      "saveFailed": "Failed to save settings"
+    }
+  }
+}

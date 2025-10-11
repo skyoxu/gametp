@@ -1,12 +1,10 @@
 /**
- *  - CloudEvents
- *  CH04
- *
- * :
- * - CloudEvents 1.0/
- * -
- * -
- * -
+ * Event bus built on a Node.js-style EventEmitter.
+ * Features:
+ * - CloudEvents 1.0 validation middleware
+ * - Middleware pipeline for publish flow
+ * - Subscription management and statistics
+ * - Optional debug logging for troubleshooting
  */
 
 import { EventEmitter } from 'events';
@@ -23,32 +21,33 @@ import {
 } from '../middleware/cloud-events-validator';
 
 // ============================================================================
-//
+// Configuration
 // ============================================================================
 
 export interface EventBusConfig {
-  /** CloudEvents */
+  /** CloudEvents validator configuration */
   validation?: Partial<ValidationConfig>;
-  /**  */
+  /** Enable validation and other publish-time middlewares */
   enableMiddleware: boolean;
-  /**  */
+  /** Max listeners before warnings */
   maxListeners: number;
-  /**  */
+  /** Enable verbose internal logs */
   enableDebugLogging: boolean;
 }
 
+const ENV = (typeof process !== 'undefined' && process.env) || {};
 const DEFAULT_CONFIG: EventBusConfig = {
   validation: {
-    level: (process.env.CLOUDEVENTS_VALIDATION_LEVEL as any) || 'strict',
-    enablePerformanceMonitoring: process.env.NODE_ENV !== 'production',
+    level: ((ENV.CLOUDEVENTS_VALIDATION_LEVEL as any) || 'strict') as any,
+    enablePerformanceMonitoring: (ENV.NODE_ENV ?? 'development') !== 'production',
   },
   enableMiddleware: true,
-  maxListeners: Number(process.env.EVENT_BUS_MAX_LISTENERS || '100'),
-  enableDebugLogging: process.env.DEBUG_EVENTS === 'true',
+  maxListeners: Number(ENV.EVENT_BUS_MAX_LISTENERS ?? '100'),
+  enableDebugLogging: ENV.DEBUG_EVENTS === 'true',
 };
 
 // ============================================================================
-//
+// Bus implementation
 // ============================================================================
 
 export class EventBus implements EventPublisher, EventSubscriber {
@@ -57,7 +56,7 @@ export class EventBus implements EventPublisher, EventSubscriber {
   private config: EventBusConfig;
   private publishCount = 0;
   private subscriptionCount = 0;
-  // handlerwrapped handler,unsubscribe
+  // Map original handler to wrapped handler for proper unsubscribe
   private handlerMap = new Map<
     string,
     Map<(...args: any[]) => void, (...args: any[]) => void>
@@ -68,7 +67,7 @@ export class EventBus implements EventPublisher, EventSubscriber {
     this.emitter = new EventEmitter();
     this.emitter.setMaxListeners(this.config.maxListeners);
 
-    // CloudEvents
+    // CloudEvents validator middleware
     if (this.config.enableMiddleware) {
       this.addMiddleware(createValidationMiddleware(this.config.validation));
     }
@@ -93,7 +92,7 @@ export class EventBus implements EventPublisher, EventSubscriber {
 
       //
       if (this.config.enableDebugLogging) {
-        console.debug(`📤 Publishing event: ${event.type}`, {
+        console.debug(`Publishing event: ${event.type}`, {
           id: event.id,
           source: event.source,
           timestamp: event.time,
@@ -111,7 +110,7 @@ export class EventBus implements EventPublisher, EventSubscriber {
 
       if (this.config.enableDebugLogging) {
         console.error(
-          `❌ Failed to publish event ${event.type}:`,
+          ` Failed to publish event ${event.type}:`,
           errorMessage
         );
       }
@@ -137,7 +136,7 @@ export class EventBus implements EventPublisher, EventSubscriber {
     const wrappedHandler = async (event: T) => {
       try {
         if (this.config.enableDebugLogging) {
-          console.debug(`📥 Handling event: ${eventType}`, {
+          console.debug(` Handling event: ${eventType}`, {
             id: event.id,
             source: event.source,
           });
@@ -148,7 +147,7 @@ export class EventBus implements EventPublisher, EventSubscriber {
         const errorMessage =
           error instanceof Error ? error.message : 'Unknown error';
 
-        console.error(`❌ Event handler error for ${eventType}:`, errorMessage);
+        console.error(` Event handler error for ${eventType}:`, errorMessage);
 
         //
         this.emitter.emit('handler-error', {
@@ -171,7 +170,7 @@ export class EventBus implements EventPublisher, EventSubscriber {
 
     if (this.config.enableDebugLogging) {
       console.debug(
-        `🔔 Subscribed to event: ${eventType} (total subscriptions: ${this.subscriptionCount})`
+        ` Subscribed to event: ${eventType} (total subscriptions: ${this.subscriptionCount})`
       );
     }
   }
@@ -208,7 +207,7 @@ export class EventBus implements EventPublisher, EventSubscriber {
     this.subscriptionCount = Math.max(0, this.subscriptionCount - 1);
 
     if (this.config.enableDebugLogging) {
-      console.debug(`🔕 Unsubscribed from event: ${eventType}`);
+      console.debug(` Unsubscribed from event: ${eventType}`);
     }
   }
 
@@ -267,7 +266,7 @@ export class EventBus implements EventPublisher, EventSubscriber {
     this.subscriptionCount = 0;
 
     if (this.config.enableDebugLogging) {
-      console.debug('🔥 EventBus destroyed');
+      console.debug(' EventBus destroyed');
     }
   }
 
@@ -277,28 +276,29 @@ export class EventBus implements EventPublisher, EventSubscriber {
 
   private setupErrorHandling(): void {
     //
-    this.emitter.on('error', errorInfo => {
-      console.error('💥 EventBus error:', errorInfo);
+    this.emitter.on('error', (errorInfo: unknown) => {
+      console.error(' EventBus error:', errorInfo);
     });
 
     //
-    this.emitter.on('handler-error', errorInfo => {
-      console.warn('⚠️  Event handler error:', errorInfo);
+    this.emitter.on('handler-error', (errorInfo: unknown) => {
+      console.warn('  Event handler error:', errorInfo);
     });
 
     //
     if (this.config.enableDebugLogging && typeof process !== 'undefined') {
-      setInterval(() => {
+      setInterval((): void => {
         const listenerCount = this.emitter
           .eventNames()
           .reduce(
-            (total, eventName) => total + this.emitter.listenerCount(eventName),
+            (total: number, eventName: string | symbol) =>
+              total + this.emitter.listenerCount(eventName),
             0
           );
 
         if (listenerCount > this.config.maxListeners * 0.8) {
           console.warn(
-            `⚠️  EventBus approaching listener limit: ${listenerCount}/${this.config.maxListeners}`
+            `  EventBus approaching listener limit: ${listenerCount}/${this.config.maxListeners}`
           );
         }
       }, 30000); // 30

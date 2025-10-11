@@ -120,13 +120,13 @@ export class SentryDetector {
       result.recommendations = this.generateRecommendations(result);
 
       const duration = Date.now() - startTime;
-      this.log(`✅ Sentry检测完成，耗时: ${duration}ms`);
+      this.log(` Sentry: ${duration}ms`);
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : String(error);
       result.lastError = errorMessage;
       result.recommendations.push('Sentry');
-      this.log(`❌ Sentry检测失败: ${errorMessage}`);
+      this.log(` Sentry: ${errorMessage}`);
     }
 
     //
@@ -153,7 +153,7 @@ export class SentryDetector {
       this.log(' Sentry Hub');
       return 'active';
     } catch (error) {
-      this.log(`❌ Sentry Hub检查出错: ${error}`);
+      this.log(` Sentry Hub: ${error}`);
       return 'error';
     }
   }
@@ -182,7 +182,7 @@ export class SentryDetector {
       this.log(' Sentry Client');
       return 'connected';
     } catch (error) {
-      this.log(`❌ Sentry Client检查出错: ${error}`);
+      this.log(` Sentry Client: ${error}`);
       return 'error';
     }
   }
@@ -216,7 +216,7 @@ export class SentryDetector {
       this.log('  DSN');
       return false;
     } catch (error) {
-      this.log(`❌ DSN配置检查出错: ${error}`);
+      this.log(` DSN: ${error}`);
       return false;
     }
   }
@@ -231,14 +231,14 @@ export class SentryDetector {
       const release = options?.release;
 
       if (release) {
-        this.log(`✅ Release信息: ${release}`);
+        this.log(` Release: ${release}`);
       } else {
         this.log('  Release');
       }
 
       return release;
     } catch (error) {
-      this.log(`❌ Release信息获取出错: ${error}`);
+      this.log(` Release: ${error}`);
       return undefined;
     }
   }
@@ -258,7 +258,7 @@ export class SentryDetector {
       this.log('  ');
       return false;
     } catch (error) {
-      this.log(`❌ 错误捕获测试失败: ${error}`);
+      this.log(` : ${error}`);
       return false;
     }
   }
@@ -281,7 +281,7 @@ export class SentryDetector {
       this.log('  ');
       return false;
     } catch (error) {
-      this.log(`❌ 会话跟踪检查出错: ${error}`);
+      this.log(` : ${error}`);
       return false;
     }
   }
@@ -298,13 +298,13 @@ export class SentryDetector {
       const tracesSampleRate = options?.tracesSampleRate;
 
       if (tracesSampleRate !== undefined && tracesSampleRate > 0) {
-        this.log(`✅ 性能监控已启用 (采样率: ${tracesSampleRate})`);
+        this.log(`  (: ${tracesSampleRate})`);
         return true;
       }
       this.log('  0');
       return false;
     } catch (error) {
-      this.log(`❌ 性能监控检查出错: ${error}`);
+      this.log(` : ${error}`);
       return false;
     }
   }
@@ -472,7 +472,7 @@ export class SentryMainDetector {
         recommendations: ['Sentry'],
       };
     } catch (error) {
-      throw new Error(`主进程Sentry检测失败: ${error}`);
+      throw new Error(`Sentry: ${error}`);
     }
   }
 }

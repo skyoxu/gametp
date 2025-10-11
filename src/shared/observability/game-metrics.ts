@@ -172,7 +172,7 @@ export class GameMetricsManager {
     try {
       const metricDef = GAME_METRICS[metricKey];
       if (!metricDef) {
-        console.warn(`⚠️ 未知的指标类型: ${metricKey}`);
+        console.warn(` : ${metricKey}`);
         return;
       }
 
@@ -195,7 +195,7 @@ export class GameMetricsManager {
       });
 
       console.log(
-        `📊 [${metricKey}] ${metricDef.name}=${value}${metricDef.unit}`,
+        ` [${metricKey}] ${metricDef.name}=${value}${metricDef.unit}`,
         finalTags
       );
 
@@ -203,7 +203,7 @@ export class GameMetricsManager {
       this.bufferMetric(metricKey, value, finalTags);
     } catch (error) {
       console.warn(
-        `⚠️ 指标记录失败 [${metricKey}]:`,
+        `  [${metricKey}]:`,
         error instanceof Error ? error.message : String(error)
       );
     }

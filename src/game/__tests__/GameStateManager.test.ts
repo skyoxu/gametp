@@ -1,5 +1,5 @@
 /**
- * 游戏状态管理器测试
+ * GameStateManager tests
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
@@ -25,7 +25,7 @@ const mockLocalStorage = (() => {
       return Object.keys(store).length;
     },
     key: vi.fn((index: number) => Object.keys(store)[index] || null),
-    // 添加一个方法来获取所有keys，模拟Object.keys(localStorage)
+    // keys Object.keys(localStorage)
     _getAllKeys: () => Object.keys(store),
   };
 })();
@@ -35,7 +35,7 @@ Object.defineProperty(window, 'localStorage', {
   writable: true,
 });
 
-// Mock Object.keys 来处理 localStorage
+// Mock Object.keys localStorage
 const originalObjectKeys = Object.keys;
 Object.keys = vi.fn(obj => {
   if (obj === localStorage) {
@@ -83,8 +83,8 @@ describe('GameStateManager', () => {
     stateManager.destroy();
   });
 
-  describe('状态管理', () => {
-    it('应该能设置和获取游戏状态', () => {
+  describe('', () => {
+    it('', () => {
       stateManager.setState(mockState, mockConfig);
 
       const retrievedState = stateManager.getState();
@@ -94,12 +94,12 @@ describe('GameStateManager', () => {
       expect(retrievedConfig).toEqual(mockConfig);
     });
 
-    it('应该能获取空状态', () => {
+    it('', () => {
       expect(stateManager.getState()).toBeNull();
       expect(stateManager.getConfig()).toBeNull();
     });
 
-    it('状态更新应该触发事件', () => {
+    it('', () => {
       return new Promise<void>(resolve => {
         stateManager.onEvent(event => {
           if (event.type === 'game.state.manager.updated') {
@@ -114,12 +114,12 @@ describe('GameStateManager', () => {
     });
   });
 
-  describe('存档系统', () => {
+  describe('', () => {
     beforeEach(() => {
       stateManager.setState(mockState, mockConfig);
     });
 
-    it('应该能保存游戏状态', async () => {
+    it('', async () => {
       const saveId = await stateManager.saveGame('test-save');
 
       expect(saveId).toBeTruthy();
@@ -127,10 +127,10 @@ describe('GameStateManager', () => {
       expect(mockLocalStorage.setItem).toHaveBeenCalled();
     });
 
-    it('应该能加载游戏状态', async () => {
+    it('', async () => {
       const saveId = await stateManager.saveGame('test-save');
 
-      // 重置状态管理器状态
+      // Note
       const newStateManager = new GameStateManager();
 
       const { state, config } = await newStateManager.loadGame(saveId);
@@ -143,23 +143,23 @@ describe('GameStateManager', () => {
       newStateManager.destroy();
     });
 
-    it('应该能获取存档列表', async () => {
+    it('', async () => {
       const saveId1 = await stateManager.saveGame('save1');
       const saveId2 = await stateManager.saveGame('save2');
 
-      // 验证存档已保存
+      // Note
       expect(mockLocalStorage.setItem).toHaveBeenCalledTimes(2);
 
       const saveList = await stateManager.getSaveList();
 
-      // 注意：由于存档可能会覆盖相同的ID，实际数量可能少于预期
+      // ID
       expect(saveList.length).toBeGreaterThan(0);
       expect(saveList[0].metadata).toBeDefined();
       expect(saveList[0].state).toBeDefined();
       expect(saveList[0].config).toBeDefined();
     });
 
-    it('应该能删除存档', async () => {
+    it('', async () => {
       const saveId = await stateManager.saveGame('test-delete');
 
       await stateManager.deleteSave(saveId);
@@ -167,13 +167,13 @@ describe('GameStateManager', () => {
       expect(mockLocalStorage.removeItem).toHaveBeenCalledWith(saveId);
     });
 
-    it('加载不存在的存档应该抛出错误', async () => {
+    it('', async () => {
       await expect(stateManager.loadGame('nonexistent')).rejects.toThrow(
         'Save not found: nonexistent'
       );
     });
 
-    it('没有状态时保存应该抛出错误', async () => {
+    it('', async () => {
       const emptyStateManager = new GameStateManager();
 
       await expect(emptyStateManager.saveGame()).rejects.toThrow(
@@ -183,13 +183,13 @@ describe('GameStateManager', () => {
       emptyStateManager.destroy();
     });
 
-    it('应该能处理存档数量限制', async () => {
+    it('', async () => {
       const limitedStateManager = new GameStateManager({
         maxSaves: 2,
       });
       limitedStateManager.setState(mockState, mockConfig);
 
-      // 创建3个存档，应该只保留2个
+      // 3 2
       await limitedStateManager.saveGame('save1');
       await limitedStateManager.saveGame('save2');
       await limitedStateManager.saveGame('save3');
@@ -201,12 +201,12 @@ describe('GameStateManager', () => {
     });
   });
 
-  describe('自动保存', () => {
+  describe('', () => {
     beforeEach(() => {
       stateManager.setState(mockState, mockConfig);
     });
 
-    it('应该能启用自动保存', () => {
+    it('', () => {
       const eventHandler = vi.fn();
       stateManager.onEvent(eventHandler);
 
@@ -219,7 +219,7 @@ describe('GameStateManager', () => {
       );
     });
 
-    it('应该能禁用自动保存', () => {
+    it('', () => {
       stateManager.enableAutoSave();
 
       const eventHandler = vi.fn();
@@ -234,18 +234,18 @@ describe('GameStateManager', () => {
       );
     });
 
-    it('重复启用自动保存应该正常处理', () => {
+    it('', () => {
       stateManager.enableAutoSave();
 
       expect(() => {
-        stateManager.enableAutoSave(); // 第二次启用
+        stateManager.enableAutoSave(); // Note
       }).not.toThrow();
     });
 
-    it('自动保存应该定期执行', () => {
+    it('', () => {
       return new Promise<void>(resolve => {
         const shortIntervalStateManager = new GameStateManager({
-          autoSaveInterval: 100, // 100ms间隔用于测试
+          autoSaveInterval: 100, // 100ms
         });
         shortIntervalStateManager.setState(mockState, mockConfig);
 
@@ -262,12 +262,12 @@ describe('GameStateManager', () => {
     });
   });
 
-  describe('事件系统', () => {
+  describe('', () => {
     beforeEach(() => {
       stateManager.setState(mockState, mockConfig);
     });
 
-    it('应该能订阅和取消订阅事件', () => {
+    it('', () => {
       const eventHandler = vi.fn();
 
       stateManager.onEvent(eventHandler);
@@ -282,7 +282,7 @@ describe('GameStateManager', () => {
       expect(eventHandler).not.toHaveBeenCalled();
     });
 
-    it('应该能处理保存成功事件', async () => {
+    it('', async () => {
       const eventHandler = vi.fn();
       stateManager.onEvent(eventHandler);
 
@@ -295,7 +295,7 @@ describe('GameStateManager', () => {
       );
     });
 
-    it('应该能处理加载成功事件', async () => {
+    it('', async () => {
       const saveId = await stateManager.saveGame('test-save');
 
       const eventHandler = vi.fn();
@@ -310,7 +310,7 @@ describe('GameStateManager', () => {
       );
     });
 
-    it('应该能处理删除成功事件', async () => {
+    it('', async () => {
       const saveId = await stateManager.saveGame('test-save');
 
       const eventHandler = vi.fn();
@@ -326,8 +326,8 @@ describe('GameStateManager', () => {
     });
   });
 
-  describe('错误处理和边界情况', () => {
-    it('应该能处理损坏的存档数据', async () => {
+  describe('', () => {
+    it('', async () => {
       const corruptedData = 'invalid-json-data';
       mockLocalStorage.setItem('test-corrupt-save', corruptedData);
 
@@ -336,10 +336,10 @@ describe('GameStateManager', () => {
       ).rejects.toThrow();
     });
 
-    it('应该能处理存储空间不足', async () => {
+    it('', async () => {
       stateManager.setState(mockState, mockConfig);
 
-      // 模拟存储失败
+      // Note
       mockLocalStorage.setItem.mockImplementation(() => {
         throw new Error('Storage quota exceeded');
       });
@@ -347,7 +347,7 @@ describe('GameStateManager', () => {
       await expect(stateManager.saveGame()).rejects.toThrow();
     });
 
-    it('销毁时应该清理所有资源', () => {
+    it('', () => {
       stateManager.setState(mockState, mockConfig);
       stateManager.enableAutoSave();
 
@@ -356,7 +356,7 @@ describe('GameStateManager', () => {
 
       stateManager.destroy();
 
-      // 状态应该被清空
+      // Note
       expect(stateManager.getState()).toBeNull();
       expect(stateManager.getConfig()).toBeNull();
     });

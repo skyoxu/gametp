@@ -1,9 +1,9 @@
 /**
- * 主游戏场景 - 公会管理游戏的核心场景
- * 处理游戏逻辑、UI 交互和事件管理
+ * GameScene: demo gameplay, UI and input
+ * Loads textures, sets up player, UI, input, and physics
  */
 
-// 顶层移除对 phaser 的静态导入，改用全局 Phaser（由 SceneManager.initialize 注入）
+// phaser Phaser SceneManager.initialize
 declare const Phaser: any;
 import { BaseScene } from './BaseScene';
 import type {
@@ -41,19 +41,19 @@ export class GameScene extends BaseScene {
   }
 
   /**
-   * 预加载资源
+   * Preload textures and assets
    */
   preload(): void {
-    // 纹理/atlas 管线（占位配置，可按需填充 DEFAULT_TEXTURES）
-    // @ts-ignore - Phaser 注入 loader API
+    // /atlas DEFAULT_TEXTURES
+    // @ts-ignore - Phaser loader API
     setupTexturePipeline(this.load as any, DEFAULT_TEXTURES);
-    // 创建简单的像素图形作为占位符
+    // Embed tiny player placeholder sprite
     this.load.image(
       'player',
       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=='
     );
 
-    // 发布加载进度事件
+    // Forward loading progress to event bus
     this.load.on('progress', (progress: number) => {
       this.publishEvent(
         EventUtils.createEvent({
@@ -67,7 +67,7 @@ export class GameScene extends BaseScene {
   }
 
   /**
-   * 初始化场景特定逻辑
+   * Setup scene graph and subsystems
    */
   initializeScene(): void {
     this.setupBackground();
@@ -76,7 +76,7 @@ export class GameScene extends BaseScene {
     this.setupInput();
     this.setupPhysics();
 
-    // 发布场景初始化完成事件
+    // Announce scene initialization
     this.publishEvent(
       EventUtils.createEvent({
         type: 'game.scene.initialized',
@@ -88,12 +88,12 @@ export class GameScene extends BaseScene {
   }
 
   /**
-   * 设置背景
+   * Draw simple grid background
    */
   private setupBackground(): void {
     this.cameras.main.setBackgroundColor('#1a202c');
 
-    // 添加网格背景
+    // Draw grid lines
     const graphics = this.add.graphics();
     graphics.lineStyle(1, 0x333333, 0.5);
 
@@ -110,7 +110,7 @@ export class GameScene extends BaseScene {
   }
 
   /**
-   * 设置玩家
+   * Initialize player entity
    */
   private setupPlayer(): void {
     const pos = this.gameState.position!;
@@ -121,7 +121,7 @@ export class GameScene extends BaseScene {
     this.player.x = pos.x;
     this.player.y = pos.y;
 
-    // 启用物理体
+    // Enable Arcade physics body for player
     this.physics.add.existing(this.player);
     (this.player.body as Phaser.Physics.Arcade.Body).setCollideWorldBounds(
       true
@@ -129,7 +129,7 @@ export class GameScene extends BaseScene {
   }
 
   /**
-   * 设置UI
+   * Initialize UI overlays
    */
   private setupUI(): void {
     const padding = 20;
@@ -137,7 +137,7 @@ export class GameScene extends BaseScene {
     this.ui!.scoreText = this.add.text(
       padding,
       padding,
-      `分数: ${this.gameState.score}`,
+      `: ${this.gameState.score}`,
       {
         font: '18px Arial',
         color: '#ffffff',
@@ -149,7 +149,7 @@ export class GameScene extends BaseScene {
     this.ui!.healthText = this.add.text(
       padding,
       padding + 30,
-      `生命值: ${this.gameState.health}`,
+      `: ${this.gameState.health}`,
       {
         font: '18px Arial',
         color: '#ffffff',
@@ -161,7 +161,7 @@ export class GameScene extends BaseScene {
     this.ui!.levelText = this.add.text(
       padding,
       padding + 60,
-      `等级: ${this.gameState.level}`,
+      `: ${this.gameState.level}`,
       {
         font: '18px Arial',
         color: '#ffffff',
@@ -170,21 +170,21 @@ export class GameScene extends BaseScene {
       }
     );
 
-    // 设置UI层级
+    // Ensure UI text overlays render on top
     this.ui!.scoreText.setDepth(100);
     this.ui!.healthText.setDepth(100);
     this.ui!.levelText.setDepth(100);
   }
 
   /**
-   * 设置输入处理
+   * Bind input listeners
    */
   private setupInput(): void {
-    // 键盘输入
+    // Create keyboard cursors and WASD maps
     const cursors = this.input.keyboard!.createCursorKeys();
     const wasd = this.input.keyboard!.addKeys('W,S,A,D');
 
-    // 鼠标输入
+    // Forward pointer clicks as input events
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       this.handleInput({
         type: 'mouse',
@@ -194,7 +194,7 @@ export class GameScene extends BaseScene {
       });
     });
 
-    // 键盘输入事件
+    // Forward keydown events
     this.input.keyboard!.on('keydown', (event: KeyboardEvent) => {
       this.handleInput({
         type: 'keyboard',
@@ -204,20 +204,20 @@ export class GameScene extends BaseScene {
       });
     });
 
-    // 存储输入对象以供后续使用
+    // Expose references for update loop
     (this as any).cursors = cursors;
     (this as any).wasd = wasd;
   }
 
   /**
-   * 设置物理系统
+   * Setup physics boundaries
    */
   private setupPhysics(): void {
     this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
   }
 
   /**
-   * 处理游戏输入
+   * Game input
    */
   handleInput(input: GameInput): void {
     if (!this.player) return;
@@ -231,7 +231,7 @@ export class GameScene extends BaseScene {
           const targetX = input.data.x as number;
           const targetY = input.data.y as number;
 
-          // 移动玩家到点击位置
+          // Tween player to target position
           this.tweens.add({
             targets: this.player,
             x: targetX,
@@ -240,7 +240,7 @@ export class GameScene extends BaseScene {
             ease: 'Power2',
           });
 
-          // 更新游戏状态
+          // Update local state with new position
           this.setGameState({ position: { x: targetX, y: targetY } });
         }
         break;
@@ -267,7 +267,7 @@ export class GameScene extends BaseScene {
               body.setVelocityX(speed);
               break;
             case ' ':
-              // 空格键暂停游戏
+              // Pause game
               this.scene.pause();
               this.publishEvent(
                 EventUtils.createEvent({
@@ -283,7 +283,7 @@ export class GameScene extends BaseScene {
         break;
     }
 
-    // 发布输入处理事件
+    // Emit processed input event
     this.publishEvent(
       EventUtils.createEvent({
         type: 'game.input.processed',
@@ -295,12 +295,12 @@ export class GameScene extends BaseScene {
   }
 
   /**
-   * 更新场景逻辑
+   * Per-frame scene update
    */
   updateScene(time: number, delta: number): void {
     if (!this.player) return;
 
-    // 更新玩家位置和时间戳
+    // Push latest player position into local state
     this.setGameState({
       position: {
         x: this.player.x,
@@ -309,7 +309,7 @@ export class GameScene extends BaseScene {
       timestamp: new Date(),
     });
 
-    // 处理连续输入（移动）
+    // Read inputs and update velocity
     const cursors = (this as any).cursors;
     const wasd = (this as any).wasd;
     const body = this.player.body as Phaser.Physics.Arcade.Body;
@@ -333,7 +333,7 @@ export class GameScene extends BaseScene {
       body.setVelocity(velocityX, velocityY);
     }
 
-    // 定期发布游戏状态更新事件（每秒一次）
+    // Emit periodic state update
     if (time % 1000 < delta) {
       this.publishEvent(
         EventUtils.createEvent({
@@ -347,30 +347,30 @@ export class GameScene extends BaseScene {
   }
 
   /**
-   * 获取当前游戏状态
+   * Get current game state
    */
   getGameState(): Partial<GameState> {
     return { ...this.gameState };
   }
 
   /**
-   * 设置游戏状态
+   * Merge and propagate state changes
    */
   setGameState(newState: Partial<GameState>): void {
     this.gameState = { ...this.gameState, ...newState };
 
-    // 更新UI
+    // Update UI overlays if present
     if (this.ui!.scoreText && newState.score !== undefined) {
-      this.ui!.scoreText.setText(`分数: ${newState.score}`);
+      this.ui!.scoreText.setText(`: ${newState.score}`);
     }
     if (this.ui!.healthText && newState.health !== undefined) {
-      this.ui!.healthText.setText(`生命值: ${newState.health}`);
+      this.ui!.healthText.setText(`: ${newState.health}`);
     }
     if (this.ui!.levelText && newState.level !== undefined) {
-      this.ui!.levelText.setText(`等级: ${newState.level}`);
+      this.ui!.levelText.setText(`: ${newState.level}`);
     }
 
-    // 发布状态变更事件
+    // Note
     this.publishEvent(
       EventUtils.createEvent({
         type: 'game.state.changed',

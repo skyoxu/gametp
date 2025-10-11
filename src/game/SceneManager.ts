@@ -1,8 +1,8 @@
 /**
- * 场景管理器 - 统一管理游戏场景的切换和生命周期
+ * SceneManager: orchestrates Phaser scenes and domain event bridging
  */
 
-// 顶层不再静态导入 phaser，改为 initialize() 内动态加载
+// phaser initialize()
 import { MenuScene } from './scenes/MenuScene';
 import { GameScene } from './scenes/GameScene';
 import { TestScene } from './scenes/TestScene';
@@ -27,7 +27,7 @@ export class SceneManager {
   }
 
   /**
-   * 初始化场景管理器
+   * Initialize Phaser game and scenes, attach handlers
    */
   async initialize(
     container: HTMLElement,
@@ -37,7 +37,7 @@ export class SceneManager {
     try {
       const PhaserMod = (await import('phaser')).default as any;
       this.phaser = PhaserMod;
-      // 暴露到全局，供未静态导入的场景访问（BaseScene/各 Scene 引用全局 Phaser）
+      // Expose Phaser globally for BaseScene bridge
       (globalThis as any).Phaser = PhaserMod;
 
       return new Promise<void>(resolve => {
@@ -84,46 +84,46 @@ export class SceneManager {
   }
 
   /**
-   * 设置事件处理器
+   * Hook top-level game events and hot-rebind scene listeners
    */
   private setupEventHandlers(): void {
     if (!this.game) return;
 
-    // 监听所有场景的域事件
+    // Forward domain events from game root
     this.game.events.on('domain-event', (event: DomainEvent) => {
       this.handleDomainEvent(event);
     });
 
-    // 为已经存在的场景设置事件转发
+    // Bind listeners for each named scene
     this.setupSceneEventListeners();
 
-    // 延迟设置场景监听器，确保所有场景都已创建
+    // Rebind after a short delay to catch late-attached scenes
     setTimeout(() => {
-      console.log('🔗 SceneManager: 延迟设置场景监听器');
+      console.log('[SceneManager] rebinding scene listeners');
       this.setupSceneEventListeners();
     }, 500);
   }
 
   /**
-   * 为单个场景设置事件监听器
+   * Bind a domain-event listener for a specific scene
    */
   private setupListenerForScene(scene: any): void {
     const sceneKey = scene.scene.key;
-    console.log(`🔗 SceneManager: 为场景 ${sceneKey} 设置事件监听器`);
+    console.log(`[SceneManager] bind scene ${sceneKey}`);
 
-    // 避免重复监听器
+    // Ensure no duplicate handlers remain
     scene.events.off('domain-event');
 
     scene.events.on('domain-event', (event: DomainEvent) => {
-      console.log(`🔗 SceneManager: 收到来自 ${sceneKey} 的事件:`, event.type);
-      console.log(`🔗 SceneManager: eventCallback 存在:`, !!this.eventCallback);
+      console.log(`[SceneManager] ${sceneKey}:`, event.type);
+      console.log(`[SceneManager] eventCallback:`, !!this.eventCallback);
       this.eventCallback?.(event);
-      console.log(`🔗 SceneManager: 已转发事件给 eventCallback`);
+      console.log(`[SceneManager] dispatched to eventCallback`);
     });
   }
 
   /**
-   * 为所有场景设置事件监听器
+   * Iterate all scenes and (re)bind listeners
    */
   private setupSceneEventListeners(): void {
     if (!this.game) return;
@@ -135,19 +135,18 @@ export class SceneManager {
       if (scene) {
         this.setupListenerForScene(scene);
       } else {
-        console.warn(`⚠️ SceneManager: 场景 ${sceneKey} 未找到，稍后重试`);
+        console.warn(`[SceneManager] scene missing: ${sceneKey}`);
       }
     });
   }
 
   /**
-   * 处理域事件
+   * Handle incoming domain events at manager level
    */
   private handleDomainEvent(event: DomainEvent): void {
-    // 记录事件（可以发送到外部系统）
-    console.log('Domain Event:', event);
+    console.log('[SceneManager] Domain Event:', event);
 
-    // 根据事件类型执行相应逻辑
+    // Dispatch to specific handlers
     switch (event.type) {
       case 'game.menu.action':
         this.handleMenuAction(event);
@@ -166,12 +165,12 @@ export class SceneManager {
         break;
     }
 
-    // 转发事件到外部处理器
+    // Forward events
     this.eventCallback?.(event);
   }
 
   /**
-   * 处理菜单动作事件
+   * Handle menu actions from UI
    */
   private handleMenuAction(event: DomainEvent): void {
     const { action } = event.data as { action: string };
@@ -187,22 +186,22 @@ export class SceneManager {
   }
 
   /**
-   * 处理游戏暂停事件
+   * Handle game paused events
    */
   private handleGamePaused(event: DomainEvent): void {
-    // 可以显示暂停菜单或保存游戏状态
+    // Save game state
     console.log('Game paused:', event.data);
   }
 
   /**
-   * 处理退出请求事件
+   * Handle exit requests
    */
   private handleExitRequested(event: DomainEvent): void {
     this.exitGame();
   }
 
   /**
-   * 处理游戏错误事件
+   * Handle error events by delegating to config.onError
    */
   private handleGameError(event: DomainEvent): void {
     const errorData = event.data as { error: string; scene?: string };
@@ -213,7 +212,7 @@ export class SceneManager {
   }
 
   /**
-   * 开始游戏
+   * Start main gameplay scene
    */
   startGame(): void {
     if (!this.game) return;
@@ -230,7 +229,7 @@ export class SceneManager {
   }
 
   /**
-   * 暂停游戏
+   * Pause game
    */
   pauseGame(): void {
     if (!this.game) return;
@@ -242,7 +241,7 @@ export class SceneManager {
   }
 
   /**
-   * 恢复游戏
+   * Resume game
    */
   resumeGame(): void {
     if (!this.game) return;
@@ -254,7 +253,7 @@ export class SceneManager {
   }
 
   /**
-   * 重启游戏
+   * Restart the gameplay scene
    */
   restartGame(): void {
     if (!this.game) return;
@@ -263,7 +262,7 @@ export class SceneManager {
   }
 
   /**
-   * 启动测试场景
+   * Start test scene
    */
   startTestScene(): void {
     if (!this.game) return;
@@ -273,12 +272,12 @@ export class SceneManager {
       }
     } catch {}
 
-    console.log('🎮 SceneManager: 启动TestScene');
+    console.log('[SceneManager] start TestScene');
     this.game.scene.start('TestScene');
   }
 
   /**
-   * 返回菜单
+   * Return to menu scene
    */
   returnToMenu(): void {
     if (!this.game) return;
@@ -292,7 +291,7 @@ export class SceneManager {
   }
 
   /**
-   * 退出游戏
+   * Destroy Phaser game instance
    */
   exitGame(): void {
     if (this.game) {
@@ -302,7 +301,7 @@ export class SceneManager {
   }
 
   /**
-   * 获取当前活动场景
+   * Get currently active scene (if any)
    */
   getCurrentScene(): any | null {
     if (!this.game) return null;
@@ -312,7 +311,7 @@ export class SceneManager {
   }
 
   /**
-   * 获取游戏状态（如果在游戏场景中）
+   * Read current game state from GameScene if active
    */
   getGameState(): any {
     if (!this.game) return null;
@@ -326,7 +325,7 @@ export class SceneManager {
   }
 
   /**
-   * 设置游戏状态（如果在游戏场景中）
+   * Write new state into GameScene if active
    */
   setGameState(state: any): void {
     if (!this.game) return;
@@ -338,14 +337,14 @@ export class SceneManager {
   }
 
   /**
-   * 检查是否已初始化
+   * Whether the manager initialized the Phaser game
    */
   isInitialized(): boolean {
     return this.game !== null;
   }
 
   /**
-   * 销毁场景管理器
+   * Tear down manager and detach callback
    */
   destroy(): void {
     this.exitGame();

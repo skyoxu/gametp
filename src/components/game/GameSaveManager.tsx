@@ -8,38 +8,40 @@ import { useGameEvents } from '../../hooks/useGameEvents';
 import { useSaveManager } from '../../contexts/GameStateContext';
 import type { SaveData } from '../../game/state/GameStateManager';
 import './GameSaveManager.css';
-
-const TEXT = {
-  title: 'Save Manager',
-  refresh: 'Refresh',
-  close: 'Close',
-  loading: 'Loading saves...',
-  emptyTitle: 'No saves yet',
-  emptySubtitle: 'Start a game and save; files will appear here.',
-  itemTitle: (id: string) => `Save #${id.slice(-8)}`,
-  level: (lv: number) => `Level ${lv}`,
-  score: (s: number) => `Score ${s.toLocaleString()}`,
-  health: (hp: number) => `${hp} HP`,
-  created: 'Created:',
-  updated: 'Updated:',
-  size: 'Size:',
-  inventoryMore: (n: number) => `+${n} more`,
-  btnLoad: 'Load',
-  btnExport: 'Export',
-  btnDelete: 'Delete',
-  tipLoad: 'Load this save',
-  tipExport: 'Export save file',
-  tipDelete: 'Delete this save',
-  deleteTitle: 'Confirm Delete',
-  deleteMessage:
-    'Are you sure you want to delete this save? This action cannot be undone.',
-  cancel: 'Cancel',
-  confirmDelete: 'Delete',
-  errList: 'Failed to load save list',
-  errLoad: 'Failed to load save',
-  errExport: 'Failed to export save',
-  errDelete: 'Failed to delete save',
-} as const;
+import { useI18n } from '@/i18n';
+function useTexts() {
+  const t = useI18n();
+  return {
+    title: t('saveManager.title'),
+    refresh: t('saveManager.refresh'),
+    close: t('saveManager.close'),
+    loading: t('saveManager.loading'),
+    emptyTitle: t('saveManager.emptyTitle'),
+    emptySubtitle: t('saveManager.emptySubtitle'),
+    itemTitle: (id: string) => t('saveManager.itemTitle', { id: id.slice(-8) }),
+    level: (lv: number) => t('saveManager.level', { lv }),
+    score: (s: number) => t('saveManager.score', { score: s.toLocaleString() }),
+    health: (hp: number) => t('saveManager.health', { hp }),
+    created: t('saveManager.created'),
+    updated: t('saveManager.updated'),
+    size: t('saveManager.size'),
+    inventoryMore: (n: number) => t('saveManager.inventoryMore', { n }),
+    btnLoad: t('saveManager.btnLoad'),
+    btnExport: t('saveManager.btnExport'),
+    btnDelete: t('saveManager.btnDelete'),
+    tipLoad: t('saveManager.tipLoad'),
+    tipExport: t('saveManager.tipExport'),
+    tipDelete: t('saveManager.tipDelete'),
+    deleteTitle: t('saveManager.deleteTitle'),
+    deleteMessage: t('saveManager.deleteMessage'),
+    cancel: t('saveManager.cancel'),
+    confirmDelete: t('saveManager.confirmDelete'),
+    errList: t('saveManager.errList'),
+    errLoad: t('saveManager.errLoad'),
+    errExport: t('saveManager.errExport'),
+    errDelete: t('saveManager.errDelete'),
+  } as const;
+}
 
 interface GameSaveManagerProps {
   className?: string;
@@ -56,6 +58,7 @@ export function GameSaveManager({
   onSaveSelected,
   onError,
 }: GameSaveManagerProps) {
+  const TEXT = useTexts();
   const [selectedSaveId, setSelectedSaveId] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(
     null

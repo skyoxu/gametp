@@ -244,7 +244,7 @@ export class CostOptimizationManager extends EventEmitter {
 
       console.log(' ...');
       console.log(
-        `📊 月度预算: ${this.config.budgets.monthly.total} ${this.config.budgets.monthly.currency}`
+        ` : ${this.config.budgets.monthly.total} ${this.config.budgets.monthly.currency}`
       );
 
       //
@@ -290,7 +290,7 @@ export class CostOptimizationManager extends EventEmitter {
       this.checkBudgetThresholds();
 
       console.log(
-        `💰 成本记录: ${category} +${amount} (${dataSize}GB, ${eventCount}事件)`
+        ` : ${category} +${amount} (${dataSize}GB, ${eventCount})`
       );
     } catch (error) {
       console.error(' :', error);
@@ -395,7 +395,7 @@ export class CostOptimizationManager extends EventEmitter {
       recommendations.push(this.createRetentionOptimizationRecommendation());
 
       this.recommendations = recommendations;
-      console.log(`💡 生成了 ${recommendations.length} 个优化建议`);
+      console.log(`  ${recommendations.length} `);
 
       return recommendations;
     } catch (error) {
@@ -485,7 +485,7 @@ export class CostOptimizationManager extends EventEmitter {
         r => r.id === recommendationId
       );
       if (!recommendation) {
-        throw new Error(`优化建议不存在: ${recommendationId}`);
+        throw new Error(`: ${recommendationId}`);
       }
 
       recommendation.status = 'approved';
@@ -510,7 +510,7 @@ export class CostOptimizationManager extends EventEmitter {
       recommendation.status = 'implemented';
       recommendation.implementedAt = new Date().toISOString();
 
-      console.log(`✅ 优化建议已应用: ${recommendation.title}`);
+      console.log(` : ${recommendation.title}`);
       this.emit('optimization-applied', recommendation);
     } catch (error) {
       console.error(' :', error);

@@ -1,6 +1,6 @@
 /**
- * 游戏状态管理器
- * 负责游戏状态的持久化、恢复和同步
+ * GameStateManager
+ * Persist, load and broadcast game state changes
  */
 
 import type { GameState, GameConfig } from '../../ports/game-engine.port';
@@ -37,14 +37,14 @@ export class GameStateManager {
     this.options = {
       storageKey: 'guild-manager-game',
       maxSaves: 10,
-      autoSaveInterval: 30000, // 30秒
+      autoSaveInterval: 30000, // 30
       enableCompression: true,
       ...options,
     };
   }
 
   /**
-   * 设置当前游戏状态
+   * Set current game state/config and emit update event
    */
   setState(state: GameState, config?: GameConfig): void {
     this.currentState = { ...state };
@@ -65,21 +65,21 @@ export class GameStateManager {
   }
 
   /**
-   * 获取当前游戏状态
+   * Get current game state
    */
   getState(): GameState | null {
     return this.currentState ? { ...this.currentState } : null;
   }
 
   /**
-   * 获取当前游戏配置
+   * Game configuration
    */
   getConfig(): GameConfig | null {
     return this.currentConfig ? { ...this.currentConfig } : null;
   }
 
   /**
-   * 保存游戏状态
+   * Save game state
    */
   async saveGame(name?: string, screenshot?: string): Promise<string> {
     if (!this.currentState || !this.currentConfig) {
@@ -101,16 +101,16 @@ export class GameStateManager {
     };
 
     try {
-      // 保存到本地存储
+      // Persist to browser storage (localStorage)
       await this.saveToBrowser(saveId, saveData);
 
-      // 清理旧存档（保持最大数量限制）
+      // Enforce max saves retention policy
       await this.cleanupOldSaves();
 
       this.publishEvent({
         type: 'game.save.created',
         source: 'game-state-manager',
-        data: { saveId, saveData: { ...saveData, state: undefined } }, // 不包含完整状态
+        data: { saveId, saveData: { ...saveData, state: undefined } }, // omit raw state in event payload
         timestamp: new Date(),
         time: new Date().toISOString(),
         id: `save-${Date.now()}`,
@@ -135,7 +135,7 @@ export class GameStateManager {
   }
 
   /**
-   * 加载游戏状态
+   * Load a previously saved game by id, validate checksum and set as current
    */
   async loadGame(
     saveId: string
@@ -143,13 +143,13 @@ export class GameStateManager {
     try {
       const saveData = await this.loadFromBrowser(saveId);
 
-      // 验证存档完整性
+      // Verify integrity via checksum
       const checksum = await this.calculateChecksum(saveData.state);
       if (checksum !== saveData.metadata.checksum) {
         throw new Error('Save file is corrupted');
       }
 
-      // 更新当前状态
+      // Update current state/config
       this.currentState = { ...saveData.state };
       this.currentConfig = { ...saveData.config };
 
@@ -184,7 +184,7 @@ export class GameStateManager {
   }
 
   /**
-   * 获取所有存档列表
+   * Enumerate save entries and return newest first
    */
   async getSaveList(): Promise<SaveData[]> {
     try {
@@ -202,7 +202,7 @@ export class GameStateManager {
         }
       }
 
-      // 按创建时间排序
+      // Sort by createdAt descending
       saves.sort(
         (a, b) =>
           new Date(b.metadata.createdAt).getTime() -
@@ -217,7 +217,7 @@ export class GameStateManager {
   }
 
   /**
-   * 删除存档
+   * Delete a save by id and emit event
    */
   async deleteSave(saveId: string): Promise<void> {
     try {
@@ -249,11 +249,11 @@ export class GameStateManager {
   }
 
   /**
-   * 启用自动保存
+   * Enable periodic auto-save with configured interval
    */
   enableAutoSave(): void {
     if (this.autoSaveTimer) {
-      return; // 已经启用
+      return; // already enabled
     }
 
     this.autoSaveTimer = setInterval(async () => {
@@ -299,7 +299,7 @@ export class GameStateManager {
   }
 
   /**
-   * 禁用自动保存
+   * Disable auto-save and emit event
    */
   disableAutoSave(): void {
     if (this.autoSaveTimer) {
@@ -320,21 +320,21 @@ export class GameStateManager {
   }
 
   /**
-   * 订阅事件
+   * Subscribe to events
    */
   onEvent(callback: (event: DomainEvent) => void): void {
     this.eventCallbacks.add(callback);
   }
 
   /**
-   * 取消订阅事件
+   * Subscribe to events
    */
   offEvent(callback: (event: DomainEvent) => void): void {
     this.eventCallbacks.delete(callback);
   }
 
   /**
-   * 销毁状态管理器
+   * Destroy manager and release resources
    */
   destroy(): void {
     this.disableAutoSave();
@@ -344,14 +344,14 @@ export class GameStateManager {
   }
 
   /**
-   * 保存到浏览器存储
+   * Save serialized data to browser storage (size-guarded)
    */
   private async saveToBrowser(key: string, data: SaveData): Promise<void> {
     const serialized = JSON.stringify(data);
 
-    // 检查存储空间
+    // Prevent oversized entries (5MB)
     if (serialized.length > 5 * 1024 * 1024) {
-      // 5MB限制
+      // 5MB
       throw new Error('Save data too large');
     }
 
@@ -359,7 +359,7 @@ export class GameStateManager {
   }
 
   /**
-   * 从浏览器存储加载
+   * Load and parse serialized data from browser storage
    */
   private async loadFromBrowser(key: string): Promise<SaveData> {
     const serialized = localStorage.getItem(key);
@@ -371,7 +371,7 @@ export class GameStateManager {
   }
 
   /**
-   * 清理旧存档
+   * Enforce max saves retention by deleting oldest beyond limit
    */
   private async cleanupOldSaves(): Promise<void> {
     const saves = await this.getSaveList();
@@ -390,24 +390,24 @@ export class GameStateManager {
   }
 
   /**
-   * 计算校验和
+   * Lightweight checksum for integrity checks
    */
   private async calculateChecksum(state: GameState): Promise<string> {
     const stateStr = JSON.stringify(state, Object.keys(state).sort());
 
-    // 简单的哈希函数（生产环境应使用更强的哈希算法）
+    // Simple integer hash
     let hash = 0;
     for (let i = 0; i < stateStr.length; i++) {
       const char = stateStr.charCodeAt(i);
       hash = (hash << 5) - hash + char;
-      hash = hash & hash; // 转换为32位整数
+      hash = hash & hash; // 32
     }
 
     return hash.toString(16);
   }
 
   /**
-   * 发布事件
+   * Note
    */
   private publishEvent(event: DomainEvent): void {
     this.eventCallbacks.forEach(callback => {

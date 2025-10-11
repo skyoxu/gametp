@@ -1,209 +1,207 @@
-﻿/**
- * Electron安全基线实现 - 三层拦截与沙箱策略
- * 实现ADR-0002规定的安全防护措施
+/**
+ * Electron security hardening utilities
+ * Implements ADR-0002 baseline security measures.
  *
- * 三层拦截：
- * 1. BrowserWindow配置层：sandbox + contextIsolation + nodeIntegration控制
- * 2. 导航与权限层：拦截外部导航、弹窗控制、权限管理
- * 3. CSP响应头层：Content Security Policy + COOP/COEP/Permissions Policy
+ * Key areas:
+ * 1. BrowserWindow: sandbox + contextIsolation + nodeIntegration disabled
+ * 2. Navigation/permission controls: block external origins, least-privilege
+ * 3. CSP and headers: Content Security Policy + COOP/COEP/Permissions Policy
  */
 import { BrowserWindow, session, app, shell } from 'electron';
-// 轻量参数校验（占位）：与 ADR-0002 保持一致
+// See ADR-0002 for policy details
 function assertBrowserWindow(win: unknown): asserts win is BrowserWindow {
-  if (!win || typeof (win as any).webContents?.on !== 'function') {
-    throw new TypeError('hardenWindow: invalid BrowserWindow instance');
-  }
+ if (!win || typeof (win as any).webContents?.on !== 'function') {
+ throw new TypeError('hardenWindow: invalid BrowserWindow instance');
+ }
 }
 function assertSession(
-  sesArg: unknown
+ sesArg: unknown
 ): asserts sesArg is typeof session.defaultSession {
-  if (
-    !sesArg ||
-    typeof (sesArg as any).webRequest?.onHeadersReceived !== 'function'
-  ) {
-    throw new TypeError('Security: invalid session provided');
-  }
+ if (
+ !sesArg ||
+ typeof (sesArg as any).webRequest?.onHeadersReceived !== 'function'
+ ) {
+ throw new TypeError('Security: invalid session provided');
+ }
 }
 export function _isAllowedNavigation(url: string): boolean {
-  const allowedProtocols = ['app://', 'file://'];
-  const allowedDomains = ['localhost', '127.0.0.1'];
-  return (
-    allowedProtocols.some(p => url.startsWith(p)) ||
-    allowedDomains.some(d => url.includes(d))
-  );
+ const allowedProtocols = ['app://', 'file://'];
+ const allowedDomains = ['localhost', '127.0.0.1'];
+ return (
+ allowedProtocols.some(p => url.startsWith(p)) ||
+ allowedDomains.some(d => url.includes(d))
+ );
 }
 
 /**
- * 第一层：安全BrowserWindow配置
- * 确保所有窗口都遵循严格的安全基线
+ * Create a BrowserWindow with hardened defaults
+ * @param options BrowserWindow constructor options to merge with secure defaults
+ * @returns a new BrowserWindow instance
  */
 export function createSecureBrowserWindow(
-  options: Electron.BrowserWindowConstructorOptions = {}
+ options: Electron.BrowserWindowConstructorOptions = {}
 ): BrowserWindow {
   const secureOptions: Electron.BrowserWindowConstructorOptions = {
-    ...options,
-    webPreferences: {
-      // 核心安全配置 - 不可覆盖
-      nodeIntegration: false, // 禁用渲染进程Node.js集成
-      contextIsolation: true, // 启用上下文隔离
-      sandbox: true, // 启用沙箱模式
-      allowRunningInsecureContent: false, // 禁止混合内容
-      experimentalFeatures: false, // 禁用实验性功能
-      // enableRemoteModule已废弃，不再需要此选项
-      webSecurity: true, // 启用Web安全
+ ...options,
+ webPreferences: {
+      // Strict security defaults
+      nodeIntegration: false, // Disable Node.js in renderer
+      contextIsolation: true, // Isolate contexts
+      sandbox: true, // Enable sandbox
+      allowRunningInsecureContent: false,
+      experimentalFeatures: false,
+      // enableRemoteModule is deprecated and intentionally omitted
+      webSecurity: true,
 
-      // 可配置选项
+      // Merge caller-provided overrides last
       ...options.webPreferences,
 
-      // Preload脚本路径（如果指定）
+      // Preload script path if provided
       preload: options.webPreferences?.preload || undefined,
-    },
-  };
+ },
+ };
 
-  return new BrowserWindow(secureOptions);
+ return new BrowserWindow(secureOptions);
 }
 
 /**
- * 第二层：导航与权限拦截
- * 对单个窗口应用三项拦截策略
- * ✅ 按cifix1.txt建议：通过参数传入Session，避免访问window.webContents.session
+ * Apply navigation, window-open, and permission guards to a window
+ * @param window Target BrowserWindow
+ * @param ses Electron session associated with the window
  */
 export function hardenWindow(
   window: BrowserWindow,
   ses: typeof session.defaultSession
 ): void {
-  assertBrowserWindow(window);
-  assertSession(ses);
-  // 1. 窗口/弹窗拦截
+ assertBrowserWindow(window);
+ assertSession(ses);
+  // 1. Window open handler
   window.webContents.setWindowOpenHandler(({ url }) => {
-    console.log(`[Security] 窗口打开请求被拦截: ${url}`);
+    console.log(`[Security] window-open request: ${url}`);
 
-    const isAllowed = _isAllowedNavigation(url);
+ const isAllowed = _isAllowedNavigation(url);
 
-    if (isAllowed) {
-      return { action: 'allow' };
-    }
-    // 外部链接通过系统浏览器打开
+ if (isAllowed) {
+ return { action: 'allow' };
+ }
+    // External hosts are opened via system shell
     shell.openExternal(url);
     return { action: 'deny' };
   });
 
-  // 2. 导航拦截
+  // 2. Navigation guard
   window.webContents.on('will-navigate', (event, navigationUrl) => {
-    console.log(`[Security] 导航请求检查: ${navigationUrl}`);
+    console.log(`[Security] navigation request: ${navigationUrl}`);
 
-    // 只允许内部导航
+    // Allow only internal/provisioned URLs
     if (
       !navigationUrl.startsWith('app://') &&
       !navigationUrl.startsWith('file://') &&
       !navigationUrl.includes('localhost') &&
       !navigationUrl.includes('127.0.0.1')
     ) {
-      console.warn(`[Security] 外部导航被阻止: ${navigationUrl}`);
+      console.warn(`[Security] blocked external navigation: ${navigationUrl}`);
       event.preventDefault();
-
-      // 可选：显示安全提示
-      // dialog.showWarningBox('安全提示', `不允许导航到外部地址: ${navigationUrl}`);
+      // Optionally inform user via dialog
+      // dialog.showWarningBox('Navigation blocked', `External URL: ${navigationUrl}`);
     }
   });
 
-  // 3. 权限请求拦截
-  // ✅ 按cifix1.txt建议：使用传入的session参数，避免访问window.webContents.session
+  // 3. Permission request handler (use window.webContents.session)
   ses.setPermissionRequestHandler((_webContents, permission, callback) => {
-    console.log(`[Security] 权限请求: ${permission}`);
+    console.log(`[Security] permission request: ${permission}`);
 
-    // 定义允许的权限白名单
+    // Allow-list of permissions
     const allowedPermissions = ['clipboard-read', 'clipboard-sanitized-write'];
 
-    const isAllowed = allowedPermissions.includes(permission);
+ const isAllowed = allowedPermissions.includes(permission);
 
-    if (isAllowed) {
-      console.log(`[Security] 权限 ${permission} 已允许`);
+ if (isAllowed) {
+      console.log(`[Security] permission allowed: ${permission}`);
       callback(true);
     } else {
-      console.warn(`[Security] 权限 ${permission} 被拒绝`);
+      console.warn(`[Security] permission denied: ${permission}`);
       callback(false);
     }
   });
 
-  // 4. 外部协议处理
+  // 4. External protocol redirects
   window.webContents.on('will-redirect', (event, redirectUrl) => {
-    console.log(`[Security] 重定向检查: ${redirectUrl}`);
+    console.log(`[Security] will-redirect: ${redirectUrl}`);
 
-    if (
-      !redirectUrl.startsWith('app://') &&
-      !redirectUrl.startsWith('file://')
-    ) {
-      event.preventDefault();
-      shell.openExternal(redirectUrl);
-    }
-  });
+ if (
+ !redirectUrl.startsWith('app://') &&
+ !redirectUrl.startsWith('file://')
+ ) {
+ event.preventDefault();
+ shell.openExternal(redirectUrl);
+ }
+ });
 }
 
 /**
- * 第三层：CSP响应头安全策略
- * 安装全局安全头，包括CSP、COOP、COEP、Permissions-Policy
- * ✅ 按cifix1.txt建议：通过参数传入Session，在ready后调用
+ * :CSP
+ * , CSP, COOP, COEP, Permissions-Policy
+ * cifix1.txt:Session, ready
  */
 export function installSecurityHeaders(
-  ses: typeof session.defaultSession
+ ses: typeof session.defaultSession
 ): void {
-  assertSession(ses);
-  ses.webRequest.onHeadersReceived((details, callback) => {
-    const responseHeaders = details.responseHeaders || {};
+ assertSession(ses);
+ ses.webRequest.onHeadersReceived((details, callback) => {
+ const responseHeaders = details.responseHeaders || {};
 
-    // Content Security Policy - 核心安全策略
-    responseHeaders['Content-Security-Policy'] = [
-      [
-        "default-src 'self'",
-        "script-src 'self'",
-        "style-src 'self'", // 严格CSP：移除unsafe-inline
-        "img-src 'self' data: https:",
-        "font-src 'self' data:",
-        "connect-src 'self' ws: wss: https://sentry.io", // Sentry监控
-        "object-src 'none'",
-        "base-uri 'self'",
-        "form-action 'self'",
-        "frame-ancestors 'none'",
-        'upgrade-insecure-requests',
-      ].join('; '),
-    ];
+ // Content Security Policy -
+ responseHeaders['Content-Security-Policy'] = [
+ [
+ "default-src 'self'",
+ "script-src 'self'",
+ "style-src 'self'", // CSP:unsafe-inline
+ "img-src 'self' data: https:",
+ "font-src 'self' data:",
+ "connect-src 'self' ws: wss: https://sentry.io", // Sentry
+ "object-src 'none'",
+ "base-uri 'self'",
+ "form-action 'self'",
+ "frame-ancestors 'none'",
+ 'upgrade-insecure-requests',
+ ].join('; '),
+ ];
 
-    // Cross-Origin Opener Policy
-    responseHeaders['Cross-Origin-Opener-Policy'] = ['same-origin'];
+ // Cross-Origin Opener Policy
+ responseHeaders['Cross-Origin-Opener-Policy'] = ['same-origin'];
 
-    // Cross-Origin Embedder Policy
-    responseHeaders['Cross-Origin-Embedder-Policy'] = ['require-corp'];
+ // Cross-Origin Embedder Policy
+ responseHeaders['Cross-Origin-Embedder-Policy'] = ['require-corp'];
 
-    // Permissions Policy - 精确控制浏览器功能
-    responseHeaders['Permissions-Policy'] = [
-      'geolocation=(), camera=(), microphone=(), usb=(), serial=(), bluetooth=()',
-    ];
+ // Permissions Policy -
+ responseHeaders['Permissions-Policy'] = [
+ 'geolocation=(), camera=(), microphone=(), usb=(), serial=(), bluetooth=()',
+ ];
 
-    // X-Content-Type-Options
-    responseHeaders['X-Content-Type-Options'] = ['nosniff'];
+ // X-Content-Type-Options
+ responseHeaders['X-Content-Type-Options'] = ['nosniff'];
 
-    // X-Frame-Options
-    responseHeaders['X-Frame-Options'] = ['DENY'];
+ // X-Frame-Options
+ responseHeaders['X-Frame-Options'] = ['DENY'];
 
-    // Referrer-Policy
-    responseHeaders['Referrer-Policy'] = ['strict-origin-when-cross-origin'];
+ // Referrer-Policy
+ responseHeaders['Referrer-Policy'] = ['strict-origin-when-cross-origin'];
 
-    callback({ responseHeaders });
-  });
+ callback({ responseHeaders });
+ });
 
-  console.log('[Security] 安全响应头已安装');
+  console.log('[Security] security headers installed');
 }
 
 /**
- * CSP违规报告处理
- * 收集和监控CSP违规事件
- * ✅ 按cifix1.txt建议：通过参数传入Session，在ready后调用
+ * CSP violation and suspicious request reporting
+ * Collect and log CSP-relevant request patterns for later analysis
  */
 export function setupCSPReporting(ses: typeof session.defaultSession): void {
   assertSession(ses);
   ses.webRequest.onBeforeRequest((details, callback) => {
-    // 监控可疑的请求模式 - 避免使用javascript:协议字符串
+    // Disallow suspicious inline/script-in-URL patterns
     const url = details.url.toLowerCase();
     const scriptProtocol = 'java' + 'script:';
     const hasScriptProtocol = url.startsWith(scriptProtocol);
@@ -211,82 +209,79 @@ export function setupCSPReporting(ses: typeof session.defaultSession): void {
     const hasBlobUrl = url.startsWith('blob:');
 
     if (hasScriptProtocol || hasDataHtml || hasBlobUrl) {
-      console.warn(`[Security] 检测到可疑请求: ${details.url}`);
+      console.warn(`[Security] suspicious request: ${details.url}`);
 
-      // 可选：发送到监控系统
+      // Optionally forward to an in-house telemetry channel
       // sendSecurityAlert('csp_violation', { url: details.url, type: 'suspicious_request' });
     }
 
-    callback({});
-  });
+ callback({});
+ });
 }
 
 /**
- * 安全初始化 - 应用启动时调用
- * 设置全局安全策略和事件监听
- * ✅ 按cifix1.txt建议：通过参数传入Session，在ready后调用
+ * Initialize security stack on app startup
+ * @param ses Electron session to harden
  */
 export function initializeSecurity(ses: typeof session.defaultSession): void {
   assertSession(ses);
-  console.log('[Security] 初始化Electron安全基线...');
+  console.log('[Security] initializing Electron security...');
 
-  // 安装全局安全头
+  // Install global security headers
   installSecurityHeaders(ses);
 
-  // 设置CSP违规监控
+  // Enable CSP reporting
   setupCSPReporting(ses);
 
-  // 应用级安全事件监听
+  // Apply defaults for any future web contents
   app.on('web-contents-created', (_event, contents) => {
-    console.log('[Security] 新的web contents创建，应用安全策略');
+    console.log('[Security] web-contents created; applying handlers');
 
-    // 使用新的setWindowOpenHandler API替代废弃的new-window事件
+    // Prefer setWindowOpenHandler over deprecated new-window
     contents.setWindowOpenHandler(({ url }) => {
-      console.log(`[Security] 外部链接请求: ${url}`);
+      console.log(`[Security] external open: ${url}`);
       shell.openExternal(url);
       return { action: 'deny' };
     });
 
     contents.on('will-attach-webview', event => {
-      console.warn('[Security] WebView被阻止');
+      console.warn('[Security] WebView attachment blocked');
       event.preventDefault();
     });
   });
 
-  console.log('[Security] ✅ Electron安全基线初始化完成');
+  console.log('[Security] Electron security stack initialized');
 }
 
 /**
- * 安全配置验证
- * 用于测试和质量门禁
+ * Read-only view of BrowserWindow security-related preferences
  */
 export interface SecurityConfig {
-  nodeIntegration: boolean;
-  contextIsolation: boolean;
-  sandbox: boolean;
-  webSecurity: boolean;
-  allowRunningInsecureContent: boolean;
-  experimentalFeatures: boolean;
+ nodeIntegration: boolean;
+ contextIsolation: boolean;
+ sandbox: boolean;
+ webSecurity: boolean;
+ allowRunningInsecureContent: boolean;
+ experimentalFeatures: boolean;
 }
 
 export function validateSecurityConfig(window: BrowserWindow): SecurityConfig {
-  // 从BrowserWindow选项获取webPreferences配置
+  // Extract webPreferences from BrowserWindow options
   const options =
     (window as any).webContents.browserWindowOptions?.webPreferences || {};
 
-  return {
-    nodeIntegration: options.nodeIntegration || false,
-    contextIsolation: options.contextIsolation !== false, // 默认true
+ return {
+ nodeIntegration: options.nodeIntegration || false,
+    contextIsolation: options.contextIsolation !== false, // default true
     sandbox: options.sandbox || false,
-    webSecurity: options.webSecurity !== false, // 默认true
-    allowRunningInsecureContent: options.allowRunningInsecureContent || false,
-    experimentalFeatures: options.experimentalFeatures || false,
-  };
+    webSecurity: options.webSecurity !== false, // default true
+ allowRunningInsecureContent: options.allowRunningInsecureContent || false,
+ experimentalFeatures: options.experimentalFeatures || false,
+ };
 }
 
 /**
- * 安全健康检查
- * 返回当前安全配置的合规状态
+ * Compute compliance and a simple score from preferences
  */
 export function getSecurityHealthCheck(window: BrowserWindow): {
   compliant: boolean;
@@ -296,38 +291,39 @@ export function getSecurityHealthCheck(window: BrowserWindow): {
   const config = validateSecurityConfig(window);
   const violations: string[] = [];
 
-  // 检查必需的安全配置
+  // Required baseline checks
   if (config.nodeIntegration) {
-    violations.push('nodeIntegration应该为false');
+    violations.push('nodeIntegration must be false');
   }
 
   if (!config.contextIsolation) {
-    violations.push('contextIsolation应该为true');
+    violations.push('contextIsolation must be true');
   }
 
   if (!config.sandbox) {
-    violations.push('sandbox应该为true');
+    violations.push('sandbox must be true');
   }
 
   if (!config.webSecurity) {
-    violations.push('webSecurity应该为true');
+    violations.push('webSecurity must be true');
   }
 
   if (config.allowRunningInsecureContent) {
-    violations.push('allowRunningInsecureContent应该为false');
+    violations.push('allowRunningInsecureContent must be false');
   }
 
   if (config.experimentalFeatures) {
-    violations.push('experimentalFeatures应该为false');
+    violations.push('experimentalFeatures must be false');
   }
 
-  const totalChecks = 6;
-  const passedChecks = totalChecks - violations.length;
-  const score = (passedChecks / totalChecks) * 100;
+ const totalChecks = 6;
+ const passedChecks = totalChecks - violations.length;
+ const score = (passedChecks / totalChecks) * 100;
 
-  return {
-    compliant: violations.length === 0,
-    violations,
-    score,
-  };
+ return {
+ compliant: violations.length === 0,
+ violations,
+ score,
+ };
 }
+

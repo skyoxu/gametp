@@ -1,12 +1,20 @@
 /**
- * 游戏引擎工厂函数
- * 提供便捷的游戏引擎创建和配置方法
+ * Game engine utilities
+ * Provide unified helpers to create and use the engine
  */
 
 import { GameEngineAdapter } from './GameEngineAdapter';
 import type { GameConfig } from '../ports/game-engine.port';
 import type { DomainEvent } from '../shared/contracts/events';
 
+/**
+ * Options for creating a game engine instance
+ * - container: HTML element to mount the Phaser canvas
+ * - width/height: canvas size in pixels (defaults: 800x600)
+ * - config: base GameConfig overrides
+ * - onEvent/onError: event pipeline hooks
+ * - autoStart: start session after initialization
+ */
 export interface GameEngineOptions {
   container: HTMLElement;
   width?: number;
@@ -18,7 +26,12 @@ export interface GameEngineOptions {
 }
 
 /**
- * 创建并初始化游戏引擎
+ * Initialize game engine
+ */
+/**
+ * Create, initialize and optionally start the game engine
+ * @param options GameEngineOptions
+ * @returns initialized GameEngineAdapter instance
  */
 export async function createGameEngine(
   options: GameEngineOptions
@@ -33,19 +46,19 @@ export async function createGameEngine(
     autoStart = true,
   } = options;
 
-  // 创建游戏引擎实例
+  // Create engine instance
   const gameEngine = new GameEngineAdapter();
 
   try {
-    // 设置容器
+    // Bind container
     gameEngine.setContainer(container);
 
-    // 订阅事件
+    // Subscribe to events
     if (onEvent) {
       gameEngine.onGameEvent(onEvent);
     }
 
-    // 设置错误处理
+    // Wire error callback to onError if provided
     gameEngine.onGameEvent((event: DomainEvent) => {
       if (
         event.type === 'game.error' &&
@@ -58,7 +71,7 @@ export async function createGameEngine(
       }
     });
 
-    // 默认游戏配置
+    // Default game config
     const defaultConfig: GameConfig = {
       maxLevel: 50,
       initialHealth: 100,
@@ -68,28 +81,28 @@ export async function createGameEngine(
       ...config,
     };
 
-    // 初始化游戏
+    // Initialize game
     await gameEngine.initializeGame(defaultConfig);
 
-    // 自动开始游戏
+    // Auto-start if configured
     if (autoStart) {
       await gameEngine.startGame();
     }
 
     return gameEngine;
   } catch (error) {
-    // 清理资源
+    // Release resources on failure
     gameEngine.destroy();
     throw error;
   }
 }
 
 /**
- * 创建游戏配置的预设
+ * Preset game configurations
  */
 export const gameConfigPresets = {
   /**
-   * 简单模式配置
+   * Easy mode preset
    */
   easy: {
     maxLevel: 30,
@@ -100,7 +113,7 @@ export const gameConfigPresets = {
   },
 
   /**
-   * 标准模式配置
+   * Medium mode preset
    */
   medium: {
     maxLevel: 50,
@@ -111,7 +124,7 @@ export const gameConfigPresets = {
   },
 
   /**
-   * 困难模式配置
+   * Hard mode preset
    */
   hard: {
     maxLevel: 100,
@@ -122,7 +135,7 @@ export const gameConfigPresets = {
   },
 
   /**
-   * 开发测试模式
+   * Development preset (for debugging)
    */
   development: {
     maxLevel: 999,
@@ -132,9 +145,14 @@ export const gameConfigPresets = {
     difficulty: 'easy' as const,
   },
 } as const;
+/**
+ * Create engine with a named preset
+ * @param preset preset key
+ * @param options options without config (preset supplies it)
+ */
 
 /**
- * 使用预设配置创建游戏引擎
+ * Create engine with a named preset
  */
 export async function createGameEngineWithPreset(
   preset: keyof typeof gameConfigPresets,

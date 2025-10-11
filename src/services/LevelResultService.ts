@@ -81,7 +81,7 @@ export class LevelResultService {
    */
   private async initializeService(): Promise<void> {
     try {
-      console.log('🏗️ 初始化 LevelResultService...');
+      console.log('  LevelResultService...');
 
       // ()
       // this.storageAdapter = await this.createStorageAdapter();
@@ -91,9 +91,9 @@ export class LevelResultService {
         this.startBackupTimer();
       }
 
-      console.log('✅ LevelResultService 初始化完成');
+      console.log(' LevelResultService ');
     } catch (error) {
-      console.error('❌ LevelResultService 初始化失败:', error);
+      console.error(' LevelResultService :', error);
       throw error;
     }
   }
@@ -105,7 +105,7 @@ export class LevelResultService {
     levelResult: Omit<LevelCompletionResult, 'id' | 'timestamp'>
   ): Promise<StorageResult<string>> {
     try {
-      console.log('💾 保存关卡结果...', levelResult);
+      console.log(' ...', levelResult);
 
       const completeResult: LevelCompletionResult = {
         id: this.generateResultId(),
@@ -134,12 +134,12 @@ export class LevelResultService {
         //
         await this.cleanupOldResults();
 
-        console.log('✅ 关卡结果保存成功, ID:', completeResult.id);
+        console.log(' , ID:', completeResult.id);
       }
 
       return saveResult;
     } catch (error) {
-      console.error('❌ 保存关卡结果失败:', error);
+      console.error(' :', error);
       return {
         success: false,
         error: (error as Error).message,
@@ -158,7 +158,7 @@ export class LevelResultService {
     endDate?: Date;
   }): Promise<StorageResult<LevelCompletionResult[]>> {
     try {
-      console.log('📊 获取关卡结果历史...', filters);
+      console.log(' ...', filters);
 
       let results: LevelCompletionResult[] = [];
 
@@ -171,7 +171,7 @@ export class LevelResultService {
         results = await this.getResultsFromLocalStorage(filters);
       }
 
-      console.log(`✅ 获取到 ${results.length} 条关卡结果`);
+      console.log(`  ${results.length} `);
 
       return {
         success: true,
@@ -184,7 +184,7 @@ export class LevelResultService {
         },
       };
     } catch (error) {
-      console.error('❌ 获取关卡结果失败:', error);
+      console.error(' :', error);
       return {
         success: false,
         error: (error as Error).message,
@@ -225,7 +225,7 @@ export class LevelResultService {
         data: stats,
       };
     } catch (error) {
-      console.error('❌ 获取统计信息失败:', error);
+      console.error(' :', error);
       return {
         success: false,
         error: (error as Error).message,
@@ -238,7 +238,7 @@ export class LevelResultService {
    */
   async createBackup(): Promise<StorageResult<string>> {
     try {
-      console.log('🔄 手动触发数据库备份...');
+      console.log(' ...');
 
       if (!this.isElectronEnvironment) {
         return {
@@ -268,7 +268,7 @@ export class LevelResultService {
           throw new Error('executeScript method not available, using fallback');
         }
       } catch (electronError) {
-        console.warn('⚠️ Electron备份失败，回退到本地备份:', electronError);
+        console.warn(' Electron:', electronError);
       }
 
       //
@@ -285,7 +285,7 @@ export class LevelResultService {
         },
       };
     } catch (error) {
-      console.error('❌ 备份失败:', error);
+      console.error(' :', error);
       return {
         success: false,
         error: (error as Error).message,
@@ -297,7 +297,7 @@ export class LevelResultService {
    *
    */
   dispose(): void {
-    console.log('🧹 清理 LevelResultService 资源...');
+    console.log('  LevelResultService ...');
 
     if (this.backupTimer) {
       clearInterval(this.backupTimer);
@@ -442,7 +442,7 @@ export class LevelResultService {
 
       return filtered;
     } catch (error) {
-      console.error('localStorage 读取失败:', error);
+      console.error('localStorage :', error);
       return [];
     }
   }
@@ -462,16 +462,16 @@ export class LevelResultService {
       const backupKey = `backup_${result.id}`;
       localStorage.setItem(backupKey, JSON.stringify(backupData));
 
-      console.log('✅ 结果数据已备份:', backupKey);
+      console.log(' :', backupKey);
 
       // Electron,
       if (this.isElectronEnvironment && this.isHighValueResult(result)) {
-        console.log('🔄 触发完整数据库备份...');
+        console.log(' ...');
         // ,
         setTimeout(() => this.createBackup(), 1000);
       }
     } catch (error) {
-      console.warn('⚠️ 备份失败，但不影响主流程:', error);
+      console.warn(' :', error);
     }
   }
 
@@ -496,15 +496,15 @@ export class LevelResultService {
     }
 
     this.backupTimer = setInterval(async () => {
-      console.log('⏰ 定时备份触发...');
+      console.log(' ...');
       try {
         await this.createBackup();
       } catch (error) {
-        console.warn('⚠️ 定时备份失败:', error);
+        console.warn(' :', error);
       }
     }, this.config.backupInterval);
 
-    console.log(`✅ 备份定时器已启动，间隔: ${this.config.backupInterval}ms`);
+    console.log(` : ${this.config.backupInterval}ms`);
   }
 
   /**
@@ -528,13 +528,13 @@ export class LevelResultService {
           if (filtered.length !== results.length) {
             localStorage.setItem(key, JSON.stringify(filtered));
             console.log(
-              `🧹 清理了 ${results.length - filtered.length} 条旧数据`
+              `  ${results.length - filtered.length} `
             );
           }
         }
       }
     } catch (error) {
-      console.warn('⚠️ 清理旧数据失败:', error);
+      console.warn(' :', error);
     }
   }
 
@@ -618,7 +618,7 @@ export class LevelResultService {
 
       return exportStr;
     } catch (error) {
-      throw new Error(`导出失败: ${(error as Error).message}`);
+      throw new Error(`: ${(error as Error).message}`);
     }
   }
 }

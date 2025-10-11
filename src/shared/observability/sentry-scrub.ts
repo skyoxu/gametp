@@ -1,4 +1,4 @@
-﻿// Lightweight Sentry scrubbing helpers for unit tests and reuse.
+// Lightweight Sentry scrubbing helpers for unit tests and reuse.
 // No Electron imports; keep types strict to avoid lint suppressions.
 
 export type SentryHeaders = Record<string, string | undefined>;

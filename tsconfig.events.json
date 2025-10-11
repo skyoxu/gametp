@@ -7,7 +7,8 @@
     "noUncheckedIndexedAccess": true
   },
   "include": [
-    "src/shared/events/**/*"
+    "src/shared/events/**/*",
+    "src/types/**/*.d.ts"
   ],
   "exclude": [
     "src/**/*.spec.ts",

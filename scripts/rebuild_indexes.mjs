@@ -1,4 +1,4 @@
-// scripts/rebuild_indexes.mjs
+﻿// scripts/rebuild_indexes.mjs
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
@@ -6,7 +6,7 @@ const REPO = process.cwd();
 const BASE_DIR = process.env.BASE_DIR ?? 'docs/architecture/base';
 const PRD_DIR = process.env.PRD_DIR ?? 'docs/prd_chunks';
 
-const INCLUDE_EXT = /\.(md|mdx)$/i; // ✅ 大小写不敏感，支持 .md / .mdx
+const INCLUDE_EXT = /\.(md|mdx)$/i; // 大小写不敏感，支持 .md / .mdx
 const EXCLUDE_INDEX = new Set(['index.md', '_index.md']);
 
 async function walk(dir) {
@@ -55,3 +55,4 @@ async function buildPrd() {
 
 await buildBase();
 await buildPrd();
+

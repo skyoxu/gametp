@@ -1,6 +1,5 @@
 /**
- * CloudEvents验证器单元测试
- * 测试运行时验证中间件的功能
+ * CloudEvents validator tests
  */
 
 import { describe, test, expect, beforeEach, vi } from 'vitest';
@@ -34,7 +33,7 @@ describe('CloudEventsValidator', () => {
       maxProcessingDelay: 10,
     });
 
-    // 重置默认验证器状态，防止测试间污染
+    // Reset shared default validator statistics
     defaultValidator.resetStatistics();
   });
 
@@ -67,9 +66,9 @@ describe('CloudEventsValidator', () => {
     });
 
     test('should validate source format', () => {
-      const invalidEvent = { ...validEvent, source: '   ' }; // 只有空格的无效源
+      const invalidEvent = { ...validEvent, source: '   ' }; // blank source
 
-      // 在strict模式下应该抛出异常
+      // strict
       expect(() => validator.validate(invalidEvent)).toThrow(
         'CloudEvents validation failed'
       );
@@ -80,16 +79,16 @@ describe('CloudEventsValidator', () => {
       const invalidEvent = { ...validEvent, time: '2025-13-32T25:61:99Z' };
       const result = warningValidator.validate(invalidEvent);
 
-      expect(result.valid).toBe(true); // 警告模式不阻塞
+      expect(result.valid).toBe(true); // warning mode allows invalid time format
       expect(result.errors.some(e => e.code === 'INVALID_FORMAT')).toBe(true);
     });
 
     test('should work in warning mode', () => {
       const warningValidator = new CloudEventsValidator({ level: 'warning' });
-      const invalidEvent = { ...validEvent, source: '   ' }; // 只有空格的无效源
+      const invalidEvent = { ...validEvent, source: '   ' }; // blank source in warning mode
 
       const result = warningValidator.validate(invalidEvent);
-      expect(result.valid).toBe(true); // 警告模式不阻塞
+      expect(result.valid).toBe(true); // should pass with warnings
       expect(result.errors.some(e => e.severity === 'warning')).toBe(true);
     });
 
@@ -137,8 +136,8 @@ describe('CloudEventsValidator', () => {
 
     test('should track invalid events in statistics', () => {
       const warningValidator = new CloudEventsValidator({ level: 'warning' });
-      // 使用一个确实无效的源（既不是URL也不是路径）
-      const invalidEvent = { ...validEvent, source: '' }; // 空字符串，确保无效
+      // URL
+      const invalidEvent = { ...validEvent, source: '' }; // empty URL-like source
 
       const validResult = warningValidator.validate(validEvent);
       const invalidResult = warningValidator.validate(invalidEvent);
@@ -185,10 +184,10 @@ describe('CloudEventsValidator', () => {
     test('should warn on slow processing', () => {
       const slowValidator = new CloudEventsValidator({
         enablePerformanceMonitoring: true,
-        maxProcessingDelay: 0.001, // 非常低的阈值
+        maxProcessingDelay: 0.001, // force warning for slow processing
       });
 
-      // 这个测试可能会触发性能警告，但不会失败
+      // Spy and suppress console warning output during test
       const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
       slowValidator.validate(validEvent);
       consoleSpy.mockRestore();

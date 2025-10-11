@@ -1,6 +1,6 @@
 /**
- * 存储端口接口定义
- * 符合 CLAUDE.md 端口类型统一管理要求
+ * Repository port interface definitions
+ * Aligns with unified port-type management guidelines
  */
 
 import type { Guild, InventoryItem } from '../models';

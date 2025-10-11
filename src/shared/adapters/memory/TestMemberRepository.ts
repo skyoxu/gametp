@@ -1,5 +1,5 @@
 /**
- * 测试专用Member仓库实现
+ * Test-only Member repository implementation.
  */
 
 import { TestRepository } from './TestRepository';

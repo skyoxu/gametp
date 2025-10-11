@@ -17,3 +17,5 @@
 *.ico binary
 *.zip binary
 
+# Lock AGENTS.md: prefer current branch version on merge
+AGENTS.md merge=ours

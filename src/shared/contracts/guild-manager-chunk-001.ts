@@ -1,13 +1,13 @@
 /**
- * 公会管理器PRD分片1 - TypeScript契约定义
- * 基于CloudEvents 1.0标准和端口-适配器模式
+ * Guild Manager PRD Chunk 1 - TypeScript contracts
+ * Based on CloudEvents 1.0 and Ports & Adapters model
  */
 
 import type { CloudEvent } from './cloudevents-core';
 import { mkEvent, createAppEvent } from './cloudevents-core';
 import type { IRepository, Port, Id } from './ports';
 
-// === 核心类型定义 ===
+// === Core Type Definitions ===
 
 export type GuildId = Id;
 export type MemberId = Id;
@@ -15,7 +15,7 @@ export type TurnId = Id;
 export type EventId = Id;
 export type DecisionId = Id;
 
-// === 枚举类型 ===
+// === Enums ===
 
 export enum TurnPhase {
   IDLE = 'idle',
@@ -59,7 +59,7 @@ export enum UrgencyLevel {
   CRITICAL = 'critical',
 }
 
-// === 核心实体接口 ===
+// === Core Entity Interfaces ===
 
 export interface Guild {
   id: GuildId;
@@ -76,7 +76,7 @@ export interface Guild {
 
 export interface GuildMember {
   id: MemberId;
-  guildId: GuildId; // 添加缺失的公会ID属性
+  guildId: GuildId; // Add missing guild ID property
   name: string;
   level: number;
   role: MemberRole;
@@ -90,8 +90,8 @@ export interface GuildMember {
 
 export interface GameTurn {
   id: TurnId;
-  guildId: GuildId; // 添加缺失的公会ID属性
-  turnNumber: number; // 添加缺失的回合编号属性
+  guildId: GuildId; // Add missing guild ID property
+  turnNumber: number; // Add missing turn number property
   weekNumber: number;
   currentPhase: TurnPhase;
   startedAt: string;
@@ -101,7 +101,7 @@ export interface GameTurn {
   readonly updatedAt: Date;
 }
 
-// === 支持类型 ===
+// === Supporting Types ===
 
 export interface ResourceState {
   gold: number;
@@ -200,7 +200,7 @@ export interface DelayedEffect extends Effect {
   triggerConditions?: string[];
 }
 
-// === CloudEvents事件类型 ===
+// === CloudEvents ===
 
 export type GuildManagerEventType =
   | 'io.vitegame.gm.guild.turn.started'
@@ -222,7 +222,7 @@ export const GUILD_EVENT_SOURCES = {
   MEMBER_MANAGER: 'io.vitegame.gm://member-manager',
 } as const;
 
-// === 事件数据类型 ===
+// === ===
 
 export interface GuildTurnStartedData {
   guildId: GuildId;
@@ -259,7 +259,7 @@ export interface StateChangeTrigger {
   reason: string;
 }
 
-// 强类型状态变更接口
+// Note
 export interface StateChange<T = any> {
   type: string;
   target: string;
@@ -267,12 +267,12 @@ export interface StateChange<T = any> {
   after: Partial<T>;
 }
 
-// 具体状态变更类型
+// Note
 export type GuildStateChange = StateChange<Guild>;
 export type MemberStateChange = StateChange<GuildMember>;
 export type TurnStateChange = StateChange<GameTurn>;
 
-// === 端口定义 ===
+// === ===
 
 export interface IGuildRepository extends IRepository<Guild, GuildId> {
   findByLevel(minLevel: number): Promise<Guild[]>;
@@ -298,29 +298,29 @@ export interface ITurnRepository extends IRepository<GameTurn, TurnId> {
   updatePhase(id: TurnId, newPhase: TurnPhase): Promise<void>;
 }
 
-// === 业务服务端口 ===
+// === ===
 
 export interface IGuildManagementService extends Port {
   readonly portType: 'primary';
 
-  // 回合制系统
+  // Note
   startNewTurn(guildId: GuildId): Promise<TurnStartResult>;
   executeResolutionPhase(turnId: TurnId): Promise<ResolutionResult>;
   advanceToPlayerPhase(turnId: TurnId): Promise<PlayerPhaseResult>;
   executeAIPhase(turnId: TurnId): Promise<AISimulationResult>;
 
-  // 工作面板
+  // Note
   getWorkPanelData(guildId: GuildId): Promise<WorkPanelData>;
   refreshGuildStats(guildId: GuildId): Promise<GuildStats>;
 
-  // 邮箱系统
+  // Note
   getMailboxEvents(guildId: GuildId): Promise<MailboxEvent[]>;
   processDecision(
     decisionId: DecisionId,
     choice: DecisionChoice
   ): Promise<DecisionResult>;
 
-  // AI管理
+  // AI
   triggerMemberAI(memberId: MemberId): Promise<AIActionResult[]>;
   updateMemberRelationships(
     memberId: MemberId
@@ -339,7 +339,7 @@ export interface IEventSystemService extends Port {
   ): Promise<GameEvent[]>;
 }
 
-// === 结果类型 ===
+// === ===
 
 export interface TurnStartResult {
   turnId: TurnId;
@@ -396,7 +396,7 @@ export interface MailboxEvent {
   receivedAt: string;
 }
 
-// 决策参数联合类型
+// Note
 export type DecisionParameters =
   | { type: 'promotion'; memberId: MemberId; newRole: MemberRole }
   | { type: 'resource_allocation'; amounts: Partial<ResourceState> }
@@ -432,7 +432,7 @@ export interface RelationshipUpdateResult {
   newAlliances: Alliance[];
 }
 
-// === 支持接口 ===
+// === ===
 
 export interface PlayerAction {
   id: string;
@@ -443,7 +443,7 @@ export interface PlayerAction {
   requirements?: Requirement[];
 }
 
-// AI行动参数类型
+// AI
 export type AIActionParameters =
   | {
       type: 'social_interaction';
@@ -548,9 +548,9 @@ export interface Alliance {
   formedAt: string;
 }
 
-// === 事件系统接口 ===
+// === Event System Interfaces ===
 
-// 事件上下文参数类型
+// Event context parameter types
 export type EventContextParameters =
   | { type: 'turn_event'; phase: TurnPhase; weekNumber: number }
   | { type: 'member_event'; memberId: MemberId; previousState?: MemberState }
@@ -604,15 +604,15 @@ export interface GameEvent {
   status: 'pending' | 'active' | 'completed' | 'cancelled';
 }
 
-// === CloudEvents 1.0 完整实现 ===
+// === CloudEvents 1.0 ===
 
-/** 公会管理CloudEvent类型定义 */
+/** CloudEvent type for Guild Manager */
 export type GuildManagerCloudEvent<T = any> = CloudEvent<T> & {
   type: GuildManagerEventType;
   source: (typeof GUILD_EVENT_SOURCES)[keyof typeof GUILD_EVENT_SOURCES];
 };
 
-/** CloudEvent工厂函数 - 符合CloudEvents 1.0标准 */
+/** CloudEvent factory - compliant with CloudEvents 1.0 */
 export const createGuildEvent = <T>(
   type: GuildManagerEventType,
   source: keyof typeof GUILD_EVENT_SOURCES,
@@ -631,9 +631,10 @@ export const createGuildEvent = <T>(
   }) as GuildManagerCloudEvent<T>;
 };
 
-/** 具体事件类型定义 */
+/** Concrete event type aliases */
 export type GuildTurnStartedEvent =
   GuildManagerCloudEvent<GuildTurnStartedData>;
 export type MemberStateChangedEvent =
   GuildManagerCloudEvent<MemberStateChangedData>;
 export type DecisionCreatedEvent = GuildManagerCloudEvent<DecisionCreatedData>;
+

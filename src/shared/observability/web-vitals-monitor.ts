@@ -322,7 +322,7 @@ class WebVitalsMonitor {
     // P95
     if (duration > this.PERFORMANCE_TARGETS.interaction_p95) {
       console.warn(
-        `[WebVitals] 交互"${name}"耗时${duration}ms，超出P95目标${this.PERFORMANCE_TARGETS.interaction_p95}ms`
+        `[WebVitals] "${name}"${duration}msP95${this.PERFORMANCE_TARGETS.interaction_p95}ms`
       );
     }
   }
@@ -336,7 +336,7 @@ class WebVitalsMonitor {
     // P95
     if (duration > this.PERFORMANCE_TARGETS.event_p95) {
       console.warn(
-        `[WebVitals] 事件"${name}"处理耗时${duration}ms，超出P95目标${this.PERFORMANCE_TARGETS.event_p95}ms`
+        `[WebVitals] "${name}"${duration}msP95${this.PERFORMANCE_TARGETS.event_p95}ms`
       );
     }
   }
@@ -351,7 +351,7 @@ class WebVitalsMonitor {
     // P95
     if (duration > this.PERFORMANCE_TARGETS.route_change_p95) {
       console.warn(
-        `[WebVitals] 路由切换"${from}  ${to}"耗时${duration}ms，超出P95目标${this.PERFORMANCE_TARGETS.route_change_p95}ms`
+        `[WebVitals] "${from}  ${to}"${duration}msP95${this.PERFORMANCE_TARGETS.route_change_p95}ms`
       );
     }
   }
@@ -365,7 +365,7 @@ class WebVitalsMonitor {
     // P95
     if (duration > this.PERFORMANCE_TARGETS.data_fetch_p95) {
       console.warn(
-        `[WebVitals] 数据获取"${endpoint}"耗时${duration}ms，超出P95目标${this.PERFORMANCE_TARGETS.data_fetch_p95}ms`
+        `[WebVitals] "${endpoint}"${duration}msP95${this.PERFORMANCE_TARGETS.data_fetch_p95}ms`
       );
     }
   }

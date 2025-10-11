@@ -1,6 +1,6 @@
 /**
- * 游戏状态上下文
- * 提供React组件与游戏状态管理系统的直接集成
+ * Game state context
+ * Provides direct integration between React components and the game state manager
  */
 
 import React, {
@@ -23,30 +23,30 @@ import type { DomainEvent } from '../shared/contracts/events';
 import { useGameEvents } from '../hooks/useGameEvents';
 
 export interface GameStateContextValue {
-  // 当前游戏状态
+  // Current game state
   gameState: GameState | null;
   gameConfig: GameConfig | null;
 
-  // 存档管理
+  // Save management
   saveFiles: SaveData[];
   isLoadingSaves: boolean;
 
-  // 状态管理操作
+  // State management operations
   saveGame: () => Promise<string | null>;
   loadGame: (saveId: string) => Promise<boolean>;
   deleteSave: (saveId: string) => Promise<boolean>;
   refreshSaveList: () => Promise<void>;
 
-  // 状态更新
+  // State update
   updateGameState: (newState: Partial<GameState>) => void;
   resetGameState: () => void;
 
-  // 自动保存控制
+  // Auto-save controls
   enableAutoSave: () => void;
   disableAutoSave: () => void;
   isAutoSaveEnabled: boolean;
 
-  // 状态同步控制
+  // State synchronization controls
   registerStateSource: (source: StateSource, priority?: number) => void;
   unregisterStateSource: (sourceId: string) => void;
   syncStates: () => void;
@@ -76,7 +76,7 @@ export function GameStateProvider({
   stateManagerOptions = {},
   synchronizerOptions = {},
 }: GameStateProviderProps) {
-  // 状态管理器和同步器实例
+  // Instances of state manager and synchronizer
   const [stateManager] = useState(
     () =>
       new GameStateManager({
@@ -91,24 +91,24 @@ export function GameStateProvider({
   const [stateSynchronizer] = useState(
     () =>
       new StateSynchronizer({
-        syncInterval: 500, // 更高频率同步以确保React UI响应性
+        syncInterval: 500, // Higher frequency sync to ensure React UI responsiveness
         conflictResolution: 'priority',
         enableBidirectionalSync: true,
         ...synchronizerOptions,
       })
   );
 
-  // React状态
+  // React state
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [gameConfig, setGameConfig] = useState<GameConfig | null>(null);
   const [saveFiles, setSaveFiles] = useState<SaveData[]>([]);
   const [isLoadingSaves, setIsLoadingSaves] = useState(false);
   const [isAutoSaveEnabled, setIsAutoSaveEnabled] = useState(false);
 
-  // EventBus集成
+  // EventBus integration
   const gameEvents = useGameEvents({ context: 'game-state-context' });
 
-  // React状态源实现
+  // React state source implementation
   const reactStateSource = useMemo<StateSource>(
     () => ({
       id: 'react-ui',
@@ -121,7 +121,7 @@ export function GameStateProvider({
     [gameState, stateManager]
   );
 
-  // 监听状态管理器事件
+  // Listen to state manager events
   useEffect(() => {
     const handleStateManagerEvent = (event: DomainEvent) => {
       switch (event.type) {
@@ -140,7 +140,7 @@ export function GameStateProvider({
         case 'game.save.created':
         case 'game.save.loaded':
         case 'game.save.deleted':
-          // 刷新存档列表
+          // 
           refreshSaveList();
           break;
 
@@ -163,7 +163,7 @@ export function GameStateProvider({
     };
   }, [stateManager, stateSynchronizer]);
 
-  // 监听游戏引擎状态更新
+  // 
   useEffect(() => {
     const subscriptions = gameEvents.onGameStateChange(event => {
       const { gameState: updatedState } = event.data;
@@ -175,9 +175,9 @@ export function GameStateProvider({
     };
   }, [gameEvents, stateManager]);
 
-  // 注册React作为状态源
+  // React
   useEffect(() => {
-    stateSynchronizer.registerSource(reactStateSource, 5); // 中等优先级
+    stateSynchronizer.registerSource(reactStateSource, 5); // 
     stateSynchronizer.startSync();
 
     return () => {
@@ -186,7 +186,7 @@ export function GameStateProvider({
     };
   }, [stateSynchronizer, reactStateSource]);
 
-  // 保存游戏
+  // Save game
   const saveGame = useCallback(async (): Promise<string | null> => {
     try {
       if (!gameState || !gameConfig) {
@@ -197,7 +197,7 @@ export function GameStateProvider({
       stateManager.setState(gameState, gameConfig);
       const saveId = await stateManager.saveGame();
 
-      // 通过EventBus通知其他组件
+  // Notify other components via EventBus
       gameEvents.publish({
         type: 'game.save.created',
         data: { saveId, gameState },
@@ -222,16 +222,16 @@ export function GameStateProvider({
     }
   }, [gameState, gameConfig, stateManager, gameEvents]);
 
-  // 加载游戏
+  // Load game
   const loadGame = useCallback(
     async (saveId: string): Promise<boolean> => {
       try {
         const { state, config: _config } = await stateManager.loadGame(saveId);
 
-        // 强制同步到所有状态源
+  // Force sync to all state sources
         stateSynchronizer.forceState(state);
 
-        // 通过EventBus通知游戏引擎
+  // Notify game engine via EventBus
         gameEvents.sendCommandToPhaser('load', { saveId });
 
         return true;
@@ -253,7 +253,7 @@ export function GameStateProvider({
     [stateManager, stateSynchronizer, gameEvents]
   );
 
-  // 删除存档
+  // Delete save
   const deleteSave = useCallback(
     async (saveId: string): Promise<boolean> => {
       try {
@@ -267,7 +267,7 @@ export function GameStateProvider({
     [stateManager]
   );
 
-  // 刷新存档列表
+  // Refresh save list
   const refreshSaveList = useCallback(async (): Promise<void> => {
     try {
       setIsLoadingSaves(true);
@@ -281,7 +281,7 @@ export function GameStateProvider({
     }
   }, [stateManager]);
 
-  // 更新游戏状态
+  // Update game state
   const updateGameState = useCallback(
     (newState: Partial<GameState>): void => {
       if (!gameState) return;
@@ -298,7 +298,7 @@ export function GameStateProvider({
     [gameState, gameConfig, stateManager]
   );
 
-  // 重置游戏状态
+  // Reset game state
   const resetGameState = useCallback((): void => {
     const initialState: GameState = {
       id: `game-${Date.now()}`,
@@ -315,17 +315,17 @@ export function GameStateProvider({
     stateSynchronizer.forceState(initialState);
   }, [gameConfig, stateManager, stateSynchronizer]);
 
-  // 启用自动保存
+  // Enable auto-save
   const enableAutoSave = useCallback((): void => {
     stateManager.enableAutoSave();
   }, [stateManager]);
 
-  // 禁用自动保存
+  // Disable auto-save
   const disableAutoSave = useCallback((): void => {
     stateManager.disableAutoSave();
   }, [stateManager]);
 
-  // 注册状态源
+  // Register state source
   const registerStateSource = useCallback(
     (source: StateSource, priority: number = 0): void => {
       stateSynchronizer.registerSource(source, priority);
@@ -333,7 +333,7 @@ export function GameStateProvider({
     [stateSynchronizer]
   );
 
-  // 取消注册状态源
+  // Unregister state source
   const unregisterStateSource = useCallback(
     (sourceId: string): void => {
       stateSynchronizer.unregisterSource(sourceId);
@@ -341,17 +341,17 @@ export function GameStateProvider({
     [stateSynchronizer]
   );
 
-  // 手动同步状态
+  // Manually trigger state synchronization
   const syncStates = useCallback((): void => {
     stateSynchronizer.sync();
   }, [stateSynchronizer]);
 
-  // 初始化存档列表
+  // Initialize save list
   useEffect(() => {
     refreshSaveList();
   }, [refreshSaveList]);
 
-  // 清理资源
+  // Cleanup resources
   useEffect(() => {
     return () => {
       stateManager.destroy();
@@ -386,7 +386,7 @@ export function GameStateProvider({
 }
 
 /**
- * 使用游戏状态上下文的Hook
+ * Hook: use the game state context
  */
 // eslint-disable-next-line react-refresh/only-export-components
 export function useGameState(): GameStateContextValue {
@@ -398,7 +398,7 @@ export function useGameState(): GameStateContextValue {
 }
 
 /**
- * 可选：专门用于存档管理的Hook
+ * Optional: hook for save management
  */
 // eslint-disable-next-line react-refresh/only-export-components
 export function useSaveManager() {
@@ -422,7 +422,7 @@ export function useSaveManager() {
 }
 
 /**
- * 可选：专门用于状态同步的Hook
+ * Optional: hook for state synchronization
  */
 // eslint-disable-next-line react-refresh/only-export-components
 export function useStateSynchronizer() {

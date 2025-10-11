@@ -92,7 +92,7 @@ export class PostHogIntegration {
         return false;
       }
 
-      console.log(`🎯 初始化PostHog分析 [${this.environment}]`);
+      console.log(` PostHog [${this.environment}]`);
 
       // PostHog
       posthog.init(this.config.apiKey, {
@@ -216,7 +216,7 @@ export class PostHogIntegration {
   private handleFeatureFlagsUpdate(flags: any): void {
     //
     Object.entries(flags).forEach(([flag, enabled]) => {
-      console.log(`🎛️ 特性开关 ${flag}: ${enabled ? '' : ''}`);
+      console.log(`  ${flag}: ${enabled ? '' : ''}`);
     });
   }
 

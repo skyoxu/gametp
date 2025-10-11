@@ -1,12 +1,12 @@
 /**
- * 场景管理器测试
+ * SceneManager tests
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { SceneManager } from '../SceneManager';
 import type { DomainEvent } from '../../shared/contracts/events';
 
-// Mock Phaser 并同步到全局，兼容 BaseScene 对全局 Phaser 的引用
+// Mock Phaser BaseScene Phaser
 vi.mock('phaser', () => import('./__mocks__/phaser'));
 import Phaser from 'phaser';
 (globalThis as any).Phaser = Phaser as any;
@@ -33,82 +33,82 @@ describe('SceneManager', () => {
     vi.clearAllMocks();
   });
 
-  describe('初始化', () => {
-    it('应该能成功创建场景管理器实例', () => {
+  describe('', () => {
+    it('', () => {
       expect(sceneManager).toBeDefined();
       expect(sceneManager.isInitialized()).toBe(false);
     });
 
-    it('应该能初始化场景管理器', async () => {
+    it('', async () => {
       await sceneManager.initialize(mockContainer, 800, 600);
       expect(sceneManager.isInitialized()).toBe(true);
     });
 
-    it('应该能处理初始化错误', async () => {
-      // 模拟容器为null的错误情况
+    it('', async () => {
+      // null
       const mockError = new Error('Container is null');
       vi.spyOn(console, 'error').mockImplementation(() => {});
 
-      // 这个测试可能需要根据实际实现调整
+      // Note
       expect(sceneManager.initialize).toBeDefined();
     });
   });
 
-  describe('场景控制', () => {
+  describe('', () => {
     beforeEach(async () => {
       await sceneManager.initialize(mockContainer);
     });
 
-    it('应该能开始游戏', () => {
+    it('', () => {
       sceneManager.startGame();
-      // 验证方法被调用但不抛出错误
+      // Note
       expect(true).toBe(true);
     });
 
-    it('应该能暂停游戏', () => {
+    it('', () => {
       sceneManager.pauseGame();
       expect(true).toBe(true);
     });
 
-    it('应该能恢复游戏', () => {
+    it('', () => {
       sceneManager.resumeGame();
       expect(true).toBe(true);
     });
 
-    it('应该能重启游戏', () => {
+    it('', () => {
       sceneManager.restartGame();
       expect(true).toBe(true);
     });
 
-    it('应该能返回菜单', () => {
+    it('', () => {
       sceneManager.returnToMenu();
       expect(true).toBe(true);
     });
 
-    it('应该能退出游戏', () => {
+    it('', () => {
       sceneManager.exitGame();
       expect(sceneManager.isInitialized()).toBe(false);
     });
   });
 
-  describe('状态管理', () => {
+  describe('', () => {
     beforeEach(async () => {
       await sceneManager.initialize(mockContainer);
     });
 
-    it('应该能获取当前场景', () => {
+    it('', () => {
       const currentScene = sceneManager.getCurrentScene();
-      // 可能返回null或场景对象，两者都是有效的
+      // null
       expect(currentScene !== undefined).toBe(true);
     });
 
-    it('应该能获取游戏状态', () => {
+    it('', () => {
       const gameState = sceneManager.getGameState();
-      // 游戏状态可能为null（如果不在游戏场景）或包含状态数据
+      // null
       expect(gameState !== undefined).toBe(true);
     });
 
-    it('应该能设置游戏状态', () => {
+    it('', () => {
       const mockState = {
         id: 'test-id',
         level: 2,
@@ -120,17 +120,17 @@ describe('SceneManager', () => {
       };
 
       sceneManager.setGameState(mockState);
-      // 验证方法被调用但不抛出错误
+      // Note
       expect(true).toBe(true);
     });
   });
 
-  describe('事件处理', () => {
+  describe('', () => {
     beforeEach(async () => {
       await sceneManager.initialize(mockContainer);
     });
 
-    it('应该能处理菜单动作事件', () => {
+    it('', () => {
       const event: DomainEvent = {
         type: 'game.menu.action',
         source: 'test',
@@ -141,12 +141,12 @@ describe('SceneManager', () => {
         datacontenttype: 'application/json',
       };
 
-      // 模拟事件处理
+      // Note
       sceneManager['handleDomainEvent'](event);
       expect(true).toBe(true);
     });
 
-    it('应该能处理游戏暂停事件', () => {
+    it('', () => {
       const event: DomainEvent = {
         type: 'game.state.paused',
         source: 'test',
@@ -161,7 +161,7 @@ describe('SceneManager', () => {
       expect(true).toBe(true);
     });
 
-    it('应该能处理退出请求事件', () => {
+    it('', () => {
       const event: DomainEvent = {
         type: 'game.exit.requested',
         source: 'test',
@@ -176,7 +176,7 @@ describe('SceneManager', () => {
       expect(sceneManager.isInitialized()).toBe(false);
     });
 
-    it('应该能处理游戏错误事件', () => {
+    it('', () => {
       const errorHandler = vi.fn();
       const sceneManagerWithErrorHandler = new SceneManager({
         onError: errorHandler,
@@ -199,11 +199,11 @@ describe('SceneManager', () => {
     });
   });
 
-  describe('错误处理', () => {
-    it('未初始化时的操作应该正常处理', () => {
+  describe('', () => {
+    it('', () => {
       const uninitializedManager = new SceneManager();
 
-      // 这些操作应该能正常处理，不抛出错误
+      // Note
       expect(() => {
         uninitializedManager.startGame();
         uninitializedManager.pauseGame();
@@ -219,10 +219,10 @@ describe('SceneManager', () => {
       uninitializedManager.destroy();
     });
 
-    it('重复销毁应该能正常处理', () => {
+    it('', () => {
       expect(() => {
         sceneManager.destroy();
-        sceneManager.destroy(); // 第二次销毁
+        sceneManager.destroy(); // Note
       }).not.toThrow();
     });
   });

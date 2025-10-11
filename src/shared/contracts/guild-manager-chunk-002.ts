@@ -1,6 +1,6 @@
 /**
- *  PVE  -
- * @description PRD-GM-PRD-GUILD-MANAGER_CHUNK_002  TypeScript
+ * PVE/Raid module contracts
+ * @description PRD-GM-PRD-GUILD-MANAGER_CHUNK_002 TypeScript contracts
  */
 
 import type { CloudEvent } from './cloudevents-core';
@@ -12,50 +12,50 @@ import type { IRepository, Port, Id } from './ports';
 // ============================================================================
 
 export enum RaidType {
-  SMALL_DUNGEON = '小型副本', // 5
-  MEDIUM_DUNGEON = '中型副本', // 10
-  LARGE_DUNGEON = '大型副本', // 25
-  RAID_INSTANCE = '团队副本', // 40
-  MEGA_RAID = '超大副本', // 50
+  SMALL_DUNGEON = 'small_dungeon', // 5
+  MEDIUM_DUNGEON = 'medium_dungeon', // 10
+  LARGE_DUNGEON = 'large_dungeon', // 25
+  RAID_INSTANCE = 'raid_instance', // 40
+  MEGA_RAID = 'mega_raid', // 50
 }
 
 export enum DifficultyLevel {
-  NORMAL = '普通',
-  HEROIC = '英雄',
-  EPIC = '史诗',
-  LEGENDARY = '传奇',
+  NORMAL = 'normal',
+  HEROIC = 'heroic',
+  EPIC = 'epic',
+  LEGENDARY = 'legendary',
 }
 
 export enum RaidRole {
-  MAIN_TANK = '主坦克',
-  OFF_TANK = '副坦克',
-  MELEE_DPS = '近战输出',
-  RANGED_DPS = '远程输出',
-  MAIN_HEALER = '主治疗',
-  BACKUP_HEALER = '副治疗',
-  UTILITY = '多用途',
+  MAIN_TANK = 'main_tank',
+  OFF_TANK = 'off_tank',
+  MELEE_DPS = 'melee_dps',
+  RANGED_DPS = 'ranged_dps',
+  MAIN_HEALER = 'main_healer',
+  BACKUP_HEALER = 'backup_healer',
+  UTILITY = 'utility',
 }
 
 export enum ReadinessLevel {
-  DRAFT = '草稿',
-  INCOMPLETE = '不完整',
-  READY = '就绪',
-  ACTIVE = '活跃',
-  ARCHIVED = '已归档',
+  DRAFT = 'draft',
+  INCOMPLETE = 'incomplete',
+  READY = 'ready',
+  ACTIVE = 'active',
+  ARCHIVED = 'archived',
 }
 
 export enum SlotPriority {
-  REQUIRED = '必需',
-  PREFERRED = '优先',
-  OPTIONAL = '可选',
+  REQUIRED = 'required',
+  PREFERRED = 'preferred',
+  OPTIONAL = 'optional',
 }
 
 export enum ItemRarity {
-  COMMON = '普通',
-  UNCOMMON = '优秀',
-  RARE = '稀有',
-  EPIC = '史诗',
-  LEGENDARY = '传奇',
+  COMMON = 'common',
+  UNCOMMON = 'uncommon',
+  RARE = 'rare',
+  EPIC = 'epic',
+  LEGENDARY = 'legendary',
 }
 
 // ============================================================================
@@ -63,7 +63,7 @@ export enum ItemRarity {
 // ============================================================================
 
 /**
- *
+ * Raid dungeon definition
  */
 export interface RaidDungeon {
   id: Id;
@@ -80,7 +80,7 @@ export interface RaidDungeon {
 }
 
 /**
- *
+ * Raid reward item definition
  */
 export interface RaidReward {
   itemId: Id;
@@ -93,7 +93,7 @@ export interface RaidReward {
 }
 
 /**
- * Boss
+ * Boss encounter definition
  */
 export interface BossEncounter {
   encounterId: Id;
@@ -105,7 +105,7 @@ export interface BossEncounter {
 }
 
 /**
- *
+ * Item requirement
  */
 export interface ItemRequirement {
   type: 'level' | 'class' | 'achievement';
@@ -114,7 +114,7 @@ export interface ItemRequirement {
 }
 
 /**
- *
+ * Raid composition definition
  */
 export interface RaidComposition {
   id: Id;
@@ -509,7 +509,7 @@ export interface IRaidManagementService extends Port {
 }
 
 /**
- *
+ * Tactical center service interface
  */
 export interface ITacticalCenterService extends Port {
   simulateCombat(compositionId: Id, dungeonId: Id): Promise<CombatSimulation>;
@@ -595,18 +595,18 @@ export const ROLE_DISTRIBUTION_GUIDE: Record<
 // CloudEvents 1.0
 // ============================================================================
 
-/**  */
+/** Event type union */
 export type RaidManagerEventType =
   | RaidDomainEventType
   | TacticalCenterEventType;
 
-/** CloudEvent */
+/** CloudEvent type for Raid Manager */
 export type RaidManagerCloudEvent<T = any> = CloudEvent<T> & {
   type: RaidManagerEventType;
   source: (typeof RAID_EVENT_SOURCES)[keyof typeof RAID_EVENT_SOURCES];
 };
 
-/** CloudEvent */
+/** CloudEvent factory */
 export const createRaidEvent = <T>(
   type: RaidManagerEventType,
   source: keyof typeof RAID_EVENT_SOURCES,
@@ -629,7 +629,7 @@ export const createRaidEvent = <T>(
   }) as RaidManagerCloudEvent<T>;
 };
 
-/**  */
+/** Concrete event type aliases */
 export type RaidCompositionCreatedEvent =
   RaidManagerCloudEvent<RaidCompositionCreatedData>;
 export type CombatSimulationCompletedEvent =
