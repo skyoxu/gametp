@@ -152,7 +152,7 @@ export class CloudEventsValidator {
   /**
    * Method decorator to validate the first argument as CloudEvent
    */
-  validateEvent(context?: string) {
+  validateEvent(_context?: string) {
     return (
       target: any,
       propertyKey: string,
@@ -500,7 +500,10 @@ export function createIPCValidationMiddleware() {
  * References: ADR-0004 (event bus and contracts)
  */
 export function createEventBusValidator<
-  T extends { on: Function; emit: Function },
+  T extends {
+    on: (...args: any[]) => unknown;
+    emit: (eventName: string, event: unknown) => unknown;
+  },
 >(eventBus: T): T {
   const originalEmit = eventBus.emit.bind(eventBus);
 

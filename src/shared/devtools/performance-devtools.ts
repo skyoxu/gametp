@@ -343,7 +343,7 @@ export class PerformanceDevTools {
   ) {
     const now = Date.now();
     const timeWindow = 60000; // 60
-    const startTime = now - timeWindow;
+    const _startTime = now - timeWindow;
 
     //
     ctx.strokeStyle = '#e0e0e0';
@@ -382,7 +382,7 @@ export class PerformanceDevTools {
     const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7'];
     let colorIndex = 0;
 
-    this.measurements.forEach((measurements, name) => {
+    this.measurements.forEach((measurements, _name) => {
       if (measurements.length === 0) return;
 
       ctx.strokeStyle = colors[colorIndex % colors.length];

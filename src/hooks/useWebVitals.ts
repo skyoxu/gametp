@@ -359,10 +359,7 @@ export function useDataFetchPerformance(enabled = true) {
   const monitor = useRef(enabled ? getWebVitalsMonitor() : null);
 
   const trackFetch = useCallback(
-    async <T>(
-      endpoint: string,
-      fetchFn: () => Promise<T>
-    ): Promise<T> => {
+    async <T>(endpoint: string, fetchFn: () => Promise<T>): Promise<T> => {
       if (!enabled || !monitor.current) {
         return fetchFn();
       }

@@ -8,7 +8,7 @@ import {
   createValidator,
   validateCloudEvent,
   defaultValidator,
-  type ValidationConfig,
+  type ValidationConfig as _ValidationConfig,
 } from '../cloud-events-validator';
 import type { BaseEvent } from '@/shared/contracts/events';
 
@@ -139,8 +139,8 @@ describe('CloudEventsValidator', () => {
       // URL
       const invalidEvent = { ...validEvent, source: '' }; // empty URL-like source
 
-      const validResult = warningValidator.validate(validEvent);
-      const invalidResult = warningValidator.validate(invalidEvent);
+      const _validResult = warningValidator.validate(validEvent);
+      const _invalidResult = warningValidator.validate(invalidEvent);
 
       const stats = warningValidator.getStatistics();
 

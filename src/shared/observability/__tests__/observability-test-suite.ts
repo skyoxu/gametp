@@ -366,7 +366,7 @@ export class ObservabilityTestSuite {
     });
 
     await this.runTest('', async () => {
-      const degradationLevels = [
+      const _degradationLevels = [
         'none',
         'minimal',
         'moderate',
@@ -670,7 +670,7 @@ export class ObservabilityTestSuite {
 
   private checkForHardcodedSecrets(): boolean {
     //
-    const suspiciousPatterns = [
+    const _suspiciousPatterns = [
       'sk_test_',
       'sk_live_',
       'password=',

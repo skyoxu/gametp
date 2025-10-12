@@ -626,7 +626,7 @@ export class EnterpriseMonitoringPlatform extends EventEmitter {
     this.reportGenerationTimer = setInterval(
       async () => {
         try {
-          const report = await this.generatePerformanceReport('1d');
+          const _report = await this.generatePerformanceReport('1d');
           console.log(' ');
         } catch (error) {
           console.error(' :', error);
@@ -721,7 +721,7 @@ export class EnterpriseMonitoringPlatform extends EventEmitter {
   }
 
   private async getComponentHealth(
-    component: string
+    _component: string
   ): Promise<{ status: string; lastCheck: string; metrics: any }> {
     return {
       status: 'healthy',
@@ -742,7 +742,7 @@ export class EnterpriseMonitoringPlatform extends EventEmitter {
   }
 
   private async collectPerformanceSummary(
-    period: string
+    _period: string
   ): Promise<PerformanceReport['summary']> {
     return {
       availability: 0.9995,
@@ -754,7 +754,7 @@ export class EnterpriseMonitoringPlatform extends EventEmitter {
   }
 
   private async calculateSLACompliance(
-    period: string
+    _period: string
   ): Promise<PerformanceReport['slaCompliance']> {
     return {
       availability: { target: 0.999, actual: 0.9995, compliant: true },
@@ -764,7 +764,7 @@ export class EnterpriseMonitoringPlatform extends EventEmitter {
   }
 
   private async getCriticalEvents(
-    period: string
+    _period: string
   ): Promise<PerformanceReport['criticalEvents']> {
     return [
       {
@@ -778,7 +778,7 @@ export class EnterpriseMonitoringPlatform extends EventEmitter {
   }
 
   private async getCostAnalysis(
-    period: string
+    _period: string
   ): Promise<PerformanceReport['costAnalysis']> {
     return {
       total: 850,
@@ -874,7 +874,8 @@ export async function getQuickHealthCheck(): Promise<{
       components: Object.keys(health.components).length,
       alerts: events.length,
     };
-  } catch (error) {
+  } catch (_error) {
+    void _error;
     return { status: 'error', components: 0, alerts: 0 };
   }
 }

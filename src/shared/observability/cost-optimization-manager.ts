@@ -362,7 +362,7 @@ export class CostOptimizationManager extends EventEmitter {
       const recommendations: OptimizationRecommendation[] = [];
 
       //
-      const trends = this.analyzeCostTrends();
+      const _trends = this.analyzeCostTrends();
 
       //
       if (this.currentCosts) {
@@ -638,8 +638,8 @@ export class CostOptimizationManager extends EventEmitter {
   }
 
   private analyzeCategoryTrends(
-    recent: CostData[],
-    previous: CostData[]
+    _recent: CostData[],
+    _previous: CostData[]
   ): CostTrend['categoryTrends'] {
     //
     return [
@@ -858,7 +858,7 @@ export class CostOptimizationManager extends EventEmitter {
   }
 
   private async applySamplingOptimization(
-    recommendation: OptimizationRecommendation
+    _recommendation: OptimizationRecommendation
   ): Promise<void> {
     //
     this.samplingRates.performance *= 0.8;
@@ -867,21 +867,21 @@ export class CostOptimizationManager extends EventEmitter {
   }
 
   private async applyRetentionOptimization(
-    recommendation: OptimizationRecommendation
+    _recommendation: OptimizationRecommendation
   ): Promise<void> {
     //
     console.log(' ');
   }
 
   private async applyFilteringOptimization(
-    recommendation: OptimizationRecommendation
+    _recommendation: OptimizationRecommendation
   ): Promise<void> {
     //
     console.log(' ');
   }
 
   private async applyAggregationOptimization(
-    recommendation: OptimizationRecommendation
+    _recommendation: OptimizationRecommendation
   ): Promise<void> {
     //
     console.log(' ');

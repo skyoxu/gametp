@@ -1,0 +1,6 @@
+fix(game): import Phaser as value in MenuScene for runtime Math.* usage
+
+- Use `import * as Phaser` since MenuScene uses Phaser.Math at runtime
+- Keep type-only imports in scenes that only reference types
+
+Refs: ADR-0001-tech-stack

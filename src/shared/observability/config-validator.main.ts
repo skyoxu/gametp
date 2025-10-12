@@ -651,7 +651,7 @@ export class ConfigValidator {
    *
    */
   private async validateFileSystemConfiguration(
-    schema: EnvironmentConfigSchema
+    _schema: EnvironmentConfigSchema
   ): Promise<ValidationSection> {
     const checks: ConfigCheck[] = [];
 
@@ -809,7 +809,7 @@ export class ConfigValidator {
     return !!process.env.SENTRY_DSN;
   }
 
-  private checkApiEndpoint(endpoint: string): boolean {
+  private checkApiEndpoint(_endpoint: string): boolean {
     //
     return true;
   }

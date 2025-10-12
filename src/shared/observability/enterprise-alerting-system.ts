@@ -619,7 +619,7 @@ export class EnterpriseAlertingSystem extends EventEmitter {
       const mentions =
         this.config.channels.slack?.mentions[alert.severity] || [];
 
-      const message = {
+      const _message = {
         text: mentions.length ? mentions.join(' ') : undefined,
         attachments: [
           {
@@ -667,7 +667,7 @@ export class EnterpriseAlertingSystem extends EventEmitter {
 
   private async sendResolutionNotification(
     alert: AlertEvent,
-    resolution: any
+    _resolution: any
   ): Promise<void> {
     console.log(` : ${alert.title}`);
   }
