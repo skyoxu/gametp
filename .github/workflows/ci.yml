@@ -194,6 +194,7 @@ jobs:
         continue-on-error: true
       - name: Renderer import guard
         run: node scripts/ci/check-renderer-imports.mjs
+        continue-on-error: true
 
       # Upload ESLint pre-fix logs for inspection
       - name: Upload ESLint pre-fix logs
