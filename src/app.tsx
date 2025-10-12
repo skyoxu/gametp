@@ -38,7 +38,7 @@ function App() {
       return Boolean(byFlag);
     }
   })();
-  const [showPerfHarness, setShowPerfHarness] = useState<boolean>(isPerfSmoke);
+  const [showPerfHarness, _setShowPerfHarness] = useState<boolean>(isPerfSmoke);
   const [PerfHarnessComp, setPerfHarnessComp] =
     useState<React.ComponentType | null>(null);
 
