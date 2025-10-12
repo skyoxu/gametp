@@ -41,6 +41,9 @@ env:
   SENTRY_TRACES_SAMPLE_RATE: '0'
   CL: '/std:c++20 /EHsc'
   CXXFLAGS: '-std=c++20'
+  # Pre-fix toggles for template users
+  CI_PREFX_DISABLE: '0'
+  CI_PREFX_STRICT: '0'
 
 permissions:
   contents: read
@@ -92,9 +95,9 @@ jobs:
 
       # Non-blocking ESLint pre-fix (Windows-only). Writes logs to logs/<date>/eslint/
       - name: ESLint pre-fix (non-blocking)
+        id: eslint_prefx
         if: runner.os == 'Windows'
-        run: py -3 scripts/python/fix_eslint.py
-        continue-on-error: true
+        uses: ./.github/actions/eslint-prefx
 
       - name: English comments + no-emoji scan (advisory)
         run: node scripts/ci/scan-comments-no-emoji.cjs
@@ -186,20 +189,12 @@ jobs:
         run: node scripts/ci/check-renderer-imports.mjs
 
       # Upload ESLint pre-fix logs for inspection
-      - name: Compute ESLint logs path
-        id: eslint_logs
-        if: always() && runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          $d = Get-Date -Format 'yyyy-MM-dd'
-          "dir=logs/$d/eslint" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
-          Write-Host "ESLint logs dir: logs/$d/eslint"
       - name: Upload ESLint pre-fix logs
         if: always() && runner.os == 'Windows'
         uses: actions/upload-artifact@v4
         with:
           name: eslint-pre-fix-logs
-          path: ${{ steps.eslint_logs.outputs.dir }}
+          path: ${{ steps.eslint_prefx.outputs.logs-dir }}
           if-no-files-found: warn
           retention-days: 7
 

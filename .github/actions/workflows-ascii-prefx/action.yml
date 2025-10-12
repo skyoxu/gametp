@@ -1,0 +1,36 @@
+name: "Workflows ASCII Pre-Fix (Windows)"
+description: "Run Python fixer to sanitize .github/workflows YAML (ASCII, EOL, BOM)."
+inputs:
+  disabled:
+    description: "Disable running pre-fix (1/true to disable)"
+    required: false
+    default: ""
+  strict:
+    description: "Strict mode: fail if fixer returns non-zero (1/true)"
+    required: false
+    default: ""
+outputs:
+  logs-dir:
+    description: "Logs directory for this run"
+    value: ${{ steps.compute.outputs.dir }}
+runs:
+  using: "composite"
+  steps:
+    - id: compute
+      shell: pwsh
+      run: |
+        $d = Get-Date -Format 'yyyy-MM-dd'
+        "dir=logs/$d/ascii" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+        Write-Host "logs dir: logs/$d/ascii"
+    - id: run
+      shell: pwsh
+      run: |
+        $disabled = ($env:CI_PREFX_DISABLE -eq '1' -or '${{ inputs.disabled }}' -in @('1','true','True','TRUE'))
+        if ($disabled) { Write-Host 'ASCII pre-fix disabled'; exit 0 }
+        $ErrorActionPreference = 'Continue'
+        py -3 scripts/python/fix_workflows_ascii.py
+        $code = $LASTEXITCODE
+        $strict = ($env:CI_PREFX_STRICT -eq '1' -or '${{ inputs.strict }}' -in @('1','true','True','TRUE'))
+        if ($strict -and $code -ne 0) { Write-Error "ASCII pre-fix failed (strict) code=$code"; exit $code }
+        exit 0
+

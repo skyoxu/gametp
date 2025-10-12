@@ -47,4 +47,3 @@ jobs:
           # Base refs for diffing (PR)
           GITHUB_BASE_REF: ${{ github.base_ref || github.event.pull_request.base.ref }}
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha || '' }}
-

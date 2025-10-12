@@ -168,8 +168,8 @@ jobs:
             // Set default values
             const score = softGateData?.overallScore || 75;
             const title = `Quality Score: ${score}/100`;
-            const summary = softGateData ? 
-              `Executed ${softGateData.summary?.totalGates || 0} quality checks` : 
+            const summary = softGateData ?
+              `Executed ${softGateData.summary?.totalGates || 0} quality checks` :
               'Soft gates check completed';
 
             // Build detailed description
@@ -213,10 +213,10 @@ jobs:
             ---
 
             > **Note**: Soft gates provide quality feedback but do not block merge. Consider improvement suggestions before merging.
-            > 
+            >
             > [View Detailed Report](${context.payload.repository.html_url}/actions/runs/${context.runId}#artifacts)
             `;
-                
+
                 await github.rest.issues.createComment({
                   issue_number: context.payload.pull_request.number,
                   owner: context.repo.owner,

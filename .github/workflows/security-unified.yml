@@ -656,7 +656,7 @@ jobs:
             const rawTitle = context.payload.head_commit?.message ||
                            context.payload.pull_request?.title ||
                            'Security Check';
-            const truncatedTitle = rawTitle.length > 100 ? 
+            const truncatedTitle = rawTitle.length > 100 ?
                                  rawTitle.substring(0, 97) + '...' : rawTitle;
             const title = `Unified Security Gate Failure - ${truncatedTitle}`;
 
@@ -706,7 +706,7 @@ jobs:
                     owner,
                     repo,
                     name: labelName,
-                    color: labelName === 'security' ? 'ff0000' : 
+                    color: labelName === 'security' ? 'ff0000' :
                            labelName === 'bug' ? 'd73a4a' :
                            labelName === 'urgent' ? 'b60205' : '000000'
                   });
@@ -721,7 +721,7 @@ jobs:
               // Use shortest query to avoid 256-char limit
               const simpleQuery = `repo:${owner}/${repo} is:open label:security`;
               console.log(`Search query: ${simpleQuery}`);
-              
+
               const { data: search } = await github.rest.search.issuesAndPullRequests({
                 q: simpleQuery,
                 sort: 'updated',

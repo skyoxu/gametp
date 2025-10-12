@@ -61,8 +61,7 @@ jobs:
       - run: npm ci
       - name: ESLint pre-fix (non-blocking)
         if: runner.os == 'Windows'
-        run: py -3 scripts/python/fix_eslint.py
-        continue-on-error: true
+        uses: ./.github/actions/eslint-prefx
       - name: Lint
         run: npm run lint
       - name: Typecheck

@@ -22,6 +22,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  # Pre-fix toggles for template users
+  CI_PREFX_DISABLE: '0'
+  CI_PREFX_STRICT: '0'
+
 jobs:
   actionlint:
     name: Lint workflow YAML (actionlint)
@@ -124,8 +129,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: ASCII pre-fix (Python)
-        shell: pwsh
-        run: py -3 scripts/python/fix_workflows_ascii.py
+        uses: ./.github/actions/workflows-ascii-prefx
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'
@@ -142,8 +146,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: ASCII pre-fix (Python)
-        shell: pwsh
-        run: py -3 scripts/python/fix_workflows_ascii.py
+        uses: ./.github/actions/workflows-ascii-prefx
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'
@@ -197,8 +200,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: ASCII pre-fix (Python)
-        shell: pwsh
-        run: py -3 scripts/python/fix_workflows_ascii.py
+        uses: ./.github/actions/workflows-ascii-prefx
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'

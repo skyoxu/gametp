@@ -1,0 +1,36 @@
+name: "Actionlint Pre-Fix (Windows)"
+description: "Run Python helper to ASCII-fix workflows and validate with actionlint/fallback."
+inputs:
+  disabled:
+    description: "Disable running pre-fix (1/true to disable)"
+    required: false
+    default: ""
+  strict:
+    description: "Strict mode: fail if fixer returns non-zero (1/true)"
+    required: false
+    default: ""
+outputs:
+  logs-dir:
+    description: "Logs directory for this run"
+    value: ${{ steps.compute.outputs.dir }}
+runs:
+  using: "composite"
+  steps:
+    - id: compute
+      shell: pwsh
+      run: |
+        $d = Get-Date -Format 'yyyy-MM-dd'
+        "dir=logs/$d/actionlint" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+        Write-Host "logs dir: logs/$d/actionlint"
+    - id: run
+      shell: pwsh
+      run: |
+        $disabled = ($env:CI_PREFX_DISABLE -eq '1' -or '${{ inputs.disabled }}' -in @('1','true','True','TRUE'))
+        if ($disabled) { Write-Host 'actionlint pre-fix disabled'; exit 0 }
+        $ErrorActionPreference = 'Continue'
+        py -3 scripts/python/fix_actionlint.py --fix
+        $code = $LASTEXITCODE
+        $strict = ($env:CI_PREFX_STRICT -eq '1' -or '${{ inputs.strict }}' -in @('1','true','True','TRUE'))
+        if ($strict -and $code -ne 0) { Write-Error "actionlint pre-fix failed (strict) code=$code"; exit $code }
+        exit 0
+
