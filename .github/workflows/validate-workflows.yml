@@ -66,9 +66,18 @@ jobs:
       - name: Run actionlint
         uses: raven-actions/actionlint@v2
       - name: actionlint pre-fix (non-blocking)
+        id: actionlint_prefx
         if: runner.os == 'Windows'
         uses: ./.github/actions/actionlint-prefx
         continue-on-error: true
+      - name: Upload actionlint pre-fix logs
+        if: always() && runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: actionlint-prefx-logs
+          path: ${{ steps.actionlint_prefx.outputs.logs-dir }}
+          if-no-files-found: warn
+          retention-days: 7
 
   actionlint-windows:
     name: Lint workflow YAML (actionlint, Windows)
@@ -108,9 +117,18 @@ jobs:
       - name: Run actionlint (Windows)
         uses: raven-actions/actionlint@v2
       - name: actionlint pre-fix (non-blocking)
+        id: actionlint_prefx_win
         if: runner.os == 'Windows'
         uses: ./.github/actions/actionlint-prefx
         continue-on-error: true
+      - name: Upload actionlint pre-fix logs (Windows)
+        if: always() && runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: actionlint-prefx-logs-windows
+          path: ${{ steps.actionlint_prefx_win.outputs.logs-dir }}
+          if-no-files-found: warn
+          retention-days: 7
 
   needs-guard:
     name: Check jobs/needs consistency
