@@ -141,6 +141,13 @@ jobs:
       - name: Install dependencies
         uses: ./.github/actions/npm-install
 
+      # Non-blocking ESLint pre-fix (Windows-only). Writes logs to logs/<date>/eslint/
+      - name: ESLint pre-fix (non-blocking)
+        id: eslint_prefx
+        if: runner.os == 'Windows'
+        uses: ./.github/actions/eslint-prefx
+        continue-on-error: true
+
       - name: Step
         run: npm run lint
         continue-on-error: true
