@@ -2,7 +2,7 @@
  * Menu Scene - main menu and navigation
  */
 
-import type * as Phaser from 'phaser';
+import * as Phaser from 'phaser';
 import { BaseScene } from './BaseScene';
 import { EventUtils } from '../../shared/contracts/events';
 import {
