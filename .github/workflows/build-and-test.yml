@@ -59,6 +59,10 @@ jobs:
           node-version: 20
           cache: 'npm'
       - run: npm ci
+      - name: ESLint pre-fix (non-blocking)
+        if: runner.os == 'Windows'
+        run: py -3 scripts/python/fix_eslint.py
+        continue-on-error: true
       - name: Lint
         run: npm run lint
       - name: Typecheck

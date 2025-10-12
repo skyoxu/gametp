@@ -185,6 +185,24 @@ jobs:
       - name: Renderer import guard
         run: node scripts/ci/check-renderer-imports.mjs
 
+      # Upload ESLint pre-fix logs for inspection
+      - name: Compute ESLint logs path
+        id: eslint_logs
+        if: always() && runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $d = Get-Date -Format 'yyyy-MM-dd'
+          "dir=logs/$d/eslint" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          Write-Host "ESLint logs dir: logs/$d/eslint"
+      - name: Upload ESLint pre-fix logs
+        if: always() && runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: eslint-pre-fix-logs
+          path: ${{ steps.eslint_logs.outputs.dir }}
+          if-no-files-found: warn
+          retention-days: 7
+
   # ==================== Security Scan Stage ====================
   # Note: Security scans moved to unified gate (security-unified.yml)
   # Workflow
