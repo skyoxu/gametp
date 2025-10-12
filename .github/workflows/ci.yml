@@ -90,6 +90,12 @@ jobs:
       - name: Install dependencies
         uses: ./.github/actions/npm-install
 
+      # Non-blocking ESLint pre-fix (Windows-only). Writes logs to logs/<date>/eslint/
+      - name: ESLint pre-fix (non-blocking)
+        if: runner.os == 'Windows'
+        run: py -3 scripts/python/fix_eslint.py
+        continue-on-error: true
+
       - name: English comments + no-emoji scan (advisory)
         run: node scripts/ci/scan-comments-no-emoji.cjs
         continue-on-error: true
