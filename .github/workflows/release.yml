@@ -120,7 +120,7 @@ jobs:
           AZURE_KV_CLIENT_ID: ${{ secrets.AZURE_KV_CLIENT_ID }}
           AZURE_KV_CLIENT_SECRET: ${{ secrets.AZURE_KV_CLIENT_SECRET }}
           AZURE_KV_CERT_NAME: ${{ secrets.AZURE_KV_CERT_NAME }}
-          TSA_URL: ${{ vars.WINDOWS_TSA_URL || 'http://timestamp.digicert.com' }}
+          TSA_URL: http://timestamp.digicert.com
         run: |
           $ErrorActionPreference = 'Stop'
           $files = Get-ChildItem -Path "dist-electron" -Recurse -Include *.exe,*.msi | Select-Object -ExpandProperty FullName

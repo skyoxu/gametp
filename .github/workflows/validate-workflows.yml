@@ -63,19 +63,27 @@ jobs:
           with open(os.environ['GITHUB_PATH'], 'a', encoding='utf-8') as path_file:
               path_file.write(str(install_dir) + os.linesep)
           print(f'shellcheck ready at {target}')
-      - name: Run actionlint
-        uses: raven-actions/actionlint@v2
       - name: actionlint pre-fix (non-blocking)
         id: actionlint_prefx
         if: runner.os == 'Windows'
         uses: ./.github/actions/actionlint-prefx
         continue-on-error: true
+      - name: Run actionlint
+        uses: raven-actions/actionlint@v2
       - name: Upload actionlint pre-fix logs
         if: always() && runner.os == 'Windows'
         uses: actions/upload-artifact@v4
         with:
           name: actionlint-prefx-logs
           path: ${{ steps.actionlint_prefx.outputs.logs-dir }}
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Upload actionlint logs (fallback glob)
+        if: always() && runner.os == 'Windows' && steps.actionlint_prefx.outputs.logs-dir == ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: actionlint-prefx-logs-fallback
+          path: logs/*/actionlint
           if-no-files-found: warn
           retention-days: 7
 
@@ -114,19 +122,27 @@ jobs:
           with open(os.environ['GITHUB_PATH'], 'a', encoding='utf-8') as path_file:
               path_file.write(str(install_dir) + os.linesep)
           print(f'shellcheck ready at {target}')
-      - name: Run actionlint (Windows)
-        uses: raven-actions/actionlint@v2
       - name: actionlint pre-fix (non-blocking)
         id: actionlint_prefx_win
         if: runner.os == 'Windows'
         uses: ./.github/actions/actionlint-prefx
         continue-on-error: true
+      - name: Run actionlint (Windows)
+        uses: raven-actions/actionlint@v2
       - name: Upload actionlint pre-fix logs (Windows)
         if: always() && runner.os == 'Windows'
         uses: actions/upload-artifact@v4
         with:
           name: actionlint-prefx-logs-windows
           path: ${{ steps.actionlint_prefx_win.outputs.logs-dir }}
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Upload actionlint logs (fallback glob, Windows)
+        if: always() && runner.os == 'Windows' && steps.actionlint_prefx_win.outputs.logs-dir == ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: actionlint-prefx-logs-windows-fallback
+          path: logs/*/actionlint
           if-no-files-found: warn
           retention-days: 7
 
