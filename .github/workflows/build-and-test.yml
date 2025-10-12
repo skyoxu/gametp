@@ -20,6 +20,8 @@ jobs:
           node-version: 20
           cache: 'npm'
       - run: npm ci
+      - name: Strip BOMs in config files
+        run: node scripts/ci/fix-bom.cjs
       - name: Build application
         env:
           VITE_E2E_SMOKE: 'true'
