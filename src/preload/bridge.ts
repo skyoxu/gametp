@@ -24,7 +24,9 @@ try {
       reset: () => h.reset(),
     };
   }
-} catch {}
+} catch {
+  /* noop */
+}
 
 type SafeAPI = {
   ping: () => Promise<string>;

@@ -375,4 +375,3 @@ export function reportBattleRoundTime(
 }
 
 // React integration placeholder (kept for future route tracing)
-import React from 'react';

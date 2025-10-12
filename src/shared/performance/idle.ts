@@ -13,7 +13,7 @@ export function scheduleIdle(
   const g: any = typeof window !== 'undefined' ? window : globalThis;
   if (typeof g.requestIdleCallback === 'function') {
     const h = g.requestIdleCallback(
-      (deadline: IdleDeadline) => {
+      (_deadline: IdleDeadline) => {
         try {
           task();
         } catch {

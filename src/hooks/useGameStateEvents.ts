@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useGameEvents } from './useGameEvents';
 import { useGameState } from '../contexts/GameStateContext';
 import type { GameState } from '../ports/game-engine.port';
-import type { GameDomainEvent } from '../shared/contracts/events/GameEvents';
+// import type { GameDomainEvent } from '../shared/contracts/events/GameEvents';
 
 export interface UseGameStateEventsOptions {
   context?: string;
@@ -86,15 +86,16 @@ export function useGameStateEvents(options: UseGameStateEventsOptions = {}) {
     ): Promise<void> => {
       try {
         switch (command) {
-          case 'save':
+          case 'save': {
             // Save context first, then notify Phaser
             const saveId = await saveGame();
             if (saveId) {
               gameEvents.sendCommandToPhaser('save', { saveId });
             }
             break;
+          }
 
-          case 'load':
+          case 'load': {
             // Load from context first, then notify Phaser
             if (data?.saveId) {
               const success = await loadGame(data.saveId);
@@ -103,11 +104,13 @@ export function useGameStateEvents(options: UseGameStateEventsOptions = {}) {
               }
             }
             break;
+          }
 
-          default:
+          default: {
             // Forward other commands directly
             gameEvents.sendCommandToPhaser(command, data);
             break;
+          }
         }
       } catch (error) {
         console.error(`Failed to execute command ${command}:`, error);

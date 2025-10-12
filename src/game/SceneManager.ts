@@ -196,7 +196,7 @@ export class SceneManager {
   /**
    * Handle exit requests
    */
-  private handleExitRequested(event: DomainEvent): void {
+  private handleExitRequested(_event: DomainEvent): void {
     this.exitGame();
   }
 
@@ -220,7 +220,9 @@ export class SceneManager {
       if (typeof performance !== 'undefined' && performance.mark) {
         performance.mark('scene_switch_triggered:GameScene');
       }
-    } catch {}
+    } catch {
+      /* noop */
+    }
 
     const gameScene = this.game.scene.getScene('GameScene') as GameScene;
     if (gameScene) {
@@ -270,7 +272,9 @@ export class SceneManager {
       if (typeof performance !== 'undefined' && performance.mark) {
         performance.mark('scene_switch_triggered:TestScene');
       }
-    } catch {}
+    } catch {
+      /* noop */
+    }
 
     console.log('[SceneManager] start TestScene');
     this.game.scene.start('TestScene');
@@ -285,7 +289,9 @@ export class SceneManager {
       if (typeof performance !== 'undefined' && performance.mark) {
         performance.mark('scene_switch_triggered:MenuScene');
       }
-    } catch {}
+    } catch {
+      /* noop */
+    }
 
     this.game.scene.start('MenuScene');
   }

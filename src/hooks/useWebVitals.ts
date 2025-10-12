@@ -44,7 +44,7 @@ export function useWebVitals(
     enabled = true,
     componentName = 'UnknownComponent',
     trackRender = true,
-    trackInteractions = true,
+    trackInteractions: _trackInteractions = true,
     collectorConfig,
   } = options;
 
@@ -289,7 +289,7 @@ export function usePerformanceTracker(name: string, enabled = true) {
   }, [enabled, name]);
 
   const measure = useCallback(
-    async <T extends any>(fn: () => T | Promise<T>): Promise<T> => {
+    async <T>(fn: () => T | Promise<T>): Promise<T> => {
       start();
       try {
         const result = await fn();
@@ -359,7 +359,7 @@ export function useDataFetchPerformance(enabled = true) {
   const monitor = useRef(enabled ? getWebVitalsMonitor() : null);
 
   const trackFetch = useCallback(
-    async <T extends any>(
+    async <T>(
       endpoint: string,
       fetchFn: () => Promise<T>
     ): Promise<T> => {

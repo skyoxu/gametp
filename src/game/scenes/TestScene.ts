@@ -6,8 +6,7 @@
 // Phaser typings only (no runtime import)
 import type * as Phaser from 'phaser';
 import { BaseScene } from './BaseScene';
-import type { GameState, GameInput } from '../../ports/game-engine.port';
-import type { GameDomainEvent } from '../../shared/contracts/events/GameEvents';
+import type { GameInput } from '../../ports/game-engine.port';
 import { EventUtils } from '../../shared/contracts/events';
 import {
   setupTexturePipeline,
@@ -520,7 +519,7 @@ export class TestScene extends BaseScene {
   /**
    *
    */
-  updateScene(time: number, delta: number): void {
+  updateScene(_time: number, _delta: number): void {
     //
     // ()
 

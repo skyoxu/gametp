@@ -17,22 +17,10 @@
  */
 
 import { EventEmitter } from 'events';
-import {
-  DistributedTracingManager,
-  distributedTracing,
-} from './distributed-tracing-manager';
-import {
-  ServiceMeshIntegration,
-  serviceMesh,
-} from './service-mesh-integration';
-import {
-  EnterpriseAlertingSystem,
-  enterpriseAlerting,
-} from './enterprise-alerting-system';
-import {
-  CostOptimizationManager,
-  costOptimization,
-} from './cost-optimization-manager';
+import { distributedTracing } from './distributed-tracing-manager';
+import { serviceMesh } from './service-mesh-integration';
+import { enterpriseAlerting } from './enterprise-alerting-system';
+import { costOptimization } from './cost-optimization-manager';
 
 /*  */
 export interface EnterpriseMonitoringConfig {
