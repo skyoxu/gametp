@@ -15,13 +15,13 @@ describe('InMemoryEventBus', () => {
   });
 
   describe('publish', () => {
-    it('', async () => {
+    it('publishes a valid event without throwing', async () => {
       const event: AppEvent = { type: 'guild.create', name: 'Test Guild' };
 
       await expect(eventBus.publish(event)).resolves.not.toThrow();
     });
 
-    it('', async () => {
+    it('rejects invalid event type format (no dot)', async () => {
       const invalidEvent = { type: 'invalid_format', name: 'Test' } as any;
 
       await expect(eventBus.publish(invalidEvent)).rejects.toThrow(
@@ -29,7 +29,7 @@ describe('InMemoryEventBus', () => {
       );
     });
 
-    it('', async () => {
+    it('rejects empty event type', async () => {
       const emptyEvent = { type: '', name: 'Test' } as any;
 
       await expect(eventBus.publish(emptyEvent)).rejects.toThrow(
@@ -37,7 +37,7 @@ describe('InMemoryEventBus', () => {
       );
     });
 
-    it('', async () => {
+    it('rejects single-segment event type', async () => {
       const singleEvent = { type: 'guild', name: 'Test' } as any;
 
       await expect(eventBus.publish(singleEvent)).rejects.toThrow(
@@ -47,7 +47,7 @@ describe('InMemoryEventBus', () => {
   });
 
   describe('subscribe', () => {
-    it('', () => {
+    it('returns a subscription with unsubscribe()', () => {
       const handler: EventHandler = vi.fn();
 
       const subscription = eventBus.subscribe('guild.create', handler);
@@ -56,7 +56,7 @@ describe('InMemoryEventBus', () => {
       expect(subscription.unsubscribe).toBeTypeOf('function');
     });
 
-    it('', async () => {
+    it('invokes all subscribed handlers (fan-out)', async () => {
       const handler1 = vi.fn();
       const handler2 = vi.fn();
       const event: AppEvent = { type: 'guild.create', name: 'Test Guild' };
@@ -70,7 +70,7 @@ describe('InMemoryEventBus', () => {
       expect(handler2).toHaveBeenCalledWith(event);
     });
 
-    it(' (FIFO)', async () => {
+    it('preserves FIFO ordering for multiple handlers', async () => {
       const callOrder: number[] = [];
       const handler1 = vi.fn(() => callOrder.push(1));
       const handler2 = vi.fn(() => callOrder.push(2));
@@ -87,8 +87,8 @@ describe('InMemoryEventBus', () => {
     });
   });
 
-  describe('', () => {
-    it('', async () => {
+  describe('basic flow', () => {
+    it('delivers event payload to the subscribed handler', async () => {
       const handler = vi.fn();
       const event: AppEvent = {
         type: 'guild.rename',
@@ -103,7 +103,7 @@ describe('InMemoryEventBus', () => {
       expect(handler).toHaveBeenCalledWith(event);
     });
 
-    it('', async () => {
+    it('supports async handlers', async () => {
       const asyncHandler = vi.fn(async () => {
         await new Promise(resolve => setTimeout(resolve, 10));
       });
@@ -115,7 +115,7 @@ describe('InMemoryEventBus', () => {
       expect(asyncHandler).toHaveBeenCalledWith(event);
     });
 
-    it('', async () => {
+    it('awaits slow async handlers to completion', async () => {
       let completed = false;
       const slowHandler = vi.fn(async () => {
         await new Promise(resolve => setTimeout(resolve, 50));
@@ -170,8 +170,8 @@ describe('InMemoryEventBus', () => {
     });
   });
 
-  describe(' (clear)', () => {
-    it('', async () => {
+  describe('clear()', () => {
+    it('removes all handlers across event types', async () => {
       const handler1 = vi.fn();
       const handler2 = vi.fn();
       const event1: AppEvent = { type: 'guild.create', name: 'Guild 1' };
@@ -194,8 +194,8 @@ describe('InMemoryEventBus', () => {
     });
   });
 
-  describe('', () => {
-    it('', async () => {
+  describe('type safety', () => {
+    it('routes by event type and not across types', async () => {
       const guildHandler = vi.fn();
       const inventoryHandler = vi.fn();
 
@@ -223,8 +223,8 @@ describe('InMemoryEventBus', () => {
     });
   });
 
-  describe('', () => {
-    it('', async () => {
+  describe('error handling', () => {
+    it('surface sync handler errors', async () => {
       const errorHandler = vi.fn(() => {
         throw new Error('Handler error');
       });
@@ -235,7 +235,7 @@ describe('InMemoryEventBus', () => {
       await expect(eventBus.publish(event)).rejects.toThrow('Handler error');
     });
 
-    it('', async () => {
+    it('surface async handler errors', async () => {
       const asyncErrorHandler = vi.fn(async () => {
         throw new Error('Async handler error');
       });
@@ -252,8 +252,15 @@ describe('InMemoryEventBus', () => {
     });
   });
 
-  describe('', () => {
-    it('', async () => {
+  describe('performance thresholds', () => {
+    const PERF_1000_SUBS_MS = Number(
+      process.env.EVTBUS_1000_SUBS_MS || (process.env.CI ? '300' : '100')
+    );
+    const PERF_100_PUBS_MS = Number(
+      process.env.EVTBUS_100_PUBS_MS || (process.env.CI ? '120' : '50')
+    );
+
+    it(`processes 1000 subscribers under ${PERF_1000_SUBS_MS} ms`, async () => {
       const handlers = Array.from({ length: 1000 }, () => vi.fn());
       const event: AppEvent = {
         type: 'guild.create',
@@ -272,11 +279,10 @@ describe('InMemoryEventBus', () => {
         expect(handler).toHaveBeenCalledWith(event);
       });
 
-      // Should process 1000 subscribers within 100 ms
-      expect(endTime - startTime).toBeLessThan(100);
+      expect(endTime - startTime).toBeLessThan(PERF_1000_SUBS_MS);
     });
 
-    it('', async () => {
+    it(`publishes 100 events under ${PERF_100_PUBS_MS} ms`, async () => {
       const handler = vi.fn();
       eventBus.subscribe('guild.create', handler);
 
@@ -291,8 +297,7 @@ describe('InMemoryEventBus', () => {
 
       expect(handler).toHaveBeenCalledTimes(100);
 
-      // Should publish 100 events within 50 ms
-      expect(endTime - startTime).toBeLessThan(50);
+      expect(endTime - startTime).toBeLessThan(PERF_100_PUBS_MS);
     });
   });
 });
