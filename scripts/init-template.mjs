@@ -17,7 +17,9 @@ const pkgPath = path.join(root, 'package.json');
 const ebYamlPath = path.join(root, 'electron-builder.yml');
 
 function loadJSON(p) {
-  return JSON.parse(fs.readFileSync(p, 'utf8'));
+  const raw = fs.readFileSync(p, 'utf8');
+  const text = raw.charCodeAt(0) === 0xFEFF ? raw.slice(1) : raw;
+  return JSON.parse(text);
 }
 
 function saveJSON(p, data) {

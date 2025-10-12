@@ -61,6 +61,8 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm ci
+      - name: Strip BOMs in config files
+        run: node scripts/ci/fix-bom.cjs
       - name: Initialize template (ensure builder config)
         run: npm run init:template
       - name: Build (renderer + electron)
