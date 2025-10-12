@@ -26,4 +26,3 @@ export function detectLang(): Lang {
   if (nav.startsWith('zh')) return 'zh-CN';
   return 'en-US';
 }
-

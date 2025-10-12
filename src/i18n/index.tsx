@@ -1,5 +1,11 @@
 import React from 'react';
-import { DICTS, detectLang, I18nContext, type I18nContextValue, type Lang } from './core';
+import {
+  DICTS,
+  detectLang,
+  I18nContext,
+  type I18nContextValue,
+  type Lang,
+} from './core';
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLangState] = React.useState<Lang>(detectLang());
