@@ -10,6 +10,7 @@ module.exports = {
         'core',
         'renderer',
         'electron',
+        'i18n',
         'ci',
         'docs',
         'tests',
