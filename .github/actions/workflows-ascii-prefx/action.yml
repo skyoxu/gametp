@@ -28,8 +28,33 @@ runs:
         $disabled = ($env:CI_PREFX_DISABLE -eq '1' -or '${{ inputs.disabled }}' -in @('1','true','True','TRUE'))
         if ($disabled) { Write-Host 'ASCII pre-fix disabled'; exit 0 }
         $ErrorActionPreference = 'Continue'
-        py -3 scripts/python/fix_workflows_ascii.py
-        $code = $LASTEXITCODE
+        $code = 0
+        $ran = $false
+        try {
+          & py -3 scripts/python/fix_workflows_ascii.py
+          $code = $LASTEXITCODE
+          $ran = $true
+        } catch {
+          Write-Warning 'Python launcher (py -3) not found; trying python'
+        }
+        if (-not $ran) {
+          try {
+            & python scripts/python/fix_workflows_ascii.py
+            $code = $LASTEXITCODE
+            $ran = $true
+          } catch {
+            Write-Warning 'python not found; trying python3'
+          }
+        }
+        if (-not $ran) {
+          try {
+            & python3 scripts/python/fix_workflows_ascii.py
+            $code = $LASTEXITCODE
+            $ran = $true
+          } catch {
+            Write-Warning 'python3 not found; skipping ASCII pre-fix'
+          }
+        }
         $strict = ($env:CI_PREFX_STRICT -eq '1' -or '${{ inputs.strict }}' -in @('1','true','True','TRUE'))
         if ($strict -and $code -ne 0) { Write-Error "ASCII pre-fix failed (strict) code=$code"; exit $code }
         exit 0

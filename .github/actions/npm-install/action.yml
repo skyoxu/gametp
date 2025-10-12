@@ -69,7 +69,8 @@ runs:
           $psi = New-Object System.Diagnostics.ProcessStartInfo
           $psi.FileName = $npmExecutable
           $psi.WorkingDirectory = (Get-Location).Path
-          $psi.Arguments = "ci $extraArgs"
+          # Avoid native builds and postinstall scripts in CI to improve stability on Windows runners
+          $psi.Arguments = "ci --ignore-scripts --omit=optional $extraArgs"
           $psi.RedirectStandardOutput = $true
           $psi.RedirectStandardError = $true
           $psi.UseShellExecute = $false
