@@ -65,6 +65,10 @@ jobs:
           print(f'shellcheck ready at {target}')
       - name: Run actionlint
         uses: raven-actions/actionlint@v2
+      - name: actionlint pre-fix (non-blocking)
+        if: runner.os == 'Windows'
+        uses: ./.github/actions/actionlint-prefx
+        continue-on-error: true
 
   actionlint-windows:
     name: Lint workflow YAML (actionlint, Windows)
@@ -103,6 +107,10 @@ jobs:
           print(f'shellcheck ready at {target}')
       - name: Run actionlint (Windows)
         uses: raven-actions/actionlint@v2
+      - name: actionlint pre-fix (non-blocking)
+        if: runner.os == 'Windows'
+        uses: ./.github/actions/actionlint-prefx
+        continue-on-error: true
 
   needs-guard:
     name: Check jobs/needs consistency
