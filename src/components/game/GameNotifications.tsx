@@ -271,7 +271,7 @@ export function GameNotifications({
       data-testid="game-notifications"
     >
       {notifications.map(notification => {
-        const colors = getNotificationColor(notification.type);
+        const _colors = getNotificationColor(notification.type);
 
         return (
           <div
