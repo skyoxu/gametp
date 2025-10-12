@@ -81,7 +81,7 @@ jobs:
           }
 
           $global:LASTEXITCODE = 0
-          Write-Host "[release] Running electron-builder (NSIS) — attempt #1"
+          Write-Host "[release] Running electron-builder (NSIS) - attempt #1"
           npm run build:win
           if ($LASTEXITCODE -ne 0) {
             Write-Warning "[release] NSIS packaging failed on first attempt (exit=$LASTEXITCODE). Clearing electron-builder cache and retrying..."
@@ -95,7 +95,7 @@ jobs:
               }
             }
             $global:LASTEXITCODE = 0
-            Write-Host "[release] Running electron-builder (NSIS) — attempt #2"
+            Write-Host "[release] Running electron-builder (NSIS) - attempt #2"
             npm run build:win
             if ($LASTEXITCODE -ne 0) {
               Write-Error "[release] NSIS packaging failed after retry (exit=$LASTEXITCODE). Aborting."
@@ -215,3 +215,4 @@ jobs:
     needs: build
     steps:
       - run: Write-Output "Release build completed"
+
