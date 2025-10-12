@@ -545,6 +545,10 @@ jobs:
       - name: Install dependencies
         uses: ./.github/actions/npm-install
 
+      # Ensure Playwright browsers are available (Windows runners)
+      - name: Setup Playwright browsers cache
+        uses: microsoft/playwright-github-action@v1
+
       - name: npm audit-ci (block on main)
         run: npx --yes audit-ci --high --critical -c audit-ci.json
         continue-on-error: ${{ github.ref != 'refs/heads/main' }}
