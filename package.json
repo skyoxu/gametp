@@ -258,7 +258,7 @@
     "vitest": "^3.2.4",
     "@size-limit/file": "^10.0.3",
     "size-limit": "^10.0.3",
-    "@commitlint/cli": "^19.6.1",
+    "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^19.6.0"
   },
   "lint-staged": {
