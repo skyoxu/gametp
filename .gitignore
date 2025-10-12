@@ -37,3 +37,6 @@ playwright/.cache/
 
 # Local commit message temp files
 commit-msg*.txt
+
+# test artifacts
+/test-checkpoint-data/
