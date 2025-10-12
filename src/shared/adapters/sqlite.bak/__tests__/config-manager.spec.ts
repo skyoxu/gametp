@@ -125,12 +125,12 @@ describe('SqliteConfigManager', () => {
       });
 
       const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-      const config = configManager.getAdaptiveConfig();
+      const _config = configManager.getAdaptiveConfig();
 
       // ,getAvailableMemoryMBMath.max(100, ...)
       // 100MB,lowMemory
       // development,lowMemory
-      expect(config.cache_size).toBe(
+      expect(_config.cache_size).toBe(
         CONFIG_PROFILES.development.config.cache_size
       );
       expect(consoleSpy).toHaveBeenCalledWith(
@@ -149,7 +149,7 @@ describe('SqliteConfigManager', () => {
 
       // 2GB,150MB,1850MB+
       const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-      const config = configManager.getAdaptiveConfig();
+      const _config = configManager.getAdaptiveConfig();
 
       expect(consoleSpy).toHaveBeenCalledWith(
         expect.stringContaining('Selected SQLite profile: High Performance')
