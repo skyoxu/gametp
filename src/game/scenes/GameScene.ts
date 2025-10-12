@@ -3,15 +3,10 @@
  * Loads textures, sets up player, UI, input, and physics
  */
 
-// phaser Phaser SceneManager.initialize
-declare const Phaser: any;
+// Phaser typings only (no runtime import)
+import type * as Phaser from 'phaser';
 import { BaseScene } from './BaseScene';
-import type {
-  GameState,
-  Position,
-  GameInput,
-} from '../../ports/game-engine.port';
-import type { DomainEvent } from '../../shared/contracts/events';
+import type { GameState, GameInput } from '../../ports/game-engine.port';
 import { EventUtils } from '../../shared/contracts/events';
 import {
   setupTexturePipeline,

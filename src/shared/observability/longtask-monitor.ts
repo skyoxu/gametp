@@ -42,7 +42,9 @@ export function startLongTaskMonitor(options: LongTaskMonitorOptions = {}) {
       if (buffer.length) {
         try {
           options.onReport?.(buffer.splice(0));
-        } catch {}
+        } catch {
+          /* noop */
+        }
       }
     }
   );
@@ -53,7 +55,9 @@ export function startLongTaskMonitor(options: LongTaskMonitorOptions = {}) {
     stop() {
       try {
         observer.disconnect();
-      } catch {}
+      } catch {
+        /* noop */
+      }
     },
   };
 }

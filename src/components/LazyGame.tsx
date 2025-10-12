@@ -17,7 +17,7 @@ export default function LazyGame({
 }: LazyGameProps) {
   const [loading, setLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [_isPending, startTransition] = useTransition();
   const deferredMounted = useDeferredValue(mounted);
 
   const onStart = useCallback(async () => {

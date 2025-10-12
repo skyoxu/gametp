@@ -95,7 +95,7 @@ export class MockScene {
     },
   };
 
-  constructor(config?: any) {
+  constructor(_config?: any) {
     // Note
   }
 

@@ -38,8 +38,8 @@ export async function createGameEngine(
 ): Promise<GameEngineAdapter> {
   const {
     container,
-    width = 800,
-    height = 600,
+    width: _width = 800,
+    height: _height = 600,
     config = {},
     onEvent,
     onError,

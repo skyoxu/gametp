@@ -334,12 +334,13 @@ export class StateSynchronizer {
           current.state.timestamp > best.state.timestamp ? current : best
         );
 
-      case 'merge':
+      case 'merge': {
         // Note
         const highest = candidates.reduce((best, current) =>
           current.priority > best.priority ? current : best
         );
         return highest;
+      }
 
       default:
         return candidates[0] || null;

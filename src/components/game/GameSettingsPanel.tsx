@@ -129,7 +129,7 @@ export function GameSettingsPanel({
   onSettingsChange,
 }: GameSettingsPanelProps) {
   const t = useI18n();
-  const { lang, setLang } = useLang();
+  const { lang: _lang, setLang } = useLang();
   const [settings, setSettings] = useState<GameSettings>(defaultSettings);
   const [activeTab, setActiveTab] = useState<
     'graphics' | 'audio' | 'gameplay' | 'controls' | 'ui'

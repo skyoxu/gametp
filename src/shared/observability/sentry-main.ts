@@ -190,13 +190,17 @@ export function initSentryMain(): Promise<boolean> {
             if (!existsSync(logsDir)) {
               try {
                 mkdirSync(logsDir, { recursive: true });
-              } catch {}
+              } catch {
+                /* noop */
+              }
             }
             const logFile = join(logsDir, 'sentry-init-main-latest.log');
             const baseRate = config.dynamicSampling.baseSampleRate;
             const note = `effective.traces.baseSampleRate=${baseRate}`;
             writeFileSync(logFile, note + '\n', { flag: 'a' });
-          } catch {}
+          } catch {
+            /* noop */
+          }
         } else {
           console.error('Sentry main initialization verification failed');
         }

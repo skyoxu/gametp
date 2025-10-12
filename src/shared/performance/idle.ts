@@ -16,7 +16,9 @@ export function scheduleIdle(
       (deadline: IdleDeadline) => {
         try {
           task();
-        } catch {}
+        } catch {
+          /* noop */
+        }
       },
       { timeout: timeoutMs }
     );
@@ -38,7 +40,9 @@ export function scheduleIdle(
       cancelled = true;
       try {
         g.cancelAnimationFrame?.(id);
-      } catch {}
+      } catch {
+        /* noop */
+      }
     },
   };
 }
@@ -60,7 +64,9 @@ export function scheduleNextFrame(task: () => void): IdleHandle {
       cancelled = true;
       try {
         g.cancelAnimationFrame?.(id);
-      } catch {}
+      } catch {
+        /* noop */
+      }
     },
   };
 }

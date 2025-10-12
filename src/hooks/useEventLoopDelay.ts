@@ -29,7 +29,9 @@ export function useEventLoopDelayMonitor(intervalMs: number = 5000) {
             exceeds50ms: s.exceeds50ms,
           });
         }
-      } catch {}
+      } catch {
+        /* noop */
+      }
     };
 
     timerRef.current = window.setInterval(tick, intervalMs);

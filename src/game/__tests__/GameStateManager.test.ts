@@ -144,8 +144,8 @@ describe('GameStateManager', () => {
     });
 
     it('', async () => {
-      const saveId1 = await stateManager.saveGame('save1');
-      const saveId2 = await stateManager.saveGame('save2');
+      const _saveId1 = await stateManager.saveGame('save1');
+      const _saveId2 = await stateManager.saveGame('save2');
 
       // Note
       expect(mockLocalStorage.setItem).toHaveBeenCalledTimes(2);

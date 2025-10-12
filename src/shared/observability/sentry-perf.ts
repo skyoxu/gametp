@@ -20,7 +20,9 @@ export async function startTransaction(
       finish: () => {
         try {
           txn?.finish?.();
-        } catch {}
+        } catch {
+          /* noop */
+        }
       },
     };
   } catch {

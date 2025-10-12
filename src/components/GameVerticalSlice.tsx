@@ -7,7 +7,6 @@ import { useRef, useEffect, useCallback } from 'react';
 import { useConcurrentState } from '@/hooks/useConcurrentState';
 import { GameEngineAdapter } from '../game/GameEngineAdapter';
 import type { GameConfig } from '../ports/game-engine.port';
-import type { DomainEvent } from '../shared/contracts/events';
 import type { GameDomainEvent } from '../shared/contracts/events/GameEvents';
 import { useGameEvents } from '../hooks/useGameEvents';
 import { useWebVitals } from '../hooks/useWebVitals';
@@ -42,7 +41,7 @@ export function GameVerticalSlice({
   const {
     state: sliceState,
     set: setSliceState,
-    deferred: deferredSliceState,
+    deferred: _deferredSliceState,
   } = useConcurrentState<VerticalSliceState>({ phase: 'ready', events: [] });
 
   // Web Vitals -

@@ -3,16 +3,17 @@
  * Bridges Phaser scenes with the domain event bus
  */
 
-// phaser Phaser SceneManager.initialize
-declare const Phaser: any;
-// Phaser
-// / SceneManager.initialize Phaser
+// Phaser typings only (no runtime import)
+import type * as Phaser from 'phaser';
+// Bridge to global Phaser.Scene installed by SceneManager.initialize
 const PhaserSceneBase: any = (globalThis as any)?.Phaser?.Scene ?? class {};
 import type { DomainEvent } from '../../shared/contracts/events';
 import { globalEventBus } from '../../hooks/useGameEvents';
 
+type SceneCallback = (...args: any[]) => void;
+
 export abstract class BaseScene extends PhaserSceneBase {
-  protected eventCallbacks: Map<string, Function[]> = new Map();
+  protected eventCallbacks: Map<string, SceneCallback[]> = new Map();
 
   constructor(config: string | Phaser.Types.Scenes.SettingsConfig) {
     super(config);
@@ -47,7 +48,10 @@ export abstract class BaseScene extends PhaserSceneBase {
   /**
    * Subscribe a local callback for a domain event type
    */
-  protected subscribeEvent(eventType: string, callback: Function): void {
+  protected subscribeEvent(
+    eventType: string,
+    callback: (...args: any[]) => void
+  ): void {
     if (!this.eventCallbacks.has(eventType)) {
       this.eventCallbacks.set(eventType, []);
     }
@@ -57,7 +61,10 @@ export abstract class BaseScene extends PhaserSceneBase {
   /**
    * Unsubscribe a local callback for a domain event type
    */
-  protected unsubscribeEvent(eventType: string, callback: Function): void {
+  protected unsubscribeEvent(
+    eventType: string,
+    callback: (...args: any[]) => void
+  ): void {
     const callbacks = this.eventCallbacks.get(eventType);
     if (callbacks) {
       const index = callbacks.indexOf(callback);
@@ -93,7 +100,9 @@ export abstract class BaseScene extends PhaserSceneBase {
       if (typeof performance !== 'undefined' && performance.mark) {
         performance.mark(`scene_create_start:${this.scene.key}`);
       }
-    } catch {}
+    } catch {
+      /* noop */
+    }
 
     this.initializeScene();
 
@@ -113,7 +122,9 @@ export abstract class BaseScene extends PhaserSceneBase {
           `scene_create_end:${this.scene.key}`
         );
       }
-    } catch {}
+    } catch {
+      /* noop */
+    }
   }
 
   /**

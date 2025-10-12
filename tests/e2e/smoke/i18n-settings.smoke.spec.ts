@@ -10,7 +10,9 @@ test('@smoke i18n settings overlay language switch updates UI and aria/title', a
   if (existsSync(cacheFile)) {
     try {
       unlinkSync(cacheFile);
-    } catch {}
+    } catch {
+      /* noop */
+    }
   }
   const { app: electronApp, page } = await launchApp();
   await ensureDomReady(page);

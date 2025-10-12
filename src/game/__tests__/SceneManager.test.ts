@@ -46,7 +46,7 @@ describe('SceneManager', () => {
 
     it('', async () => {
       // null
-      const mockError = new Error('Container is null');
+      const _mockError = new Error('Container is null');
       vi.spyOn(console, 'error').mockImplementation(() => {});
 
       // Note

@@ -2,7 +2,7 @@
  * Menu Scene - main menu and navigation
  */
 
-declare const Phaser: any;
+import type * as Phaser from 'phaser';
 import { BaseScene } from './BaseScene';
 import { EventUtils } from '../../shared/contracts/events';
 import {
@@ -152,7 +152,7 @@ export class MenuScene extends BaseScene {
     }
   }
 
-  updateScene(time: number, delta: number): void {
+  updateScene(_time: number, _delta: number): void {
     // no-op for menu
   }
 }

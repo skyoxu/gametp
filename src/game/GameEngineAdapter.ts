@@ -3,7 +3,7 @@
  * Phaser
  */
 
-import { SceneManager, type SceneManagerConfig } from './SceneManager';
+import { SceneManager } from './SceneManager';
 import { GameStateManager } from './state/GameStateManager';
 import { StateSynchronizer } from './state/StateSynchronizer';
 import type {
@@ -431,7 +431,7 @@ export class GameEngineAdapter implements GameEnginePort {
   /**
    *
    */
-  private async updateGame(delta: number): Promise<void> {
+  private async updateGame(_delta: number): Promise<void> {
     try {
       //
       this.currentState = { ...this.currentState, timestamp: new Date() };

@@ -29,7 +29,9 @@ function isBetterSQLite3Available(): boolean {
     const db = new Database(':memory:');
     try {
       db.close();
-    } catch {}
+    } catch {
+      /* noop */
+    }
     return true;
   } catch {
     return false;

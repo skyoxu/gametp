@@ -57,7 +57,7 @@ export function GameCanvas({
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const [_isPending, startTransition] = useTransition();
   const [interactionLoading, setInteractionLoading] = useState(false);
   const [interactionDone, setInteractionDone] = useState(false);
 
@@ -235,7 +235,7 @@ export function GameCanvas({
     gameEvents.sendCommandToPhaser('save');
   }, [gameEvents]);
 
-  const loadGame = useCallback(
+  const _loadGame = useCallback(
     (saveId: string) => {
       gameEvents.sendCommandToPhaser('load', { saveId });
     },

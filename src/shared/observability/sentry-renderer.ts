@@ -162,7 +162,9 @@ export function initSentryRenderer(): Promise<boolean> {
             const url = `app://api/observability-log?file=sentry-init-renderer-latest&line=${encodeURIComponent(line)}`;
             // Fire-and-forget; ignore failures in CI/dev
             fetch(url).catch(() => void 0);
-          } catch {}
+          } catch {
+            /* noop */
+          }
         } else {
           console.error('Sentry renderer initialization verification failed');
         }

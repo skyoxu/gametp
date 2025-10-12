@@ -3,8 +3,8 @@
  * :  level.complete
  */
 
-//  phaser , Phaser( SceneManager.initialize )
-declare const Phaser: any;
+// Phaser typings only (no runtime import)
+import type * as Phaser from 'phaser';
 import { BaseScene } from './BaseScene';
 import type { GameState, GameInput } from '../../ports/game-engine.port';
 import type { GameDomainEvent } from '../../shared/contracts/events/GameEvents';
