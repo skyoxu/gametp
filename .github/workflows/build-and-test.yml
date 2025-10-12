@@ -4,6 +4,22 @@ on:
   pull_request:
   push:
     branches: [main]
+    paths:
+      - 'src/**'
+      - 'electron/**'
+      - 'tests/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig*.json'
+      - 'vite.config.ts'
+      - 'vitest.config.ts'
+      - 'playwright.config.ts'
+      - '.github/actions/**'
+      - '.github/workflows/build-and-test.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-artifacts:
@@ -94,6 +110,7 @@ jobs:
   e2e-perf-smoke:
     needs: [build-artifacts, build-and-unit]
     runs-on: windows-latest
+    if: github.event_name == 'pull_request'
     defaults:
       run:
         shell: pwsh
