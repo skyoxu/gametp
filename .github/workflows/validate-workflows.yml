@@ -36,6 +36,10 @@ jobs:
         shell: pwsh
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Python 3.x
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
       - name: Ensure shellcheck (Windows fallback)
         if: runner.os == 'Windows'
         shell: python
@@ -95,6 +99,10 @@ jobs:
         shell: pwsh
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Python 3.x
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
       - name: Ensure shellcheck (Windows fallback)
         if: runner.os == 'Windows'
         shell: python
