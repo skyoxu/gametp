@@ -42,16 +42,31 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-      - name: Install dependencies (no scripts)
-        run: npm ci --ignore-scripts --omit=optional
+      - name: Install dependencies (hardened)
+        uses: ./.github/actions/npm-install
+      - name: Setup Python 3.x (for pre-fix tools if needed)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
       - name: Run postinstall patches (explicit)
         run: node scripts/ci/patch-tree-sitter.js
       - name: Strip BOMs in config files
         run: node scripts/ci/fix-bom.cjs
-      - name: Build application
+      - name: Build application (capture log)
         env:
           VITE_E2E_SMOKE: 'true'
-        run: npm run build
+        run: |
+          $d = Get-Date -Format 'yyyy-MM-dd'
+          New-Item -ItemType Directory -Force -Path "logs/$d/build" | Out-Null
+          npm run build *>&1 | Tee-Object -FilePath "logs/$d/build/build.log"
+      - name: Upload build logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: logs/*/build/**
+          if-no-files-found: warn
+          retention-days: 7
       - name: Verify build outputs
         id: build-check
         run: |
@@ -86,10 +101,14 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-      - name: Install dependencies (no scripts)
-        run: npm ci --ignore-scripts --omit=optional
+      - name: Install dependencies (hardened)
+        uses: ./.github/actions/npm-install
       - name: Run postinstall patches (explicit)
         run: node scripts/ci/patch-tree-sitter.js
+      - name: Setup Python 3.x (for pre-fix tools)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
       - name: ESLint pre-fix (non-blocking)
         if: runner.os == 'Windows'
         uses: ./.github/actions/eslint-prefx
