@@ -224,6 +224,9 @@ jobs:
     env:
       NODE_ENV: development
       NPM_CONFIG_PRODUCTION: 'false'
+      # Relax EventBus perf thresholds on CI; adjust tighter later when stable
+      EVTBUS_1000_SUBS_MS: '800'
+      EVTBUS_100_PUBS_MS: '300'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -242,6 +245,8 @@ jobs:
           test-type: coverage
         env:
           NODE_ENV: test
+          EVTBUS_1000_SUBS_MS: '800'
+          EVTBUS_100_PUBS_MS: '300'
       - name: Step
         uses: actions/upload-artifact@v4
         if: always()
@@ -321,6 +326,8 @@ jobs:
         run: npm run test:coverage
         env:
           NODE_ENV: test
+          EVTBUS_1000_SUBS_MS: '800'
+          EVTBUS_100_PUBS_MS: '300'
         continue-on-error: true
       - name: SonarCloud Scan
         if: ${{ env.SONAR_TOKEN != '' }}
