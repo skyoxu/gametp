@@ -239,9 +239,9 @@ jobs:
         if: steps.changes-e2e.outputs.any_changed == 'true'
         run: |
           pwsh -File scripts/ci/electron-deps-probe.ps1
-      - name: Install Playwright browsers
+      - name: Setup Playwright browsers cache
         if: steps.changes-e2e.outputs.any_changed == 'true'
-        run: npx playwright install
+        uses: microsoft/playwright-github-action@v1
       - name: Run perf smoke (Electron)
         if: steps.changes-e2e.outputs.any_changed == 'true'
         run: npm run test:e2e:perf-smoke
