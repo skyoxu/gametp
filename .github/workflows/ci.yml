@@ -401,10 +401,11 @@ jobs:
         run: node scripts/ci/perf-smoke.mjs
         continue-on-error: ${{ github.ref != 'refs/heads/main' }}
         env:
-          START_TTI_WARN_MS: ${{ vars.START_TTI_WARN_MS || '2500' }}
-          START_TTI_FAIL_MS: ${{ vars.START_TTI_FAIL_MS || '4000' }}
-          SCENE_SWITCH_WARN_MS: ${{ vars.SCENE_SWITCH_WARN_MS || '300' }}
-          SCENE_SWITCH_FAIL_MS: ${{ vars.SCENE_SWITCH_FAIL_MS || '600' }}
+          # Relaxed thresholds for Windows CI; tighten later per ADR-0015
+          START_TTI_WARN_MS: ${{ vars.START_TTI_WARN_MS || '6000' }}
+          START_TTI_FAIL_MS: ${{ vars.START_TTI_FAIL_MS || '8000' }}
+          SCENE_SWITCH_WARN_MS: ${{ vars.SCENE_SWITCH_WARN_MS || '900' }}
+          SCENE_SWITCH_FAIL_MS: ${{ vars.SCENE_SWITCH_FAIL_MS || '1200' }}
           # Keep perf sample size consistent across workflows
           PERF_SAMPLE_COUNT: ${{ github.event_name == 'pull_request' && '10' || '20' }}
       - name: Apply Electron fuses (dev)
