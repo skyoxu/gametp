@@ -155,7 +155,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: ASCII pre-fix (Python)
+        id: ascii_prefx_enc
         uses: ./.github/actions/workflows-ascii-prefx
+      - name: Upload workflows ASCII pre-fix logs
+        if: always() && runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ascii-prefx-logs
+          path: ${{ steps.ascii_prefx_enc.outputs.logs-dir }}
+          if-no-files-found: warn
+          retention-days: 7
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'
@@ -172,7 +181,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: ASCII pre-fix (Python)
+        id: ascii_prefx_enc_win
         uses: ./.github/actions/workflows-ascii-prefx
+      - name: Upload workflows ASCII pre-fix logs (Windows)
+        if: always() && runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ascii-prefx-logs-windows
+          path: ${{ steps.ascii_prefx_enc_win.outputs.logs-dir }}
+          if-no-files-found: warn
+          retention-days: 7
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'
@@ -226,7 +244,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: ASCII pre-fix (Python)
+        id: ascii_prefx_guard
         uses: ./.github/actions/workflows-ascii-prefx
+      - name: Upload workflows ASCII pre-fix logs (guard)
+        if: always() && runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ascii-prefx-logs-guard
+          path: ${{ steps.ascii_prefx_guard.outputs.logs-dir }}
+          if-no-files-found: warn
+          retention-days: 7
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'
