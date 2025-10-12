@@ -35,7 +35,10 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-      - run: npm ci
+      - name: Install dependencies (no scripts)
+        run: npm ci --ignore-scripts --omit=optional
+      - name: Run postinstall patches (explicit)
+        run: node scripts/ci/patch-tree-sitter.js
       - name: Strip BOMs in config files
         run: node scripts/ci/fix-bom.cjs
       - name: Build application
@@ -76,7 +79,10 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-      - run: npm ci
+      - name: Install dependencies (no scripts)
+        run: npm ci --ignore-scripts --omit=optional
+      - name: Run postinstall patches (explicit)
+        run: node scripts/ci/patch-tree-sitter.js
       - name: ESLint pre-fix (non-blocking)
         if: runner.os == 'Windows'
         uses: ./.github/actions/eslint-prefx
@@ -138,9 +144,12 @@ jobs:
             src/**
             tests/e2e/**
             playwright.config.ts
-      - name: Install deps (npm ci)
+      - name: Install deps (npm ci, no scripts)
         if: steps.changes-e2e.outputs.any_changed == 'true'
-        run: npm ci
+        run: npm ci --ignore-scripts --omit=optional
+      - name: Run postinstall patches (explicit)
+        if: steps.changes-e2e.outputs.any_changed == 'true'
+        run: node scripts/ci/patch-tree-sitter.js
       - name: Download build artifacts
         if: steps.changes-e2e.outputs.any_changed == 'true'
         uses: actions/download-artifact@v4
