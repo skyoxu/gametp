@@ -166,7 +166,6 @@ jobs:
   e2e-perf-smoke:
     needs: [build-artifacts, build-and-unit]
     runs-on: windows-latest
-    if: github.event_name == 'pull_request'
     defaults:
       run:
         shell: pwsh
@@ -194,20 +193,24 @@ jobs:
             src/**
             tests/e2e/**
             playwright.config.ts
+      - name: E2E trigger context
+        run: |
+          Write-Host ("any_changed={0}" -f ('${{ steps.changes-e2e.outputs.any_changed }}'))
+          Write-Host ("event={0} ref={1}" -f $env:GITHUB_EVENT_NAME, $env:GITHUB_REF)
       - name: Install deps (npm ci, no scripts)
-        if: steps.changes-e2e.outputs.any_changed == 'true'
+        if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         run: npm ci --ignore-scripts --omit=optional
       - name: Run postinstall patches (explicit)
-        if: steps.changes-e2e.outputs.any_changed == 'true'
+        if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         run: node scripts/ci/patch-tree-sitter.js
       - name: Download build artifacts
-        if: steps.changes-e2e.outputs.any_changed == 'true'
+        if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
           path: .
       - name: Verify downloaded artifacts
-        if: steps.changes-e2e.outputs.any_changed == 'true'
+        if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         run: |
           Write-Host "Verifying downloaded build artifacts..."
           if ((Test-Path -LiteralPath 'dist') -and (Test-Path -LiteralPath 'dist-electron')) {
@@ -225,7 +228,7 @@ jobs:
             exit 1
           }
       - name: Validate E2E timeout config (fail-fast)
-        if: steps.changes-e2e.outputs.any_changed == 'true'
+        if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         run: |
           $raw = $env:E2E_SECURITY_TIMEOUT_MS
           if ([string]::IsNullOrWhiteSpace($raw)) {
@@ -243,7 +246,7 @@ jobs:
           }
           Write-Host "[config-check] E2E_SECURITY_TIMEOUT_MS=$val (valid)"
       - name: Cache Playwright browsers
-        if: steps.changes-e2e.outputs.any_changed == 'true'
+        if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         uses: actions/cache@v4.2.4
         with:
           path: ~\AppData\Local\ms-playwright
@@ -251,17 +254,17 @@ jobs:
           restore-keys: |
             playwright-${{ runner.os }}-
       - name: Dependency Probe (Electron + Playwright)
-        if: steps.changes-e2e.outputs.any_changed == 'true'
+        if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         run: |
           pwsh -File scripts/ci/electron-deps-probe.ps1
       - name: Setup Playwright browsers cache
-        if: steps.changes-e2e.outputs.any_changed == 'true'
+        if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         uses: microsoft/playwright-github-action@v1
       - name: Run perf smoke (Electron)
-        if: steps.changes-e2e.outputs.any_changed == 'true'
+        if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         run: npm run test:e2e:perf-smoke
       - name: Run scene-transition (Electron)
-        if: steps.changes-e2e.outputs.any_changed == 'true'
+        if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         run: npm run test:e2e:scene-transition
       - name: Collect Playwright traces
         if: always()
@@ -276,7 +279,7 @@ jobs:
             logs/playwright-traces/
           retention-days: 7
       - name: Publish E2E perf P95 summary
-        if: always() && steps.changes-e2e.outputs.any_changed == 'true'
+        if: always() && (steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main')
         shell: pwsh
         run: |
           if (Test-Path -LiteralPath 'test-results/test-results.json') {
@@ -323,11 +326,11 @@ jobs:
           }
 
       - name: Collect Playwright traces to logs/
-        if: always() && steps.changes-e2e.outputs.any_changed == 'true'
+        if: always() && (steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main')
         run: npm run collect:traces
 
       - name: Upload Playwright traces (logs/playwright-traces)
-        if: always() && steps.changes-e2e.outputs.any_changed == 'true'
+        if: always() && (steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main')
         uses: actions/upload-artifact@v4
         with:
           name: playwright-traces
@@ -385,7 +388,7 @@ jobs:
               body,
             });
       - name: Upload Playwright artifacts
-        if: failure() && steps.changes-e2e.outputs.any_changed == 'true'
+        if: failure() && (steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main')
         uses: actions/upload-artifact@v4
         with:
           name: playwright-results
@@ -394,7 +397,7 @@ jobs:
             test-results/playwright-report/**
           if-no-files-found: warn
       - name: Skip E2E (no changes detected)
-        if: steps.changes-e2e.outputs.any_changed != 'true'
+        if: steps.changes-e2e.outputs.any_changed != 'true' && github.ref != 'refs/heads/main'
         run: |
           Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value "E2E perf smoke skipped: no relevant changes (src/**, tests/e2e/**, playwright.config.ts)."
 # ci-noop-trigger: 2025-10-12T16:15:03Z
