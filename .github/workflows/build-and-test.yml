@@ -382,3 +382,4 @@ jobs:
         if: steps.changes-e2e.outputs.any_changed != 'true'
         run: |
           Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value "E2E perf smoke skipped: no relevant changes (src/**, tests/e2e/**, playwright.config.ts)."
+# ci-noop-trigger: 2025-10-12T16:15:03Z
