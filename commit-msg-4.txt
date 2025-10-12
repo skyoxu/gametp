@@ -1,6 +1,0 @@
-ci(ci): relax commitlint rules for template history
-
-- Add scopes used in existing commits (prettier, lint, scripts, release, actionlint, quality-gates, validate-workflows, build-and-test, prefx, guide)
-- Increase header-max-length to 160 to cover CI-heavy messages
-- Downgrade scope-empty to warning to avoid breaking legacy empty-scope commit
-- Ignore a legacy multi-scope header (docs+ci) used during bootstrap

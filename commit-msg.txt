@@ -1,7 +1,0 @@
-refactor(i18n): split core/hooks to remove Fast Refresh warnings
-
-- Move DICTS/detectLang/context to src/i18n/core.ts
-- Move hooks to src/i18n/hooks.ts; keep index.tsx Provider-only; re-export via src/i18n/index.ts
-- Fix sqlite config-manager test variable typo
-
-Refs: ADR-0010-internationalization

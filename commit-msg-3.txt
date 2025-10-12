@@ -1,1 +1,0 @@
-ci(ci): allow i18n in commitlint scope enum

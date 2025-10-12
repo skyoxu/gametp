@@ -35,3 +35,5 @@ playwright/.cache/
 # Local E2E build cache
 .e2e-build-cache
 
+# Local commit message temp files
+commit-msg*.txt
