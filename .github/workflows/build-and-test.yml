@@ -115,13 +115,22 @@ jobs:
           python-version: '3.x'
       - name: ESLint pre-fix (non-blocking)
         if: runner.os == 'Windows'
+        id: eslint_prefx
         uses: ./.github/actions/eslint-prefx
       - name: Upload ESLint pre-fix logs
-        if: always() && runner.os == 'Windows'
+        if: always() && runner.os == 'Windows' && steps.eslint_prefx.outputs.logs-dir != ''
         uses: actions/upload-artifact@v4
         with:
           name: eslint-pre-fix-logs
           path: ${{ steps.eslint_prefx.outputs.logs-dir }}
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Upload ESLint pre-fix logs (fallback glob)
+        if: always() && runner.os == 'Windows' && steps.eslint_prefx.outputs.logs-dir == ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: eslint-pre-fix-logs-fallback
+          path: logs/*/eslint
           if-no-files-found: warn
           retention-days: 7
       - name: Lint
