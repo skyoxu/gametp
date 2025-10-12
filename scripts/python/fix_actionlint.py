@@ -60,6 +60,16 @@ def run(cmd: list[str], cwd: str | None = None) -> tuple[int, str]:
         return 127, str(e)
 
 
+def safe_print(s: str) -> None:
+    try:
+        print(s)
+    except UnicodeEncodeError:
+        try:
+            sys.stdout.buffer.write(s.encode('utf-8', 'replace') + b"\n")
+        except Exception:
+            pass
+
+
 def trim_tail_and_ensure_newline(p: str) -> bool:
     try:
         text = open(p, 'r', encoding='utf-8', errors='replace').read()
@@ -108,10 +118,19 @@ def main() -> int:
     code, out = run(['npx', 'actionlint', '-color'])
     with open(os.path.join(out_dir, 'actionlint.txt'), 'w', encoding='utf-8') as f:
         f.write(out)
-    print(out)
+    safe_print(out)
+
+    # Fallback: 本地 npx 无法执行 actionlint（二进制未暴露），改用仓库自带校验脚本
+    if code != 0 and ('could not determine executable to run' in out.lower() or 'not found' in out.lower()):
+        fb_code, fb_out = run(['node', 'scripts/ci/validate-all-workflows.cjs'])
+        with open(os.path.join(out_dir, 'actionlint-fallback.txt'), 'w', encoding='utf-8') as f:
+            f.write(fb_out)
+        safe_print('\n[actionlint fallback] validate-all-workflows.cjs result:')
+        safe_print(fb_out)
+        return fb_code
+
     return code
 
 
 if __name__ == '__main__':
     sys.exit(main())
-

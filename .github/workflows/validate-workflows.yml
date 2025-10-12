@@ -123,6 +123,9 @@ jobs:
     needs: [actionlint, actionlint-windows]
     steps:
       - uses: actions/checkout@v4
+      - name: ASCII pre-fix (Python)
+        shell: pwsh
+        run: py -3 scripts/python/fix_workflows_ascii.py
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'
@@ -138,6 +141,9 @@ jobs:
     needs: [actionlint, actionlint-windows]
     steps:
       - uses: actions/checkout@v4
+      - name: ASCII pre-fix (Python)
+        shell: pwsh
+        run: py -3 scripts/python/fix_workflows_ascii.py
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'
@@ -190,6 +196,9 @@ jobs:
       [actionlint, actionlint-windows, encoding-guard, encoding-guard-windows]
     steps:
       - uses: actions/checkout@v4
+      - name: ASCII pre-fix (Python)
+        shell: pwsh
+        run: py -3 scripts/python/fix_workflows_ascii.py
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'
@@ -226,4 +235,3 @@ jobs:
           node-version: '20'
       - name: Run docs shell light gate (PR)
         run: node scripts/ci/docs-shell-pr-gate.mjs
-
