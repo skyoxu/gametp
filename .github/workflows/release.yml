@@ -70,7 +70,38 @@ jobs:
       - name: Package (dir, unpacked)
         run: npm run build:win:dir
       - name: Package (installer NSIS)
-        run: npm run build:win
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          Write-Host "[release] Pre-installing NSIS to stabilize packaging..."
+          try {
+            choco install nsis -y --no-progress | Out-Host
+          } catch {
+            Write-Warning "Chocolatey NSIS install step reported an error; proceeding to attempt packaging regardless."
+          }
+
+          $global:LASTEXITCODE = 0
+          Write-Host "[release] Running electron-builder (NSIS) — attempt #1"
+          npm run build:win
+          if ($LASTEXITCODE -ne 0) {
+            Write-Warning "[release] NSIS packaging failed on first attempt (exit=$LASTEXITCODE). Clearing electron-builder cache and retrying..."
+            $cacheDir = Join-Path $env:LOCALAPPDATA 'electron-builder\Cache'
+            if (Test-Path -LiteralPath $cacheDir) {
+              try {
+                Remove-Item -LiteralPath $cacheDir -Recurse -Force -ErrorAction SilentlyContinue
+                Write-Host "[release] Cleared cache: $cacheDir"
+              } catch {
+                Write-Warning "[release] Failed to clear cache at $cacheDir"
+              }
+            }
+            $global:LASTEXITCODE = 0
+            Write-Host "[release] Running electron-builder (NSIS) — attempt #2"
+            npm run build:win
+            if ($LASTEXITCODE -ne 0) {
+              Write-Error "[release] NSIS packaging failed after retry (exit=$LASTEXITCODE). Aborting."
+              exit $LASTEXITCODE
+            }
+          }
 
       # Windows Signing (Azure Trusted Signing / Key Vault) - Placeholder (disabled by default)
       # Enable by setting SIGN_WINDOWS: true and provide the following secrets/envs:
