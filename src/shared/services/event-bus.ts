@@ -39,7 +39,8 @@ const ENV = (typeof process !== 'undefined' && process.env) || {};
 const DEFAULT_CONFIG: EventBusConfig = {
   validation: {
     level: ((ENV.CLOUDEVENTS_VALIDATION_LEVEL as any) || 'strict') as any,
-    enablePerformanceMonitoring: (ENV.NODE_ENV ?? 'development') !== 'production',
+    enablePerformanceMonitoring:
+      (ENV.NODE_ENV ?? 'development') !== 'production',
   },
   enableMiddleware: true,
   maxListeners: Number(ENV.EVENT_BUS_MAX_LISTENERS ?? '100'),
@@ -109,10 +110,7 @@ export class EventBus implements EventPublisher, EventSubscriber {
         error instanceof Error ? error.message : 'Unknown error';
 
       if (this.config.enableDebugLogging) {
-        console.error(
-          ` Failed to publish event ${event.type}:`,
-          errorMessage
-        );
+        console.error(` Failed to publish event ${event.type}:`, errorMessage);
       }
 
       //

@@ -5,7 +5,11 @@ import crypto from 'node:crypto';
 import https from 'node:https';
 
 function b64u(buf) {
-  return Buffer.from(buf).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+  return Buffer.from(buf)
+    .toString('base64')
+    .replace(/=/g, '')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_');
 }
 
 function makeJwt(appId, pem) {
@@ -36,20 +40,29 @@ function requestJson(method, url, headers, body) {
         const ct = String(res.headers['content-type'] || '');
         let js = {};
         if (ct.startsWith('application/json')) {
-          try { js = JSON.parse(buf.toString('utf8')); } catch {}
+          try {
+            js = JSON.parse(buf.toString('utf8'));
+          } catch {}
         }
-        resolve({ status: res.statusCode || 0, headers: res.headers, json: js, body: buf });
+        resolve({
+          status: res.statusCode || 0,
+          headers: res.headers,
+          json: js,
+          body: buf,
+        });
       });
     });
     req.on('error', reject);
     if (body) {
-      req.write(Buffer.from(typeof body === 'string' ? body : JSON.stringify(body)));
+      req.write(
+        Buffer.from(typeof body === 'string' ? body : JSON.stringify(body))
+      );
     }
     req.end();
   });
 }
 
-async function downloadToFile(url, headers, outPath, _redir=0) {
+async function downloadToFile(url, headers, outPath, _redir = 0) {
   const u = new URL(url);
   const opts = {
     method: 'GET',
@@ -60,12 +73,24 @@ async function downloadToFile(url, headers, outPath, _redir=0) {
   return new Promise((resolve, reject) => {
     const req = https.request(opts, res => {
       // Follow redirects (S3 pre-signed URL)
-      if ([301,302,303,307,308].includes(res.statusCode || 0) && res.headers.location) {
-        if (_redir > 5) return resolve({ ok: false, status: res.statusCode, body: 'Too many redirects' });
+      if (
+        [301, 302, 303, 307, 308].includes(res.statusCode || 0) &&
+        res.headers.location
+      ) {
+        if (_redir > 5)
+          return resolve({
+            ok: false,
+            status: res.statusCode,
+            body: 'Too many redirects',
+          });
         const loc = res.headers.location;
         // For redirected S3 URL, drop auth headers
-        downloadToFile(loc, { 'User-Agent': 'ghapp-client' }, outPath, _redir+1)
-          .then(resolve, reject);
+        downloadToFile(
+          loc,
+          { 'User-Agent': 'ghapp-client' },
+          outPath,
+          _redir + 1
+        ).then(resolve, reject);
         return;
       }
       if (res.statusCode !== 200) {
@@ -101,7 +126,9 @@ async function main() {
   const out = getArg('--out', `run-${runId}.zip`);
 
   if (!appId || !keyFile || !owner || !repo || !runId) {
-    console.error('Usage: --app-id <id> --key-file <pem> --owner <o> --repo <r> --run-id <id> [--out file]');
+    console.error(
+      'Usage: --app-id <id> --key-file <pem> --owner <o> --repo <r> --run-id <id> [--out file]'
+    );
     process.exit(2);
   }
   const pemPath = path.resolve(keyFile);
@@ -120,9 +147,17 @@ async function main() {
   };
 
   // Resolve installation for repo
-  const instResp = await requestJson('GET', `${base}/repos/${owner}/${repo}/installation`, headersJwt);
+  const instResp = await requestJson(
+    'GET',
+    `${base}/repos/${owner}/${repo}/installation`,
+    headersJwt
+  );
   if (instResp.status !== 200) {
-    console.error('Failed to resolve installation:', instResp.status, instResp.json || instResp.body?.toString?.());
+    console.error(
+      'Failed to resolve installation:',
+      instResp.status,
+      instResp.json || instResp.body?.toString?.()
+    );
     process.exit(3);
   }
   const instId = instResp.json.id;
@@ -132,9 +167,18 @@ async function main() {
   }
 
   // Create installation token
-  const tokResp = await requestJson('POST', `${base}/app/installations/${instId}/access_tokens`, headersJwt, {});
+  const tokResp = await requestJson(
+    'POST',
+    `${base}/app/installations/${instId}/access_tokens`,
+    headersJwt,
+    {}
+  );
   if (tokResp.status !== 201) {
-    console.error('Failed to create installation token:', tokResp.status, tokResp.json || tokResp.body?.toString?.());
+    console.error(
+      'Failed to create installation token:',
+      tokResp.status,
+      tokResp.json || tokResp.body?.toString?.()
+    );
     process.exit(4);
   }
   const instToken = tokResp.json.token;

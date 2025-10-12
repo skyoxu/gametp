@@ -140,7 +140,7 @@ export function GameStateProvider({
         case 'game.save.created':
         case 'game.save.loaded':
         case 'game.save.deleted':
-          // 
+          //
           refreshSaveList();
           break;
 
@@ -163,7 +163,7 @@ export function GameStateProvider({
     };
   }, [stateManager, stateSynchronizer]);
 
-  // 
+  //
   useEffect(() => {
     const subscriptions = gameEvents.onGameStateChange(event => {
       const { gameState: updatedState } = event.data;
@@ -177,7 +177,7 @@ export function GameStateProvider({
 
   // React
   useEffect(() => {
-    stateSynchronizer.registerSource(reactStateSource, 5); // 
+    stateSynchronizer.registerSource(reactStateSource, 5); //
     stateSynchronizer.startSync();
 
     return () => {
@@ -197,7 +197,7 @@ export function GameStateProvider({
       stateManager.setState(gameState, gameConfig);
       const saveId = await stateManager.saveGame();
 
-  // Notify other components via EventBus
+      // Notify other components via EventBus
       gameEvents.publish({
         type: 'game.save.created',
         data: { saveId, gameState },
@@ -228,10 +228,10 @@ export function GameStateProvider({
       try {
         const { state, config: _config } = await stateManager.loadGame(saveId);
 
-  // Force sync to all state sources
+        // Force sync to all state sources
         stateSynchronizer.forceState(state);
 
-  // Notify game engine via EventBus
+        // Notify game engine via EventBus
         gameEvents.sendCommandToPhaser('load', { saveId });
 
         return true;

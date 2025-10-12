@@ -29,7 +29,13 @@ describe('i18n keys parity', () => {
     const en = loadJson(join(process.cwd(), 'src', 'i18n', 'en-US.json'));
     const zh = loadJson(join(process.cwd(), 'src', 'i18n', 'zh-CN.json'));
 
-    const namespaces = ['controlPanel', 'notifications', 'interface', 'statusPanel', 'settingsPanel'] as const;
+    const namespaces = [
+      'controlPanel',
+      'notifications',
+      'interface',
+      'statusPanel',
+      'settingsPanel',
+    ] as const;
 
     for (const ns of namespaces) {
       const enNs = en[ns];
@@ -45,4 +51,3 @@ describe('i18n keys parity', () => {
     }
   });
 });
-

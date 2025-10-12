@@ -176,7 +176,9 @@ export class CSPManager {
     }
 
     if (conflicts.length > 0) {
-      suggestions.push('Use CSPManager.generateCSP() to unify policy generation');
+      suggestions.push(
+        'Use CSPManager.generateCSP() to unify policy generation'
+      );
       suggestions.push('Ensure environments/devices use the same base policy');
     }
 
@@ -244,4 +246,3 @@ export class CSPManager {
  * CSP manager singleton
  */
 export const cspManager = new CSPManager();
-

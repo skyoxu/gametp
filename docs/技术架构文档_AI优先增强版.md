@@ -1,4 +1,5 @@
 ﻿# 銆婂叕浼氱粡鐞嗐€嬫妧鏈灦鏋勬枃妗?- AI浼樺厛澧炲己鐗?
+
 ## 鏂囨。淇℃伅
 
 ## 绗?绔?绾︽潫涓庣洰鏍?(Constraints & Objectives)
@@ -8,6 +9,7 @@
 ### 1.1 鏍稿績绾︽潫鏉′欢 (Non-Functional Requirements)
 
 #### 1.1.1 鎶€鏈爤纭€х害鏉?
+
 ```typescript
 // 鎶€鏈爤绾︽潫鐭╅樀 - 涓ョ鍙樻洿鐨勬妧鏈€夊瀷
 export const TECH_STACK_CONSTRAINTS = {
@@ -33,7 +35,7 @@ export const TECH_STACK_CONSTRAINTS = {
 
 #### 1.1.2 寮€鍙戠害鏉熶笌鍘熷垯 (Development Constraints)
 
-**KISS鍘熷垯锛圞eep It Simple, Stupid锛?*
+\*_KISS鍘熷垯锛圞eep It Simple, Stupid锛?_
 
 ```typescript
 // 浠ｇ爜澶嶆潅搴︾害鏉?- 寮哄埗鎵ц
@@ -60,7 +62,7 @@ export const NAMING_CONVENTIONS = {
 } as const;
 ```
 
-**YAGNI鍘熷垯锛圷ou Aren't Gonna Need It锛?*
+\*_YAGNI鍘熷垯锛圷ou Aren't Gonna Need It锛?_
 
 ```typescript
 // YAGNI鎵ц娓呭崟 - 浠ｇ爜瀹℃煡蹇呮椤?export const YAGNI_CHECKLIST = {
@@ -133,15 +135,15 @@ export const NAMING_CONVENTIONS = {
   functionDocumentation: `
   /**
    * 绠€娲佹弿杩板嚱鏁扮殑鏍稿績鍔熻兘锛屼娇鐢ㄥ姩璇嶅紑澶?   *
-   * 璇︾粏鎻忚堪鍑芥暟鐨勪笟鍔￠€昏緫銆佺畻娉曟€濊矾銆佷娇鐢ㄥ満鏅?   * 
+   * 璇︾粏鎻忚堪鍑芥暟鐨勪笟鍔￠€昏緫銆佺畻娉曟€濊矾銆佷娇鐢ㄥ満鏅?   *
    * @param paramName - 鍙傛暟鎻忚堪锛岃鏄庣被鍨嬨€佽寖鍥淬€侀粯璁ゅ€?   * @param options - 鍙€夊弬鏁板璞℃弿杩?   * @param options.config - 閰嶇疆閫夐」璇存槑
-   * @returns 杩斿洖鍊兼弿杩帮紝璇存槑杩斿洖鐨勬暟鎹粨鏋勫拰鍙兘鐨勫€?   * 
+   * @returns 杩斿洖鍊兼弿杩帮紝璇存槑杩斿洖鐨勬暟鎹粨鏋勫拰鍙兘鐨勫€?   *
    * @throws {Error} 鎶涘嚭寮傚父鐨勬潯浠跺拰閿欒绫诲瀷
-   * @throws {ValidationError} 杈撳叆楠岃瘉澶辫触鏃舵姏鍑?   * 
+   * @throws {ValidationError} 杈撳叆楠岃瘉澶辫触鏃舵姏鍑?   *
    * @example
    * // 鍩烘湰鐢ㄦ硶绀轰緥
    * const result = await functionName(param1, { config: true });
-   * console.log(result); // 杈撳嚭: 鏈熸湜鐨勭粨鏋滄牸寮?   * 
+   * console.log(result); // 杈撳嚭: 鏈熸湜鐨勭粨鏋滄牸寮?   *
    * @example
    * // 閿欒澶勭悊绀轰緥
    * try {
@@ -149,13 +151,13 @@ export const NAMING_CONVENTIONS = {
    * } catch (error) {
    *   console.error('澶勭悊閿欒:', error.message);
    * }
-   * 
+   *
    * @since 1.0.0 - 鍔熻兘棣栨寮曞叆鐨勭増鏈彿
    * @see {@link RelatedFunction} - 鐩稿叧鍔熻兘鍑芥暟寮曠敤
    * @see {@link https://docs.example.com/api} - 澶栭儴鏂囨。閾炬帴
-   * 
+   *
    * @internal - 鍐呴儴浣跨敤鍑芥暟锛屼笉瀵瑰鏆撮湶
-   * @deprecated 浣跨敤 {@link NewFunction} 浠ｆ浛锛屽皢鍦╲2.0.0涓Щ闄?   * 
+   * @deprecated 浣跨敤 {@link NewFunction} 浠ｆ浛锛屽皢鍦╲2.0.0涓Щ闄?   *
    * @complexity O(n) - 绠楁硶鏃堕棿澶嶆潅搴?   * @performance 閫傜敤浜庡鐞?000鏉′互涓嬫暟鎹紝澶ф暟鎹噺璇蜂娇鐢ㄦ壒澶勭悊鐗堟湰
    */`,
 
@@ -163,19 +165,19 @@ export const NAMING_CONVENTIONS = {
   /**
    * 绫荤殑鏍稿績鍔熻兘鍜岃亴璐ｆ弿杩?   *
    * 璇︾粏璇存槑绫荤殑璁捐鎰忓浘銆佷娇鐢ㄥ満鏅€佷富瑕佸姛鑳芥ā鍧?   * 鎻忚堪绫讳笌鍏朵粬缁勪欢鐨勫叧绯诲拰渚濊禆鍏崇郴
-   * 
+   *
    * @template T - 娉涘瀷鍙傛暟璇存槑
-   * @template K - 閿被鍨嬬害鏉熻鏄?   * 
+   * @template K - 閿被鍨嬬害鏉熻鏄?   *
    * @example
    * // 鍩烘湰瀹炰緥鍖栧拰浣跨敤
    * const instance = new ClassName<DataType>({
    *   config: 'value',
    *   options: { enabled: true }
    * });
-   * 
+   *
    * // 涓昏鍔熻兘浣跨敤绀轰緥
    * const result = await instance.mainMethod();
-   * 
+   *
    * @example
    * // 缁ф壙浣跨敤绀轰緥
    * class ExtendedClass extends ClassName<string> {
@@ -183,10 +185,10 @@ export const NAMING_CONVENTIONS = {
    *     super({ defaultConfig: 'inherited' });
    *   }
    * }
-   * 
+   *
    * @since 1.0.0
    * @see {@link RelatedInterface} - 瀹炵幇鐨勬帴鍙?   * @see {@link DependentClass} - 渚濊禆鐨勫叾浠栫被
-   * 
+   *
    * @immutable - 涓嶅彲鍙樼被锛屾墍鏈夋柟娉曢兘杩斿洖鏂板疄渚?   * @singleton - 鍗曚緥妯″紡瀹炵幇
    * @threadsafe - 绾跨▼瀹夊叏鐨勭被瀹炵幇
    */`,
@@ -197,7 +199,7 @@ export const NAMING_CONVENTIONS = {
    * 鎺ュ彛鐨勬牳蹇冨姛鑳藉拰濂戠害鎻忚堪
    *
    * 璇︾粏璇存槑鎺ュ彛瀹氫箟鐨勬暟鎹粨鏋勬垨琛屼负濂戠害
-   * 鎻忚堪瀹炵幇姝ゆ帴鍙ｇ殑瑕佹眰鍜岀害鏉熸潯浠?   * 
+   * 鎻忚堪瀹炵幇姝ゆ帴鍙ｇ殑瑕佹眰鍜岀害鏉熸潯浠?   *
    * @example
    * // 鎺ュ彛瀹炵幇绀轰緥
    * const userObject: UserInterface = {
@@ -205,13 +207,13 @@ export const NAMING_CONVENTIONS = {
    *   name: 'John Doe',
    *   email: 'john@example.com',
    *   isActive: true,
-   *   
+   *
    *   // 鏂规硶瀹炵幇绀轰緥
    *   async save(): Promise<boolean> {
    *     return await this.saveToDatabase();
    *   }
    * };
-   * 
+   *
    * @example
    * // 鍑芥暟鍙傛暟浣跨敤绀轰緥
    * function processUser(user: UserInterface): ProcessResult {
@@ -220,7 +222,7 @@ export const NAMING_CONVENTIONS = {
    *     message: \`澶勭悊鐢ㄦ埛: \${user.name}\`
    *   };
    * }
-   * 
+   *
    * @since 1.0.0
    * @see {@link ImplementingClass} - 瀹炵幇姝ゆ帴鍙ｇ殑绫?   * @see {@link ExtendedInterface} - 鎵╁睍姝ゆ帴鍙ｇ殑鍏朵粬鎺ュ彛
    */`,
@@ -438,7 +440,7 @@ export const ARCHITECTURE_DOCUMENTATION_STANDARDS = {
 
 #### 1.1.4 AI浠ｇ爜鐢熸垚绾︽潫 (AI Code Generation Constraints)
 
-**浠ｇ爜涓€鑷存€т繚璇佹満鍒?*
+\*_浠ｇ爜涓€鑷存€т繚璇佹満鍒?_
 
 ```typescript
 // AI浠ｇ爜鐢熸垚涓€鑷存€х害鏉?- 纭繚鐢熸垚浠ｇ爜璐ㄩ噺鍜岀粺涓€鎬?export const AI_CODE_GENERATION_CONSTRAINTS = {
@@ -761,7 +763,8 @@ export const ARCHITECTURE_DOCUMENTATION_STANDARDS = {
 ### 1.2 涓氬姟鐩爣瀹氫箟 (Business Objectives)
 
 #### 1.2.1 鏍稿績涓氬姟浠峰€?
-**涓讳笟鍔℃祦绋嬪畾涔?*
+
+\*_涓讳笟鍔℃祦绋嬪畾涔?_
 
 ```typescript
 // 鏍稿績涓氬姟娴佺▼鏄犲皠
@@ -862,18 +865,20 @@ export const PERFORMANCE_BASELINES = {
 ### 1.3 椋庨櫓璇勪及涓庣紦瑙ｇ瓥鐣?(Risk Assessment)
 
 #### 1.3.1 鎶€鏈闄╃煩闃?
-| 椋庨櫓绫诲埆       | 椋庨櫓鎻忚堪               | 姒傜巼 | 褰卞搷 | 椋庨櫓绛夌骇 | 缂撹В绛栫暐                  | 璐熻矗浜?      |
-| -------------- | ---------------------- | ---- | ---- | -------- | ------------------------- | ------------ |
-| **鏋舵瀯椋庨櫓**   | 寰幆渚濊禆瀵艰嚧绯荤粺鍍靛寲   | 涓?  | 楂?  | 馃敶楂?    | 寮哄埗渚濊禆妫€鏌ュ伐鍏?浠ｇ爜瀹℃煡 | 鏋舵瀯甯?      |
-| **鎬ц兘椋庨櫓**   | 鍐呭瓨娉勯湶褰卞搷闀挎湡杩愯   | 楂?  | 涓?  | 馃敶楂?    | 鍐呭瓨鐩戞帶+鑷姩閲嶅惎鏈哄埗     | 鎬ц兘宸ョ▼甯?  |
-| **瀹夊叏椋庨櫓**   | Electron瀹夊叏婕忔礊       | 浣?  | 楂?  | 馃煛涓?    | 瀹夊叏鍩虹嚎+瀹氭湡瀹¤         | 瀹夊叏宸ョ▼甯?  |
-| **鏁版嵁椋庨櫓**   | SQLite鏁版嵁鎹熷潖         | 浣?  | 楂?  | 馃煛涓?    | 鑷姩澶囦唤+瀹屾暣鎬ф鏌?      | 鏁版嵁宸ョ▼甯?  |
-| **AI椋庨櫓**     | AI鍐崇瓥璐ㄩ噺涓嬮檷         | 涓?  | 涓?  | 馃煛涓?    | 鏁堟灉鐩戞帶+浜哄伐骞查         | AI宸ョ▼甯?    |
-| **渚濊禆椋庨櫓**   | 绗笁鏂瑰寘婕忔礊鎴栧仠缁?    | 涓?  | 涓?  | 馃煛涓?    | 瀹氭湡鏇存柊+澶囬€夋柟妗?        | DevOps宸ョ▼甯?|
-| **澶嶆潅搴﹂闄?* | 杩囧害宸ョ▼鍖栧奖鍝嶅紑鍙戞晥鐜?| 涓?  | 涓?  | 馃煛涓?    | YAGNI鍘熷垯+瀹氭湡閲嶆瀯        | 鎶€鏈富绠?    |
-| **鍏煎鎬ч闄?* | 璺ㄥ钩鍙板吋瀹规€ч棶棰?      | 浣?  | 涓?  | 馃煝浣?    | CI澶氬钩鍙版祴璇?             | 娴嬭瘯宸ョ▼甯?  |
+
+| 椋庨櫓绫诲埆       | 椋庨櫓鎻忚堪                     | 姒傜巼 | 褰卞搷 | 椋庨櫓绛夌骇 | 缂撹В绛栫暐                         | 璐熻矗浜?      |
+| ------------------ | -------------------------------- | ------ | ------ | ------------ | ----------------------------------- | -------------- |
+| **鏋舵瀯椋庨櫓**   | 寰幆渚濊禆瀵艰嚧绯荤粺鍍靛寲    | 涓?    | 楂?    | 馃敶楂?      | 寮哄埗渚濊禆妫€鏌ュ伐鍏?浠ｇ爜瀹℃煡 | 鏋舵瀯甯?      |
+| **鎬ц兘椋庨櫓**    | 鍐呭瓨娉勯湶褰卞搷闀挎湡杩愯    | 楂?    | 涓?    | 馃敶楂?      | 鍐呭瓨鐩戞帶+鑷姩閲嶅惎鏈哄埗      | 鎬ц兘宸ョ▼甯?  |
+| **瀹夊叏椋庨櫓**   | Electron瀹夊叏婕忔礊             | 浣?    | 楂?    | 馃煛涓?      | 瀹夊叏鍩虹嚎+瀹氭湡瀹¤             | 瀹夊叏宸ョ▼甯? |
+| **鏁版嵁椋庨櫓**   | SQLite鏁版嵁鎹熷潖               | 浣?    | 楂?    | 馃煛涓?      | 鑷姩澶囦唤+瀹屾暣鎬ф鏌?           | 鏁版嵁宸ョ▼甯? |
+| **AI椋庨櫓**       | AI鍐崇瓥璐ㄩ噺涓嬮檷             | 涓?    | 涓?    | 馃煛涓?      | 鏁堟灉鐩戞帶+浜哄伐骞查            | AI宸ョ▼甯?     |
+| **渚濊禆椋庨櫓**   | 绗笁鏂瑰寘婕忔礊鎴栧仠缁?       | 涓?    | 涓?    | 馃煛涓?      | 瀹氭湡鏇存柊+澶囬€夋柟妗?           | DevOps宸ョ▼甯? |
+| \*_澶嶆潅搴﹂闄?_ | 杩囧害宸ョ▼鍖栧奖鍝嶅紑鍙戞晥鐜? | 涓?    | 涓?    | 馃煛涓?      | YAGNI鍘熷垯+瀹氭湡閲嶆瀯            | 鎶€鏈富绠?    |
+| \*_鍏煎鎬ч闄?_   | 璺ㄥ钩鍙板吋瀹规€ч棶棰?          | 浣?    | 涓?    | 馃煝浣?      | CI澶氬钩鍙版祴璇?                   | 娴嬭瘯宸ョ▼甯? |
 
 #### 1.3.2 涓氬姟杩炵画鎬ц鍒?
+
 **鏁版嵁澶囦唤绛栫暐**
 
 ```typescript
@@ -1013,6 +1018,7 @@ export const CODE_QUALITY_CHECKPOINTS = {
 ### 1.4 寮€鍙戣鑼冧笌璐ㄩ噺鏍囧噯
 
 #### 1.4.1 TypeScript寮€鍙戣鑼?
+
 **涓ユ牸妯″紡閰嶇疆**
 
 ```typescript
@@ -1078,7 +1084,7 @@ export interface TypeDefinitionStandards {
 }
 ```
 
-**React 19寮€鍙戣鑼?*
+\*_React 19寮€鍙戣鑼?_
 
 ```tsx
 // React缁勪欢寮€鍙戣鑼冪ず渚?import React, { useState, useEffect, memo, useCallback } from 'react';
@@ -1168,6 +1174,7 @@ export default UserProfile;
 ```
 
 #### 1.4.2 Phaser 3寮€鍙戣鑼?
+
 **Scene鏋舵瀯鏍囧噯**
 
 ```typescript
@@ -1371,7 +1378,7 @@ export class GuildManagementScene extends Phaser.Scene {
 
 #### 1.4.3 浜嬩欢鍛藉悕瑙勮寖
 
-**寮虹被鍨嬩簨浠剁郴缁?*
+\*_寮虹被鍨嬩簨浠剁郴缁?_
 
 ```typescript
 // 浜嬩欢鍚嶇О瑙勮寖 - 寮虹被鍨嬪畾涔?export const GameEvents = {
@@ -1456,16 +1463,18 @@ export class TypedEventEmitter {
 ```
 
 ### 1.5 鎴愬姛鎸囨爣涓庨獙鏀舵爣鍑?
+
 #### 1.5.1 鏋舵瀯鎴愮啛搴﹁瘎浼?
+
 **鏋舵瀯璇勫垎鏍囧噯 (鐩爣: 98+鍒?**
 
-| 璇勫垎缁村害             | 鏉冮噸 | 鐩爣鍒嗘暟 | 鍏抽敭鎸囨爣                                             | 娴嬮噺鏂瑰紡                               |
-| -------------------- | ---- | -------- | ---------------------------------------------------- | -------------------------------------- |
-| **AI浠ｇ爜鐢熸垚鍙嬪ソ搴?* | 40%  | 39/40    | 娓呮櫚渚濊禆鍏崇郴銆佹爣鍑嗗寲鎺ュ彛銆佸畬鏁翠唬鐮佺ず渚嬨€佽缁嗛厤缃ā鏉?| 浠ｇ爜鍧楁暟閲忋€佺ず渚嬪畬鏁存€с€佹枃妗ｇ粨鏋勫寲绋嬪害 |
-| **鏋舵瀯椤哄簭绗﹀悎搴?*   | 30%  | 29/30    | 涓ユ牸閬靛惊arc42/C4鏍囧噯銆丄I浼樺厛9绔犳帓搴忋€佷笉鍙洖閫€绾︽潫    | 绔犺妭椤哄簭妫€鏌ャ€佷緷璧栧叧绯婚獙璇?            |
-| **娴嬭瘯閲戝瓧濉斿疄鐜?*   | 20%  | 20/20    | 70%鍗曞厓+20%闆嗘垚+10%E2E銆佸畬鏁磋嚜鍔ㄥ寲銆佽川閲忛棬绂?        | 娴嬭瘯瑕嗙洊鐜囩粺璁°€佽嚜鍔ㄥ寲鎵ц鐜?          |
-| **瀹為檯鍙搷浣滄€?*     | 10%  | 10/10    | 璇︾粏瀹炴柦鎸囧崡銆佸伐鍏烽摼閰嶇疆銆佸叿浣撴搷浣滄楠?              | 鍙墽琛屾€ч獙璇併€侀厤缃枃浠跺畬鏁存€?          |
-| **鎬诲垎**             | 100% | **98+**  | 缁煎悎璇勪及                                             | 鑷姩鍖栬瘎鍒嗗伐鍏?                        |
+| 璇勫垎缁村害                | 鏉冮噸 | 鐩爣鍒嗘暟 | 鍏抽敭鎸囨爣                                                                | 娴嬮噺鏂瑰紡                                             |
+| --------------------------- | ------ | ----------- | --------------------------------------------------------------------------- | -------------------------------------------------------- |
+| \*_AI浠ｇ爜鐢熸垚鍙嬪ソ搴?_ | 40%    | 39/40       | 娓呮櫚渚濊禆鍏崇郴銆佹爣鍑嗗寲鎺ュ彛銆佸畬鏁翠唬鐮佺ず渚嬨€佽缁嗛厤缃ā鏉? | 浠ｇ爜鍧楁暟閲忋€佺ず渚嬪畬鏁存€с€佹枃妗ｇ粨鏋勫寲绋嬪害 |
+| \*_鏋舵瀯椤哄簭绗﹀悎搴?_   | 30%    | 29/30       | 涓ユ牸閬靛惊arc42/C4鏍囧噯銆丄I浼樺厛9绔犳帓搴忋€佷笉鍙洖閫€绾︽潫         | 绔犺妭椤哄簭妫€鏌ャ€佷緷璧栧叧绯婚獙璇?                  |
+| \*_娴嬭瘯閲戝瓧濉斿疄鐜?_   | 20%    | 20/20       | 70%鍗曞厓+20%闆嗘垚+10%E2E銆佸畬鏁磋嚜鍔ㄥ寲銆佽川閲忛棬绂?                 | 娴嬭瘯瑕嗙洊鐜囩粺璁°€佽嚜鍔ㄥ寲鎵ц鐜?                  |
+| \*_瀹為檯鍙搷浣滄€?_       | 10%    | 10/10       | 璇︾粏瀹炴柦鎸囧崡銆佸伐鍏烽摼閰嶇疆銆佸叿浣撴搷浣滄楠?                    | 鍙墽琛屾€ч獙璇併€侀厤缃枃浠跺畬鏁存€?                  |
+| **鎬诲垎**                  | 100%   | **98+**     | 缁煎悎璇勪及                                                                | 鑷姩鍖栬瘎鍒嗗伐鍏?                                     |
 
 #### 1.5.2 浜や粯璐ㄩ噺闂ㄧ
 
@@ -1503,6 +1512,7 @@ export class TypedEventEmitter {
 ## 绗?绔?濞佽儊妯″瀷涓庡畨鍏ㄥ熀绾?(Threat Model & Security Baseline)
 
 ### 2.1 濞佽儊寤烘ā涓庨闄╄瘎浼?
+
 #### 2.1.1 濞佽儊寤烘ā妗嗘灦 (STRIDE + DREAD)
 
 **STRIDE濞佽儊鍒嗘瀽**
@@ -1540,7 +1550,8 @@ export const DREAD_RISK_MATRIX = {
 ```
 
 #### 2.1.2 鏀诲嚮闈㈠垎鏋?
-**Electron搴旂敤鏀诲嚮闈㈡槧灏?*
+
+\*_Electron搴旂敤鏀诲嚮闈㈡槧灏?_
 
 ```typescript
 // 鏀诲嚮闈㈣缁嗗垎鏋?export const ATTACK_SURFACE_MAP = {
@@ -1626,7 +1637,7 @@ export const DREAD_RISK_MATRIX = {
 
 #### 2.2.1 瀹夊叏閰嶇疆娓呭崟
 
-**涓昏繘绋嬪畨鍏ㄩ厤缃?*
+\*_涓昏繘绋嬪畨鍏ㄩ厤缃?_
 
 ```typescript
 // main.ts - Electron涓昏繘绋嬪畨鍏ㄩ厤缃?import { app, BrowserWindow, ipcMain, shell } from 'electron';
@@ -1741,6 +1752,7 @@ export function createSecureMainWindow(): BrowserWindow {
 ```
 
 #### 2.2.2 棰勫姞杞借剼鏈畨鍏ㄥ疄鐜?
+
 ```typescript
 // preload.ts - 瀹夊叏鐨勯鍔犺浇鑴氭湰
 import { contextBridge, ipcRenderer } from 'electron';
@@ -2346,7 +2358,9 @@ export const CSP_POLICY_CONFIG = {
 ```
 
 #### 2.2.5 Electron瀹夊叏鍩虹嚎宸ョ▼鍖?CI鍐掔儫鐢ㄤ緥锛圕hatGPT5寤鸿2锛?
-> **宸ョ▼鍖栫洰鏍?*: 灏咵lectron瀹夊叏鍩虹嚎閰嶇疆宸ョ▼鍖栧疄鐜帮紝骞堕泦鎴愬埌CI/CD娴佹按绾夸腑杩涜鑷姩鍖栭獙璇?
+
+> \*_宸ョ▼鍖栫洰鏍?_: 灏咵lectron瀹夊叏鍩虹嚎閰嶇疆宸ョ▼鍖栧疄鐜帮紝骞堕泦鎴愬埌CI/CD娴佹按绾夸腑杩涜鑷姩鍖栭獙璇?
+
 ```typescript
 // security-baseline-enforcer.ts - 瀹夊叏鍩虹嚎寮哄埗鎵ц鍣?export class ElectronSecurityBaselineEnforcer {
   private static readonly BASELINE_VERSION = '1.0.0';
@@ -2829,6 +2843,7 @@ test.describe('Electron瀹夊叏鍩虹嚎鍐掔儫娴嬭瘯', () => {
 ## 绗?绔?娴嬭瘯绛栫暐涓庤川閲忛棬绂?(Testing Strategy & Quality Gates)
 
 **ChatGPT5鏍稿績寤鸿**: 鏈珷浣滀负"涓嶅彲鍙樻洿鐨勮川閲忓娉?锛屾墍鏈夊悗缁紑鍙戝繀椤婚伒寰绔犲畾涔夌殑娴嬭瘯娉曡鍜岃川閲忛棬绂佹爣鍑?
+
 ## 绗?绔?娴嬭瘯绛栫暐涓庤川閲忛棬绂?(Testing Strategy & Quality Gates)
 
 > **鏍稿績鐞嗗康**: 娴嬭瘯鍏堣銆佽川閲忓唴寤恒€丄I浠ｇ爜鐢熸垚璐ㄩ噺淇濋殰
@@ -2895,7 +2910,7 @@ export const TEST_PYRAMID_GOLDEN_RATIO = {
 
 #### 3.1.2 Electron鐗瑰畾娴嬭瘯绛栫暐
 
-**涓夎繘绋嬫祴璇曟灦鏋?*
+\*_涓夎繘绋嬫祴璇曟灦鏋?_
 
 ```typescript
 // Electron娴嬭瘯鏋舵瀯閰嶇疆
@@ -3007,6 +3022,7 @@ export const AI_SYSTEM_TEST_STRATEGY = {
 ### 3.2 宸ュ叿閾句笌鍩虹嚎閰嶇疆
 
 #### 3.2.1 鏍稿績宸ュ叿鏍堥厤缃?
+
 **鍗曞厓娴嬭瘯閰嶇疆 (Vitest)**
 
 ```typescript
@@ -3359,6 +3375,7 @@ export class TestDataManager {
 ### 3.3 璐ㄩ噺闂ㄧ (CI/CD绾㈢嚎) 馃殾
 
 #### 3.3.1 PR鍚堝苟蹇呴』閫氳繃椤?
+
 ```typescript
 // PR璐ㄩ噺闂ㄧ閰嶇疆
 export const PR_QUALITY_GATES = {
@@ -3436,6 +3453,7 @@ export const PR_QUALITY_GATES = {
 ```
 
 #### 3.3.2 瑕嗙洊鐜囬槇鍊兼爣鍑?
+
 ```yaml
 # coverage-thresholds.yml - 瑕嗙洊鐜囬厤缃?coverage_thresholds:
   # 鍏ㄥ眬鍩虹嚎鏍囧噯
@@ -3659,6 +3677,7 @@ export const RELEASE_QUALITY_GATES = {
 ```
 
 ### 3.4 瑙傛祴涓庡憡璀﹀熀绾?
+
 #### 3.4.1 Sentry Electron鍒濆鍖栨爣鍑?(ChatGPT5鎶ゆ爮)
 
 ```typescript
@@ -3904,6 +3923,7 @@ function filterPerformanceTransaction(
 ```
 
 #### 3.4.2 Event Loop Block妫€娴嬮槇鍊?
+
 ```typescript
 // performance-monitoring.ts - 鎬ц兘鐩戞帶閰嶇疆
 export const PERFORMANCE_MONITORING_CONFIG = {
@@ -4178,6 +4198,7 @@ export class PerformanceMonitor {
 ```
 
 #### 3.4.3 鐩戞帶閰嶇疆娉曡涓績鏁村悎锛圕hatGPT5寤鸿1锛?
+
 > **鏁村悎鐩爣**: 灏哖laywright脳Electron閰嶇疆缁嗚妭鍜岀洃鎺ч潰鏉块」缁熶竴鏁村悎鍒拌川閲忔硶瑙勪腑蹇冿紝寤虹珛缁熶竴鐨勫彲瑙傛祴鍩虹嚎鏍囧噯
 
 ```typescript
@@ -4735,10 +4756,13 @@ export class SmokeTestSuite {
 ```
 
 ## 绗?绔狅細绯荤粺涓婁笅鏂囦笌C4+浜嬩欢娴侊紙铻嶅悎API鏋舵瀯绯诲垪锛?
+
 > **鏍稿績鐞嗗康**: 涓ユ牸閬靛惊C4妯″瀷Context鈫扖ontainer鈫扖omponent鏍囧噯搴忓垪锛屽熀浜庝簨浠堕┍鍔ㄦ灦鏋勬瀯寤烘澗鑰﹀悎銆侀珮鍐呰仛鐨勭郴缁熻竟鐣岋紝鍥哄寲IPC/浜嬩欢鎬荤嚎濂戠害锛屼负鍚庣画鍨傜洿鍒囩墖瀹炵幇鎻愪緵绋冲浐鍩虹
 
 > **ChatGPT5浼樺寲**: 鏍囧噯鍖朇4鏋舵瀯鍥捐璁￠『搴忥紝鍥哄寲璺ㄥ鍣ㄩ€氫俊濂戠害锛岀‘淇滱I浠ｇ爜鐢熸垚鐨勬灦鏋勪竴鑷存€?
+
 ### 4.1 绯荤粺涓婁笅鏂囧浘锛圕4妯″瀷Level 1锛?
+
 #### 4.1.1 鏍稿績绯荤粺杈圭晫
 
 ```typescript
@@ -4765,6 +4789,7 @@ export class SmokeTestSuite {
 ```
 
 #### 4.1.2 鍒╃泭鐩稿叧鑰呮槧灏?
+
 ```typescript
 // 鍒╃泭鐩稿叧鑰呯郴缁?interface StakeholderMap {
   primaryUsers: {
@@ -4786,6 +4811,7 @@ export class SmokeTestSuite {
 ```
 
 ### 4.2 瀹瑰櫒鍥撅紙C4妯″瀷Level 2锛?
+
 #### 4.2.1 搴旂敤瀹瑰櫒鏋舵瀯
 
 ```typescript
@@ -4847,6 +4873,7 @@ interface ApplicationContainers {
 ```
 
 #### 4.2.2 瀹瑰櫒闂撮€氫俊鍗忚锛堝浐鍖朓PC濂戠害锛?
+
 > **濂戠害鍥哄寲鐩爣**: 涓哄瀭鐩村垏鐗囧疄鐜版彁渚涙爣鍑嗗寲鐨勮法瀹瑰櫒閫氫俊濂戠害锛岀‘淇濇墍鏈堿I鐢熸垚浠ｇ爜閬靛惊缁熶竴鐨処PC鎺ュ彛瑙勮寖
 
 ```typescript
@@ -4899,6 +4926,7 @@ interface ContainerCommunicationProtocol {
 ```
 
 #### 4.2.3 IPC濂戠害鍥哄寲瑙勮寖锛堝瀭鐩村垏鐗囧熀纭€锛?
+
 > **鍥哄寲鍘熷垯**: 寤虹珛涓嶅彲鍙樼殑璺ㄥ鍣ㄩ€氫俊濂戠害锛屼换浣旳I浠ｇ爜鐢熸垚閮藉繀椤讳弗鏍奸伒寰互涓婭PC鎺ュ彛鏍囧噯
 
 ```typescript
@@ -5042,7 +5070,9 @@ interface ContainerCommunicationProtocol {
 ```
 
 ### 4.3 缁勪欢鍥撅紙C4妯″瀷Level 3锛?
+
 #### 4.3.1 浜嬩欢绯荤粺缁勪欢璁捐锛堜簨浠舵€荤嚎濂戠害鍥哄寲锛?
+
 > **浜嬩欢鎬荤嚎濂戠害鍥哄寲**: 寤虹珛鏍囧噯鍖栫殑浜嬩欢鎬荤嚎濂戠害锛岀‘淇濇墍鏈夌粍浠堕伒寰粺涓€鐨勪簨浠跺彂甯?璁㈤槄妯″紡
 
 ```typescript
@@ -5312,6 +5342,7 @@ interface APIArchitectureComponents {
 ```
 
 ### 4.4 浜嬩欢娴佽璁?
+
 #### 4.4.1 鏍稿績浜嬩欢娴佸浘
 
 ```typescript
@@ -5478,6 +5509,7 @@ interface APIArchitectureComponents {
 ```
 
 ## 绗?绔狅細鏁版嵁妯″瀷涓庡瓨鍌ㄧ鍙ｏ紙铻嶅悎鏁版嵁搴撹璁?涓氬姟閫昏緫锛?
+
 > **璁捐鍘熷垯**: 鍩轰簬棰嗗煙椹卞姩璁捐锛圖DD锛夊拰鍏竟褰㈡灦鏋勶紝瀹炵幇鏁版嵁涓庝笟鍔￠€昏緫鐨勬竻鏅板垎绂伙紝纭繚AI浠ｇ爜鐢熸垚鏃跺叿澶囨槑纭殑鏁版嵁杈圭晫璁ょ煡
 
 ### 5.1 棰嗗煙妯″瀷璁捐
@@ -5675,6 +5707,7 @@ enum GuildRole {
 ### 5.2 鏁版嵁瀛樺偍绔彛璁捐
 
 #### 5.2.1 浠撳偍妯″紡鎺ュ彛锛圧epository Pattern锛?
+
 ```typescript
 // 閫氱敤浠撳偍鍩烘帴鍙?interface IRepository<TAggregate, TId> {
   // 鍩烘湰CRUD鎿嶄綔
@@ -5761,6 +5794,7 @@ interface IAuctionRepository extends IRepository<AuctionAggregate, AuctionId> {
 ```
 
 #### 5.2.2 鏁版嵁璁块棶閫傞厤鍣ㄥ疄鐜?
+
 ```typescript
 // SQLite鏁版嵁璁块棶閫傞厤鍣ㄥ熀绫?abstract class SQLiteRepositoryBase<TAggregate, TId>
   implements IRepository<TAggregate, TId>
@@ -5855,8 +5889,8 @@ class SQLiteGuildRepository
 
   async findTopByExperience(limit: number): Promise<GuildAggregate[]> {
     const sql = `
-      SELECT * FROM guilds 
-      ORDER BY experience DESC 
+      SELECT * FROM guilds
+      ORDER BY experience DESC
       LIMIT ?
     `;
     const rows = this.db.prepare(sql).all(limit);
@@ -5934,7 +5968,7 @@ class SQLiteGuildRepository
 
   protected insertOrUpdateAggregate(aggregate: GuildAggregate): void {
     const sql = `
-      INSERT OR REPLACE INTO guilds 
+      INSERT OR REPLACE INTO guilds
       (id, name, description, level, experience, member_limit, created_at, updated_at, version)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
@@ -5972,7 +6006,7 @@ class SQLiteGuildRepository
 
     // 鎻掑叆鏂扮殑鎴愬憳鍏崇郴
     const insertSql = `
-      INSERT INTO guild_members 
+      INSERT INTO guild_members
       (guild_id, user_id, role, joined_at, activity_score)
       VALUES (?, ?, ?, ?, ?)
     `;
@@ -5992,7 +6026,9 @@ class SQLiteGuildRepository
 ```
 
 ### 5.3 涓氬姟閫昏緫灞傝璁?
+
 > **璁捐鍘熷垯**: 鍩轰簬棰嗗煙椹卞姩璁捐鐨勪笟鍔￠€昏緫鍒嗗眰锛岄€氳繃瑙勫垯寮曟搸銆佺姸鎬佹満鍜屼簨浠堕┍鍔ㄦ灦鏋勫疄鐜板鏉備笟鍔¤鍒欑殑娓呮櫚琛ㄨ揪鍜岄珮鏁堟墽琛?
+
 #### 5.3.1 涓氬姟瑙勫垯寮曟搸
 
 ```typescript
@@ -6916,6 +6952,7 @@ interface ValidationError {
 ```
 
 ### 5.4 鏁版嵁涓€鑷存€т笌瀹屾暣鎬т繚闅?
+
 #### 5.4.1 鍕剧ń鍏崇郴楠岃瘉寮曟搸
 
 ```typescript
@@ -7004,10 +7041,10 @@ interface ValidationError {
     violations: IntegrityViolation[]
   ): Promise<void> {
     const resourceTotalsQuery = `
-      SELECT 
+      SELECT
         resource_type,
         SUM(amount) as calculated_total
-      FROM guild_resource_transactions 
+      FROM guild_resource_transactions
       WHERE guild_id = ?
       GROUP BY resource_type
     `;
@@ -7018,7 +7055,7 @@ interface ValidationError {
 
     const recordedTotalsQuery = `
       SELECT resource_type, amount as recorded_total
-      FROM guild_resources 
+      FROM guild_resources
       WHERE guild_id = ?
     `;
 
@@ -7058,8 +7095,8 @@ interface ValidationError {
     violations: IntegrityViolation[]
   ): Promise<void> {
     const leaderCountQuery = `
-      SELECT COUNT(*) as leader_count 
-      FROM guild_members 
+      SELECT COUNT(*) as leader_count
+      FROM guild_members
       WHERE guild_id = ? AND role = 'leader'
     `;
 
@@ -7174,8 +7211,8 @@ interface ValidationError {
     violation: IntegrityViolation
   ): void {
     const updateSql = `
-      UPDATE guild_resources 
-      SET amount = ?, updated_at = CURRENT_TIMESTAMP 
+      UPDATE guild_resources
+      SET amount = ?, updated_at = CURRENT_TIMESTAMP
       WHERE guild_id = ? AND resource_type = ?
     `;
     this.db
@@ -7189,7 +7226,7 @@ interface ValidationError {
     violation: IntegrityViolation
   ): void {
     const deleteSql = `
-      DELETE FROM guild_permissions 
+      DELETE FROM guild_permissions
       WHERE guild_id = ? AND user_id = ? AND permission = ?
     `;
     this.db
@@ -7268,8 +7305,8 @@ interface ValidationError {
     const serialized = JSON.stringify(value);
 
     const sql = `
-      INSERT OR REPLACE INTO cache_entries 
-      (key, value, expires_at, created_at) 
+      INSERT OR REPLACE INTO cache_entries
+      (key, value, expires_at, created_at)
       VALUES (?, ?, ?, CURRENT_TIMESTAMP)
     `;
 
@@ -7278,7 +7315,7 @@ interface ValidationError {
 
   async getL3<T>(key: string): Promise<T | null> {
     const sql = `
-      SELECT value FROM cache_entries 
+      SELECT value FROM cache_entries
       WHERE key = ? AND expires_at > CURRENT_TIMESTAMP
     `;
 
@@ -7416,7 +7453,7 @@ interface ValidationError {
     const l3Stats = this.l3Cache
       .prepare(
         `
-      SELECT 
+      SELECT
         COUNT(*) as total_entries,
         COUNT(CASE WHEN expires_at > CURRENT_TIMESTAMP THEN 1 END) as active_entries,
         SUM(LENGTH(value)) as total_size_bytes
@@ -7441,11 +7478,13 @@ interface ValidationError {
 ```
 
 ## 绗?绔狅細杩愯鏃惰鍥撅紙铻嶅悎娓告垙鏍稿績绯荤粺+AI寮曟搸璇︾粏鏋舵瀯锛?
+
 > **鏍稿績鐞嗗康**: 鏋勫缓楂樻€ц兘銆佹櫤鑳藉寲鐨勮繍琛屾椂绯荤粺锛岄€氳繃AI寮曟搸椹卞姩娓告垙閫昏緫锛岀‘淇?0FPS娴佺晠浣撻獙鍜屾櫤鑳絅PC琛屼负
 
 ### 6.1 杩愯鏃剁郴缁熸€昏
 
 #### 6.1.1 杩愯鏃舵灦鏋勫垎灞?
+
 ```typescript
 // 杩愯鏃剁郴缁熷垎灞傛灦鏋?interface RuntimeSystemArchitecture {
   // 琛ㄧ幇灞傦紙60FPS娓叉煋锛?  presentationLayer: {
@@ -8061,6 +8100,7 @@ class MachineLearningEngine {
 ### 6.3 娓告垙鏍稿績绯荤粺瀹炵幇
 
 #### 6.3.1 鐘舵€佺鐞嗙郴缁?
+
 ```typescript
 // 娓告垙鐘舵€佺鐞嗗櫒
 class GameStateManager {
@@ -8317,6 +8357,7 @@ class GuildStateValidator implements StateValidator {
 ```
 
 ### 6.4 鎬ц兘浼樺寲涓庣洃鎺?
+
 #### 6.4.1 鎬ц兘鐩戞帶绯荤粺
 
 ```typescript
@@ -8607,8 +8648,11 @@ class GuildStateValidator implements StateValidator {
 ```
 
 ## 绗?绔狅細寮€鍙戠幆澧冧笌鏋勫缓锛堣瀺鍚堢淮鎶ょ瓥鐣?閮ㄧ讲杩愮淮锛?
+
 > **鏍稿績鐞嗗康**: 鏋勫缓楂樻晥鐨勫紑鍙戠幆澧冨拰鑷姩鍖栬繍缁翠綋绯伙紝纭繚浠庡紑鍙戝埌鐢熶骇鐨勫畬鏁村伐绋嬪寲娴佺▼锛屾敮鎸丄I浠ｇ爜鐢熸垚鐨勬渶浣冲疄璺?
+
 ### 7.1 寮€鍙戠幆澧冮厤缃?
+
 #### 7.1.1 鏍稿績寮€鍙戝伐鍏烽摼
 
 ```json5
@@ -8898,6 +8942,7 @@ export default defineConfig({
 ### 7.2 鑷姩鍖栨瀯寤轰笌CI/CD
 
 #### 7.2.1 GitHub Actions宸ヤ綔娴?
+
 ```yaml
 # .github/workflows/ci.yml - 鎸佺画闆嗘垚
 name: CI/CD Pipeline
@@ -9057,6 +9102,7 @@ jobs:
 ```
 
 #### 7.2.2 鏋勫缓鑴氭湰鑷姩鍖?
+
 ```typescript
 // scripts/build-automation.ts - 鏋勫缓鑷姩鍖栬剼鏈?import { execSync } from 'child_process';
 import fs from 'fs-extra';
@@ -9286,6 +9332,7 @@ if (require.main === module) {
 ```
 
 ### 7.3 缁存姢绛栫暐涓庣洃鎺?
+
 #### 7.3.1 绯荤粺鍋ュ悍鐩戞帶
 
 ```typescript
@@ -9880,7 +9927,7 @@ export class OnboardingTracker {
 }
 ```
 
-**鐜鎼缓鑷姩鍖?*
+\*_鐜鎼缓鑷姩鍖?_
 
 ```powershell
 # scripts/setup-dev-environment.ps1 - Windows 环境初始化脚本
@@ -10027,10 +10074,9 @@ Write-Host ""
 Write-Host "如遇问题请联系架构团队或查阅常见问题章节。"
 ```
 
-
 #### 7.4.2 鐭ヨ瘑浼犻€掓満鍒?(Knowledge Transfer)
 
-**鐭ヨ瘑搴撶鐞嗙郴缁?*
+\*_鐭ヨ瘑搴撶鐞嗙郴缁?_
 
 ```typescript
 // src/core/knowledge/KnowledgeManager.ts
@@ -10469,7 +10515,7 @@ export class KnowledgeManager {
 
 #### 7.4.3 鎶€鏈垎浜埗搴?(Technical Sharing)
 
-**鎶€鏈垎浜鐞嗙郴缁?*
+\*_鎶€鏈垎浜鐞嗙郴缁?_
 
 ```typescript
 // src/core/sharing/TechSharingManager.ts
@@ -10960,8 +11006,11 @@ export class TechSharingManager {
 ```
 
 ## 绗?绔狅細鍔熻兘绾靛垏锛堣瀺鍚堝浗闄呭寲鏀寔+鍓嶇鏋舵瀯璁捐锛?
+
 > **璁捐鍘熷垯**: 瀹炵幇瀹屾暣鐨勫姛鑳界旱鍒囷紝浠庡墠绔疷I鍒板悗绔暟鎹紝纭繚鍥介檯鍖栨敮鎸佸拰鍝嶅簲寮忚璁★紝涓篈I浠ｇ爜鐢熸垚鎻愪緵娓呮櫚鐨勫姛鑳借竟鐣?
+
 ### 8.1 鍥介檯鍖栨敮鎸佹灦鏋?
+
 #### 8.1.1 i18next瀹屾暣閰嶇疆
 
 ```typescript
@@ -11215,6 +11264,7 @@ export default i18n;
 ```
 
 #### 8.1.3 澶氳瑷€Hook涓庣粍浠?
+
 ```typescript
 // src/hooks/useTranslation.ts - 澧炲己鐨勭炕璇慔ook
 import { useTranslation as useI18nTranslation, UseTranslationOptions } from 'react-i18next';
@@ -11434,6 +11484,7 @@ export function LocalizedDate({ date, format = 'medium', className }: LocalizedD
 ### 8.2 React 19鍓嶇鏋舵瀯
 
 #### 8.2.1 鐘舵€佺鐞嗘灦鏋?
+
 ```typescript
 // src/stores/useGameStore.ts - Zustand鐘舵€佺鐞?import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
@@ -11974,8 +12025,11 @@ export function usePrefetch() {
 ```
 
 ## 绗?绔狅細鎬ц兘涓庡閲忚鍒掞紙铻嶅悎鎬ц兘浼樺寲鏂规+椋庨櫓璇勪及搴斿锛?
+
 > **鏍稿績鐩爣**: 鏋勫缓楂樻€ц兘銆佸彲鎵╁睍鐨勭郴缁熸灦鏋勶紝閫氳繃绉戝鐨勫閲忚鍒掑拰椋庨櫓绠℃帶锛岀‘淇濈郴缁熷湪鍚勭璐熻浇涓嬬ǔ瀹氳繍琛岋紝涓篈I浠ｇ爜鐢熸垚鎻愪緵鎬ц兘鍩哄噯鍜屼紭鍖栨寚瀵?
+
 ### 9.1 鎬ц兘鍩哄噯涓庣洰鏍?
+
 #### 9.1.1 鏍稿績鎬ц兘鎸囨爣瀹氫箟
 
 ```typescript
@@ -12422,6 +12476,7 @@ class AIDecisionBenchmark implements Benchmark {
 ```
 
 ### 9.2 瀹归噺瑙勫垝涓庢墿灞曠瓥鐣?
+
 #### 9.2.1 绯荤粺瀹归噺妯″瀷
 
 ```typescript
@@ -12871,6 +12926,7 @@ class GrowthModel {
 ```
 
 ### 9.3 椋庨櫓璇勪及涓庡簲瀵圭瓥鐣?
+
 #### 9.3.1 绯荤粺椋庨櫓璇勪及妗嗘灦
 
 ```typescript
@@ -13417,7 +13473,9 @@ export class SystemRiskAssessmentEngine {
 ### 9.4 鐢熶骇鐜瀹夊叏鏋舵瀯锛堣瀺鍚堢13绔犲畨鍏ㄨ璁★級
 
 > **鏍稿績鐩爣**: 鏋勫缓鍏ㄩ潰鐨勭敓浜х幆澧冨畨鍏ㄩ槻鎶や綋绯伙紝閫氳繃鏁版嵁瀹夊叏銆佷唬鐮佸畨鍏ㄣ€丒lectron娣卞害瀹夊叏鍜屾彃浠舵矙绠卞畨鍏紝纭繚绯荤粺鍦ㄧ敓浜х幆澧冧腑鐨勫畨鍏ㄨ繍琛岋紝涓篈I浠ｇ爜鐢熸垚鎻愪緵瀹夊叏鍩哄噯鍜岄槻鎶ゆ寚瀵?
+
 #### 9.4.1 鏁版嵁瀹夊叏涓庡畬鏁存€т繚鎶?
+
 ##### 9.4.1.1 瀛樻。鏂囦欢鍔犲瘑绯荤粺
 
 ```typescript
@@ -13704,6 +13762,7 @@ export class SensitiveDataProtectionService {
 ```
 
 ##### 9.4.1.2 鏁版嵁瀹屾暣鎬ф牎楠岀郴缁?
+
 ```typescript
 // src/core/security/DataIntegrity.ts
 export class DataIntegrityService {
@@ -13943,6 +14002,7 @@ export interface DataRepairResult {
 ```
 
 #### 9.4.2 浠ｇ爜瀹夊叏涓庤祫婧愪繚鎶?
+
 ##### 9.4.2.1 浠ｇ爜娣锋穯绛栫暐瀹炵幇
 
 ```typescript
@@ -14213,9 +14273,9 @@ function ${functionName}() {
 (function() {
   var devtools = {open: false, orientation: null};
   var threshold = 160;
-  
+
   setInterval(function() {
-    if (window.outerHeight - window.innerHeight > threshold || 
+    if (window.outerHeight - window.innerHeight > threshold ||
         window.outerWidth - window.innerWidth > threshold) {
       if (!devtools.open) {
         devtools.open = true;
@@ -14226,12 +14286,12 @@ function ${functionName}() {
       devtools.open = false;
     }
   }, 500);
-  
+
   // Disable right-click
   document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
   });
-  
+
   // Disable F12 and other debug keys
   document.addEventListener('keydown', function(e) {
     if (e.keyCode === 123 || // F12
@@ -14490,6 +14550,7 @@ export interface ResourceStatistics {
 ```
 
 #### 9.4.3 绗?3绔犳祴璇曟墽琛屾竻鍗曪紙铻嶅悎瀹夊叏娴嬭瘯浣撶郴锛?
+
 ##### 9.4.3.1 瀹夊叏娴嬭瘯鏄犲皠
 
 ```typescript
@@ -14856,5 +14917,3 @@ export interface SecurityGateResult {
   timestamp: number;
 }
 ```
-
-

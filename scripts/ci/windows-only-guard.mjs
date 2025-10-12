@@ -17,7 +17,11 @@ function listFiles(dir, exts) {
   while (stack.length) {
     const d = stack.pop();
     let ents = [];
-    try { ents = fs.readdirSync(d, { withFileTypes: true }); } catch { continue; }
+    try {
+      ents = fs.readdirSync(d, { withFileTypes: true });
+    } catch {
+      continue;
+    }
     for (const e of ents) {
       const p = path.join(d, e.name);
       if (e.isDirectory()) stack.push(p);
@@ -28,15 +32,31 @@ function listFiles(dir, exts) {
 }
 
 function readUtf8(file) {
-  try { return fs.readFileSync(file, 'utf8'); } catch { return ''; }
+  try {
+    return fs.readFileSync(file, 'utf8');
+  } catch {
+    return '';
+  }
 }
 
 const violations = [];
 const eventName = process.env.GITHUB_EVENT_NAME || '';
 const prLabelsRaw = process.env.PR_LABELS || '';
-const waiveListRaw = process.env.WINDOWS_ONLY_GUARD_WAIVE_LABELS || 'windows-guard-waive,size-waive';
-const prLabels = new Set(prLabelsRaw.split(/[\,\n]/).map(s => s.trim().toLowerCase()).filter(Boolean));
-const waiveLabels = new Set(waiveListRaw.split(/[\,\n]/).map(s => s.trim().toLowerCase()).filter(Boolean));
+const waiveListRaw =
+  process.env.WINDOWS_ONLY_GUARD_WAIVE_LABELS ||
+  'windows-guard-waive,size-waive';
+const prLabels = new Set(
+  prLabelsRaw
+    .split(/[\,\n]/)
+    .map(s => s.trim().toLowerCase())
+    .filter(Boolean)
+);
+const waiveLabels = new Set(
+  waiveListRaw
+    .split(/[\,\n]/)
+    .map(s => s.trim().toLowerCase())
+    .filter(Boolean)
+);
 const summaryPath = process.env.GITHUB_STEP_SUMMARY || '';
 
 function writeSummary(status, waived, items) {
@@ -54,7 +74,11 @@ function writeSummary(status, waived, items) {
       lines.push('### Violations');
       for (const it of items) lines.push(`- ${it}`);
     }
-    require('node:fs').appendFileSync(summaryPath, lines.join('\n') + '\n', 'utf8');
+    require('node:fs').appendFileSync(
+      summaryPath,
+      lines.join('\n') + '\n',
+      'utf8'
+    );
   } catch {}
 }
 
@@ -92,7 +116,8 @@ const shFiles = listFiles(root, ['.sh']).filter(p => {
     rel.startsWith('reports/')
   );
 });
-for (const f of shFiles) violations.push(`${f}: shell script not allowed in Windows-only repo`);
+for (const f of shFiles)
+  violations.push(`${f}: shell script not allowed in Windows-only repo`);
 
 if (violations.length) {
   const isPR = eventName.toLowerCase() === 'pull_request';
@@ -100,16 +125,17 @@ if (violations.length) {
   console.error('Windows-only guard violations:');
   for (const v of violations) console.error(' - ' + v);
   if (hasWaive) {
-    console.error('[WAIVED] PR labeled with one of: ' + Array.from(waiveLabels).join(', '));
+    console.error(
+      '[WAIVED] PR labeled with one of: ' + Array.from(waiveLabels).join(', ')
+    );
     writeSummary('FAIL', true, violations);
     process.exit(0);
   }
   writeSummary('FAIL', false, violations);
   process.exit(1);
 } else {
-  console.log('Windows-only guard passed: no bash/shell scripts or non-Windows runners found.');
+  console.log(
+    'Windows-only guard passed: no bash/shell scripts or non-Windows runners found.'
+  );
   writeSummary('PASS', false, []);
 }
-
-
-

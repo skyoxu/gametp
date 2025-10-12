@@ -83,12 +83,18 @@ export function GameStatusPanel({
             : 'game-status-panel__header--collapsed'
         }`}
       >
-        <span className="game-status-panel__title">{t('statusPanel.title')}</span>
+        <span className="game-status-panel__title">
+          {t('statusPanel.title')}
+        </span>
         <button
           onClick={toggleVisibility}
           className="game-status-panel__toggle-btn"
-          title={isVisible ? t('statusPanel.collapse') : t('statusPanel.expand')}
-          aria-label={isVisible ? t('statusPanel.collapse') : t('statusPanel.expand')}
+          title={
+            isVisible ? t('statusPanel.collapse') : t('statusPanel.expand')
+          }
+          aria-label={
+            isVisible ? t('statusPanel.collapse') : t('statusPanel.expand')
+          }
         >
           {isVisible ? '–' : '+'}
         </button>
@@ -100,7 +106,9 @@ export function GameStatusPanel({
           {/* Health section */}
           <div>
             <div className="game-status-panel__health-header">
-              <span className="game-status-panel__health-label">{t('statusPanel.health')}</span>
+              <span className="game-status-panel__health-label">
+                {t('statusPanel.health')}
+              </span>
               <span className="game-status-panel__health-value">
                 {gameState.health}/100
               </span>
@@ -119,13 +127,17 @@ export function GameStatusPanel({
           {/* Basic stats */}
           <div className="game-status-panel__stats">
             <div>
-              <div className="game-status-panel__stat-label">{t('statusPanel.score')}</div>
+              <div className="game-status-panel__stat-label">
+                {t('statusPanel.score')}
+              </div>
               <div className="game-status-panel__score-value">
                 {gameState.score.toLocaleString()}
               </div>
             </div>
             <div className="game-status-panel__level-container">
-              <div className="game-status-panel__stat-label">{t('statusPanel.level')}</div>
+              <div className="game-status-panel__stat-label">
+                {t('statusPanel.level')}
+              </div>
               <div className="game-status-panel__level-value">
                 {gameState.level}
               </div>
@@ -138,7 +150,9 @@ export function GameStatusPanel({
               {/* Inventory */}
               <div>
                 <div className="game-status-panel__inventory-label">
-                  {t('statusPanel.inventory', { count: gameState.inventory?.length || 0 })}
+                  {t('statusPanel.inventory', {
+                    count: gameState.inventory?.length || 0,
+                  })}
                 </div>
                 {gameState.inventory && gameState.inventory.length > 0 ? (
                   <div className="game-status-panel__inventory-items">
@@ -161,7 +175,9 @@ export function GameStatusPanel({
               {/* Position */}
               {gameState.position && (
                 <div>
-                  <div className="game-status-panel__position-label">{t('statusPanel.position')}</div>
+                  <div className="game-status-panel__position-label">
+                    {t('statusPanel.position')}
+                  </div>
                   <div className="game-status-panel__position-value">
                     X: {Math.round(gameState.position.x)}, Y:{' '}
                     {Math.round(gameState.position.y)}
@@ -176,7 +192,8 @@ export function GameStatusPanel({
                     {t('statusPanel.id')}: {gameState.id}
                   </div>
                   <div className="game-status-panel__debug-timestamp">
-                    {t('statusPanel.timestamp')}: {new Date(gameState.timestamp).toLocaleTimeString()}
+                    {t('statusPanel.timestamp')}:{' '}
+                    {new Date(gameState.timestamp).toLocaleTimeString()}
                   </div>
                 </div>
               )}

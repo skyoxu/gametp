@@ -23,7 +23,7 @@ function parseWorkflow(content) {
     const line = lines[i];
 
     // 匹配 job 定义: "  job-name:"
-    const jobMatch = line.match(/^  ([a-zA-Z_][a-zA-Z0-9_-]*):/);
+    const jobMatch = line.match(/^ {2}([a-zA-Z_][a-zA-Z0-9_-]*):/);
     if (jobMatch && !line.includes('#')) {
       jobs.push(jobMatch[1]);
     }
@@ -84,7 +84,7 @@ function checkWorkflow(filePath) {
 
   const lines = content.split('\n');
   for (const line of lines) {
-    const jobMatch = line.match(/^  ([a-zA-Z_][a-zA-Z0-9_-]*):/);
+    const jobMatch = line.match(/^ {2}([a-zA-Z_][a-zA-Z0-9_-]*):/);
     if (jobMatch) {
       currentJob = jobMatch[1];
       jobDeps.set(currentJob, []);

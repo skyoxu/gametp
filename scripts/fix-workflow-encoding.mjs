@@ -134,7 +134,7 @@ async function processFile(fileName) {
 
   try {
     // 修复编码问题
-    let cleanBuffer = removeBOM(originalBuffer);
+    const cleanBuffer = removeBOM(originalBuffer);
     let cleanContent = cleanBuffer.toString('utf8');
     cleanContent = convertCRLFtoLF(cleanContent);
 

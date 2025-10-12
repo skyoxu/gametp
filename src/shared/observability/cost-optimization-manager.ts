@@ -289,9 +289,7 @@ export class CostOptimizationManager extends EventEmitter {
       //
       this.checkBudgetThresholds();
 
-      console.log(
-        ` : ${category} +${amount} (${dataSize}GB, ${eventCount})`
-      );
+      console.log(` : ${category} +${amount} (${dataSize}GB, ${eventCount})`);
     } catch (error) {
       console.error(' :', error);
     }

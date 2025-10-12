@@ -53,6 +53,16 @@ def run(cmd: list[str], cwd: str | None = None) -> tuple[int, str]:
         return 127, str(e)
 
 
+def safe_print(s: str) -> None:
+    try:
+        print(s)
+    except UnicodeEncodeError:
+        try:
+            sys.stdout.buffer.write(s.encode('utf-8', 'replace') + b"\n")
+        except Exception:
+            pass
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description='ESLint 扫描与自动修复')
     parser.add_argument('--scan', action='store_true', help='仅扫描，不自动修复')
@@ -64,7 +74,7 @@ def main() -> int:
     code_scan, out_scan = run(['npx', 'eslint', '.', '--ext', '.ts,.tsx,.js,.mjs', '--format', 'stylish'])
     with open(os.path.join(out_dir, 'eslint-scan.txt'), 'w', encoding='utf-8') as f:
         f.write(out_scan)
-    print(out_scan)
+    safe_print(out_scan)
 
     if args.scan:
         return code_scan
@@ -78,10 +88,9 @@ def main() -> int:
     code_final, out_final = run(['npx', 'eslint', '.', '--ext', '.ts,.tsx,.js,.mjs', '--format', 'stylish'])
     with open(os.path.join(out_dir, 'eslint-final.txt'), 'w', encoding='utf-8') as f:
         f.write(out_final)
-    print(out_final)
+    safe_print(out_final)
     return code_final
 
 
 if __name__ == '__main__':
     sys.exit(main())
-

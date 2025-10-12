@@ -1,7 +1,9 @@
 ﻿# 璐＄尞鎸囧崡 (CONTRIBUTING.md)
 
 鏈寚鍗楄鏄庡浣曞湪鏈」鐩腑杩涜寮€鍙戙€佹祴璇曞拰璐＄尞浠ｇ爜銆?
+
 ## 馃殌 蹇€熷紑濮?
+
 ### 鐜瑕佹眰
 
 - **Node.js**: 鈮?8.0.0
@@ -28,12 +30,14 @@ npm run dev:electron
 ## 馃洝锔?鏈湴瀹堥棬鑴氭湰浣跨敤
 
 ### 瀹屾暣璐ㄩ噺妫€鏌?
+
 ```powershell
 # 杩愯鎵€鏈夎川閲忛棬绂?(鎺ㄨ崘鍦ㄦ彁浜ゅ墠杩愯)
 npm run guard:ci
 ```
 
 ### 鍒嗛」妫€鏌?
+
 ```powershell
 # TypeScript绫诲瀷妫€鏌?npm run typecheck
 
@@ -56,6 +60,7 @@ npm run guard:quality
 ```
 
 ### 娴嬭瘯瑕嗙洊鐜?
+
 ```powershell
 # 鐢熸垚瑕嗙洊鐜囨姤鍛?npm run test:coverage
 
@@ -111,15 +116,19 @@ SLO-Refs: [SLO-PERF-001, SLO-AVAIL-001]
 # 08-鍔熻兘绾靛垏-<妯″潡鍚?
 
 ## UI灞?
+
 ...
 
 ## 浜嬩欢灞?
+
 ...
 
 ## 鍩熸ā鍨?
+
 ...
 
 ## 鎸佷箙鍖?
+
 ...
 
 ## 楠屾敹鏍囧噯
@@ -182,6 +191,7 @@ npx playwright test --debug
 ## 馃敀 Electron 瀹夊叏瑙勮寖
 
 ### 涓荤獥鍙ｅ畨鍏ㄩ厤缃?
+
 ```typescript
 // electron/main.ts 蹇呴』鍖呭惈瀹夊叏閰嶇疆
 const mainWindow = new BrowserWindow({
@@ -195,6 +205,7 @@ const mainWindow = new BrowserWindow({
 ```
 
 ### 棰勫姞杞借剼鏈鑼?
+
 ```typescript
 // electron/preload.ts 浣跨敤contextBridge
 import { contextBridge } from 'electron';
@@ -222,6 +233,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 - 涓ユ牸绫诲瀷妫€鏌? `"strict": true`
 - 鍏叡绫诲瀷瀹氫箟鏀惧湪 `src/shared/contracts/**`
 - 绂佹浣跨敤 `any`, 濡傞渶浣跨敤闇€娣诲姞TODO娉ㄩ噴鍜屽洖杩佽鍒?
+
 ### 鏍峰紡瑙勮寖
 
 - 浣跨敤 Tailwind CSS v4
@@ -256,20 +268,24 @@ node scripts/update-changelog.mjs --fix "淇鍐呭瓨娉勬紡闂" -
 #### 鎵嬪姩鏇存柊娴佺▼
 
 1. **寮€鍙戣繃绋嬩腑**: 鍦?`[Unreleased]` 閮ㄥ垎璁板綍鍙樻洿
-2. **鐗堟湰鍙戝竷鍓?*: 灏?`[Unreleased]` 鍐呭绉诲姩鍒版柊鐗堟湰鍙蜂笅
+2. \*_鐗堟湰鍙戝竷鍓?_: 灏?`[Unreleased]` 鍐呭绉诲姩鍒版柊鐗堟湰鍙蜂笅
 3. **鍙樻洿鍒嗙被**: 浣跨敤鏍囧噯鍒嗙被 Added/Changed/Deprecated/Removed/Fixed/Security
 
 #### AI 鍗忎綔鏍囪瑙勮寖
 
 姣忎釜鍙樻洿鏉＄洰蹇呴』鍖呭惈鍗忎綔姣斾緥鏍囪锛?
+
 - **AI 涓诲 (AI:80%+)**: AI 鐢熸垚浠ｇ爜/鏂囨。锛屼汉绫昏交搴﹀鏍?
+
   ```markdown
   - **[AI:90%] [Human:10%] [ADR-0002]** Electron 瀹夊叏鍩虹嚎閰嶇疆
   ```
 
 - **鍗忎綔鍧囪　 (AI:40-60%)**: AI 杈呭姪瀹炵幇锛屼汉绫绘繁搴﹀弬涓庤璁?
-  ```markdown
-  - **[AI:60%] [Human:40%] [ADR-0004]** 浜嬩欢鎬荤嚎涓庡绾︾郴缁?  ```
+
+  ````markdown
+  - **[AI:60%] [Human:40%] [ADR-0004]** 浜嬩欢鎬荤嚎涓庡绾︾郴缁? ```
+  ````
 
 - **浜虹被涓诲 (Human:70%+)**: 浜虹被璁捐瀹炵幇锛孉I 鎻愪緵杈呭姪寤鸿
   ```markdown
@@ -285,30 +301,37 @@ node scripts/update-changelog.mjs --fix "淇鍐呭瓨娉勬紡闂" -
 ```
 
 鏍囪璇存槑锛?
+
 - **[Coverage:xx%]**: 娴嬭瘯瑕嗙洊鐜?- **[RH: Sessions xx%, Users xx%]**: Release Health 鎸囨爣
 - **[Guard:鉁?鉂宂**: 璐ㄩ噺闂ㄧ閫氳繃鐘舵€?- **[ADR-xxxx]**: 鍏宠仈鐨勬灦鏋勫喅绛栬褰?
+
 ### RELEASE_NOTES.md 鏇存柊娴佺▼
 
 #### 闈㈠悜鐢ㄦ埛鐨勫彂甯冭鏄?
+
 RELEASE_NOTES.md 涓撴敞浜庣敤鎴蜂环鍊煎拰浣撻獙鏀硅繘锛?
+
 ```markdown
 ### 鉁?鏂板鍔熻兘
 
 #### 馃幃 娓告垙鏍稿績鍔熻兘
 
 - **娓告垙寮曟搸**: 闆嗘垚 Phaser 3锛屾敮鎸?2D 娓告垙寮€鍙?- **鍦烘櫙绠＄悊**: 鎻愪緵鍦烘櫙鍒囨崲鍜岀姸鎬佺鐞?
+
 ### 馃幆 鎬ц兘鎸囨爣
 
-| 鎸囨爣绫诲瀷    | 鐩爣鍊?| 瀹為檯琛ㄧ幇 |
-| ----------- | ------ | -------- |
-| 馃殌 鍚姩鏃堕棿 | < 3绉? | 2.1绉?   |
+| 鎸囨爣绫诲瀷     | 鐩爣鍊? | 瀹為檯琛ㄧ幇 |
+| ---------------- | -------- | ------------ |
+| 馃殌 鍚姩鏃堕棿 | < 3绉?   | 2.1绉?       |
 ```
 
 #### 鏇存柊鏃舵満
 
 - 姣忔鐗堟湰鍙戝竷鏃跺繀椤绘洿鏂?- 閲嶇偣鍏虫敞鐢ㄦ埛鍙劅鐭ョ殑鍙樺寲
 - 鍖呭惈绯荤粺瑕佹眰銆佸畨瑁呰鏄庛€佸凡鐭ラ棶棰?
+
 ### 鐗堟湰鍙戝竷宸ヤ綔娴?
+
 #### 瀹屾暣鍙戝竷娴佺▼
 
 ```powershell
@@ -337,7 +360,9 @@ git tag -a v0.1.0 -m "Release v0.1.0"
 ```
 
 #### 闆嗘垚鍒板紑鍙戞祦绋?
+
 鍦ㄦ瘡娆″姛鑳藉紑鍙戝畬鎴愬悗锛?
+
 ```powershell
 # 寮€鍙戝畬鎴愬悗鑷姩鏇存柊 CHANGELOG
 npm run guard:ci && \
@@ -347,26 +372,27 @@ git commit -m "docs: update changelog for new feature"
 ```
 
 ### 鍙樻洿璁板綍鏈€浣冲疄璺?
+
 #### 鍙樻洿鎻忚堪瑙勮寖
 
 - **鍏蜂綋鏄庣‘**: 鎻忚堪瀹為檯鍙樺寲锛屼笉鏄娊璞℃蹇?- **闈㈠悜褰卞搷**: 璇存槑瀵圭敤鎴?寮€鍙戣€呯殑褰卞搷
-- **鎶€鏈噯纭?*: 寮曠敤姝ｇ‘鐨?ADR 鍜岃鐩栫巼鏁版嵁
+- \*_鎶€鏈噯纭?_: 寮曠敤姝ｇ‘鐨?ADR 鍜岃鐩栫巼鏁版嵁
 
 #### 绀轰緥瀵规瘮
 
-鉂?**涓嶅ソ鐨勬弿杩?*:
+鉂?\*_涓嶅ソ鐨勬弿杩?_:
 
-```markdown
+`````markdown
 - **[AI:90%]** 浼樺寲浜嗙郴缁?```
 
 鉁?**濂界殑鎻忚堪**:
 
-```markdown
+````markdown
 - **[AI:85%] [Human:15%] [ADR-0003] [Coverage:94%]** 鍙娴嬫€у熀纭€璁炬柦锛歋entry Release Health 闆嗘垚锛屾敮鎸?Crash-Free Sessions 鐩戞帶鍜屾櫤鑳介噰鏍风瓥鐣?```
 
 #### ADR 鍏宠仈瑙勫垯
 
-- **鏂板姛鑳?*: 蹇呴』鍏宠仈鑷冲皯 1 涓浉鍏?ADR
+- \*_鏂板姛鑳?_: 蹇呴』鍏宠仈鑷冲皯 1 涓浉鍏?ADR
 - **鏋舵瀯鍙樻洿**: 蹇呴』鏂板鎴栨洿鏂?ADR锛屽苟鍦ㄥ彉鏇磋褰曚腑鏍囨敞 `Supersedes: ADR-xxxx`
 - **瀹夊叏鍙樻洿**: 蹇呴』鍏宠仈 ADR-0002 (Electron 瀹夊叏鍩虹嚎)
 
@@ -390,6 +416,10 @@ node scripts/update-changelog.mjs [options]
 --adr "0001,0002" # 鍏宠仈 ADR 缂栧彿
 --guard-passed    # 璐ㄩ噺闂ㄧ閫氳繃 (榛樿true)
 ```
+````
+`````
+
+`````
 
 #### 绀轰緥浣跨敤鍦烘櫙
 
@@ -416,9 +446,11 @@ node scripts/update-changelog.mjs \
 ### 涓?CI/CD 闆嗘垚
 
 #### 鑷姩鍖栨鏌?
+
 璐ㄩ噺闂ㄧ鑴氭湰浼氶獙璇侊細
 
 - CHANGELOG.md 鏍煎紡姝ｇ‘鎬?- 鍙樻洿鏉＄洰鍖呭惈蹇呴渶鐨勬爣璁?- ADR 寮曠敤鏈夋晥鎬?- 瑕嗙洊鐜囨暟鎹畬鏁存€?
+
 #### 澶辫触澶勭悊
 
 濡傛灉鍙樻洿璁板綍妫€鏌ュけ璐ワ細
@@ -435,14 +467,14 @@ node scripts/update-changelog.mjs --validate --fix
 
 ### 鏈湴闂ㄧ (鎻愪氦鍓嶅繀椤婚€氳繃)
 
-1. **TypeScript绫诲瀷妫€鏌?*: `npm run typecheck`
-2. **ESLint瑙勮寖妫€鏌?*: `npm run lint`
+1. \*_TypeScript绫诲瀷妫€鏌?_: `npm run typecheck`
+2. \*_ESLint瑙勮寖妫€鏌?_: `npm run lint`
 3. **鍗曞厓娴嬭瘯**: `npm run test:unit`
-4. **Electron瀹夊叏妫€鏌?*: `npm run guard:electron`
+4. \*_Electron瀹夊叏妫€鏌?_: `npm run guard:electron`
 5. **E2E娴嬭瘯**: `npm run test:e2e`
-6. **瑕嗙洊鐜囨鏌?*: `npm run guard:quality`
-7. **鏂囨。娓呮磥妫€鏌?*: `npm run guard:base`
-8. **鐗堟湰鍚屾妫€鏌?*: `npm run guard:version`
+6. \*_瑕嗙洊鐜囨鏌?_: `npm run guard:quality`
+7. \*_鏂囨。娓呮磥妫€鏌?_: `npm run guard:base`
+8. \*_鐗堟湰鍚屾妫€鏌?_: `npm run guard:version`
 
 ### CI闂ㄧ瑙勫垯
 
@@ -456,7 +488,7 @@ node scripts/update-changelog.mjs --validate --fix
 
 #### 1. TypeScript缂栬瘧閿欒
 
-```powershell
+````powershell
 # 妫€鏌ョ被鍨嬮敊璇?npm run typecheck
 
 # 甯歌瑙ｅ喅鏂规
@@ -471,9 +503,10 @@ node scripts/update-changelog.mjs --validate --fix
 
 # E2E娴嬭瘯澶辫触
 npx playwright test --debug <test-file>
-```
+`````
 
 #### 3. Electron瀹夊叏妫€鏌ュけ璐?
+
 ```powershell
 # 鏌ョ湅璇︾粏瀹夊叏鎶ュ憡
 npm run guard:electron
@@ -481,6 +514,7 @@ cat logs/security/electron-security-scan-*.json
 ```
 
 #### 4. 瑕嗙洊鐜囦笉瓒?
+
 ```powershell
 # 鏌ョ湅瑕嗙洊鐜囨姤鍛?npm run test:coverage:open
 
@@ -498,13 +532,11 @@ cat logs/security/electron-security-scan-*.json
 ## 馃 璐＄尞娴佺▼
 
 1. **Fork椤圭洰** 鈫?鍒涘缓鍔熻兘鍒嗘敮
-2. **寮€鍙?* 鈫?閬靛惊浠ｇ爜瑙勮寖鍜屾祴璇曡姹?3. **鏈湴楠岃瘉** 鈫?杩愯 `npm run guard:ci`
-4. **鎻愪氦PR** 鈫?濉啓瀹屾暣鐨凱R妯℃澘
-5. **浠ｇ爜瀹℃煡** 鈫?鍦板潃瀹℃煡鎰忚
-6. **鍚堝苟** 鈫?閫氳繃鎵€鏈夋鏌ュ悗鍚堝苟
+2. **寮€鍙?\* 鈫?閬靛惊浠ｇ爜瑙勮寖鍜屾祴璇曡姹?3. **鏈湴楠岃瘉\*\* 鈫?杩愯 `npm run guard:ci`
+3. **鎻愪氦PR** 鈫?濉啓瀹屾暣鐨凱R妯℃澘
+4. **浠ｇ爜瀹℃煡** 鈫?鍦板潃瀹℃煡鎰忚
+5. **鍚堝苟** 鈫?閫氳繃鎵€鏈夋鏌ュ悗鍚堝苟
 
 ---
 
 馃挕 **鎻愮ず**: 濡傛湁鐤戦棶锛岃鏌ョ湅鍏蜂綋鐨勮剼鏈枃浠?`scripts/` 鐩綍鎴栬仈绯婚」鐩淮鎶よ€呫€?
-
-

@@ -2,10 +2,12 @@
 
 > 提示（Windows-only）：命令示例以 PowerShell 为准；若需要 Linux 参考，请看 `docs/maintainers/POWERSHELL_EQUIVALENTS.md`。
 
-> 馃毃 **绱ф€ユ儏鍐?*: 濡傛灉鍒嗘敮淇濇姢澶辨晥鎴?CI 鍏ㄩ潰鏁呴殰锛岀珛鍗宠仈绯绘妧鏈礋璐ｄ汉
+> 馃毃 \*_绱ф€ユ儏鍐?_: 濡傛灉鍒嗘敮淇濇姢澶辨晥鎴?CI 鍏ㄩ潰鏁呴殰锛岀珛鍗宠仈绯绘妧鏈礋璐ｄ汉
 
 ## 馃敟 搴旀€ュ鐞?
+
 ### 鍒嗘敮淇濇姢澶辨晥锛堭煍?楂樹紭鍏堢骇锛?
+
 ```powershell
 # 1. 绔嬪嵆妫€鏌ュ綋鍓嶄繚鎶ょ姸鎬?gh api repos/:owner/:repo/branches/main/protection
 
@@ -18,6 +20,7 @@
 ```
 
 ### 杞棬绂佽闃绘柇锛堭煙?涓紭鍏堢骇锛?
+
 ```powershell
 # 妫€鏌ヨ蒋闂ㄧ鐘舵€?gh api repos/:owner/:repo/actions/runs?branch=main | jq '.workflow_runs[0].jobs_url'
 
@@ -34,11 +37,12 @@
 - `coverage-gate`
 - `electron-security-gate`
 
-**鏇存敼闇€瑕佸悓姝ュ垎鏀繚鎶?*:
+\*_鏇存敼闇€瑕佸悓姝ュ垎鏀繚鎶?_:
 
 - `workflow-guardian` (鎺ㄨ崘淇濇姢)
 
 ## 馃洜锔?甯哥敤妫€鏌ュ懡浠?
+
 ```powershell
 # 妫€鏌ュ伐浣滄祦璇硶
 actionlint .github/workflows/*.yml

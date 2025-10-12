@@ -39,7 +39,9 @@ const DEVELOPMENT_FUSES_CONFIG = {
 };
 
 // Apply fuses to a real Electron binary
-async function applyFusesConfig(isProduction = process.env.NODE_ENV === 'production') {
+async function applyFusesConfig(
+  isProduction = process.env.NODE_ENV === 'production'
+) {
   const root = path.join(__dirname, '..');
   const candidates = [
     // Windows-only
@@ -49,7 +51,7 @@ async function applyFusesConfig(isProduction = process.env.NODE_ENV === 'product
     path.join(root, 'node_modules', 'electron', 'dist', 'electron.exe'),
   ];
 
-  const electronBinary = candidates.find((p) => {
+  const electronBinary = candidates.find(p => {
     try {
       return fs.existsSync(p) && fs.statSync(p).isFile();
     } catch {
@@ -57,11 +59,16 @@ async function applyFusesConfig(isProduction = process.env.NODE_ENV === 'product
     }
   });
 
-  const config = isProduction ? PRODUCTION_FUSES_CONFIG : DEVELOPMENT_FUSES_CONFIG;
-  console.log(`Applying Electron Fuses for ${isProduction ? 'production' : 'development'}...`);
+  const config = isProduction
+    ? PRODUCTION_FUSES_CONFIG
+    : DEVELOPMENT_FUSES_CONFIG;
+  console.log(
+    `Applying Electron Fuses for ${isProduction ? 'production' : 'development'}...`
+  );
 
   if (!electronBinary) {
-    const msg = 'Electron binary not found. Package first (e.g., npm run build:win:dir) before applying fuses.';
+    const msg =
+      'Electron binary not found. Package first (e.g., npm run build:win:dir) before applying fuses.';
     if (isProduction) {
       console.error(`ERROR: ${msg}`);
       process.exit(1);
@@ -82,7 +89,11 @@ async function applyFusesConfig(isProduction = process.env.NODE_ENV === 'product
 }
 
 // Verify the applied fuses match expectations (DI-friendly)
-async function verifyFusesConfigWith(electronBinary, expectedConfig, deps = {}) {
+async function verifyFusesConfigWith(
+  electronBinary,
+  expectedConfig,
+  deps = {}
+) {
   const read = deps.readFusesFn || readFuses;
   const exit = deps.exitFn || process.exit;
   console.log('Verifying Electron fuses...');
@@ -91,7 +102,9 @@ async function verifyFusesConfigWith(electronBinary, expectedConfig, deps = {}) 
     const verdict = evaluateFuses(actual, expectedConfig);
     if (!verdict.ok) {
       for (const m of verdict.mismatches) {
-        console.error(`ERROR: Fuse mismatch: ${m.key} = ${m.actual}, expected = ${m.expected}`);
+        console.error(
+          `ERROR: Fuse mismatch: ${m.key} = ${m.actual}, expected = ${m.expected}`
+        );
       }
       console.error('ERROR: Electron fuses verification failed.');
       exit(1);
@@ -117,7 +130,10 @@ function evaluateFuses(actual, expectedConfig) {
       key: 'enableNodeOptionsEnvironmentVariable',
       expected: expectedConfig.enableNodeOptionsEnvironmentVariable,
     },
-    { key: 'onlyLoadAppFromAsar', expected: expectedConfig.onlyLoadAppFromAsar },
+    {
+      key: 'onlyLoadAppFromAsar',
+      expected: expectedConfig.onlyLoadAppFromAsar,
+    },
     {
       key: 'enableEmbeddedAsarIntegrityValidation',
       expected: expectedConfig.enableEmbeddedAsarIntegrityValidation,
@@ -134,7 +150,9 @@ function evaluateFuses(actual, expectedConfig) {
 }
 
 if (require.main === module) {
-  const isProduction = process.argv.includes('--production') || process.env.NODE_ENV === 'production';
+  const isProduction =
+    process.argv.includes('--production') ||
+    process.env.NODE_ENV === 'production';
   applyFusesConfig(isProduction);
 }
 

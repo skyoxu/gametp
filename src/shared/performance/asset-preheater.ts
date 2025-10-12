@@ -44,4 +44,3 @@ export function preheatImages(urls: string[]): PreheatTask[] {
       }),
   }));
 }
-

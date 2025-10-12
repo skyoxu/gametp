@@ -24,10 +24,12 @@ const TEST_DB_PATH = path.join(TEST_DATA_DIR, 'test-checkpoint.db');
 function isBetterSQLite3Available(): boolean {
   try {
     // 尝试实际加载并打开内存数据库，以验证原生绑定可用
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+
     const Database = require('better-sqlite3');
     const db = new Database(':memory:');
-    try { db.close(); } catch {}
+    try {
+      db.close();
+    } catch {}
     return true;
   } catch {
     return false;

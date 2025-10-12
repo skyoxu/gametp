@@ -134,7 +134,7 @@ writeFileSync(
   'utf8'
 );
 
-let txt = [];
+const txt = [];
 txt.push('E2E 失败分类（按 P0–P3）');
 txt.push(
   `总失败: ${failures.length}  |  通过: ${passed.length}  |  跳过: ${skipped.length}`

@@ -1,12 +1,12 @@
 /**
- * 
+ *
  *
  * Base-Clean,,.
  * (//Worker).
  */
 
 /**
- * 
+ *
  *
  * 60FPS,
  */
@@ -31,7 +31,7 @@ export interface FrameBudget {
 }
 
 /**
- * 
+ *
  *
  * ,P95/P99
  */
@@ -67,7 +67,7 @@ export interface LatencyBudget {
 }
 
 /**
- * 
+ *
  *
  * ,
  */
@@ -102,9 +102,9 @@ export interface CapacityModel {
 }
 
 /**
- * 
  *
- * 
+ *
+ *
  */
 export interface PerformanceMetric {
   /** , ${DOMAIN}.perf.${metric}  */
@@ -129,9 +129,9 @@ export interface PerformanceMetric {
 }
 
 /**
- * 
  *
- * 
+ *
+ *
  */
 export interface PerformanceDegradation {
   /**  */
@@ -157,9 +157,9 @@ export interface PerformanceDegradation {
 }
 
 /**
- * 
  *
- * 
+ *
+ *
  */
 export interface ProcessMemoryLimits {
   /**  (MB) */
@@ -171,9 +171,9 @@ export interface ProcessMemoryLimits {
 }
 
 /**
- * 
  *
- * 
+ *
+ *
  */
 export interface PerformanceRisk {
   /**  */
@@ -191,7 +191,7 @@ export interface PerformanceRisk {
 }
 
 /**
- * 
+ *
  */
 export interface StressTestScenario {
   /**  */
@@ -205,7 +205,7 @@ export interface StressTestScenario {
 }
 
 /**
- * 
+ *
  */
 export interface RegressionMatrix {
   /**  */
@@ -224,7 +224,7 @@ export interface RegressionMatrix {
 }
 
 /**
- * 
+ *
  *
  * ,
  */
@@ -266,24 +266,23 @@ export const DEFAULT_CAPACITY_MODEL: CapacityModel = {
 };
 
 /**
- * 
+ *
  *
  * 03Sentry
  */
 export const PERF_SAMPLING_RULES: Record<string, number> = {
-  // 
+  //
   startup: 0.8,
   navigation: 0.8,
   'ui.action': 0.8,
   coldstart: 0.8,
   warmstart: 0.8,
 
-  // 
+  //
   healthcheck: 0.0,
   heartbeat: 0.0,
   poll: 0.0,
 
-  // 
+  //
   default: Number(process.env.TRACES_SAMPLE_BASE ?? 0.1),
 };
-

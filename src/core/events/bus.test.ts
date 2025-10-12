@@ -165,7 +165,7 @@ describe('InMemoryEventBus', () => {
 
       expect(() => {
         subscription.unsubscribe();
-        subscription.unsubscribe(); // 
+        subscription.unsubscribe(); //
       }).not.toThrow();
     });
   });

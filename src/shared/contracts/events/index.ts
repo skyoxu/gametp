@@ -44,4 +44,3 @@ export type EventType = DomainEvent['type'];
 
 // Re-export game events
 export * from './GameEvents';
-

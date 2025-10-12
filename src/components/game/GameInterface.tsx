@@ -303,12 +303,14 @@ export function GameInterface({
         {/* Debug panel */}
         {showDebugInfo && (
           <div className="game-interface__debug-panel">
-            <div className="game-interface__debug-title">{t('interface.debug')}</div>
+            <div className="game-interface__debug-title">
+              {t('interface.debug')}
+            </div>
 
             <div>{t('interface.state')}</div>
             <div>FPS: {typeof window !== 'undefined' ? '60' : '0'}</div>
             <div>
-              {t('interface.position')}: 
+              {t('interface.position')}:
               {typeof performance !== 'undefined' && (performance as any).memory
                 ? `${Math.round((performance as any).memory.usedJSHeapSize / 1024 / 1024)}MB`
                 : 'N/A'}
@@ -332,7 +334,9 @@ export function GameInterface({
               <div className="game-interface__debug-error">{error}</div>
             )}
 
-            <div className="game-interface__debug-shortcuts">{t('interface.shortcuts')}: F10 | F9 | ESC | TAB</div>
+            <div className="game-interface__debug-shortcuts">
+              {t('interface.shortcuts')}: F10 | F9 | ESC | TAB
+            </div>
           </div>
         )}
 
@@ -380,8 +384,12 @@ export function GameInterface({
           <div className="game-interface__loading-overlay">
             <div className="game-interface__loading-content">
               <div className="game-interface__loading-icon"></div>
-              <div className="game-interface__loading-title">{t('interface.loading')}</div>
-              <div className="game-interface__loading-subtitle">{t('interface.loadingSubtitle')}</div>
+              <div className="game-interface__loading-title">
+                {t('interface.loading')}
+              </div>
+              <div className="game-interface__loading-subtitle">
+                {t('interface.loadingSubtitle')}
+              </div>
             </div>
           </div>
         )}

@@ -172,7 +172,6 @@ jobs:
         run: npm run typecheck:security
         continue-on-error: true
 
-
       - name: Guard build artifacts are not tracked
         run: node scripts/ci/guard-artifacts.mjs
 

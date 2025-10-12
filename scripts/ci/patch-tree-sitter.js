@@ -33,5 +33,7 @@ for (const relative of targets) {
 }
 
 if (!patchedAny) {
-  console.log('[patch-tree-sitter] No tree-sitter files required patching (already C++20 or module absent).');
+  console.log(
+    '[patch-tree-sitter] No tree-sitter files required patching (already C++20 or module absent).'
+  );
 }

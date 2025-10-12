@@ -7,7 +7,9 @@ last_generated: 2025-08-21
 ---
 
 > 鐩爣锛氬湪 optimized 鍩虹涓婅ˉ榻?**閫氶亾鐭╅樀锛圖ev/Staging/Prod锛?*銆?*绛惧悕/鍏瘉澶辫触鐨勯檷绾т笌鍛婅**銆?*鏇存柊鍥為€€绛栫暐** 涓?**i18n 鍙戝竷鍓嶈川閲忛棬绂?*锛岀‘淇濆伐绋嬮棴鐜€?
+
 ## 0.1 鍙戝竷涓婁笅鏂囪鍥撅紙C4 Context锛?
+
 ```mermaid
 C4Context
     title Release Operations Context for ${PRODUCT_NAME}
@@ -28,6 +30,7 @@ C4Context
 ```
 
 ## 0.2 鍙戝竷瀹瑰櫒瑙嗗浘锛圕4 Container锛?
+
 ```mermaid
 C4Container
     title ${PRODUCT_NAME} Release Containers
@@ -46,6 +49,7 @@ C4Container
 ```
 
 ## A) 閫氶亾鐭╅樀涓庢斁閲忕瓥鐣?
+
 ```ts
 export interface RolloutGate {
   metric: 'crashFreeUsers' | 'crashFreeSessions' | 'adoptionRate';
@@ -86,6 +90,7 @@ export const CHANNELS = {
 ```
 
 ## B) 绛惧悕/鍏瘉澶辫触鐨勯檷绾т笌鍙娴?
+
 ```ts
 export interface SigNotarizeResult {
   platform: 'win' | 'mac';
@@ -118,6 +123,7 @@ export class AutoRollback {
 ```
 
 ## D) i18n 鍙戝竷闂ㄧ锛圞ey Debt锛?
+
 ```ts
 export interface I18nDebt {
   locale: string;
@@ -155,6 +161,7 @@ export interface I18nEvent {
 ```
 
 ## E) CI 鐗囨锛堢鍚?鍏瘉/鍋ュ悍闂ㄧ锛?
+
 ```yaml
 # .github/workflows/release.yml锛堟憳瑕侊級
 name: Release Pipeline
@@ -209,4 +216,5 @@ const thresholds = {
 ```
 
 ## F) 楠屾敹娓呭崟锛堝惈鍥炴粴锛?
-- [ ] HEALTH_GATES 鐢熸晥涓斿彲瑙﹀彂**鑷姩鍥炴粴**锛?- [ ] 閫氶亾鐭╅樀涓庨槇鍊煎彲閫氳繃 ENV 瑕嗙洊锛?- [ ] 绛惧悕/鍏瘉澶辫触杩涘叆闄嶇骇璺緞骞?*浜х敓鍛婅**锛?- [ ] i18n 瀹屾暣搴?鈮?5%锛?*鍏抽敭 keys 涓嶅緱缂哄け**锛?- [ ] 涓?02/03/07 绔犺妭鐨勭瓥鐣ュ紩鐢?*灏辫繎鍙**銆?
+
+- [ ] HEALTH_GATES 鐢熸晥涓斿彲瑙﹀彂**鑷姩鍥炴粴**锛?- [ ] 閫氶亾鐭╅樀涓庨槇鍊煎彲閫氳繃 ENV 瑕嗙洊锛?- [ ] 绛惧悕/鍏瘉澶辫触杩涘叆闄嶇骇璺緞骞?*浜х敓鍛婅\*\*锛?- [ ] i18n 瀹屾暣搴?鈮?5%锛?*鍏抽敭 keys 涓嶅緱缂哄け**锛?- [ ] 涓?02/03/07 绔犺妭鐨勭瓥鐣ュ紩鐢?\*灏辫繎鍙**銆?

@@ -8,7 +8,9 @@ test('@smoke i18n settings overlay language switch updates UI and aria/title', a
   // Bust build cache to ensure the latest App.tsx is used
   const cacheFile = resolve(process.cwd(), '.e2e-build-cache');
   if (existsSync(cacheFile)) {
-    try { unlinkSync(cacheFile); } catch {}
+    try {
+      unlinkSync(cacheFile);
+    } catch {}
   }
   const { app: electronApp, page } = await launchApp();
   await ensureDomReady(page);
@@ -23,7 +25,9 @@ test('@smoke i18n settings overlay language switch updates UI and aria/title', a
   await page.locator('.game-canvas__controls').waitFor();
 
   // Assert English pause label initially
-  await expect(page.locator('.game-canvas__control-btn--pause')).toHaveText(/Pause/i);
+  await expect(page.locator('.game-canvas__control-btn--pause')).toHaveText(
+    /Pause/i
+  );
 
   // Open Settings overlay exposed by App (data-testid=open-settings)
   await page.getByTestId('open-settings').click();
@@ -47,7 +51,9 @@ test('@smoke i18n settings overlay language switch updates UI and aria/title', a
   await expect(closeBtn).toHaveAttribute('aria-label', /关闭/);
 
   // Also verify pause button text on GameCanvas is now Chinese
-  await expect(page.locator('.game-canvas__control-btn--pause')).toHaveText(/暂停/);
+  await expect(page.locator('.game-canvas__control-btn--pause')).toHaveText(
+    /暂停/
+  );
 
   await electronApp.close();
 });

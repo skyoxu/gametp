@@ -448,9 +448,7 @@ export class EnterpriseAlertingSystem extends EventEmitter {
 
       this.activeIncidents.set(incidentId, incident);
 
-      console.log(
-        ` : ${incidentId} (: ${incident.priority})`
-      );
+      console.log(` : ${incidentId} (: ${incident.priority})`);
 
       //
       await this.sendIncidentNotification(incident);

@@ -1,9 +1,13 @@
 ﻿# Claude Code CLI 鑷姩鍖栨墽琛屾寚鍗?
+
 > 鏈寚鍗楄鏄庡浣曚娇鐢?Claude Code CLI 鎵ц鏂囨。鐢熸垚銆佹祴璇曘€佹瀯寤恒€佺洃鎺х瓑鑷姩鍖栨祦绋?
+
 ---
 
 ## 馃搵 蹇€熷弬鑰?
+
 ### 鏍稿績鑷姩鍖栧懡浠?
+
 ```powershell
 # 瀹屾暣璐ㄩ噺妫€鏌ラ摼
 npm run guard:ci
@@ -21,7 +25,7 @@ npm run guard:ci
 
 #### 鍙敤鐨凚MAD浠ｇ悊鍛戒护
 
-```powershell
+````powershell
 # 鏍稿績浠ｇ悊
 /bmad-master          # 涓绘帶浠ｇ悊锛屼竾鑳戒换鍔℃墽琛屽櫒
 /architect             # 杞欢鏋舵瀯甯堜唬鐞?/dev                   # 寮€鍙戝伐绋嬪笀浠ｇ悊
@@ -40,7 +44,7 @@ npm run guard:ci
 # 3. 鍒涘缓鏋舵瀯鏂囨。
 *create-doc architecture-tmpl.yaml
 *execute-checklist architect-checklist.md
-```
+````
 
 #### 娓告垙寮€鍙戝伐浣滄祦
 
@@ -69,7 +73,8 @@ npm run test:e2e              # E2E娴嬭瘯
 ```
 
 #### 璐ㄩ噺闂ㄧ鑷姩鍖?
-```powershell
+
+````powershell
 # 瀹屾暣璐ㄩ噺妫€鏌ラ摼
 npm run guard:ci
 
@@ -86,7 +91,7 @@ npm run build:electron         # Electron搴旂敤鎵撳寘
 # 瀹夊叏鎵弿
 npm run security:scan          # Electron瀹夊叏鎵弿
 npm run security:audit         # 渚濊禆瀹夊叏瀹¤
-```
+````
 
 ---
 
@@ -109,6 +114,7 @@ curl http://localhost:9000/api/0/projects/test/releases/latest/
 #### Sentry Mock 閰嶇疆
 
 鍒涘缓 `scripts/sentry-mock-server.mjs`锛?
+
 ```javascript
 #!/usr/bin/env node
 
@@ -165,7 +171,9 @@ CRASH_FREE_USERS_THRESHOLD=98.5
 ```
 
 #### Docker 鍙€夋柟妗?
+
 濡傞渶瀹屾暣 Sentry 鐜锛?
+
 ```powershell
 # 鍒涘缓 docker-compose.sentry.yml
 version: '3.8'
@@ -314,6 +322,7 @@ export async function measureRenderingFPS(sceneCount = 5) {
 ## 馃毆 CI闂ㄧ闃绘柇鏈哄埗
 
 ### 1. 璐ㄩ噺闂ㄧ闃堝€奸厤缃?
+
 #### 鐜鍙橀噺閰嶇疆
 
 ```powershell
@@ -334,6 +343,7 @@ RENDERING_FPS_THRESHOLD=55         # FPS
 #### 闂ㄧ閰嶇疆鏂囦欢
 
 鍒涘缓 `.quality-gates.config.json`锛?
+
 ```json
 {
   "gates": {
@@ -403,6 +413,7 @@ function provideDiagnosticSuggestions(failures) {
 #### CI鐜闂ㄧ闃绘柇
 
 GitHub Actions 闆嗘垚锛?
+
 ```yaml
 # .github/workflows/quality-gates.yml
 name: Quality Gates
@@ -491,6 +502,7 @@ const protectionRules = {
 ```
 
 #### 鍙戝竷闂ㄧ妫€鏌?
+
 ```powershell
 # 鍙戝竷鍓嶆渶缁堟鏌?npm run release:preflight
 
@@ -516,7 +528,9 @@ async function releasePreflightCheck() {
 ---
 
 ## 馃摎 鏂囨。鐢熸垚鑷姩鍖?
+
 ### 1. 鑷姩鍖栨枃妗ｇ敓鎴?
+
 ```powershell
 # 鐢熸垚鏋舵瀯鏂囨。
 /architect
@@ -541,6 +555,7 @@ node scripts/update-changelog.mjs --add "鏂板姛鑳芥弿杩? --ai 80
 ---
 
 ## 馃攳 鐩戞帶涓庡彲瑙傛祴鎬?
+
 ### 1. 鏈湴鐩戞帶鍚姩
 
 ```powershell
@@ -571,9 +586,10 @@ node scripts/benchmarks/event-loop-latency.ts
 ## 馃洜锔?鏁呴殰鎺掓煡
 
 ### 甯歌闂涓庤В鍐虫柟妗?
+
 #### 1. 璐ㄩ噺闂ㄧ澶辫触
 
-```powershell
+````powershell
 # 璇婃柇璐ㄩ噺闂ㄧ闂
 npm run guard:diagnose
 
@@ -595,7 +611,7 @@ npm run sentry:mock
 
 # 楠岃瘉鐜鍙橀噺
 echo $SENTRY_DSN
-```
+````
 
 #### 3. 鎬ц兘娴嬭瘯寮傚父
 
@@ -621,6 +637,7 @@ cat logs/performance/benchmark-history.json
 ---
 
 ## 馃挕 鏈€浣冲疄璺?
+
 ### 寮€鍙戝伐浣滄祦寤鸿
 
 ```powershell

@@ -204,4 +204,3 @@ export class CloudEventValidator {
 export function isValidCloudEvent(event: unknown): event is CloudEvent {
   return CloudEventValidator.validate(event).isValid;
 }
-

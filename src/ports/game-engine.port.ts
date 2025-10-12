@@ -42,10 +42,10 @@ export interface GameConfig {
   readonly scoreMultiplier: number;
   readonly autoSave: boolean;
   readonly difficulty: 'easy' | 'medium' | 'hard';
-/**
- * Primary input port for the game engine
- * Adheres to ports-and-adapters (ADR-0007).
- */
+  /**
+   * Primary input port for the game engine
+   * Adheres to ports-and-adapters (ADR-0007).
+   */
 }
 
 /**
@@ -139,10 +139,10 @@ export interface GameResult {
  */
 export interface GameStatistics {
   totalMoves: number;
-/**
- * Output port for rendering/audio/persistence/network
- * Implementations adapt engine to external systems.
- */
+  /**
+   * Output port for rendering/audio/persistence/network
+   * Implementations adapt engine to external systems.
+   */
   itemsCollected: number;
   enemiesDefeated: number;
   distanceTraveled: number;

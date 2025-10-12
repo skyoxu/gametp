@@ -354,7 +354,9 @@ export function GameSettingsPanel({
       <div className="game-settings-panel__dialog">
         {/* Sidebar */}
         <div className="game-settings-panel__sidebar">
-          <h2 className="game-settings-panel__sidebar-title">{t('settingsPanel.title')}</h2>
+          <h2 className="game-settings-panel__sidebar-title">
+            {t('settingsPanel.title')}
+          </h2>
 
           {tabs.map(tab => (
             <button
@@ -401,7 +403,10 @@ export function GameSettingsPanel({
                   settings.graphics.quality,
                   [
                     { value: 'low', label: t('settingsPanel.graphics.low') },
-                    { value: 'medium', label: t('settingsPanel.graphics.medium') },
+                    {
+                      value: 'medium',
+                      label: t('settingsPanel.graphics.medium'),
+                    },
                     { value: 'high', label: t('settingsPanel.graphics.high') },
                   ],
                   value => updateSettings('graphics', 'quality', value)
@@ -464,7 +469,10 @@ export function GameSettingsPanel({
                   settings.gameplay.difficulty,
                   [
                     { value: 'easy', label: t('settingsPanel.gameplay.easy') },
-                    { value: 'medium', label: t('settingsPanel.gameplay.medium') },
+                    {
+                      value: 'medium',
+                      label: t('settingsPanel.gameplay.medium'),
+                    },
                     { value: 'hard', label: t('settingsPanel.gameplay.hard') },
                   ],
                   value => updateSettings('gameplay', 'difficulty', value)
@@ -579,8 +587,14 @@ export function GameSettingsPanel({
                   [
                     { value: 'top-right', label: t('settingsPanel.ui.posTR') },
                     { value: 'top-left', label: t('settingsPanel.ui.posTL') },
-                    { value: 'bottom-right', label: t('settingsPanel.ui.posBR') },
-                    { value: 'bottom-left', label: t('settingsPanel.ui.posBL') },
+                    {
+                      value: 'bottom-right',
+                      label: t('settingsPanel.ui.posBR'),
+                    },
+                    {
+                      value: 'bottom-left',
+                      label: t('settingsPanel.ui.posBL'),
+                    },
                   ],
                   value => updateSettings('ui', 'notificationPosition', value)
                 )}

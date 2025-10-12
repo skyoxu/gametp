@@ -5,6 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 GameTP is a Windows-only desktop game application built with:
+
 - **Electron 37.x** (main process, IPC, and security)
 - **React 19** (UI components and rendering)
 - **Phaser 3** (game engine and canvas)
@@ -17,6 +18,7 @@ This is a production-quality template with enterprise-grade CI/CD, security hard
 ## Architecture
 
 ### Layer Structure
+
 - **src/main/** - Electron main process (window management, IPC)
 - **src/preload/** - Electron preload scripts (secure bridge)
 - **src/shared/** - Shared types, contracts, observability, middleware
@@ -26,12 +28,14 @@ This is a production-quality template with enterprise-grade CI/CD, security hard
 - **src/adapters/** - Data access layer and external integrations
 
 ### Key Architectural Patterns
+
 - **Ports & Adapters** - Clean architecture with interface-first design
 - **Event-Driven** - Domain events with CloudEvents compliance
 - **Type-Safe Contracts** - Unified type definitions in `src/shared/contracts/`
 - **Security-First** - Sandboxed renderer, IPC whitelist, CSP policies
 
 ### Import Aliases
+
 ```typescript
 import { ... } from '@/components/...'     // ./src/
 import { ... } from '@shared/contracts'   // ./src/shared/
@@ -43,6 +47,7 @@ import { ... } from '@infra/...'          // ./src/infra/
 ## Development Commands
 
 ### Core Development
+
 ```bash
 npm run dev                    # Start Vite dev server (React app)
 npm run dev:electron          # Build + start Electron app
@@ -51,6 +56,7 @@ npm run build:win:dir         # Windows build without packaging
 ```
 
 ### Type Checking (Multiple Configs)
+
 ```bash
 npm run typecheck             # Main app (tsconfig.json)
 npm run typecheck:shared      # Shared contracts
@@ -61,6 +67,7 @@ npm run typecheck:security   # Security components
 ```
 
 ### Testing
+
 ```bash
 npm run test:unit            # Unit tests (Vitest)
 npm run test:unit:watch      # Unit tests in watch mode
@@ -71,6 +78,7 @@ npm run test:e2e:security    # Security-specific E2E tests
 ```
 
 ### Code Quality
+
 ```bash
 npm run lint                 # ESLint (src + tests)
 npm run lint:baseline        # Enforce ESLint warning baseline
@@ -79,6 +87,7 @@ npm run format:check         # Check formatting without changes
 ```
 
 ### Security & Compliance
+
 ```bash
 npm run security:scan        # Electronegativity security scan
 npm run security:audit       # npm audit with gates
@@ -87,6 +96,7 @@ npm run cloudevents:check    # Validate CloudEvents compliance
 ```
 
 ### Quality Gates (CI Pipeline)
+
 ```bash
 npm run guard:ci             # Full CI pipeline locally
 npm run guard:quality        # Quality metrics gate
@@ -95,6 +105,7 @@ npm run size:ci              # Bundle size analysis
 ```
 
 ### Release & Deployment
+
 ```bash
 npm run build:electron       # Build + package with electron-builder
 npm run latest:yml           # Generate update manifest
@@ -105,16 +116,19 @@ npm run release:health-check # Monitor release health
 ## Testing Strategy
 
 ### Unit Tests (Vitest)
+
 - Location: `src/**/*.{test,spec}.{ts,tsx}` and `tests/unit/`
 - Coverage target: 80%+ for business logic
 - Excludes: UI components, Electron main/preload, observability
 
 ### E2E Tests (Playwright)
+
 - Location: `tests/e2e/`
 - Tags: Use `@smoke` for critical path tests
 - Projects: `electron-security-audit`, `framerate-stability`, `scene-transition`
 
 ### Performance Tests
+
 - Framerate stability: `npm run test:e2e:framerate`
 - Scene transitions: `npm run test:e2e:scene-transition`
 - Bundle size: Enforced via `.size-limit.json`
@@ -122,16 +136,19 @@ npm run release:health-check # Monitor release health
 ## Code Standards
 
 ### File Organization
+
 - Keep tests in `tests/` directories, not alongside source files
 - Use `claudedocs/` for AI analysis reports and documentation
 - Follow existing naming conventions (camelCase for TS/React)
 
 ### Type Safety
+
 - All shared types go in `src/shared/contracts/`
 - Use discriminated unions for domain events
 - Enforce CloudEvents schema compliance
 
 ### Security Requirements
+
 - Never expose Node.js APIs directly to renderer
 - All IPC channels must be explicitly whitelisted
 - Use `contextBridge.exposeInMainWorld` for secure API exposure
@@ -140,6 +157,7 @@ npm run release:health-check # Monitor release health
 ## Quality Gates
 
 The CI pipeline (`npm run guard:ci`) enforces:
+
 - TypeScript compilation across all configs
 - ESLint with warning baseline
 - Security audits and vulnerability scanning
@@ -151,12 +169,14 @@ The CI pipeline (`npm run guard:ci`) enforces:
 ## Observability
 
 ### Monitoring Stack
+
 - **Sentry** - Error tracking and release health
 - **PostHog** - Analytics and feature flags
 - **Web Vitals** - Core performance metrics
 - **Custom Metrics** - Game-specific telemetry
 
 ### Configuration
+
 - Sentry DSN: Set `SENTRY_DSN` in environment/secrets
 - Release health: Automatic via `src/shared/observability/`
 - Structured logging: JSON format with trace correlation

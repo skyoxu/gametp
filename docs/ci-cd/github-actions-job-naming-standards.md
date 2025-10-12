@@ -1,19 +1,25 @@
 ﻿# GitHub Actions Job ID 鍛藉悕鏍囧噯鍖栫瓥鐣?
+
 ## 姒傝堪
 
 鏈枃妗ｅ畾涔変簡 GitHub Actions 宸ヤ綔娴佷腑 job ID 鐨勬爣鍑嗗寲鍛藉悕绛栫暐锛岀‘淇濅緷璧栧紩鐢ㄧ殑涓€鑷存€у拰鍙淮鎶ゆ€с€?
+
 ## 鏍稿績鍘熷垯
 
 ### 1. 绋冲畾鎬т紭鍏堬紙Stability First锛?
+
 - **蹇呴渶妫€鏌ョ殑鏍稿績 job** 浣跨敤绋冲畾銆佸彲棰勬祴鐨勫悗缂€ `-core`
 - **鎵╁睍娴嬭瘯 job** 浣跨敤鍚庣紑 `-extended`
 - **闂ㄧ妫€鏌?job** 浣跨敤鍚庣紑 `-gate`
 
 ### 2. 鎻忚堪鎬у懡鍚嶏紙Descriptive Naming锛?
+
 - job ID 蹇呴』娓呮琛ㄨ揪鍏跺姛鑳藉拰鑱岃矗
 - 浣跨敤 kebab-case锛堣繛瀛楃鍒嗛殧锛?- 閬垮厤缂╁啓锛岄櫎闈炴槸琛屼笟鏍囧噯缂╁啓锛堝 `e2e`, `api`锛?
+
 ### 3. 灞傛鍖栫粍缁囷紙Hierarchical Organization锛?
-- 鎸夊姛鑳藉煙鍒嗙粍锛歚quality-*`, `security-*`, `test-*`, `build-*`, `deploy-*`
+
+- 鎸夊姛鑳藉煙鍒嗙粍锛歚quality-_`, `security-_`, `test-_`, `build-_`, `deploy-\*`
 - 鎸夌幆澧冨垎缁勶細`*-development`, `*-staging`, `*-production`
 
 ## 鏍囧噯鍛藉悕妯″紡
@@ -55,6 +61,7 @@ jobs:
 ```
 
 ### 涓撻」妫€鏌ヤ綔涓?
+
 鎸夊姛鑳藉煙缁勭粐鐨勪笓椤规鏌ワ細
 
 ```yaml
@@ -85,26 +92,32 @@ jobs:
 <domain>-<function>[-<qualifier>][-<environment>]
 ```
 
-**绀轰緥锛?*
+\*_绀轰緥锛?_
 
 - `quality-gates` (domain: quality, function: gates)
 - `unit-tests-core` (domain: unit-tests, function: core)
 - `observability-gate-production` (domain: observability, function: gate, environment: production)
 
 ### 2. 甯哥敤鍩熷墠缂€锛圖omain Prefixes锛?
+
 - `quality-*`: 浠ｇ爜璐ㄩ噺妫€鏌?- `security-*`: 瀹夊叏鎵弿鍜屽璁?- `test-*`: 鍚勭被娴嬭瘯浣滀笟
 - `build-*`: 鏋勫缓鍜岀紪璇?- `deploy-*`: 閮ㄧ讲鐩稿叧
 - `release-*`: 鍙戝竷娴佺▼
 - `monitor-*`: 鐩戞帶鍜屽仴搴锋鏌?
+
 ### 3. 甯哥敤闄愬畾绗︼紙Qualifiers锛?
+
 - `-core`: 蹇呴渶鐨勬牳蹇冩鏌?- `-extended`: 鎵╁睍鐨勯潪闃绘柇妫€鏌?- `-gate`: 闂ㄧ鎺у埗鐐?- `-audit`: 瀹¤鍜屾壂鎻?- `-verification`: 楠岃瘉鍜岀‘璁?
+
 ### 4. 鐜鍚庣紑锛圗nvironment Suffixes锛?
+
 - `-development`: 寮€鍙戠幆澧?- `-staging`: 棰勫彂甯冪幆澧?- `-production`: 鐢熶骇鐜
 
 ## 渚濊禆寮曠敤鏈€浣冲疄璺?
+
 ### 1. 绋冲畾鏍稿績浣滀笟寮曠敤
 
-```yaml
+````yaml
 jobs:
   coverage-gate:
     needs: unit-tests-core # 鉁?姝ｇ‘锛氬紩鐢ㄧǔ瀹氱殑鏍稿績浣滀笟
@@ -125,7 +138,7 @@ jobs:
     needs: tests # 鉂?閿欒锛氭ā绯婄殑浣滀笟鍚?
   deploy:
     needs: build-and-test # 鉂?閿欒锛氫笉涓€鑷寸殑鍛藉悕椋庢牸
-```
+````
 
 ## 鍒嗘敮淇濇姢閰嶇疆
 
@@ -133,7 +146,7 @@ jobs:
 
 浠ヤ笅浣滀笟蹇呴』閰嶇疆涓哄垎鏀繚鎶ょ殑蹇呴渶妫€鏌ワ細
 
-```yaml
+````yaml
 # .github/settings.yml 鎴栭€氳繃 GitHub UI 閰嶇疆
 branches:
   main:
@@ -169,13 +182,15 @@ npm run guard:workflows
 
 # 5. 娴嬭瘯 CI 娴佺▼
 git push --dry-run  # 纭繚涓嶄細鐮村潖鐜版湁娴佺▼
-```
+````
 
 ## 楠岃瘉宸ュ叿
 
 ### 鑷姩鍖栨鏌?
+
 椤圭洰鍖呭惈浠ヤ笅楠岃瘉宸ュ叿锛?
-```powershell
+
+````powershell
 # 妫€鏌ュ崟涓伐浣滄祦渚濊禆
 npm run guard:workflow-deps
 
@@ -192,7 +207,7 @@ npm run guard:ci  # 鍖呭惈宸ヤ綔娴侀獙璇?```
 ```yaml
 steps:
   - name: 馃攳 宸ヤ綔娴佷緷璧栭獙璇?    run: npm run guard:workflows
-```
+````
 
 ## 鏁呴殰鎺掓煡
 
@@ -219,6 +234,7 @@ steps:
    Error: Required status check "unit-tests" is missing
    ```
    **瑙ｅ喅鏂规**锛氭洿鏂板垎鏀繚鎶ら厤缃腑鐨勭姸鎬佹鏌ュ悕绉?
+
 ### 璋冭瘯宸ュ叿
 
 ```powershell
@@ -232,24 +248,25 @@ node scripts/ci/workflow-dependency-check.cjs .github/workflows/ci.yml
 
 ### 璁″垝涓殑鏀硅繘
 
-1. **璇箟鍖栫増鏈泦鎴?*锛氫綔涓氬悕绉板寘鍚増鏈俊鎭?2. **鍔ㄦ€佷綔涓氱敓鎴?*锛氬熀浜庢枃浠跺彉鏇村姩鎬佽皟鏁翠綔涓?3. **浣滀笟渚濊禆浼樺寲**锛氬熀浜庡彉鏇村奖鍝嶅垎鏋愪紭鍖栦緷璧栭摼
-4. **鍙鍖栧伐鍏?*锛氫緷璧栧叧绯诲浘鐨勫彲瑙嗗寲灞曠ず
+1. **璇箟鍖栫増鏈泦鎴?\*锛氫綔涓氬悕绉板寘鍚増鏈俊鎭?2. **鍔ㄦ€佷綔涓氱敓鎴?\*锛氬熀浜庢枃浠跺彉鏇村姩鎬佽皟鏁翠綔涓?3. **浣滀笟渚濊禆浼樺寲**锛氬熀浜庡彉鏇村奖鍝嶅垎鏋愪紭鍖栦緷璧栭摼
+2. \**鍙鍖栧伐鍏?*锛氫緷璧栧叧绯诲浘鐨勫彲瑙嗗寲灞曠ず
 
 ### 宸ュ叿璺嚎鍥?
+
 - [ ] 闆嗘垚 actionlint 杩涜璇硶妫€鏌?- [ ] 娣诲姞浣滀笟鎬ц兘鐩戞帶
 - [ ] 瀹炵幇鏅鸿兘浣滀笟璋冨害
 - [ ] 鏀寔鏉′欢鎬т綔涓氫緷璧?
+
 ---
 
 ## 鍙樻洿鍘嗗彶
 
-| 鐗堟湰 | 鏃ユ湡       | 鍙樻洿鎻忚堪                   |
-| ---- | ---------- | -------------------------- |
-| 1.0  | 2025-09-04 | 鍒濆鐗堟湰锛屽畾涔夋牳蹇冨懡鍚嶆爣鍑?|
+| 鐗堟湰 | 鏃ユ湡     | 鍙樻洿鎻忚堪                           |
+| ------ | ---------- | -------------------------------------- |
+| 1.0    | 2025-09-04 | 鍒濆鐗堟湰锛屽畾涔夋牳蹇冨懡鍚嶆爣鍑? |
 
 ## 鐩稿叧鏂囨。
 
 - [GitHub Actions 鏈€浣冲疄璺礭(../docs/github-actions-best-practices.md)
 - [CI/CD 娴佺▼璁捐](../docs/cicd-process-design.md)
 - [鍒嗘敮淇濇姢绛栫暐](../docs/branch-protection-strategy.md)
-

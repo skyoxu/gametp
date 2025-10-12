@@ -5,7 +5,7 @@
  * - Warns/Skips when dist-electron is not built yet (so it can run before E2E)
  * - Logs to logs/ci/YYYY-MM-DD/electron-entry-check-*.log
  */
-/* eslint-disable no-console */
+
 const fs = require('fs');
 const path = require('path');
 

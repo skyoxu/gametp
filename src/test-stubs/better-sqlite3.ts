@@ -5,7 +5,8 @@ class DatabaseStub {
   pragma(_sql: string, opts?: { simple?: boolean }): any {
     const sql = _sql.toLowerCase();
     if (sql.startsWith('journal_mode')) return opts?.simple ? 'wal' : ['wal'];
-    if (sql.startsWith('wal_checkpoint')) return opts?.simple ? [0, 0, 0] : [[0, 0, 0]];
+    if (sql.startsWith('wal_checkpoint'))
+      return opts?.simple ? [0, 0, 0] : [[0, 0, 0]];
     if (sql.startsWith('cache_spill')) return -1;
     if (sql.startsWith('quick_check')) return ['ok'];
     if (sql.startsWith('foreign_key_check')) return [];
@@ -15,8 +16,9 @@ class DatabaseStub {
     // Allow arbitrary pragma set statements like "locking_mode = EXCLUSIVE"
     return 1;
   }
-  close() { this.closed = true; }
+  close() {
+    this.closed = true;
+  }
 }
 
 export default DatabaseStub;
-

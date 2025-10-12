@@ -54,7 +54,10 @@ import { useI18n } from '@/i18n';
 export function Example() {
   const t = useI18n();
   return (
-    <button title={t('controlPanel.titleSave')} aria-label={t('controlPanel.ariaSave')}>
+    <button
+      title={t('controlPanel.titleSave')}
+      aria-label={t('controlPanel.ariaSave')}
+    >
       {t('controlPanel.save')}
     </button>
   );
@@ -80,4 +83,3 @@ setLang('zh-CN');
 
 - ADR-0010-internationalization：确立国际化策略与 Provider/资源形态
 - ADR-0005-quality-gates：新增键覆盖测试作为质量门禁的一部分
-

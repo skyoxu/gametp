@@ -21,8 +21,14 @@ const PHRASE_MAP = new Map([
   ['使用EventBus桥接React-Phaser通信', 'Bridge React <-> Phaser via EventBus'],
   ['处理游戏事件', 'Handle game events'],
   ['仅处理游戏相关事件', 'Process only game/phaser/react domain events'],
-  ['更新游戏状态：使用低优先级更新保持交互流畅', 'Update game state using low-priority transition to keep UX responsive'],
-  ['转发事件给外部（不在关键路径，延后）', 'Forward event to external consumer (off critical path)'],
+  [
+    '更新游戏状态：使用低优先级更新保持交互流畅',
+    'Update game state using low-priority transition to keep UX responsive',
+  ],
+  [
+    '转发事件给外部（不在关键路径，延后）',
+    'Forward event to external consumer (off critical path)',
+  ],
   ['初始化游戏引擎', 'Initialize game engine'],
   ['创建游戏引擎实例', 'Create engine instance'],
   ['绑定容器', 'Bind container'],
@@ -31,16 +37,25 @@ const PHRASE_MAP = new Map([
   ['启动游戏', 'Start game if requested'],
   ['自动启动游戏', 'Auto start'],
   ['清理资源', 'Cleanup on unmount'],
-  ['使用EventBus监听游戏状态变更', 'Listen for game state changes via EventBus'],
+  [
+    '使用EventBus监听游戏状态变更',
+    'Listen for game state changes via EventBus',
+  ],
   ['监听游戏错误事件', 'Listen for error/warning events'],
   ['监听Phaser响应', 'Listen for Phaser responses'],
-  ['游戏控制函数 - 通过EventBus发布', 'Game control helpers (EventBus commands)'],
+  [
+    '游戏控制函数 - 通过EventBus发布',
+    'Game control helpers (EventBus commands)',
+  ],
   ['渲染加载状态', 'Render loading state'],
   ['渲染错误状态', 'Render error state'],
 
   // factory.ts
   ['游戏引擎工具函数库', 'Game engine utilities'],
-  ['提供统一的游戏引擎创建与使用方法', 'Provide unified helpers to create and use the game engine'],
+  [
+    '提供统一的游戏引擎创建与使用方法',
+    'Provide unified helpers to create and use the game engine',
+  ],
   ['转发事件', 'Forward events'],
   ['订阅错误回调', 'Subscribe error callback'],
   ['默认游戏配置', 'Default game config'],
@@ -99,7 +114,10 @@ function translateText(text) {
   }
   // If still contains non-ASCII, collapse to a generic English marker
   if (/[^\x00-\x7F]/.test(out)) {
-    out = out.replace(/[^\x00-\x7F]+/g, ' ').replace(/[ \t]+/g, ' ').trim();
+    out = out
+      .replace(/[^\x00-\x7F]+/g, ' ')
+      .replace(/[ \t]+/g, ' ')
+      .trim();
     if (!out) out = 'Comment';
   }
   return out;
@@ -109,7 +127,8 @@ function processComments(source) {
   let i = 0;
   let out = '';
   const n = source.length;
-  let inStr = false, strQuote = '';
+  let inStr = false,
+    strQuote = '';
   let inLine = false;
   let inBlock = false;
 
@@ -119,17 +138,28 @@ function processComments(source) {
 
     if (!inLine && !inBlock) {
       // string handling
-      if (!inStr && (ch === '"' || ch === '\'' || ch === '`')) {
-        inStr = true; strQuote = ch; out += ch; i++; continue;
+      if (!inStr && (ch === '"' || ch === "'" || ch === '`')) {
+        inStr = true;
+        strQuote = ch;
+        out += ch;
+        i++;
+        continue;
       }
       if (inStr) {
         out += ch;
-        if (ch === '\\') { // escape
-          if (i + 1 < n) { out += source[i + 1]; i += 2; continue; }
+        if (ch === '\\') {
+          // escape
+          if (i + 1 < n) {
+            out += source[i + 1];
+            i += 2;
+            continue;
+          }
         } else if (ch === strQuote) {
-          inStr = false; strQuote = '';
+          inStr = false;
+          strQuote = '';
         }
-        i++; continue;
+        i++;
+        continue;
       }
       // start line comment
       if (ch === '/' && next === '/') {
@@ -137,9 +167,9 @@ function processComments(source) {
         out += '//';
         i += 2;
         // capture until end of line
-        let start = i;
+        const start = i;
         while (i < n && source[i] !== '\n') i++;
-        let commentText = source.slice(start, i);
+        const commentText = source.slice(start, i);
         if (/[^\x00-\x7F]/.test(commentText)) {
           const prefix = commentText.match(/^\s*/)?.[0] ?? '';
           const body = commentText.slice(prefix.length);
@@ -157,14 +187,20 @@ function processComments(source) {
         out += '/*';
         i += 2;
         let chunk = '';
-        while (i < n && !(source[i] === '*' && i + 1 < n && source[i + 1] === '/')) {
+        while (
+          i < n &&
+          !(source[i] === '*' && i + 1 < n && source[i + 1] === '/')
+        ) {
           chunk += source[i++];
         }
         // translate per line inside block
         const lines = chunk.split(/(\r?\n)/);
         for (let j = 0; j < lines.length; j++) {
           const ln = lines[j];
-          if (/^\r?\n$/.test(ln)) { out += ln; continue; }
+          if (/^\r?\n$/.test(ln)) {
+            out += ln;
+            continue;
+          }
           // keep leading stars and spaces
           const m = ln.match(/^(\s*\*?\s*)(.*)$/);
           if (m) {
@@ -180,16 +216,22 @@ function processComments(source) {
           }
         }
         // close */ if present
-        if (i < n) { out += '*/'; i += 2; }
+        if (i < n) {
+          out += '*/';
+          i += 2;
+        }
         inBlock = false;
         continue;
       }
       // default
-      out += ch; i++; continue;
+      out += ch;
+      i++;
+      continue;
     }
 
     // fallback (should not get here frequently)
-    out += ch; i++;
+    out += ch;
+    i++;
   }
   return out;
 }
@@ -197,7 +239,9 @@ function processComments(source) {
 async function run() {
   const files = process.argv.slice(2);
   if (files.length === 0) {
-    console.error('Usage: node scripts/translate_comments_ui_game.mjs <file> [...files]');
+    console.error(
+      'Usage: node scripts/translate_comments_ui_game.mjs <file> [...files]'
+    );
     process.exit(2);
   }
   const logDir = path.join('logs', dateFolder(), 'translate');
@@ -224,4 +268,7 @@ async function run() {
   console.log(`Translate report written: ${logPath}`);
 }
 
-run().catch(e => { console.error(e); process.exit(1); });
+run().catch(e => {
+  console.error(e);
+  process.exit(1);
+});

@@ -37,7 +37,7 @@
   - pwsh: `New-Item -ItemType SymbolicLink -Path link -Target target`
 
 提示：在 CI 工作流中，统一使用 `shell: pwsh` 并用 `Out-File -Encoding utf8NoBom` 输出含中文的 Step Summary。
- 
+
 ## 多文件搜索/替换示例
 
 - 递归搜索文本（等效 Linux `grep` + `-r pattern dir`）

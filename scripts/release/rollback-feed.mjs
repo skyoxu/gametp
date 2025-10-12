@@ -93,9 +93,7 @@ export function rollbackFeed(feedFile, manifestFile, prevVersion) {
   }
 
   if (!isValidFeedFile(feedFile)) {
-    throw new Error(
-      `Invalid feed file: ${feedFile}. Expected latest.yml`
-    );
+    throw new Error(`Invalid feed file: ${feedFile}. Expected latest.yml`);
   }
 
   // 检查文件存在性

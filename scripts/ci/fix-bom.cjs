@@ -14,4 +14,3 @@ function stripBOMFile(p) {
   const p = path.join(process.cwd(), f);
   if (fs.existsSync(p)) stripBOMFile(p);
 });
-

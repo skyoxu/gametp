@@ -43,7 +43,9 @@ function basicAsciiSanitize(text) {
 async function main() {
   const files = process.argv.slice(2);
   if (files.length === 0) {
-    console.error('Usage: node scripts/sanitize_ascii.mjs <file> [more files...]');
+    console.error(
+      'Usage: node scripts/sanitize_ascii.mjs <file> [more files...]'
+    );
     process.exit(2);
   }
 
@@ -57,7 +59,10 @@ async function main() {
       const src = await fs.readFile(file, 'utf8');
       const sanitized = basicAsciiSanitize(src);
       if (sanitized !== src) {
-        const backupPath = path.join(logDir, file.replace(/[\\/]/g, '__') + '.bak');
+        const backupPath = path.join(
+          logDir,
+          file.replace(/[\\/]/g, '__') + '.bak'
+        );
         await fs.writeFile(backupPath, src, 'utf8');
         await fs.writeFile(file, sanitized, 'utf8');
         report.push({ file, changed: true, backup: backupPath });
@@ -83,4 +88,3 @@ main().catch(err => {
   console.error('sanitize_ascii failed:', err);
   process.exit(1);
 });
-

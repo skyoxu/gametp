@@ -4,9 +4,7 @@
   "type": "array",
   "items": {
     "type": "object",
-    "required": [
-      "id"
-    ],
+    "required": ["id"],
     "properties": {
       "id": {
         "type": "string"
@@ -16,12 +14,7 @@
       },
       "status": {
         "type": "string",
-        "enum": [
-          "todo",
-          "in-progress",
-          "blocked",
-          "done"
-        ]
+        "enum": ["todo", "in-progress", "blocked", "done"]
       },
       "owners": {
         "type": "array",
@@ -67,12 +60,7 @@
           },
           "priority": {
             "type": "string",
-            "enum": [
-              "P0",
-              "P1",
-              "P2",
-              "P3"
-            ]
+            "enum": ["P0", "P1", "P2", "P3"]
           },
           "labels": {
             "type": "array",

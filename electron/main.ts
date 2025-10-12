@@ -1,4 +1,11 @@
-import { app, BrowserWindow, ipcMain, shell, session, protocol } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  shell,
+  session,
+  protocol,
+} from 'electron';
 import { createSecureBrowserWindow, initializeSecurity } from './security';
 import * as Sentry from '@sentry/node';
 import { join, resolve as resolvePath } from 'node:path';
@@ -108,7 +115,8 @@ function createWindow() {
   try {
     // Use scheme with empty host (app:///index.html) to ensure relative asset URLs resolve to /assets/*
     const baseUrl = 'app:///index.html';
-    const url = process.env.E2E_LIGHT === '1' ? `${baseUrl}?e2e-light=1` : baseUrl;
+    const url =
+      process.env.E2E_LIGHT === '1' ? `${baseUrl}?e2e-light=1` : baseUrl;
     void win.loadURL(url);
     logLine('Loaded app://index.html');
   } catch {
@@ -144,7 +152,7 @@ app.whenReady().then(() => {
         // strip it so that relative assets like "./assets/*" resolve to "/assets/*".
         if (host === 'index.html') {
           // If requesting exactly the document, map to /index.html
-          if (!pathOnly || pathOnly === '/' ) {
+          if (!pathOnly || pathOnly === '/') {
             resourcePath = '/index.html';
           } else if (pathOnly.startsWith('/')) {
             resourcePath = pathOnly; // e.g., /assets/...
@@ -158,9 +166,10 @@ app.whenReady().then(() => {
 
         // Resolve and guard traversal; fallback to index.html if outside dist or missing
         const candidate = resolvePath(distRoot, `.${resourcePath}`);
-        const safe = candidate.startsWith(distRoot) && existsSync(candidate)
-          ? candidate
-          : join(distRoot, 'index.html');
+        const safe =
+          candidate.startsWith(distRoot) && existsSync(candidate)
+            ? candidate
+            : join(distRoot, 'index.html');
 
         callback({ path: safe });
       } catch {
@@ -168,12 +177,18 @@ app.whenReady().then(() => {
       }
     });
   } catch (e) {
-    console.warn('[protocol] registerFileProtocol failed', (e as Error)?.message);
+    console.warn(
+      '[protocol] registerFileProtocol failed',
+      (e as Error)?.message
+    );
   }
   try {
     initializeSecurity(session.defaultSession);
   } catch (e) {
-    console.warn('[main] security initialization skipped:', (e as Error)?.message);
+    console.warn(
+      '[main] security initialization skipped:',
+      (e as Error)?.message
+    );
   }
   const win = createWindow();
   logLine('BrowserWindow created');
@@ -234,4 +249,3 @@ app.on('child-process-gone', (_e, d) => {
 
 // Note: If some runners persist a previously granted Notification permission,
 // rely on request handler default-deny and Chromium flag `--disable-notifications`.
-

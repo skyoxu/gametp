@@ -25,7 +25,7 @@ const files = [
 let changed = 0;
 for (const f of files) {
   try {
-    let buf = readFileSync(f);
+    const buf = readFileSync(f);
     let txt = buf.toString('utf8');
     const orig = txt;
     // strip BOM

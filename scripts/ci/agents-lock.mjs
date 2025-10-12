@@ -8,7 +8,10 @@ import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 
 function run(cmd, args = []) {
-  const r = spawnSync(cmd, args, { stdio: ['ignore', 'pipe', 'inherit'], shell: process.platform === 'win32' });
+  const r = spawnSync(cmd, args, {
+    stdio: ['ignore', 'pipe', 'inherit'],
+    shell: process.platform === 'win32',
+  });
   if (r.error) throw r.error;
   const out = (r.stdout ? r.stdout.toString('utf8') : '').trim();
   return { code: r.status ?? 0, out };
@@ -16,11 +19,18 @@ function run(cmd, args = []) {
 
 function hasAllowLabel() {
   const raw = String(process.env.PR_LABELS || '').toLowerCase();
-  const allows = String(process.env.AGENTS_ALLOW_LABELS || 'agents-update,agents-waive')
+  const allows = String(
+    process.env.AGENTS_ALLOW_LABELS || 'agents-update,agents-waive'
+  )
     .split(',')
     .map(s => s.trim().toLowerCase())
     .filter(Boolean);
-  return allows.some(lbl => raw.split(',').map(s => s.trim()).includes(lbl));
+  return allows.some(lbl =>
+    raw
+      .split(',')
+      .map(s => s.trim())
+      .includes(lbl)
+  );
 }
 
 function getChangedFiles() {
@@ -34,11 +44,16 @@ function getChangedFiles() {
         if (diff.code === 0) return diff.out.split(/\r?\n/).filter(Boolean);
       }
       // Fallback to base ref (requires fetch-depth: 0)
-      const baseRef = process.env.GITHUB_BASE_REF || process.env.PR_BASE_REF || '';
+      const baseRef =
+        process.env.GITHUB_BASE_REF || process.env.PR_BASE_REF || '';
       if (baseRef) {
         // Ensure remote base exists locally
         run('git', ['fetch', 'origin', baseRef, '--depth=1']);
-        const diff = run('git', ['diff', '--name-only', `origin/${baseRef}...HEAD`]);
+        const diff = run('git', [
+          'diff',
+          '--name-only',
+          `origin/${baseRef}...HEAD`,
+        ]);
         if (diff.code === 0) return diff.out.split(/\r?\n/).filter(Boolean);
       }
     }
@@ -56,7 +71,9 @@ function main() {
   }
 
   // Best-effort sanity read
-  try { readFileSync('AGENTS.md', 'utf8'); } catch {}
+  try {
+    readFileSync('AGENTS.md', 'utf8');
+  } catch {}
 
   const changed = getChangedFiles();
   const touched = changed.includes('AGENTS.md');
@@ -67,15 +84,22 @@ function main() {
   }
 
   if (hasAllowLabel()) {
-    console.log('[agents-lock] Allow label detected; permitting AGENTS.md update');
+    console.log(
+      '[agents-lock] Allow label detected; permitting AGENTS.md update'
+    );
     process.exit(0);
   }
 
-  console.error('[agents-lock] AGENTS.md modification detected but no allow label present.');
-  console.error('  To proceed, add one of the labels: agents-update, agents-waive');
-  console.error('  Or update repository rules to allow changes to AGENTS.md explicitly.');
+  console.error(
+    '[agents-lock] AGENTS.md modification detected but no allow label present.'
+  );
+  console.error(
+    '  To proceed, add one of the labels: agents-update, agents-waive'
+  );
+  console.error(
+    '  Or update repository rules to allow changes to AGENTS.md explicitly.'
+  );
   process.exit(1);
 }
 
 main();
-

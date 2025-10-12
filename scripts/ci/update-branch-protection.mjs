@@ -53,7 +53,10 @@ async function updateProtection(branch) {
   } catch {}
 
   const existingContexts =
-    (existing && existing.required_status_checks && existing.required_status_checks.contexts) || [];
+    (existing &&
+      existing.required_status_checks &&
+      existing.required_status_checks.contexts) ||
+    [];
   const merged = Array.from(new Set([...existingContexts, ...requiredToAdd]));
 
   const body = {

@@ -5,7 +5,7 @@ self.onmessage = (e: MessageEvent) => {
   const { type, payload } = e.data || {};
   if (type === 'heavyTask') {
     const start = performance.now();
-    // 
+    //
     let acc = 0;
     const n: number = payload?.n ?? 5_000_000;
     for (let i = 0; i < n; i++) acc += Math.sqrt(i ^ i % 13);

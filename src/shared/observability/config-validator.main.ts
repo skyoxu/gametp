@@ -266,9 +266,7 @@ export class ConfigValidator {
     this.generateRecommendations(result);
 
     result.validationDuration = Date.now() - startTime;
-    console.log(
-      ` ${environment} : ${result.validationDuration}ms`
-    );
+    console.log(` ${environment} : ${result.validationDuration}ms`);
 
     return result;
   }
@@ -314,9 +312,7 @@ export class ConfigValidator {
         name: `: ${varName}`,
         passed: !!value,
         severity: 'critical',
-        message: value
-          ? ` ${varName} `
-          : ` ${varName}`,
+        message: value ? ` ${varName} ` : ` ${varName}`,
         expectedValue: '',
         actualValue: value || 'undefined',
         recommendation: !value ? ` ${varName}` : undefined,
@@ -332,12 +328,8 @@ export class ConfigValidator {
         name: `: ${envFile}`,
         passed: existsSync(filePath),
         severity: envFile === '.env' ? 'high' : 'medium',
-        message: existsSync(filePath)
-          ? `${envFile} `
-          : `${envFile} `,
-        recommendation: !existsSync(filePath)
-          ? ` ${envFile} `
-          : undefined,
+        message: existsSync(filePath) ? `${envFile} ` : `${envFile} `,
+        recommendation: !existsSync(filePath) ? ` ${envFile} ` : undefined,
       });
     }
 
@@ -436,9 +428,7 @@ export class ConfigValidator {
         passed: existsSync(filePath),
         severity: 'critical',
         message: `${file} `,
-        recommendation: !existsSync(filePath)
-          ? ` ${file} Sentry`
-          : undefined,
+        recommendation: !existsSync(filePath) ? ` ${file} Sentry` : undefined,
       });
 
       //

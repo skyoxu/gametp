@@ -1,6 +1,6 @@
 /**
- * 
- *  P95 
+ *
+ *  P95
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
@@ -28,7 +28,7 @@ describe('P95 ', () => {
 
       const p95Value = collector.getP95('test');
 
-      // P95  95% 
+      // P95  95%
       //  10 95%  9 (Math.ceil(10 * 0.95) - 1 = 9)
       expect(p95Value).toBe(100);
     });
@@ -71,15 +71,15 @@ describe('P95 ', () => {
       const p95_2 = p95(data2);
       expect(p95_2).toBe(95); // Math.ceil(100 * 0.95) - 1 = 94, data[94] = 95
 
-      //  3: 
+      //  3:
       const data3 = [100, 50, 75, 25, 90, 10, 60, 80, 40, 30];
       const p95_3 = p95(data3);
-      expect(p95_3).toBe(100); //  95% 
+      expect(p95_3).toBe(100); //  95%
     });
 
     it('', () => {
-      expect(p95([42])).toBe(42); // 
-      expect(p95([1, 2])).toBe(2); // P95 
+      expect(p95([42])).toBe(42); //
+      expect(p95([1, 2])).toBe(2); // P95
     });
   });
 
@@ -89,13 +89,13 @@ describe('P95 ', () => {
 
       const testFunction = async () => {
         callCount++;
-        return Math.random() * 100; // 
+        return Math.random() * 100; //
       };
 
       const stats = await PerformanceTestUtils.runP95Test(
         'test_metric',
         testFunction,
-        200, // 
+        200, //
         { sampleCount: 10, verbose: false }
       );
 
@@ -103,18 +103,18 @@ describe('P95 ', () => {
       expect(stats.sampleCount).toBe(10);
       expect(stats.p95).toBeGreaterThan(0);
       expect(stats.average).toBeGreaterThan(0);
-    }, 10000); // 
+    }, 10000); //
 
     it(' P95 ', async () => {
       const testFunction = async () => {
-        return 150; // 
+        return 150; //
       };
 
       await expect(
         PerformanceTestUtils.runP95Test(
           'failing_test',
           testFunction,
-          100, // 
+          100, //
           { sampleCount: 5, verbose: false }
         )
       ).rejects.toThrow();

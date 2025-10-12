@@ -3,18 +3,22 @@ module.exports = {
   rules: {
     'subject-case': [0, 'always', []],
     'header-max-length': [2, 'always', 100],
-    'scope-enum': [2, 'always', [
-      'core',
-      'renderer',
-      'electron',
-      'ci',
-      'docs',
-      'tests',
-      'security',
-      'build',
-      'deps',
-      'infra'
-    ]],
+    'scope-enum': [
+      2,
+      'always',
+      [
+        'core',
+        'renderer',
+        'electron',
+        'ci',
+        'docs',
+        'tests',
+        'security',
+        'build',
+        'deps',
+        'infra',
+      ],
+    ],
     'scope-empty': [2, 'never'],
   },
 };

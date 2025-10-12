@@ -215,9 +215,7 @@ export class ServiceMeshIntegration extends EventEmitter {
 
       this.serviceRegistry.set(serviceId, fullInstance);
 
-      console.log(
-        ` : ${instance.name}@${instance.address}:${instance.port}`
-      );
+      console.log(` : ${instance.name}@${instance.address}:${instance.port}`);
 
       //
       if (this.config.circuitBreaker.enabled) {
@@ -617,9 +615,7 @@ export class ServiceMeshIntegration extends EventEmitter {
     success: boolean
   ): void {
     //
-    console.log(
-      ` : ${serviceName}, ${durationMs}ms, ${success ? '' : ''}`
-    );
+    console.log(` : ${serviceName}, ${durationMs}ms, ${success ? '' : ''}`);
   }
 
   private collectAndProcessMetrics(): void {

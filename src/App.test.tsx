@@ -1,6 +1,6 @@
 /*
- * App 
- *  React  TDD 
+ * App
+ *  React  TDD
  */
 
 import { describe, it, expect } from 'vitest';
@@ -36,7 +36,7 @@ describe('App ', () => {
     it('', () => {
       render(<App />);
 
-      // 
+      //
       const heading = screen.getByRole('heading', { level: 1 });
       expect(heading).toBeInTheDocument();
     });
@@ -54,12 +54,12 @@ describe('App ', () => {
       render(<App />);
       const root = screen.getByTestId('app-root');
       expect(root).toBeInTheDocument();
-      // 
+      //
       expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
       // Normal / Vertical Slice/
       const buttons = root.querySelectorAll('button');
       expect(buttons.length).toBeGreaterThanOrEqual(2);
-      // 
+      //
       const startBtn = screen.queryByTestId('start-game');
       expect(startBtn).toBeTruthy();
     });

@@ -10,7 +10,11 @@ function runJSON() {
     shell: process.platform === 'win32',
   });
   if (res.status !== 0) return null;
-  try { return JSON.parse(res.stdout); } catch { return null; }
+  try {
+    return JSON.parse(res.stdout);
+  } catch {
+    return null;
+  }
 }
 
 const data = runJSON();
@@ -22,9 +26,11 @@ if (data && Array.isArray(data)) {
     const limit = item.limit || '';
     const passed = item.passed;
     // Try to compute ratio if both are in KB/MB strings
-    const toBytes = (s) => {
+    const toBytes = s => {
       if (!s) return NaN;
-      const m = String(s).trim().match(/([\d.]+)\s*(KB|MB|B)/i);
+      const m = String(s)
+        .trim()
+        .match(/([\d.]+)\s*(KB|MB|B)/i);
       if (!m) return NaN;
       const v = parseFloat(m[1]);
       const u = m[2].toUpperCase();

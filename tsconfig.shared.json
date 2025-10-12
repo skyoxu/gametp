@@ -6,10 +6,6 @@
     "noImplicitOverride": true,
     "noImplicitReturns": true
   },
-  "include": [
-    "src/shared/**/*"
-  ],
-  "exclude": [
-    "src/shared/adapters/sqlite.bak/**"
-  ]
+  "include": ["src/shared/**/*"],
+  "exclude": ["src/shared/adapters/sqlite.bak/**"]
 }

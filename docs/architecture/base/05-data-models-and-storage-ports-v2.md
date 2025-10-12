@@ -9,6 +9,7 @@ last_adjusted: 2025-08-21
 ## C4锛堟渶灏忛潤鎬佸垎瑙ｏ紝鑱氱劍绔彛鈥旈€傞厤鍣級
 
 > 瀵归綈 arc42 搂5 鈥滈潤鎬佸垎瑙ｂ€濓紝鏈珷浠呯粰鏈€灏?C4 瀹瑰櫒/缁勪欢鍥撅紱鏇撮珮灞?Context/Container 璇峰弬鑰冪 04 绔犮€?
+
 ```mermaid
 C4Container
 title Data Ports & Adapters (05绔?路 arc42 搂5)
@@ -35,14 +36,18 @@ Rel(IPortRepo, RepoInMemory, "impl")
 Rel(IPortRepo, RepoSQLite, "impl")
 ```
 
-> 鐩爣锛氫互 **绔彛-閫傞厤鍣紙Hexagonal锛?* 琛ㄨ揪 Chapter 05 鐨?*鍞竴浜嬪疄婧愶紙SSoT锛?*鈥斺€旀暟鎹ā鍨嬩笌瀛樺偍绔彛銆備弗鏍?**Base-Clean**锛氫笉缁戝畾鍏蜂綋浜戝巶鍟嗭紱榛樿瀹炵幇浠呮湁 InMemory 涓?SQLite锛圵AL锛夈€傛湰鐗堟湰鏁村悎鐗╃悊瀹炵幇涓庤縼绉荤瓥鐣ワ紝鎻愪緵鐢熶骇绾ф暟鎹簱绠＄悊鑳藉姏銆?
+> 鐩爣锛氫互 **绔彛-閫傞厤鍣紙Hexagonal锛?* 琛ㄨ揪 Chapter 05 鐨?*鍞竴浜嬪疄婧愶紙SSoT锛?\*鈥斺€旀暟鎹ā鍨嬩笌瀛樺偍绔彛銆備弗鏍?**Base-Clean\*\*锛氫笉缁戝畾鍏蜂綋浜戝巶鍟嗭紱榛樿瀹炵幇浠呮湁 InMemory 涓?SQLite锛圵AL锛夈€傛湰鐗堟湰鏁村悎鐗╃悊瀹炵幇涓庤縼绉荤瓥鐣ワ紝鎻愪緵鐢熶骇绾ф暟鎹簱绠＄悊鑳藉姏銆?
+
 ## 馃Л SSoT 杈圭晫涓庢函婧愶紙瀵归綈 arc42 搂5锛?
-- 鏈珷浠呭畾涔?**绔彛濂戠害** 涓?**鑱氬悎鐨勬寔涔呭寲缁撴瀯**锛涜繍琛屾椂/瑙傛祴/閮ㄧ讲鍒嗗埆鍦?06/03/07 绔犮€?- ADR 鍏宠仈锛?*ADR-0001/0002/0003/0004/0005/0007**銆傛鏂囧湪鐩稿簲灏忚妭鍐?*鑷冲皯涓€娆?*寮曠敤 ADR 缂栧彿浠ヤ究杩芥函銆?- **鐗╃悊瀹炵幇鎵╁睍**锛氭暣鍚?11 绔犳暟鎹簱瀹炵幇缁嗚妭锛屽寘鍚?Schema 鐗堟湰绠＄悊銆佸浠界瓥鐣ャ€佸仴搴锋鏌ョ瓑鐢熶骇绾х壒鎬с€?
+
+- 鏈珷浠呭畾涔?**绔彛濂戠害** 涓?**鑱氬悎鐨勬寔涔呭寲缁撴瀯**锛涜繍琛屾椂/瑙傛祴/閮ㄧ讲鍒嗗埆鍦?06/03/07 绔犮€?- ADR 鍏宠仈锛?*ADR-0001/0002/0003/0004/0005/0007\*\*銆傛鏂囧湪鐩稿簲灏忚妭鍐?*鑷冲皯涓€娆?\*寮曠敤 ADR 缂栧彿浠ヤ究杩芥函銆?- **鐗╃悊瀹炵幇鎵╁睍**锛氭暣鍚?11 绔犳暟鎹簱瀹炵幇缁嗚妭锛屽寘鍚?Schema 鐗堟湰绠＄悊銆佸浠界瓥鐣ャ€佸仴搴锋鏌ョ瓑鐢熶骇绾х壒鎬с€?
+
 ---
 
 ## 1) 绔彛濂戠害锛堟渶灏忓彲鎵ц闆嗭級
 
-> 绔彛鍛藉悕閬靛惊"涓哄仛鏌愪簨锛團or_doing_something锛?璇箟锛涢鍩熷眰**涓嶄緷璧?*鍏蜂綋鏁版嵁搴?鏂囦欢绯荤粺銆傝 ADR-0004 / ADR-0005銆?
+> 绔彛鍛藉悕閬靛惊"涓哄仛鏌愪簨锛團or_doing_something锛?璇箟锛涢鍩熷眰\**涓嶄緷璧?*鍏蜂綋鏁版嵁搴?鏂囦欢绯荤粺銆傝 ADR-0004 / ADR-0005銆?
+
 ```typescript
 // src/shared/contracts/ports/Port.ts
 export interface Port {
@@ -151,8 +156,11 @@ test('inmemory repo basic CRUD', async () => {
 ## 2) SQLite 鐢熶骇绾у疄鐜帮紙WAL / 澶囦唤 / 鍥炴粴 / 鍋ュ悍妫€鏌ワ級
 
 > 鍩轰簬 ADR-0002锛堝畨鍏ㄥ熀绾匡級涓?ADR-0005锛堣川閲忛棬绂侊級锛屾彁渚涗紒涓氱骇 SQLite 鏁版嵁绠＄悊鑳藉姏銆?
+
 ### 2.0 SQLite蹇€熼厤缃紙3鍒嗛挓涓婃墜锛?
-**寮€鍙戠幆澧冩帹鑽愰厤缃?*锛?
+
+\**寮€鍙戠幆澧冩帹鑽愰厤缃?*锛?
+
 ```sql
 -- 鍚敤WAL妯″紡锛堟彁鍗囧苟鍙戞€ц兘锛?PRAGMA journal_mode = WAL;
 -- 鏅€氬悓姝ワ紙寮€鍙戠幆澧冨钩琛℃€ц兘鍜屽畨鍏ㄦ€э級
@@ -164,6 +172,7 @@ PRAGMA foreign_keys = ON;
 ```
 
 **鐢熶骇鐜鎺ㄨ崘閰嶇疆**锛?
+
 ```sql
 -- 鍚敤WAL妯″紡锛堥珮骞跺彂鏀寔锛?PRAGMA journal_mode = WAL;
 -- 瀹屽叏鍚屾锛堢敓浜х幆澧冩暟鎹畨鍏ㄤ紭鍏堬級
@@ -177,6 +186,7 @@ PRAGMA busy_timeout = 10000;
 ```
 
 **TypeScript 閰嶇疆灏佽**锛?
+
 ```typescript
 // src/shared/adapters/sqlite/SqliteConfig.ts
 export const SQLITE_CONFIG = {
@@ -209,13 +219,16 @@ export function applySqliteConfig(
 ```
 
 **甯歌闂閫熸煡**锛?
+
 - **WAL鏂囦欢杩囧ぇ**锛氳皟鏁?`wal_autocheckpoint` 鍊硷紝鎴栨墜鍔?`PRAGMA wal_checkpoint;`
 - **SQLITE_BUSY閿欒**锛氬鍔?`busy_timeout` 鍊兼垨浣跨敤閲嶈瘯鏈哄埗
 - **纾佺洏绌洪棿涓嶈冻**锛氱洃鎺AL鏂囦欢澶у皬锛屽強鏃舵墽琛宑heckpoint
 - **鎬ц兘璋冧紭**锛氭牴鎹唴瀛樺ぇ灏忚皟鏁?`cache_size`锛岀敓浜х幆澧冨缓璁缃负鍙敤鍐呭瓨鐨?5%
 
 ### 2.1 Schema鐗堟湰涓庤縼绉荤瓥鐣?
+
 **鏍稿績鍘熷垯**锛氫娇鐢?`PRAGMA user_version` 缁存姢Schema鐗堟湰锛屾敮鎸佹鍚戣縼绉诲拰鍥炴粴鎿嶄綔銆?
+
 ```typescript
 // src/shared/adapters/sqlite/SqliteMigration.ts
 import type { IMigration } from '@/shared/contracts/ports/Port';
@@ -295,7 +308,9 @@ test('migration tracks version correctly', async () => {
 ```
 
 ### 2.2 澶囦唤/蹇収涓庝繚鐣欑瓥鐣?
+
 **绛栫暐**锛氫娇鐢?`VACUUM INTO` 鐢熸垚涓€鑷存€у揩鐓э紝淇濈暀鏈€杩?浠藉浠斤紝鏀寔鍩轰簬鏃堕棿鐐圭殑鎭㈠銆?
+
 ```typescript
 // src/shared/adapters/sqlite/SqliteBackup.ts
 export interface IBackupManager extends Port {
@@ -511,7 +526,8 @@ test('backup manager creates and manages backups', async () => {
 
 ### 2.3 鍋ュ悍妫€鏌ヤ笌闄嶇骇鍥炴粴
 
-**闆嗘垚 03 绔犲彲瑙傛祴鎬?*锛氱粨鍚?Sentry Release Health 瀹炵幇鏁版嵁搴撳仴搴风洃鎺э紝鏀寔鑷姩闄嶇骇鍜屽洖婊氥€?
+\**闆嗘垚 03 绔犲彲瑙傛祴鎬?*锛氱粨鍚?Sentry Release Health 瀹炵幇鏁版嵁搴撳仴搴风洃鎺э紝鏀寔鑷姩闄嶇骇鍜屽洖婊氥€?
+
 ```typescript
 // src/shared/adapters/sqlite/SqliteHealthCheck.ts
 import type { IHealthCheck } from '@/shared/contracts/ports/Port';
@@ -747,7 +763,9 @@ test('health check detects database issues', async () => {
 ```
 
 ### 2.4 瀛樻。TTL涓庡洖鏀?
+
 **娓告垙瀛樻。绠＄悊**锛氭敮鎸佸瓨妗ｈ繃鏈熸竻鐞嗗拰鍥炴斁楠岃瘉锛岀‘淇濆瓨妗ｆ暟鎹畬鏁存€с€?
+
 ```typescript
 // src/shared/adapters/sqlite/SaveGameManager.ts
 export interface ISaveGameManager extends Port {
@@ -869,6 +887,7 @@ test('save game manager handles TTL cleanup', async () => {
 ### 2.5 WAL骞跺彂涓巆heckpoint
 
 **骞跺彂浼樺寲**锛歐AL妯″紡涓嬬殑璇诲啓鍒嗙鍜宑heckpoint绛栫暐锛屾敮鎸侀珮骞跺彂璁块棶銆?
+
 ```typescript
 // src/shared/adapters/sqlite/SqliteConnectionPool.ts
 export interface IConnectionPool extends Port {
@@ -1110,7 +1129,9 @@ test('connection pool basic functionality', async () => {
 ---
 
 ## 3) 鏁版嵁妯″瀷锛堟墿灞曡〃缁撴瀯锛?
+
 > 鍩轰簬杩佺Щ绛栫暐鐨勬紨杩涘紡Schema璁捐锛屾敮鎸佺増鏈寲鍜屽洖婊氥€?
+
 ```sql
 -- migrations/0003_add_inventory_and_market.sql
 CREATE TABLE inventory (id TEXT PRIMARY KEY, characterId TEXT NOT NULL, itemType TEXT NOT NULL, quantity INTEGER DEFAULT 1, metadata TEXT, acquiredAt TEXT DEFAULT CURRENT_TIMESTAMP, updatedAt TEXT DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(characterId) REFERENCES character(id));
@@ -1301,11 +1322,13 @@ export class SqliteInventoryRepo implements IInventoryRepository {
 ---
 
 ## 4) 鍙拷婧€х煩闃碉紙绔彛 鈫?ADR 鈫?娴嬭瘯锛?
-鏍稿績绔彛鍏宠仈锛歚IRepository<EntityA>` (ADR-0001/ADR-0004, T05-01), `IUnitOfWork` (ADR-0005, T05-04), `IMigration` (ADR-0002/ADR-0005, T05-05), `IHealthCheck` (ADR-0003/ADR-0005, T05-06), `IConnectionPool` (ADR-0002, T05-08)
+
+鏍稿績绔彛鍏宠仈锛歚IRepository<EntityA>`(ADR-0001/ADR-0004, T05-01),`IUnitOfWork`(ADR-0005, T05-04),`IMigration`(ADR-0002/ADR-0005, T05-05),`IHealthCheck`(ADR-0003/ADR-0005, T05-06),`IConnectionPool` (ADR-0002, T05-08)
 
 ---
 
 ## 5) 鎵ц鑴氭湰涓庨棬绂侀泦鎴?
+
 ```json
 {
   "acceptance": [
@@ -1378,19 +1401,22 @@ test('database lifecycle operations', async () => {
 ---
 
 ## 6) Placeholders AggregateA锛圔ase-Clean 鍙橀噺娓呭崟锛?
+
 鏈珷浣跨敤鐨勬墍鏈夊崰浣嶇鍙橀噺锛岀‘淇滲ase-Clean鍚堣鎬э細
 
 **Core placeholders**: `${DB_FILE}`, `${APP_NAME}`, `${PRODUCT_NAME}`, `${VERSION}`, `${SCHEMA_VERSION}`, `${READ_P95_MS}`, `${WRITE_P95_MS}`, `${SENTRY_DSN}`, `${AGG_CHARACTER}`, `${AGG_GUILD}`, `${PORT_PRIMARY}`, `${PORT_SECONDARY}`
 
-瀹屾暣鍒楄〃瑙佹枃妗ｅご閮╬laceholders瀛楁銆?
----
+## 瀹屾暣鍒楄〃瑙佹枃妗ｅご閮╬laceholders瀛楁銆?
 
 ## 7) 鍚堝苟鍓嶉獙璇侊紙Acceptance锛?
+
 - `npm run test:unit:ports` 鈥斺€?濂戠害涓?InMemory 瀹炵幇閫氳繃
 - `npm run test:integration:sqlite` 鈥斺€?SQLite 閫傞厤鍣ㄦ祴璇曢€氳繃
 - `node scripts/health/database_health_check.sh` 鈥斺€?鍋ュ悍妫€鏌ラ€氳繃
 - `sqlite3 "${DB_FILE}" ".schema"` 鈥斺€?妯″紡鏍￠獙閫氳繃
 
 > 鏈珷閬靛惊 arc42 搂5 鐨?**Building Block View**锛堥潤鎬佸垎瑙ｄ笌渚濊禆锛変笌 **Hexagonal锛堢鍙?閫傞厤鍣級**銆傚寮虹殑鐢熶骇绾х壒鎬у寘鎷琒chema鐗堟湰绠＄悊銆佸浠界瓥鐣ャ€佸仴搴锋鏌ャ€乄AL骞跺彂浼樺寲锛屽叏闈㈡敮鎸佷紒涓氱骇SQLite搴旂敤鍦烘櫙銆傛洿澶氳繍琛屾椂/閮ㄧ讲/瑙傛祴缁嗚妭瑙?06/07/03 绔犮€?
+
 ### 鎶€鏈爤涓珛涓庡紩鐢?
+
 - 鏈珷閬靛惊鍏竟褰㈡灦鏋勶紙绔彛鈥旈€傞厤鍣級锛屽疄鐜板彲鏇挎崲锛圛nMemory/SQLite/鈥︼級銆傝 ADR-0002锛堝畨鍏ㄥ熀绾匡級銆丄DR-0005锛堣川閲忛棬绂侊級銆?- 鏇撮珮灞傜殑涓婁笅鏂?瀹瑰櫒鍥捐瑙佺 04 绔狅紱杩愯鏃朵氦浜掕绗?06 绔狅紱閮ㄧ讲/鏋勫缓瑙佺 07 绔狅紙C4 妯″瀷灞傜骇鏄犲皠锛夈€?

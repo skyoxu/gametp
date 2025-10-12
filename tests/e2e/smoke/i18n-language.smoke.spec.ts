@@ -16,9 +16,9 @@ test('@smoke i18n language toggle reflects in GameCanvas controls', async () => 
   await page.locator('.game-canvas__controls').waitFor();
 
   // Expect English text on Pause button
-  await expect(
-    page.locator('.game-canvas__control-btn--pause')
-  ).toHaveText(/Pause/i);
+  await expect(page.locator('.game-canvas__control-btn--pause')).toHaveText(
+    /Pause/i
+  );
 
   // Switch to Chinese and reload
   await page.evaluate(() => localStorage.setItem('app.lang', 'zh-CN'));
@@ -30,10 +30,9 @@ test('@smoke i18n language toggle reflects in GameCanvas controls', async () => 
   await page.locator('.game-canvas__controls').waitFor();
 
   // Expect Chinese text on Pause button
-  await expect(
-    page.locator('.game-canvas__control-btn--pause')
-  ).toHaveText(/暂停/);
+  await expect(page.locator('.game-canvas__control-btn--pause')).toHaveText(
+    /暂停/
+  );
 
   await electronApp.close();
 });
-

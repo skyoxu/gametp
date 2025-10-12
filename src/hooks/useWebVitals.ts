@@ -402,4 +402,3 @@ export function useDataFetchPerformance(enabled = true) {
 }
 
 export default useWebVitals;
-

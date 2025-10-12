@@ -36,4 +36,3 @@ Guidelines:
 - Run `npm audit` to see advisories.
 - Run `npx audit-ci --high --critical -c audit-ci.json` to mirror CI behavior.
 - Run `SNYK_TOKEN=… node scripts/ci/run-snyk-scan.mjs` to generate `snyk-report.json` locally.
-

@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const file = path.resolve('tests/e2e/security.smoke.spec.ts');
-let raw = fs.readFileSync(file, 'utf8');
+const raw = fs.readFileSync(file, 'utf8');
 
 // 标准化：移除注释中的常见乱码占位符（�）
 const lines = raw.split(/\r?\n/);

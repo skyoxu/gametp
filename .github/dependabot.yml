@@ -1,28 +1,33 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "daily"
-      time: "03:00"
-      timezone: "Asia/Shanghai"
+      interval: 'daily'
+      time: '03:00'
+      timezone: 'Asia/Shanghai'
     open-pull-requests-limit: 10
     commit-message:
-      prefix: "deps"
+      prefix: 'deps'
     ignore:
       # Avoid Dependabot attempting to update transitive 'ip' package with known issues
       # Security updates for this transitive may error out via the action runner
-      - dependency-name: "ip"
-        update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
-      - dependency-name: "electron"
-        update-types: ["version-update:semver-major"]
-  - package-ecosystem: "github-actions"
-    directory: "/"
+      - dependency-name: 'ip'
+        update-types:
+          [
+            'version-update:semver-major',
+            'version-update:semver-minor',
+            'version-update:semver-patch',
+          ]
+      - dependency-name: 'electron'
+        update-types: ['version-update:semver-major']
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "sunday"
-      time: "03:00"
-      timezone: "Asia/Shanghai"
+      interval: 'weekly'
+      day: 'sunday'
+      time: '03:00'
+      timezone: 'Asia/Shanghai'
     open-pull-requests-limit: 5
     commit-message:
-      prefix: "ci"
+      prefix: 'ci'

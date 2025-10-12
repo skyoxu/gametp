@@ -34,8 +34,14 @@ export function createNFRKey(category: NFRCategory, name: string): string {
 export const NFR_KEYS = {
   RELIABILITY: {
     CRASH_FREE_USERS: createNFRKey(NFRCategory.RELIABILITY, 'crash_free_users'),
-    CRASH_FREE_SESSIONS: createNFRKey(NFRCategory.RELIABILITY, 'crash_free_sessions'),
-    SERVICE_AVAILABILITY: createNFRKey(NFRCategory.RELIABILITY, 'service_availability'),
+    CRASH_FREE_SESSIONS: createNFRKey(
+      NFRCategory.RELIABILITY,
+      'crash_free_sessions'
+    ),
+    SERVICE_AVAILABILITY: createNFRKey(
+      NFRCategory.RELIABILITY,
+      'service_availability'
+    ),
     DATA_CONSISTENCY: createNFRKey(NFRCategory.RELIABILITY, 'data_consistency'),
   },
   PERFORMANCE: {
@@ -53,7 +59,8 @@ export const NFR_KEYS = {
   },
 } as const;
 
-export type NFRKey = (typeof NFR_KEYS)[keyof typeof NFR_KEYS][keyof (typeof NFR_KEYS)[keyof typeof NFR_KEYS]];
+export type NFRKey =
+  (typeof NFR_KEYS)[keyof typeof NFR_KEYS][keyof (typeof NFR_KEYS)[keyof typeof NFR_KEYS]];
 
 export interface ServiceLevelIndicator {
   readonly id: string;
@@ -84,7 +91,8 @@ export const CORE_SLIS = {
     id: 'crash_free_users',
     name: 'Crash-Free Users',
     // Note
-    description: '\u5728\u89c2\u5bdf\u7a97\u53e3\u5185\u672a\u9047\u5230\u5d29\u6e83\u7684\u7528\u6237\u767e\u5206\u6bd4',
+    description:
+      '\u5728\u89c2\u5bdf\u7a97\u53e3\u5185\u672a\u9047\u5230\u5d29\u6e83\u7684\u7528\u6237\u767e\u5206\u6bd4',
     unit: MetricUnit.Percent,
     nfrKey: NFR_KEYS.RELIABILITY.CRASH_FREE_USERS,
     query: 'sentry.release_health.crash_free_users',
@@ -95,7 +103,8 @@ export const CORE_SLIS = {
     id: 'crash_free_sessions',
     name: 'Crash-Free Sessions',
     // Note
-    description: '\u5728\u89c2\u5bdf\u7a97\u53e3\u5185\u672a\u5d29\u6e83\u7684\u4f1a\u8bdd\u767e\u5206\u6bd4',
+    description:
+      '\u5728\u89c2\u5bdf\u7a97\u53e3\u5185\u672a\u5d29\u6e83\u7684\u4f1a\u8bdd\u767e\u5206\u6bd4',
     unit: MetricUnit.Percent,
     nfrKey: NFR_KEYS.RELIABILITY.CRASH_FREE_SESSIONS,
     query: 'sentry.release_health.crash_free_sessions',
@@ -210,7 +219,9 @@ export class ReleaseHealthGate {
         24
       );
 
-      const metrics = await this.fetchReleaseHealthMetrics(observationWindowHours);
+      const metrics = await this.fetchReleaseHealthMetrics(
+        observationWindowHours
+      );
 
       type Violation = ReleaseHealthResult['violations'][number];
       const violationsArr: Violation[] = [];
@@ -239,7 +250,8 @@ export class ReleaseHealthGate {
         environment: process.env.NODE_ENV ?? 'unknown',
       };
     } catch (error) {
-      const message = error instanceof Error ? error.message : String(error ?? 'unknown');
+      const message =
+        error instanceof Error ? error.message : String(error ?? 'unknown');
       throw new Error(`Release Health Gate 检查失败: ${message}`);
     }
   }
@@ -262,7 +274,9 @@ export class ReleaseHealthGate {
     if (result.violations.length > 0) {
       lines.push('', '## Violations');
       result.violations.forEach(v =>
-        lines.push(`- **${v.metric}**: ${v.actual} < ${v.threshold} (${v.severity})`)
+        lines.push(
+          `- **${v.metric}**: ${v.actual} < ${v.threshold} (${v.severity})`
+        )
       );
     }
     return lines.join('\n');
@@ -316,7 +330,10 @@ export const TRACEABILITY_MATRIX = {
         'src/shared/observability/sentry-main.ts',
         'src/shared/observability/logger.ts',
       ],
-      tests: ['tests/unit/observability.spec.ts', 'tests/e2e/monitoring.spec.ts'],
+      tests: [
+        'tests/unit/observability.spec.ts',
+        'tests/e2e/monitoring.spec.ts',
+      ],
     },
   },
 } as const;

@@ -527,9 +527,7 @@ export class LevelResultService {
 
           if (filtered.length !== results.length) {
             localStorage.setItem(key, JSON.stringify(filtered));
-            console.log(
-              `  ${results.length - filtered.length} `
-            );
+            console.log(`  ${results.length - filtered.length} `);
           }
         }
       }

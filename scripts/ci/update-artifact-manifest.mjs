@@ -23,7 +23,7 @@ try {
   manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
 } catch {}
 
-let fileName = artifactPath ? path.basename(artifactPath) : 'app.exe';
+const fileName = artifactPath ? path.basename(artifactPath) : 'app.exe';
 const now = new Date().toISOString();
 const entry = {
   path: fileName,

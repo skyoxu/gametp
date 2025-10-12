@@ -12,7 +12,9 @@ if (process.contextIsolated) {
     // Verify sandbox mode status
     const isSandboxed = process.sandboxed;
     if (!isSandboxed) {
-      console.warn('WARNING: Sandbox is not enabled - security may be compromised');
+      console.warn(
+        'WARNING: Sandbox is not enabled - security may be compromised'
+      );
     }
 
     // Use unified name 'electronAPI' (align with tests)
@@ -128,4 +130,3 @@ if (process.contextIsolated) {
 } else {
   throw new Error('Context isolation is required and must be enabled');
 }
-

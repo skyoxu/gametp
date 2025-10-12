@@ -338,9 +338,7 @@ describe('SqliteConfigManager', () => {
       const result = await configManager.healthCheck(mockDatabase as any);
 
       expect(result.status).toBe('error');
-      expect(result.issues).toContain(
-        ': integrity check failed'
-      );
+      expect(result.issues).toContain(': integrity check failed');
     });
 
     test('should detect foreign key violations', async () => {
@@ -370,9 +368,7 @@ describe('SqliteConfigManager', () => {
       const result = await configManager.healthCheck(mockDatabase as any);
 
       expect(result.status).toBe('error');
-      expect(result.issues[0]).toContain(
-        ': Database connection failed'
-      );
+      expect(result.issues[0]).toContain(': Database connection failed');
     });
   });
 
@@ -542,9 +538,7 @@ describe('factory functions', () => {
       await quickSetupDatabase(mockDatabase as any, 'development');
 
       expect(consoleSpy).toHaveBeenCalledWith('\n Configuration advice:');
-      expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining(' ')
-      );
+      expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining(' '));
 
       consoleSpy.mockRestore();
     });

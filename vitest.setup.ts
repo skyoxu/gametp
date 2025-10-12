@@ -328,11 +328,14 @@ vi.mock('better-sqlite3', () => {
   class DatabaseStub {
     file: string;
     closed = false;
-    constructor(file: string) { this.file = file; }
+    constructor(file: string) {
+      this.file = file;
+    }
     pragma(sql: string, opts?: { simple?: boolean }): any {
       const s = (sql || '').toLowerCase();
       if (s.startsWith('journal_mode')) return opts?.simple ? 'wal' : ['wal'];
-      if (s.startsWith('wal_checkpoint')) return opts?.simple ? [0, 0, 0] : [[0, 0, 0]];
+      if (s.startsWith('wal_checkpoint'))
+        return opts?.simple ? [0, 0, 0] : [[0, 0, 0]];
       if (s.startsWith('cache_spill')) return -1;
       if (s.startsWith('quick_check')) return ['ok'];
       if (s.startsWith('foreign_key_check')) return [];
@@ -341,7 +344,9 @@ vi.mock('better-sqlite3', () => {
       if (s.startsWith('freelist_count')) return [0];
       return 1;
     }
-    close() { this.closed = true; }
+    close() {
+      this.closed = true;
+    }
   }
   return { default: DatabaseStub };
 });

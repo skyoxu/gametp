@@ -68,4 +68,3 @@ console.log(out);
 if (summaryPath) {
   fs.writeFileSync(summaryPath, out + '\n', { flag: 'a' });
 }
-

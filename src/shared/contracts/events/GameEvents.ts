@@ -231,4 +231,3 @@ export interface GameEventMetadata {
 export type EnhancedGameEvent = GameDomainEvent & {
   metadata: GameEventMetadata;
 };
-

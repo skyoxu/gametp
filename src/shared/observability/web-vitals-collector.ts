@@ -418,9 +418,7 @@ class WebVitalsCollector {
 
       if (filtered.length !== data.length) {
         localStorage.setItem(this.config.storageKey, JSON.stringify(filtered));
-        console.log(
-          `[WebVitalsCollector] ${data.length - filtered.length}`
-        );
+        console.log(`[WebVitalsCollector] ${data.length - filtered.length}`);
       }
     } catch (error) {
       console.error('[WebVitalsCollector] :', error);
@@ -506,10 +504,7 @@ class WebVitalsCollector {
 
   private reportRegressions(regressions: RegressionAlert[]) {
     regressions.forEach(regression => {
-      console.warn(
-        `[WebVitalsCollector] ${regression.metric}:`,
-        regression
-      );
+      console.warn(`[WebVitalsCollector] ${regression.metric}:`, regression);
 
       // Sentry
       if (this.config.sentryEnabled) {

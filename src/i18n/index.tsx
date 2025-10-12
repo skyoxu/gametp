@@ -55,7 +55,10 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     [lang]
   );
 
-  const value = React.useMemo<I18nContextValue>(() => ({ lang, setLang, t }), [lang, setLang, t]);
+  const value = React.useMemo<I18nContextValue>(
+    () => ({ lang, setLang, t }),
+    [lang, setLang, t]
+  );
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
@@ -63,7 +66,8 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
 export function useI18n() {
   const ctx = React.useContext(I18nContext);
   if (!ctx) throw new Error('useI18n must be used within I18nProvider');
-  return (key: string, vars?: Record<string, string | number>) => ctx.t(key, vars);
+  return (key: string, vars?: Record<string, string | number>) =>
+    ctx.t(key, vars);
 }
 
 export function useLang() {
@@ -71,4 +75,3 @@ export function useLang() {
   if (!ctx) throw new Error('useLang must be used within I18nProvider');
   return { lang: ctx.lang, setLang: ctx.setLang };
 }
-

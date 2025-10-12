@@ -18,7 +18,7 @@ const ebYamlPath = path.join(root, 'electron-builder.yml');
 
 function loadJSON(p) {
   const raw = fs.readFileSync(p, 'utf8');
-  const text = raw.charCodeAt(0) === 0xFEFF ? raw.slice(1) : raw;
+  const text = raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw;
   return JSON.parse(text);
 }
 
@@ -44,7 +44,14 @@ function ensureElectronBuilderYaml(appId, productName) {
 }
 
 function cleanArtifacts() {
-  const targets = ['dist', 'dist-electron', 'electron-dist', 'coverage', 'logs', 'reports'];
+  const targets = [
+    'dist',
+    'dist-electron',
+    'electron-dist',
+    'coverage',
+    'logs',
+    'reports',
+  ];
   for (const t of targets) {
     const full = path.join(root, t);
     if (fs.existsSync(full)) {
@@ -61,9 +68,13 @@ async function run() {
   const pkg = loadJSON(pkgPath);
   let nextName = args.name || pkg.name;
   let nextProduct = args.productName || pkg.productName || pkg.name;
-  const sanitize = (s) => (s || 'app').replace(/[^a-zA-Z0-9.-]/g, '');
-  const renameScope = args['rename-scope'] ? String(args['rename-scope']).replace(/[^a-zA-Z0-9.-]/g, '') : '';
-  let nextAppId = args.appId || `${renameScope ? `com.${renameScope}` : 'com.example'}.${sanitize(nextName)}`;
+  const sanitize = s => (s || 'app').replace(/[^a-zA-Z0-9.-]/g, '');
+  const renameScope = args['rename-scope']
+    ? String(args['rename-scope']).replace(/[^a-zA-Z0-9.-]/g, '')
+    : '';
+  let nextAppId =
+    args.appId ||
+    `${renameScope ? `com.${renameScope}` : 'com.example'}.${sanitize(nextName)}`;
 
   // Interactive prompts (optional)
   if (args['interactive']) {
@@ -75,7 +86,8 @@ async function run() {
           name: 'name',
           message: 'Package name',
           initial: nextName,
-          validate: v => (!!v && /^[a-z0-9-_.]+$/.test(v)) || 'use lowercase, digits, - _ .',
+          validate: v =>
+            (!!v && /^[a-z0-9-_.]+$/.test(v)) || 'use lowercase, digits, - _ .',
         },
         {
           type: 'text',
@@ -88,7 +100,8 @@ async function run() {
           name: 'appId',
           message: 'Electron appId (reverse-DNS)',
           initial: nextAppId,
-          validate: v => (!!v && /^[a-zA-Z0-9.-]+$/.test(v)) || 'alnum, dot and hyphen only',
+          validate: v =>
+            (!!v && /^[a-zA-Z0-9.-]+$/.test(v)) || 'alnum, dot and hyphen only',
         },
       ]);
       nextName = answers.name || nextName;
@@ -119,14 +132,18 @@ async function run() {
     ensureElectronBuilderYaml(nextAppId, nextProduct);
     if (!args['no-clean']) cleanArtifacts();
   } else {
-    console.log(`DRY-RUN would create ${path.basename(ebYamlPath)} and clean artifacts`);
+    console.log(
+      `DRY-RUN would create ${path.basename(ebYamlPath)} and clean artifacts`
+    );
   }
 
   // Optional git init (best-effort)
   try {
     if (!dry) {
       const { spawnSync } = await import('node:child_process');
-      const res = spawnSync('git', ['rev-parse', '--is-inside-work-tree'], { stdio: 'ignore' });
+      const res = spawnSync('git', ['rev-parse', '--is-inside-work-tree'], {
+        stdio: 'ignore',
+      });
       if (res.status !== 0) {
         spawnSync('git', ['init'], { stdio: 'inherit' });
         console.log('initialized git repository');

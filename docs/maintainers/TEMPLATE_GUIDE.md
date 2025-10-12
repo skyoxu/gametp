@@ -6,6 +6,7 @@
 
 - 最低版本：Python 3.10+（Windows 推荐使用 `py -3` 调用）
 - 命令示例：
+
 ```
 py -3 scripts/python/init_project.py --name my-game \
   --product-name "My Game" \
@@ -68,4 +69,3 @@ py -3 scripts/python/init_project.py --name my-game \
   - `npx playwright install`
   - `py -3 scripts/python/run_checks_and_log.py`
 - 按需启用：Sentry DSN、Windows 发布签名
-

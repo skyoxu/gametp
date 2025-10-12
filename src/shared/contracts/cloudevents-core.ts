@@ -42,10 +42,13 @@ export function mkEvent<T = unknown>(
 export function assertCe(o: any): asserts o is CeBase {
   const required = ['id', 'source', 'type', 'specversion', 'time'];
   for (const field of required) {
-    if (!o?.[field]) throw new Error(`CloudEvent missing required field: ${field}`);
+    if (!o?.[field])
+      throw new Error(`CloudEvent missing required field: ${field}`);
   }
   if (o.specversion !== '1.0') {
-    throw new Error(`Unsupported CloudEvents specversion: ${o.specversion}, expected '1.0'`);
+    throw new Error(
+      `Unsupported CloudEvents specversion: ${o.specversion}, expected '1.0'`
+    );
   }
   // Validate time (ISO 8601)
   if (typeof o.time === 'string' && isNaN(Date.parse(o.time))) {
@@ -122,10 +125,13 @@ export function validateEvents(events: unknown[]): CloudEvent[] {
       assertCe(event);
       validEvents.push(event as CloudEvent);
     } catch (error) {
-      errors.push(`Event ${index}: ${error instanceof Error ? error.message : String(error)}`);
+      errors.push(
+        `Event ${index}: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   });
-  if (errors.length > 0) throw new Error(`Event validation failed:\n${errors.join('\n')}`);
+  if (errors.length > 0)
+    throw new Error(`Event validation failed:\n${errors.join('\n')}`);
   return validEvents;
 }
 

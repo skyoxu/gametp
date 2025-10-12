@@ -109,7 +109,10 @@ export class EventBus {
     return count;
   }
 
-  public publish(event: GameDomainEvent, metadata?: Partial<GameEventMetadata>): void {
+  public publish(
+    event: GameDomainEvent,
+    metadata?: Partial<GameEventMetadata>
+  ): void {
     const enhanced: EnhancedGameEvent = {
       ...event,
       metadata: {
@@ -161,7 +164,9 @@ export class EventBus {
     const subs = this.listeners.get((event as any).type) || [];
     if (subs.length === 0) {
       if (this.options.enableLogging) {
-        console.warn(`[EventBus] No listeners for event: ${(event as any).type}`);
+        console.warn(
+          `[EventBus] No listeners for event: ${(event as any).type}`
+        );
       }
       return;
     }
@@ -172,12 +177,18 @@ export class EventBus {
         const result = sub.handler(event as any);
         if (result && typeof (result as any).then === 'function') {
           (result as Promise<unknown>).catch(err =>
-            console.error(`[EventBus] Async handler error for ${(event as any).type}:`, err)
+            console.error(
+              `[EventBus] Async handler error for ${(event as any).type}:`,
+              err
+            )
           );
         }
         if (sub.once) toRemove.push(sub.id);
       } catch (err) {
-        console.error(`[EventBus] Handler error for ${(event as any).type}:`, err);
+        console.error(
+          `[EventBus] Handler error for ${(event as any).type}:`,
+          err
+        );
         throw err;
       }
     }
@@ -187,7 +198,9 @@ export class EventBus {
       const dt = performance.now() - start;
       this.metrics.eventsProcessed++;
       this.metrics.averageProcessingTime =
-        (this.metrics.averageProcessingTime * (this.metrics.eventsProcessed - 1) + dt) /
+        (this.metrics.averageProcessingTime *
+          (this.metrics.eventsProcessed - 1) +
+          dt) /
         this.metrics.eventsProcessed;
       this.metrics.lastEventTime = Date.now();
     }
@@ -208,7 +221,8 @@ export class EventBus {
 
   public getListenerStats(): Record<string, number> {
     const stats: Record<string, number> = {};
-    for (const [type, subs] of this.listeners.entries()) stats[type] = subs.length;
+    for (const [type, subs] of this.listeners.entries())
+      stats[type] = subs.length;
     return stats;
   }
 
@@ -220,7 +234,8 @@ export class EventBus {
     this.listeners.clear();
     this.eventQueue.length = 0;
     this.isProcessing = false;
-    if (this.options.enableLogging) console.log('[EventBus] EventBus destroyed');
+    if (this.options.enableLogging)
+      console.log('[EventBus] EventBus destroyed');
   }
 
   public hasListeners(eventType: GameDomainEvent['type']): boolean {

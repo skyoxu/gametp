@@ -637,4 +637,3 @@ export type GuildTurnStartedEvent =
 export type MemberStateChangedEvent =
   GuildManagerCloudEvent<MemberStateChangedData>;
 export type DecisionCreatedEvent = GuildManagerCloudEvent<DecisionCreatedData>;
-

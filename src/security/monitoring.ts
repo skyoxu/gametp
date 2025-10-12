@@ -267,4 +267,3 @@ export function logSecurityEvent(
 export function updateSecurityMetrics(metrics: Partial<SecurityMetrics>) {
   securityMonitor.updateMetrics(metrics);
 }
-

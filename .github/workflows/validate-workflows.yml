@@ -235,8 +235,7 @@ jobs:
     defaults:
       run:
         shell: pwsh
-    needs:
-      [shell-guard]
+    needs: [shell-guard]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v5.0.0

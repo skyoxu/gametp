@@ -24,8 +24,7 @@ on:
         description: 'Feed files to rollback (Windows-only)'
         required: false
         type: choice
-        options:
-          [ 'all', 'dist/latest.yml' ]
+        options: ['all', 'dist/latest.yml']
         default: 'all'
       triggered_by:
         description: 'Triggered by'

@@ -1,8 +1,11 @@
 ﻿# 鎶€鏈灦鏋勬枃妗?AI浼樺厛澧炲己鐗?鏂囦欢5\_寮€鍙戠幆澧冧笌鍔熻兘瀹炵幇
 
 ## 绗?绔狅細寮€鍙戠幆澧冧笌鏋勫缓锛堣瀺鍚堢淮鎶ょ瓥鐣?閮ㄧ讲杩愮淮锛?
+
 > **鏍稿績鐞嗗康**: 鏋勫缓楂樻晥鐨勫紑鍙戠幆澧冨拰鑷姩鍖栬繍缁翠綋绯伙紝纭繚浠庡紑鍙戝埌鐢熶骇鐨勫畬鏁村伐绋嬪寲娴佺▼锛屾敮鎸丄I浠ｇ爜鐢熸垚鐨勬渶浣冲疄璺?
+
 ### 7.1 寮€鍙戠幆澧冮厤缃?
+
 #### 7.1.1 鏍稿績寮€鍙戝伐鍏烽摼
 
 ```json5
@@ -292,6 +295,7 @@ export default defineConfig({
 ### 7.2 鑷姩鍖栨瀯寤轰笌CI/CD
 
 #### 7.2.1 GitHub Actions宸ヤ綔娴?
+
 ```yaml
 # .github/workflows/ci.yml - 鎸佺画闆嗘垚
 name: CI/CD Pipeline
@@ -451,6 +455,7 @@ jobs:
 ```
 
 #### 7.2.2 鏋勫缓鑴氭湰鑷姩鍖?
+
 ```typescript
 // scripts/build-automation.ts - 鏋勫缓鑷姩鍖栬剼鏈?import { execSync } from 'child_process';
 import fs from 'fs-extra';
@@ -680,6 +685,7 @@ if (require.main === module) {
 ```
 
 ### 7.3 缁存姢绛栫暐涓庣洃鎺?
+
 #### 7.3.1 绯荤粺鍋ュ悍鐩戞帶
 
 ```typescript
@@ -1274,7 +1280,7 @@ export class OnboardingTracker {
 }
 ```
 
-**鐜鎼缓鑷姩鍖?*
+\*_鐜鎼缓鑷姩鍖?_
 
 ```powershell
 # scripts/setup-dev-environment.ps1 - Windows 环境初始化脚本
@@ -1421,10 +1427,9 @@ Write-Host ""
 Write-Host "如遇问题请联系架构团队或查阅常见问题章节。"
 ```
 
-
 #### 7.4.2 鐭ヨ瘑浼犻€掓満鍒?(Knowledge Transfer)
 
-**鐭ヨ瘑搴撶鐞嗙郴缁?*
+\*_鐭ヨ瘑搴撶鐞嗙郴缁?_
 
 ```typescript
 // src/core/knowledge/KnowledgeManager.ts
@@ -1863,7 +1868,7 @@ export class KnowledgeManager {
 
 #### 7.4.3 鎶€鏈垎浜埗搴?(Technical Sharing)
 
-**鎶€鏈垎浜鐞嗙郴缁?*
+\*_鎶€鏈垎浜鐞嗙郴缁?_
 
 ```typescript
 // src/core/sharing/TechSharingManager.ts
@@ -2354,8 +2359,11 @@ export class TechSharingManager {
 ```
 
 ## 绗?绔狅細鍔熻兘绾靛垏锛堣瀺鍚堝浗闄呭寲鏀寔+鍓嶇鏋舵瀯璁捐锛?
+
 > **璁捐鍘熷垯**: 瀹炵幇瀹屾暣鐨勫姛鑳界旱鍒囷紝浠庡墠绔疷I鍒板悗绔暟鎹紝纭繚鍥介檯鍖栨敮鎸佸拰鍝嶅簲寮忚璁★紝涓篈I浠ｇ爜鐢熸垚鎻愪緵娓呮櫚鐨勫姛鑳借竟鐣?
+
 ### 8.1 鍥介檯鍖栨敮鎸佹灦鏋?
+
 #### 8.1.1 i18next瀹屾暣閰嶇疆
 
 ```typescript
@@ -2609,6 +2617,7 @@ export default i18n;
 ```
 
 #### 8.1.3 澶氳瑷€Hook涓庣粍浠?
+
 ```typescript
 // src/hooks/useTranslation.ts - 澧炲己鐨勭炕璇慔ook
 import { useTranslation as useI18nTranslation, UseTranslationOptions } from 'react-i18next';
@@ -2828,6 +2837,7 @@ export function LocalizedDate({ date, format = 'medium', className }: LocalizedD
 ### 8.2 React 19鍓嶇鏋舵瀯
 
 #### 8.2.1 鐘舵€佺鐞嗘灦鏋?
+
 ```typescript
 // src/stores/useGameStore.ts - Zustand鐘舵€佺鐞?import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
@@ -3371,5 +3381,3 @@ export function usePrefetch() {
 <function_calls>
 <invoke name="TodoWrite">
 <parameter name="todos">[{"content": "\u521b\u5efa\u589e\u5f3a\u7248AI\u4f18\u5148\u67b6\u6784\u6587\u6863\uff0c\u6574\u5408\u539f\u724819\u7ae0\u6240\u6709\u5185\u5bb9", "status": "in_progress", "id": "create_enhanced_ai_first_doc"}, {"content": "\u6587\u4ef61\uff1a\u57fa\u7840\u7ea6\u675f\u4e0e\u5b89\u5168\u9632\u62a4\uff08\u7b2c1-2\u7ae0\uff09", "status": "completed", "id": "create_file1_constraints_security"}, {"content": "\u7ea6\u675f\u4e0e\u76ee\u6807\uff08\u878d\u5408\u98ce\u9669\u8bc4\u4f30+\u5f00\u53d1\u89c4\u8303\uff09", "status": "completed", "id": "enhance_chapter1_constraints"}, {"content": "\u5a01\u80c1\u6a21\u578b\u4e0e\u5b89\u5168\u57fa\u7ebf\uff08\u878d\u5408\u5b89\u5168\u8bbe\u8ba1+Electron\u62a4\u680f\uff09", "status": "completed", "id": "enhance_chapter2_security"}, {"content": "\u6587\u4ef62\uff1a\u8d28\u91cf\u6cd5\u89c4\u4e0e\u6d4b\u8bd5\u7b56\u7565\uff08\u7b2c3\u7ae0\uff09", "status": "completed", "id": "create_file2_testing"}, {"content": "\u6d4b\u8bd5\u7b56\u7565\u4e0e\u8d28\u91cf\u95e8\u7981\uff08\u76f4\u63a5\u91c7\u7528\u6df7\u5408\u4f18\u5316\u7248\u6cd5\u89c4\u4e2d\u5fc3\uff09", "status": "completed", "id": "insert_chapter3_testing"}, {"content": "\u6587\u4ef63\uff1a\u7cfb\u7edf\u67b6\u6784\u4e0e\u6570\u636e\u8bbe\u8ba1\uff08\u7b2c4-5\u7ae0\uff09", "status": "completed", "id": "create_file3_system_data"}, {"content": "\u7cfb\u7edf\u4e0a\u4e0b\u6587\u4e0eC4+\u4e8b\u4ef6\u6d41\uff08\u878d\u5408API\u67b6\u6784\u7cfb\u5217\uff09", "status": "completed", "id": "enhance_chapter4_context"}, {"content": "\u6570\u636e\u6a21\u578b\u4e0e\u5b58\u50a8\u7aef\u53e3\uff08\u878d\u5408\u6570\u636e\u5e93\u8bbe\u8ba1+\u4e1a\u52a1\u903b\u8f91\uff09", "status": "completed", "id": "enhance_chapter5_data"}, {"content": "\u6587\u4ef64\uff1a\u6838\u5fc3\u5b9e\u73b0\u4e0eAI\u5f15\u64ce\uff08\u7b2c6\u7ae0\uff09", "status": "completed", "id": "create_file4_runtime_ai"}, {"content": "\u8fd0\u884c\u65f6\u89c6\u56fe\uff08\u878d\u5408\u6e38\u620f\u6838\u5fc3\u7cfb\u7edf+AI\u5f15\u64ce\u8be6\u7ec6\u67b6\u6784\uff09", "status": "completed", "id": "enhance_chapter6_runtime"}, {"content": "\u6587\u4ef65\uff1a\u5f00\u53d1\u73af\u5883\u4e0e\u529f\u80fd\u5b9e\u73b0\uff08\u7b2c7-8\u7ae0\uff09", "status": "completed", "id": "create_file5_dev_features"}, {"content": "\u5f00\u53d1\u73af\u5883\u4e0e\u6784\u5efa\uff08\u878d\u5408\u7ef4\u62a4\u7b56\u7565+\u90e8\u7f72\u8fd0\u7ef4\uff09", "status": "completed", "id": "enhance_chapter7_devenv"}, {"content": "\u529f\u80fd\u7eb5\u5207\uff08\u878d\u5408\u56fd\u9645\u5316\u652f\u6301+\u524d\u7aef\u67b6\u6784\u8bbe\u8ba1\uff09", "status": "completed", "id": "enhance_chapter8_vertical"}, {"content": "\u6587\u4ef66\uff1a\u6027\u80fd\u89c4\u5212\u4e0e\u8fd0\u7ef4\u4fdd\u969c\uff08\u7b2c9\u7ae0\uff09", "status": "in_progress", "id": "create_file6_performance"}, {"content": "\u6027\u80fd\u4e0e\u5bb9\u91cf\u89c4\u5212\uff08\u878d\u5408\u6027\u80fd\u4f18\u5316\u65b9\u6848+\u98ce\u9669\u8bc4\u4f30\u5e94\u5bf9\uff09", "status": "pending", "id": "enhance_chapter9_performance"}]
-
-

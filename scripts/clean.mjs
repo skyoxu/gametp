@@ -24,4 +24,3 @@ function rmrf(p) {
 
 targets.forEach(rmrf);
 console.log('clean completed');
-

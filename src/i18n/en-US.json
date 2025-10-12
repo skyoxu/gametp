@@ -28,8 +28,7 @@
     "errLoad": "Failed to load save",
     "errExport": "Failed to export save",
     "errDelete": "Failed to delete save"
-  }
-  ,
+  },
   "controlPanel": {
     "pause": "Pause",
     "resume": "Resume",
@@ -85,8 +84,7 @@
     "state": "State",
     "position": "Position",
     "shortcuts": "Shortcuts"
-  }
-  ,
+  },
   "statusPanel": {
     "title": "Status",
     "health": "Health",

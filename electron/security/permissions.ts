@@ -5,31 +5,31 @@
 import { BrowserWindow, session, shell } from 'electron';
 
 interface SecurityConfig {
- allowedOrigins: string[];
- allowedPermissions: string[];
- allowedNavigationDomains: string[];
- allowedExternalDomains: string[];
+  allowedOrigins: string[];
+  allowedPermissions: string[];
+  allowedNavigationDomains: string[];
+  allowedExternalDomains: string[];
 }
 
 /**
  * Production security configuration (strict)
  */
 const PRODUCTION_SECURITY_CONFIG: SecurityConfig = {
- // Origins allowed to request permissions or access
+  // Origins allowed to request permissions or access
   allowedOrigins: [
     'file://', // local app protocol
     // no external origins by default
   ],
 
- // Permissions allow-list (empty by default)
+  // Permissions allow-list (empty by default)
   allowedPermissions: [
     // add 'media', 'geolocation' as needed via updateConfig
   ],
 
- // Explicit navigation domains (block by default)
+  // Explicit navigation domains (block by default)
   allowedNavigationDomains: [],
 
- // External open allow-list
+  // External open allow-list
   allowedExternalDomains: ['github.com', 'docs.electron.com'],
 };
 
@@ -44,27 +44,27 @@ const DEVELOPMENT_SECURITY_CONFIG: SecurityConfig = {
     'https://localhost',
   ],
 
- allowedPermissions: ['media', 'geolocation', 'notifications'],
+  allowedPermissions: ['media', 'geolocation', 'notifications'],
 
- allowedNavigationDomains: ['localhost', '127.0.0.1'],
+  allowedNavigationDomains: ['localhost', '127.0.0.1'],
 
- allowedExternalDomains: [
- 'github.com',
- 'docs.electron.com',
- 'stackoverflow.com',
- 'developer.mozilla.org',
- ],
+  allowedExternalDomains: [
+    'github.com',
+    'docs.electron.com',
+    'stackoverflow.com',
+    'developer.mozilla.org',
+  ],
 };
 
 class SecurityPolicyManager {
- private config: SecurityConfig;
- private isProduction: boolean;
- private auditLog: Array<{
- timestamp: string;
- type: 'permission' | 'navigation' | 'window-open' | 'web-request';
- action: 'allow' | 'deny';
- details: string;
- }> = [];
+  private config: SecurityConfig;
+  private isProduction: boolean;
+  private auditLog: Array<{
+    timestamp: string;
+    type: 'permission' | 'navigation' | 'window-open' | 'web-request';
+    action: 'allow' | 'deny';
+    details: string;
+  }> = [];
 
   constructor(isProduction: boolean = process.env.NODE_ENV === 'production') {
     this.isProduction = isProduction;
@@ -85,14 +85,14 @@ class SecurityPolicyManager {
     action: 'allow' | 'deny',
     details: string
   ): void {
- const event = {
- timestamp: new Date().toISOString(),
- type,
- action,
- details,
- };
+    const event = {
+      timestamp: new Date().toISOString(),
+      type,
+      action,
+      details,
+    };
 
- this.auditLog.push(event);
+    this.auditLog.push(event);
 
     // Keep audit log bounded to 1000 entries
     if (this.auditLog.length > 1000) {
@@ -107,31 +107,31 @@ class SecurityPolicyManager {
    * Summarize audit data and compute a simple score
    */
   getSecurityAuditReport(): {
- totalEvents: number;
- allowedEvents: number;
- deniedEvents: number;
- recentEvents: Array<{
- timestamp: string;
- type: string;
- action: string;
- details: string;
- }>;
- securityScore: number;
- } {
- const totalEvents = this.auditLog.length;
- const allowedEvents = this.auditLog.filter(
- e => e.action === 'allow'
- ).length;
- const deniedEvents = this.auditLog.filter(e => e.action === 'deny').length;
+    totalEvents: number;
+    allowedEvents: number;
+    deniedEvents: number;
+    recentEvents: Array<{
+      timestamp: string;
+      type: string;
+      action: string;
+      details: string;
+    }>;
+    securityScore: number;
+  } {
+    const totalEvents = this.auditLog.length;
+    const allowedEvents = this.auditLog.filter(
+      e => e.action === 'allow'
+    ).length;
+    const deniedEvents = this.auditLog.filter(e => e.action === 'deny').length;
 
     // Score: higher denied ratio => higher score (stricter)
     const securityScore =
       totalEvents > 0 ? Math.round((deniedEvents / totalEvents) * 100) : 100;
 
- return {
- totalEvents,
- allowedEvents,
- deniedEvents,
+    return {
+      totalEvents,
+      allowedEvents,
+      deniedEvents,
       recentEvents: this.auditLog.slice(-50), // last 50 entries
       securityScore,
     };
@@ -362,29 +362,29 @@ class SecurityPolicyManager {
    * Export audit summary and configuration snapshot
    */
   exportSecurityReport(): {
- timestamp: string;
- environment: 'production' | 'development';
- config: SecurityConfig;
- auditSummary: {
- totalEvents: number;
- allowedEvents: number;
- deniedEvents: number;
- recentEvents: Array<{
- timestamp: string;
- type: string;
- action: string;
- details: string;
- }>;
- securityScore: number;
- };
- } {
- return {
- timestamp: new Date().toISOString(),
- environment: this.isProduction ? 'production' : 'development',
- config: this.getConfig(),
- auditSummary: this.getSecurityAuditReport(),
- };
- }
+    timestamp: string;
+    environment: 'production' | 'development';
+    config: SecurityConfig;
+    auditSummary: {
+      totalEvents: number;
+      allowedEvents: number;
+      deniedEvents: number;
+      recentEvents: Array<{
+        timestamp: string;
+        type: string;
+        action: string;
+        details: string;
+      }>;
+      securityScore: number;
+    };
+  } {
+    return {
+      timestamp: new Date().toISOString(),
+      environment: this.isProduction ? 'production' : 'development',
+      config: this.getConfig(),
+      auditSummary: this.getSecurityAuditReport(),
+    };
+  }
 
   /**
    * Clear audit log buffer
@@ -399,4 +399,3 @@ class SecurityPolicyManager {
 // Singleton instance
 export const securityPolicyManager = new SecurityPolicyManager();
 export { SecurityConfig, SecurityPolicyManager };
-

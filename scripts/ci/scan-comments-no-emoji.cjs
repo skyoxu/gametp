@@ -38,8 +38,10 @@ async function main() {
 
     // Extract comments (heuristic)
     // Block comments
-    const blockMatches = [...text.matchAll(/\/\*[\s\S]*?\*\//g)]
-      .map(m => ({ start: m.index || 0, text: m[0] }));
+    const blockMatches = [...text.matchAll(/\/\*[\s\S]*?\*\//g)].map(m => ({
+      start: m.index || 0,
+      text: m[0],
+    }));
     // Line comments
     const lineMatches = [];
     const lines = text.split(/\r?\n/);
@@ -85,7 +87,9 @@ async function main() {
   const commentIssues = issues.filter(i => i.type === 'comment-non-ascii');
 
   if (issues.length === 0) {
-    console.log('[scan-comments-no-emoji] OK: no emoji and no non-ASCII comments found');
+    console.log(
+      '[scan-comments-no-emoji] OK: no emoji and no non-ASCII comments found'
+    );
     process.exit(0);
   }
 

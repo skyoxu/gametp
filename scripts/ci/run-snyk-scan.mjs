@@ -6,7 +6,8 @@
 import { spawnSync } from 'node:child_process';
 
 const token = process.env.SNYK_TOKEN || '';
-const shouldBlock = String(process.env.SNYK_BLOCK || '').toLowerCase() === 'true';
+const shouldBlock =
+  String(process.env.SNYK_BLOCK || '').toLowerCase() === 'true';
 const reportPath = process.env.SNYK_REPORT || 'snyk-report.json';
 if (!token) {
   console.log('Skipping Snyk scan (no SNYK_TOKEN)');
@@ -21,7 +22,11 @@ if (install.status !== 0) {
   console.warn('Failed to install snyk (non-blocking).');
   process.exit(0);
 }
-const args = ['test', '--severity-threshold=high', `--json-file-output=${reportPath}`];
+const args = [
+  'test',
+  '--severity-threshold=high',
+  `--json-file-output=${reportPath}`,
+];
 const test = spawnSync('snyk', args, {
   stdio: 'inherit',
   shell: process.platform === 'win32',

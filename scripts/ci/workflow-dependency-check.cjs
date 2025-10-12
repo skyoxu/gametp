@@ -40,7 +40,7 @@ function parseWorkflowFile(filePath) {
     if (!inJobsSection) continue;
 
     // Job definition (starts at column 3, ends with colon)
-    const jobMatch = line.match(/^  ([a-zA-Z0-9_-]+):\s*$/);
+    const jobMatch = line.match(/^ {2}([a-zA-Z0-9_-]+):\s*$/);
     if (jobMatch) {
       currentJob = jobMatch[1];
       jobs.add(currentJob);

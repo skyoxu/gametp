@@ -50,7 +50,7 @@ function run() {
     const lines = raw.split('\n');
     let changed = false;
     for (let i = 0; i < lines.length; i++) {
-      let line = lines[i];
+      const line = lines[i];
       // Fix top-level name line with mojibake
       if (/^name:\s/.test(line) && /[\u0100-\uFFFF]/.test(line)) {
         const fixed = fixNameLine(f, line);

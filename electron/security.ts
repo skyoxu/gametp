@@ -10,27 +10,27 @@
 import { BrowserWindow, session, app, shell } from 'electron';
 // See ADR-0002 for policy details
 function assertBrowserWindow(win: unknown): asserts win is BrowserWindow {
- if (!win || typeof (win as any).webContents?.on !== 'function') {
- throw new TypeError('hardenWindow: invalid BrowserWindow instance');
- }
+  if (!win || typeof (win as any).webContents?.on !== 'function') {
+    throw new TypeError('hardenWindow: invalid BrowserWindow instance');
+  }
 }
 function assertSession(
- sesArg: unknown
+  sesArg: unknown
 ): asserts sesArg is typeof session.defaultSession {
- if (
- !sesArg ||
- typeof (sesArg as any).webRequest?.onHeadersReceived !== 'function'
- ) {
- throw new TypeError('Security: invalid session provided');
- }
+  if (
+    !sesArg ||
+    typeof (sesArg as any).webRequest?.onHeadersReceived !== 'function'
+  ) {
+    throw new TypeError('Security: invalid session provided');
+  }
 }
 export function _isAllowedNavigation(url: string): boolean {
- const allowedProtocols = ['app://', 'file://'];
- const allowedDomains = ['localhost', '127.0.0.1'];
- return (
- allowedProtocols.some(p => url.startsWith(p)) ||
- allowedDomains.some(d => url.includes(d))
- );
+  const allowedProtocols = ['app://', 'file://'];
+  const allowedDomains = ['localhost', '127.0.0.1'];
+  return (
+    allowedProtocols.some(p => url.startsWith(p)) ||
+    allowedDomains.some(d => url.includes(d))
+  );
 }
 
 /**
@@ -39,11 +39,11 @@ export function _isAllowedNavigation(url: string): boolean {
  * @returns a new BrowserWindow instance
  */
 export function createSecureBrowserWindow(
- options: Electron.BrowserWindowConstructorOptions = {}
+  options: Electron.BrowserWindowConstructorOptions = {}
 ): BrowserWindow {
   const secureOptions: Electron.BrowserWindowConstructorOptions = {
- ...options,
- webPreferences: {
+    ...options,
+    webPreferences: {
       // Strict security defaults
       nodeIntegration: false, // Disable Node.js in renderer
       contextIsolation: true, // Isolate contexts
@@ -58,10 +58,10 @@ export function createSecureBrowserWindow(
 
       // Preload script path if provided
       preload: options.webPreferences?.preload || undefined,
- },
- };
+    },
+  };
 
- return new BrowserWindow(secureOptions);
+  return new BrowserWindow(secureOptions);
 }
 
 /**
@@ -73,17 +73,17 @@ export function hardenWindow(
   window: BrowserWindow,
   ses: typeof session.defaultSession
 ): void {
- assertBrowserWindow(window);
- assertSession(ses);
+  assertBrowserWindow(window);
+  assertSession(ses);
   // 1. Window open handler
   window.webContents.setWindowOpenHandler(({ url }) => {
     console.log(`[Security] window-open request: ${url}`);
 
- const isAllowed = _isAllowedNavigation(url);
+    const isAllowed = _isAllowedNavigation(url);
 
- if (isAllowed) {
- return { action: 'allow' };
- }
+    if (isAllowed) {
+      return { action: 'allow' };
+    }
     // External hosts are opened via system shell
     shell.openExternal(url);
     return { action: 'deny' };
@@ -114,9 +114,9 @@ export function hardenWindow(
     // Allow-list of permissions
     const allowedPermissions = ['clipboard-read', 'clipboard-sanitized-write'];
 
- const isAllowed = allowedPermissions.includes(permission);
+    const isAllowed = allowedPermissions.includes(permission);
 
- if (isAllowed) {
+    if (isAllowed) {
       console.log(`[Security] permission allowed: ${permission}`);
       callback(true);
     } else {
@@ -129,14 +129,14 @@ export function hardenWindow(
   window.webContents.on('will-redirect', (event, redirectUrl) => {
     console.log(`[Security] will-redirect: ${redirectUrl}`);
 
- if (
- !redirectUrl.startsWith('app://') &&
- !redirectUrl.startsWith('file://')
- ) {
- event.preventDefault();
- shell.openExternal(redirectUrl);
- }
- });
+    if (
+      !redirectUrl.startsWith('app://') &&
+      !redirectUrl.startsWith('file://')
+    ) {
+      event.preventDefault();
+      shell.openExternal(redirectUrl);
+    }
+  });
 }
 
 /**
@@ -145,51 +145,51 @@ export function hardenWindow(
  * cifix1.txt:Session, ready
  */
 export function installSecurityHeaders(
- ses: typeof session.defaultSession
+  ses: typeof session.defaultSession
 ): void {
- assertSession(ses);
- ses.webRequest.onHeadersReceived((details, callback) => {
- const responseHeaders = details.responseHeaders || {};
+  assertSession(ses);
+  ses.webRequest.onHeadersReceived((details, callback) => {
+    const responseHeaders = details.responseHeaders || {};
 
- // Content Security Policy -
- responseHeaders['Content-Security-Policy'] = [
- [
- "default-src 'self'",
- "script-src 'self'",
- "style-src 'self'", // CSP:unsafe-inline
- "img-src 'self' data: https:",
- "font-src 'self' data:",
- "connect-src 'self' ws: wss: https://sentry.io", // Sentry
- "object-src 'none'",
- "base-uri 'self'",
- "form-action 'self'",
- "frame-ancestors 'none'",
- 'upgrade-insecure-requests',
- ].join('; '),
- ];
+    // Content Security Policy -
+    responseHeaders['Content-Security-Policy'] = [
+      [
+        "default-src 'self'",
+        "script-src 'self'",
+        "style-src 'self'", // CSP:unsafe-inline
+        "img-src 'self' data: https:",
+        "font-src 'self' data:",
+        "connect-src 'self' ws: wss: https://sentry.io", // Sentry
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+        "frame-ancestors 'none'",
+        'upgrade-insecure-requests',
+      ].join('; '),
+    ];
 
- // Cross-Origin Opener Policy
- responseHeaders['Cross-Origin-Opener-Policy'] = ['same-origin'];
+    // Cross-Origin Opener Policy
+    responseHeaders['Cross-Origin-Opener-Policy'] = ['same-origin'];
 
- // Cross-Origin Embedder Policy
- responseHeaders['Cross-Origin-Embedder-Policy'] = ['require-corp'];
+    // Cross-Origin Embedder Policy
+    responseHeaders['Cross-Origin-Embedder-Policy'] = ['require-corp'];
 
- // Permissions Policy -
- responseHeaders['Permissions-Policy'] = [
- 'geolocation=(), camera=(), microphone=(), usb=(), serial=(), bluetooth=()',
- ];
+    // Permissions Policy -
+    responseHeaders['Permissions-Policy'] = [
+      'geolocation=(), camera=(), microphone=(), usb=(), serial=(), bluetooth=()',
+    ];
 
- // X-Content-Type-Options
- responseHeaders['X-Content-Type-Options'] = ['nosniff'];
+    // X-Content-Type-Options
+    responseHeaders['X-Content-Type-Options'] = ['nosniff'];
 
- // X-Frame-Options
- responseHeaders['X-Frame-Options'] = ['DENY'];
+    // X-Frame-Options
+    responseHeaders['X-Frame-Options'] = ['DENY'];
 
- // Referrer-Policy
- responseHeaders['Referrer-Policy'] = ['strict-origin-when-cross-origin'];
+    // Referrer-Policy
+    responseHeaders['Referrer-Policy'] = ['strict-origin-when-cross-origin'];
 
- callback({ responseHeaders });
- });
+    callback({ responseHeaders });
+  });
 
   console.log('[Security] security headers installed');
 }
@@ -215,8 +215,8 @@ export function setupCSPReporting(ses: typeof session.defaultSession): void {
       // sendSecurityAlert('csp_violation', { url: details.url, type: 'suspicious_request' });
     }
 
- callback({});
- });
+    callback({});
+  });
 }
 
 /**
@@ -257,12 +257,12 @@ export function initializeSecurity(ses: typeof session.defaultSession): void {
  * Read-only view of BrowserWindow security-related preferences
  */
 export interface SecurityConfig {
- nodeIntegration: boolean;
- contextIsolation: boolean;
- sandbox: boolean;
- webSecurity: boolean;
- allowRunningInsecureContent: boolean;
- experimentalFeatures: boolean;
+  nodeIntegration: boolean;
+  contextIsolation: boolean;
+  sandbox: boolean;
+  webSecurity: boolean;
+  allowRunningInsecureContent: boolean;
+  experimentalFeatures: boolean;
 }
 
 export function validateSecurityConfig(window: BrowserWindow): SecurityConfig {
@@ -270,14 +270,14 @@ export function validateSecurityConfig(window: BrowserWindow): SecurityConfig {
   const options =
     (window as any).webContents.browserWindowOptions?.webPreferences || {};
 
- return {
- nodeIntegration: options.nodeIntegration || false,
+  return {
+    nodeIntegration: options.nodeIntegration || false,
     contextIsolation: options.contextIsolation !== false, // default true
     sandbox: options.sandbox || false,
     webSecurity: options.webSecurity !== false, // default true
- allowRunningInsecureContent: options.allowRunningInsecureContent || false,
- experimentalFeatures: options.experimentalFeatures || false,
- };
+    allowRunningInsecureContent: options.allowRunningInsecureContent || false,
+    experimentalFeatures: options.experimentalFeatures || false,
+  };
 }
 
 /**
@@ -316,14 +316,13 @@ export function getSecurityHealthCheck(window: BrowserWindow): {
     violations.push('experimentalFeatures must be false');
   }
 
- const totalChecks = 6;
- const passedChecks = totalChecks - violations.length;
- const score = (passedChecks / totalChecks) * 100;
+  const totalChecks = 6;
+  const passedChecks = totalChecks - violations.length;
+  const score = (passedChecks / totalChecks) * 100;
 
- return {
- compliant: violations.length === 0,
- violations,
- score,
- };
+  return {
+    compliant: violations.length === 0,
+    violations,
+    score,
+  };
 }
-

@@ -253,7 +253,9 @@ export function GameCanvas({
         className={`game-canvas loading ${className}`}
         style={{ width, height }}
       >
-        <div className="game-canvas__loading-text">{t('interface.loading')}</div>
+        <div className="game-canvas__loading-text">
+          {t('interface.loading')}
+        </div>
       </div>
     );
   }
@@ -265,7 +267,9 @@ export function GameCanvas({
         className={`game-canvas error ${className}`}
         style={{ width, height }}
       >
-        <div className="game-canvas__error-title">{t('notifications.errorTitle')}</div>
+        <div className="game-canvas__error-title">
+          {t('notifications.errorTitle')}
+        </div>
         <div className="game-canvas__error-details">{error}</div>
       </div>
     );
@@ -282,9 +286,15 @@ export function GameCanvas({
       {/* Game status panel (optional) */}
       {gameState && (
         <div className="game-canvas__status-panel">
-          <div>{t('statusPanel.score')}: {gameState.score}</div>
-          <div>{t('statusPanel.level')}: {gameState.level}</div>
-          <div>{t('statusPanel.health')}: {gameState.health}</div>
+          <div>
+            {t('statusPanel.score')}: {gameState.score}
+          </div>
+          <div>
+            {t('statusPanel.level')}: {gameState.level}
+          </div>
+          <div>
+            {t('statusPanel.health')}: {gameState.health}
+          </div>
         </div>
       )}
 

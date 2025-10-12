@@ -407,10 +407,7 @@ export function GameVerticalSlice({
       gameEvents.subscribe('game.warning', handleGameEvent),
     ];
 
-    console.log(
-      ' GameVerticalSlice: :',
-      subscriptions.length
-    );
+    console.log(' GameVerticalSlice: :', subscriptions.length);
     console.log(' GameVerticalSlice: ID:', subscriptions);
 
     //
@@ -440,30 +437,20 @@ export function GameVerticalSlice({
       case 'ready':
         return (
           <div className="text-center p-8">
-            <h2 className="text-2xl font-bold text-white mb-4">
-               
-            </h2>
-            <p className="text-gray-300 mb-6">
-              React  Phaser      
-            </p>
+            <h2 className="text-2xl font-bold text-white mb-4"></h2>
+            <p className="text-gray-300 mb-6">React Phaser</p>
             <button
               onClick={startTest}
               className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              
-            </button>
+            ></button>
           </div>
         );
 
       case 'initializing':
         return (
           <div className="text-center p-8">
-            <h2 className="text-xl font-bold text-white mb-4">
-               ...
-            </h2>
-            <div className="animate-pulse text-blue-400">
-              TestScene
-            </div>
+            <h2 className="text-xl font-bold text-white mb-4">...</h2>
+            <div className="animate-pulse text-blue-400">TestScene</div>
           </div>
         );
 
@@ -471,16 +458,12 @@ export function GameVerticalSlice({
         return (
           <div className="p-4 bg-gray-800 rounded-t-lg">
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold text-white">
-                 
-              </h3>
+              <h3 className="text-lg font-semibold text-white"></h3>
               <div className="text-sm text-gray-300">
                 : {sliceState.totalMoves || 0}
               </div>
             </div>
-            <div className="mt-2 text-xs text-gray-400">
-              WASD
-            </div>
+            <div className="mt-2 text-xs text-gray-400">WASD</div>
           </div>
         );
 
@@ -489,9 +472,7 @@ export function GameVerticalSlice({
           <div className="p-6 bg-green-800 rounded-t-lg">
             <h2 className="text-xl font-bold text-white mb-4"> </h2>
             <div className="grid grid-cols-2 gap-4 text-sm">
-              <div className="text-green-200">
-                : {sliceState.score || 0}
-              </div>
+              <div className="text-green-200">: {sliceState.score || 0}</div>
               <div className="text-green-200">
                 : {sliceState.levelResult?.totalMoves || 0}
               </div>
@@ -501,16 +482,12 @@ export function GameVerticalSlice({
                   ? Math.round(sliceState.levelResult.duration / 1000) + ''
                   : 'N/A'}
               </div>
-              <div className="text-green-200">
-                : {sliceState.events.length}
-              </div>
+              <div className="text-green-200">: {sliceState.events.length}</div>
             </div>
             <button
               onClick={resetTest}
               className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
-            >
-              
-            </button>
+            ></button>
           </div>
         );
 
@@ -522,9 +499,7 @@ export function GameVerticalSlice({
             <button
               onClick={resetTest}
               className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
-            >
-              
-            </button>
+            ></button>
           </div>
         );
 
@@ -552,7 +527,7 @@ export function GameVerticalSlice({
         sliceState.events.length > 0 && (
           <details className="mt-4 p-4 bg-gray-900 rounded text-xs">
             <summary className="text-white cursor-pointer">
-               ({sliceState.events.length} )
+              ({sliceState.events.length} )
             </summary>
             <div className="mt-2 max-h-40 overflow-y-auto text-gray-300">
               {sliceState.events.slice(-10).map((event, index) => (

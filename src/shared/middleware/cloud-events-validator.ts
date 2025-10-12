@@ -23,7 +23,11 @@ export interface ValidationConfig {
 }
 
 export interface ValidationError {
-  code: 'MISSING_FIELD' | 'INVALID_FORMAT' | 'INVALID_SPECVERSION' | 'INVALID_SOURCE';
+  code:
+    | 'MISSING_FIELD'
+    | 'INVALID_FORMAT'
+    | 'INVALID_SPECVERSION'
+    | 'INVALID_SOURCE';
   field: string;
   message: string;
   severity: 'error' | 'warning';
@@ -48,7 +52,10 @@ export interface ValidationStats {
 // Default configuration
 const ENV = (typeof process !== 'undefined' && process.env) || {};
 const DEFAULT_CONFIG: ValidationConfig = {
-  level: ((ENV.CLOUDEVENTS_VALIDATION_LEVEL as any) || 'strict') as 'strict' | 'warning' | 'disabled',
+  level: ((ENV.CLOUDEVENTS_VALIDATION_LEVEL as any) || 'strict') as
+    | 'strict'
+    | 'warning'
+    | 'disabled',
   enablePerformanceMonitoring: (ENV.NODE_ENV ?? 'development') !== 'production',
   enableStatistics: true,
   maxProcessingDelay: Number(ENV.CLOUDEVENTS_MAX_DELAY_MS ?? '10'),
@@ -77,7 +84,9 @@ export class CloudEventsValidator {
 
   /** Validate a CloudEvents 1.0 event */
   validate(event: BaseEvent): ValidationResult {
-    const startTime = this.config.enablePerformanceMonitoring ? performance.now() : 0;
+    const startTime = this.config.enablePerformanceMonitoring
+      ? performance.now()
+      : 0;
     const errors: ValidationError[] = [];
 
     if (this.config.level === 'disabled') {
@@ -90,7 +99,12 @@ export class CloudEventsValidator {
     }
 
     // Validate required fields
-    const requiredFields: Array<keyof BaseEvent> = ['id', 'source', 'specversion', 'type'];
+    const requiredFields: Array<keyof BaseEvent> = [
+      'id',
+      'source',
+      'specversion',
+      'type',
+    ];
     for (const field of requiredFields) {
       if (!event[field]) {
         errors.push({
@@ -213,7 +227,9 @@ export class CloudEventsValidator {
     // Basic URI-reference format check (RFC 3986 4.1)
     try {
       // Allow both relative and absolute URIs
-      return /^([a-zA-Z][a-zA-Z0-9+.-]*:|\/|[a-zA-Z0-9._~!$&'()*+,;=:@-])/u.test(source);
+      return /^([a-zA-Z][a-zA-Z0-9+.-]*:|\/|[a-zA-Z0-9._~!$&'()*+,;=:@-])/u.test(
+        source
+      );
     } catch {
       return false;
     }
@@ -242,7 +258,8 @@ export class CloudEventsValidator {
 
     // Update average processing time
     this.stats.avgProcessingTime =
-      this.processingTimes.reduce((sum, time) => sum + time, 0) / this.processingTimes.length;
+      this.processingTimes.reduce((sum, time) => sum + time, 0) /
+      this.processingTimes.length;
   }
 
   private updateStats(errors: ValidationError[]): void {
@@ -256,7 +273,8 @@ export class CloudEventsValidator {
 
     // Update error buckets by code
     for (const error of errors) {
-      this.stats.errorsByType[error.code] = (this.stats.errorsByType[error.code] || 0) + 1;
+      this.stats.errorsByType[error.code] =
+        (this.stats.errorsByType[error.code] || 0) + 1;
     }
 
     this.stats.lastValidation = new Date().toISOString();
@@ -271,7 +289,9 @@ export class CloudEventsValidator {
 export const defaultValidator = new CloudEventsValidator();
 
 // Factory method for custom configuration
-export function createValidator(config?: Partial<ValidationConfig>): CloudEventsValidator {
+export function createValidator(
+  config?: Partial<ValidationConfig>
+): CloudEventsValidator {
   return new CloudEventsValidator(config);
 }
 
@@ -285,4 +305,3 @@ export function createValidationMiddleware(config?: Partial<ValidationConfig>) {
   const validator = config ? createValidator(config) : defaultValidator;
   return validator.createMiddleware();
 }
-

@@ -3,16 +3,10 @@
     "id": "TASK-OBS-BASELINE",
     "title": "Baseline observability hooks",
     "status": "done",
-    "owners": [
-      "platform"
-    ],
+    "owners": ["platform"],
     "summary": "Keep release health metrics connected to ADR-0003 baseline.",
-    "adrRefs": [
-      "ADR-0003-OBSERVABILITY-RELEASE-HEALTH"
-    ],
-    "archRefs": [
-      "CH03"
-    ],
+    "adrRefs": ["ADR-0003-OBSERVABILITY-RELEASE-HEALTH"],
+    "archRefs": ["CH03"],
     "overlay": "docs/architecture/overlays/PRD-GameTP/08/_index.md",
     "acceptance": [
       "Ensure metrics exported. See: docs/architecture/overlays/PRD-GameTP/08/_index.md"
@@ -21,9 +15,7 @@
       "prdId": "PRD-GameTP",
       "prdChunk": 8,
       "priority": "P1",
-      "labels": [
-        "release-health"
-      ]
+      "labels": ["release-health"]
     }
   }
 ]

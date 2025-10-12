@@ -1,6 +1,6 @@
 /**
- * P95 
- *  P95 
+ * P95
+ *  P95
  */
 
 import { describe, it, expect } from 'vitest';
@@ -11,7 +11,7 @@ import {
 
 describe('P95 ', () => {
   it(' vs P95 ', () => {
-    // 
+    //
     //  (50-80ms) (150-200ms)
     const simulatedPerformanceData = [
       //  (85% )
@@ -24,7 +24,7 @@ describe('P95 ', () => {
         .map(() => 150 + Math.random() * 50), // 150-200ms
     ];
 
-    // 
+    //
     for (let i = simulatedPerformanceData.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [simulatedPerformanceData[i], simulatedPerformanceData[j]] = [
@@ -38,7 +38,7 @@ describe('P95 ', () => {
       simulatedPerformanceData.map(v => v.toFixed(1))
     );
 
-    // 
+    //
     const p95Value = p95(simulatedPerformanceData);
     const average =
       simulatedPerformanceData.reduce((a, b) => a + b) /
@@ -52,14 +52,14 @@ describe('P95 ', () => {
     console.log(`  P95:  ${p95Value.toFixed(1)}ms`);
     console.log(`  : ${max.toFixed(1)}ms`);
 
-    // P95 
-    expect(p95Value).toBeLessThan(max); // P95 
-    expect(p95Value).toBeGreaterThan(average); // P95 
-    expect(p95Value).toBeLessThan(200); // P95 
+    // P95
+    expect(p95Value).toBeLessThan(max); // P95
+    expect(p95Value).toBeGreaterThan(average); // P95
+    expect(p95Value).toBeLessThan(200); // P95
   });
 
   it('', () => {
-    //  10 "" 1 
+    //  10 "" 1
     const singlePointResults: number[] = [];
     const simulatedRuns = 10;
 
@@ -72,7 +72,7 @@ describe('P95 ', () => {
 
     console.log(':', singlePointResults);
 
-    // "" 100ms 
+    // "" 100ms
     const failuresCount = singlePointResults.filter(v => v > 100).length;
     const failureRate = failuresCount / simulatedRuns;
 
@@ -80,10 +80,10 @@ describe('P95 ', () => {
       `: ${(failureRate * 100).toFixed(1)}% (${failuresCount}/${simulatedRuns})`
     );
 
-    //  P95 
+    //  P95
     const p95Samples: number[] = [];
     for (let i = 0; i < 25; i++) {
-      // 80% 20% 
+      // 80% 20%
       const sample = Math.random() < 0.8 ? 70 : 180;
       p95Samples.push(sample);
     }
@@ -94,22 +94,22 @@ describe('P95 ', () => {
     console.log(`P95 : ${p95Result.toFixed(1)}ms`);
     console.log(`P95 : ${p95Passes}`);
 
-    // P95  20% P95 
+    // P95  20% P95
     //  P95  5%
   });
 
   it(' P95 ', () => {
-    // 
-    const testData = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]; // 10 
+    //
+    const testData = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]; // 10
 
     const p95Value = p95(testData);
 
-    //  10 P95 
+    //  10 P95
     // Math.ceil(10 * 0.95) - 1 = Math.ceil(9.5) - 1 = 10 - 1 = 9
     //  P95  9  100
     expect(p95Value).toBe(100);
 
-    // 
+    //
     const largeData = Array.from({ length: 100 }, (_, i) => i + 1); // 1-100
     const p95Large = p95(largeData);
 
@@ -121,7 +121,7 @@ describe('P95 ', () => {
   it(' PerformanceCollector ', () => {
     const collector = new PerformanceCollector();
 
-    // 
+    //
     const performanceData = [45, 55, 65, 75, 85, 95, 105, 115, 125, 135];
 
     performanceData.forEach(value => {
@@ -134,6 +134,6 @@ describe('P95 ', () => {
     expect(stats.average).toBe(90); // (45+55+...+135)/10 = 900/10 = 90
     expect(stats.min).toBe(45);
     expect(stats.max).toBe(135);
-    expect(stats.p95).toBe(135); //  10 P95 
+    expect(stats.p95).toBe(135); //  10 P95
   });
 });

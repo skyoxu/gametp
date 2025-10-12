@@ -267,9 +267,7 @@ export class UserTimingManager {
       const threshold = this.thresholds.get(name)!;
 
       if (p95 && p95 > threshold.p95) {
-        violations.push(
-          `${name}: P95=${p95.toFixed(2)}ms  ${threshold.p95}ms`
-        );
+        violations.push(`${name}: P95=${p95.toFixed(2)}ms  ${threshold.p95}ms`);
       }
     }
 

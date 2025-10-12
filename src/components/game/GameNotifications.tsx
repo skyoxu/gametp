@@ -90,7 +90,9 @@ export function GameNotifications({
         addNotification({
           type: 'success',
           title: t('notifications.levelUpTitle'),
-          message: t('notifications.levelUpMessage', { level: gameState.level }),
+          message: t('notifications.levelUpMessage', {
+            level: gameState.level,
+          }),
           duration: 3000,
         });
       }
@@ -100,7 +102,9 @@ export function GameNotifications({
         addNotification({
           type: 'warning',
           title: t('notifications.lowHealthTitle'),
-          message: t('notifications.lowHealthMessage', { hp: gameState.health }),
+          message: t('notifications.lowHealthMessage', {
+            hp: gameState.health,
+          }),
           duration: 5000,
         });
       }
@@ -334,7 +338,9 @@ export function GameNotifications({
         <button
           onClick={clearAllNotifications}
           className="game-notifications__clear-all"
-          aria-label={t('notifications.clearAll', { count: notifications.length })}
+          aria-label={t('notifications.clearAll', {
+            count: notifications.length,
+          })}
         >
           {t('notifications.clearAll', { count: notifications.length })}
         </button>

@@ -24,12 +24,24 @@
       "@core/*": ["./src/core/*"],
       "@domain/*": ["./src/domain/*"],
       "@infra/*": ["./src/infra/*"],
-      "@opentelemetry/api": ["./src/shared/observability/stubs/opentelemetry-api.ts"],
-      "@opentelemetry/sdk-node": ["./src/shared/observability/stubs/opentelemetry-sdk-node.ts"],
-      "@opentelemetry/resources": ["./src/shared/observability/stubs/opentelemetry-resources.ts"],
-      "@opentelemetry/semantic-conventions": ["./src/shared/observability/stubs/opentelemetry-semantic-conventions.ts"],
-      "@opentelemetry/sdk-trace-base": ["./src/shared/observability/stubs/opentelemetry-sdk-trace-base.ts"],
-      "@opentelemetry/exporter-jaeger": ["./src/shared/observability/stubs/opentelemetry-exporter-jaeger.ts"]
+      "@opentelemetry/api": [
+        "./src/shared/observability/stubs/opentelemetry-api.ts"
+      ],
+      "@opentelemetry/sdk-node": [
+        "./src/shared/observability/stubs/opentelemetry-sdk-node.ts"
+      ],
+      "@opentelemetry/resources": [
+        "./src/shared/observability/stubs/opentelemetry-resources.ts"
+      ],
+      "@opentelemetry/semantic-conventions": [
+        "./src/shared/observability/stubs/opentelemetry-semantic-conventions.ts"
+      ],
+      "@opentelemetry/sdk-trace-base": [
+        "./src/shared/observability/stubs/opentelemetry-sdk-trace-base.ts"
+      ],
+      "@opentelemetry/exporter-jaeger": [
+        "./src/shared/observability/stubs/opentelemetry-exporter-jaeger.ts"
+      ]
     },
 
     /* Linting */

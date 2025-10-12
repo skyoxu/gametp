@@ -172,10 +172,22 @@ export function GameControlPanel({
           onClick={isGameRunning ? handlePause : handleResume}
           disabled={isProcessing}
           className={`control-btn primary ${isGameRunning ? 'pause' : 'resume'}`}
-          title={isGameRunning ? t('controlPanel.titlePause') : t('controlPanel.titleResume')}
-          aria-label={isGameRunning ? t('controlPanel.ariaPause') : t('controlPanel.ariaResume')}
+          title={
+            isGameRunning
+              ? t('controlPanel.titlePause')
+              : t('controlPanel.titleResume')
+          }
+          aria-label={
+            isGameRunning
+              ? t('controlPanel.ariaPause')
+              : t('controlPanel.ariaResume')
+          }
         >
-          {isProcessing ? t('controlPanel.statusProcessing') : isGameRunning ? t('controlPanel.pause') : t('controlPanel.resume')}
+          {isProcessing
+            ? t('controlPanel.statusProcessing')
+            : isGameRunning
+              ? t('controlPanel.pause')
+              : t('controlPanel.resume')}
         </button>
 
         {/* Save button */}
@@ -251,7 +263,11 @@ export function GameControlPanel({
               }`}
             />
             <span className="status-text" aria-live="polite">
-              {isProcessing ? t('controlPanel.statusProcessing') : isGameRunning ? t('controlPanel.statusRunning') : t('controlPanel.statusPaused')}
+              {isProcessing
+                ? t('controlPanel.statusProcessing')
+                : isGameRunning
+                  ? t('controlPanel.statusRunning')
+                  : t('controlPanel.statusPaused')}
             </span>
           </div>
         </div>
@@ -259,7 +275,10 @@ export function GameControlPanel({
 
       {/* Dev hints */}
       {process.env.NODE_ENV === 'development' && (
-        <div className="dev-hints">{t('controlPanel.hintEsc')} | {t('controlPanel.hintF5')} | {t('controlPanel.hintF9')}</div>
+        <div className="dev-hints">
+          {t('controlPanel.hintEsc')} | {t('controlPanel.hintF5')} |{' '}
+          {t('controlPanel.hintF9')}
+        </div>
       )}
     </div>
   );

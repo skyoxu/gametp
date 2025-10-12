@@ -151,11 +151,11 @@ jobs:
 
 ## P2 优化对照表
 
-| 场景 | 推荐 Shell | 编码方式 | 范例 |
-| ---- | ---------- | -------- | ---- |
-| Step Summary | `pwsh` | `Out-File -Encoding utf8NoBom` | Step Summary 模板 |
-| 构建产物 | `pwsh` | `ConvertTo-Json + Out-File` | manifest 示例 |
-| 自定义脚本 | `pwsh` | `Set-Content -Encoding UTF8` | 生成配置文件 |
+| 场景         | 推荐 Shell | 编码方式                       | 范例              |
+| ------------ | ---------- | ------------------------------ | ----------------- |
+| Step Summary | `pwsh`     | `Out-File -Encoding utf8NoBom` | Step Summary 模板 |
+| 构建产物     | `pwsh`     | `ConvertTo-Json + Out-File`    | manifest 示例     |
+| 自定义脚本   | `pwsh`     | `Set-Content -Encoding UTF8`   | 生成配置文件      |
 
 ---
 

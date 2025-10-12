@@ -17,16 +17,28 @@ describe('Event name validation', () => {
   });
 
   it('rejects invalid event names', () => {
-    const invalid = ['invalid', 'missing.action', '.empty.start', 'too.many.parts.here', ''];
-    invalid.forEach(name => expect(EventUtils.isValidEventName(name)).toBe(false));
+    const invalid = [
+      'invalid',
+      'missing.action',
+      '.empty.start',
+      'too.many.parts.here',
+      '',
+    ];
+    invalid.forEach(name =>
+      expect(EventUtils.isValidEventName(name)).toBe(false)
+    );
   });
 });
 
 describe('Pattern matching', () => {
   it('matches wildcard patterns', () => {
-    expect(EventUtils.matchesPattern('game.scene.changed', 'game.*.changed')).toBe(true);
+    expect(
+      EventUtils.matchesPattern('game.scene.changed', 'game.*.changed')
+    ).toBe(true);
     expect(EventUtils.matchesPattern('ui.dialog.opened', 'ui.*.*')).toBe(true);
-    expect(EventUtils.matchesPattern('system.error.occurred', 'game.*.*')).toBe(false);
+    expect(EventUtils.matchesPattern('system.error.occurred', 'game.*.*')).toBe(
+      false
+    );
   });
 });
 
@@ -42,9 +54,14 @@ describe('Create event', () => {
 
   it('creates a CloudEvents v1.0 compatible event', () => {
     const payload = { id: '1', name: 'T', ts: Date.now() };
-    const ev = EventUtils.createEvent('game.scene.changed', '/phaser/scene', payload, {
-      priority: 'critical',
-    });
+    const ev = EventUtils.createEvent(
+      'game.scene.changed',
+      '/phaser/scene',
+      payload,
+      {
+        priority: 'critical',
+      }
+    );
     expect(ev.type).toBe('game.scene.changed');
     expect(ev.source).toBe('/phaser/scene');
     expect(ev.data).toEqual(payload);
@@ -62,4 +79,3 @@ describe('Batch config', () => {
     expect(p.low).toBe(100);
   });
 });
-

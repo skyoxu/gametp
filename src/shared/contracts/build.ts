@@ -251,6 +251,3 @@ export function sentryConfigFromEnv(
     performance: DEFAULT_SENTRY_CONFIG.performance,
   };
 }
-
-
-
