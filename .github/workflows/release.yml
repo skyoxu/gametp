@@ -92,17 +92,23 @@ jobs:
           }
       - name: Build (renderer + electron)
         run: |
-          npm run build *>&1 | Tee-Object -FilePath "${{ steps.release_logs.outputs.dir }}/build.log"
+          $dir = "${{ steps.release_logs.outputs.dir }}"
+          if (-not (Test-Path -LiteralPath $dir)) { New-Item -ItemType Directory -Force -Path $dir | Out-Null }
+          npm run build *>&1 | Tee-Object -FilePath (Join-Path $dir 'build.log')
         env:
           NODE_ENV: ${{ needs.prepare.outputs.environment }}
       - name: Package (dir, unpacked)
         run: |
-          npm run build:win:dir *>&1 | Tee-Object -FilePath "${{ steps.release_logs.outputs.dir }}/package-dir.log"
+          $dir = "${{ steps.release_logs.outputs.dir }}"
+          if (-not (Test-Path -LiteralPath $dir)) { New-Item -ItemType Directory -Force -Path $dir | Out-Null }
+          npm run build:win:dir *>&1 | Tee-Object -FilePath (Join-Path $dir 'package-dir.log')
       - name: Package (installer NSIS)
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Continue'
-          Start-Transcript -Path "${{ steps.release_logs.outputs.dir }}/nsis.log" -Append | Out-Null
+          $dir = "${{ steps.release_logs.outputs.dir }}"
+          if (-not (Test-Path -LiteralPath $dir)) { New-Item -ItemType Directory -Force -Path $dir | Out-Null }
+          Start-Transcript -Path (Join-Path $dir 'nsis.log') -Append | Out-Null
           Write-Host "[release] Pre-installing NSIS to stabilize packaging..."
           try {
             choco install nsis -y --no-progress | Out-Host
@@ -253,4 +259,3 @@ jobs:
     needs: build
     steps:
       - run: Write-Output "Release build completed"
-
