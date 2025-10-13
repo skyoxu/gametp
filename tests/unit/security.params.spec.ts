@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { _isAllowedNavigation } from '../../electron/security';
+import { _isAllowedNavigation } from '../../electron/security-helpers';
 
 describe('electron/security param guard placeholders', () => {
   it('_isAllowedNavigation allows app:// and file:// and localhost', () => {
