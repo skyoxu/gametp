@@ -80,11 +80,13 @@ runs:
         npm config set fetch-retry-maxtimeout 600000 --location=project | Out-Null
         npm config set fetch-retry-mintimeout 20000 --location=project | Out-Null
 
-        function Invoke-Cmd([string]$cmdline) {
+        $npmPath = (Get-Command npm -ErrorAction Stop).Source
+        function Invoke-Npm([string[]]$args) {
           $global:LASTEXITCODE = 0
-          Write-Host ("[npm-install] running: {0}" -f $cmdline)
-          cmd /c $cmdline 2>&1 | Tee-Object -FilePath $logFile -Append
-          return $LASTEXITCODE
+          Write-Host ("[npm-install] running: npm {0}" -f ($args -join ' '))
+          & $npmPath @args 2>&1 | Tee-Object -FilePath $logFile -Append | Out-Host
+          if ($null -eq $LASTEXITCODE) { return 0 }
+          return [int]$LASTEXITCODE
         }
 
         $attempts = @('', '--maxsockets=5', '--maxsockets=1', '')
@@ -93,8 +95,10 @@ runs:
 
         if ($mode -eq 'full') {
           for ($i=0; $i -lt $attempts.Count; $i++) {
-            $args = $attempts[$i]
-            $code = Invoke-Cmd ("npm ci {0}" -f $args)
+            $arg = $attempts[$i]
+            $common = @('ci')
+            if ($arg) { $common += $arg }
+            $code = Invoke-Npm $common
             if ($code -eq 0) { $success = $true; break }
             if ($i -lt ($attempts.Count-1)) {
               $sleep = 15 * ($i+1)
@@ -104,14 +108,16 @@ runs:
           }
           if (-not $success) {
             Write-Warning "npm ci failed after retries. Falling back to 'npm install' (full)..."
-            $code = Invoke-Cmd "npm install --no-audit --fund=false --prefer-offline"
+            $code = Invoke-Npm @('install','--no-audit','--fund=false','--prefer-offline')
             if ($code -ne 0) { Write-Error "npm install fallback failed (exit=$code)"; exit $code } else { $success = $true }
           }
         } else {
           # lean mode: ignore-scripts and omit optional to avoid heavy postinstalls
           for ($i=0; $i -lt $attempts.Count; $i++) {
-            $args = $attempts[$i]
-            $code = Invoke-Cmd ("npm ci --ignore-scripts --omit=optional {0}" -f $args)
+            $arg = $attempts[$i]
+            $common = @('ci','--ignore-scripts','--omit=optional')
+            if ($arg) { $common += $arg }
+            $code = Invoke-Npm $common
             if ($code -eq 0) { $success = $true; break }
             if ($i -lt ($attempts.Count-1)) {
               $sleep = 15 * ($i+1)
@@ -121,7 +127,7 @@ runs:
           }
           if (-not $success) {
             Write-Warning "npm ci (lean) failed. Falling back to 'npm install --ignore-scripts --omit=optional'..."
-            $code = Invoke-Cmd "npm install --ignore-scripts --omit=optional --no-audit --fund=false --prefer-offline"
+            $code = Invoke-Npm @('install','--ignore-scripts','--omit=optional','--no-audit','--fund=false','--prefer-offline')
             if ($code -ne 0) { Write-Error "npm install fallback (lean) failed (exit=$code)"; exit $code } else { $success = $true }
           }
         }
@@ -134,4 +140,3 @@ runs:
 branding:
   icon: 'download'
   color: 'green'
-

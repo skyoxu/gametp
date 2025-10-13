@@ -1,13 +1,21 @@
-Run npm run security:fuses:prod
-
-> gametp@0.1.0 security:fuses:prod
-> node scripts/fuses.js --production
-
-Applying Electron Fuses for production...
-Fuses applied successfully. Verifying...
-Verifying Electron fuses...
-ERROR: Unable to verify Electron fuses: TypeError: read is not a function
-    at verifyFusesConfigWith (file:///D:/a/gametp/gametp/scripts/fuses.js:125:26)
-    at verifyFusesConfig (file:///D:/a/gametp/gametp/scripts/fuses.js:144:10)
-    at applyFusesConfig (file:///D:/a/gametp/gametp/scripts/fuses.js:113:11)
+Prepare all required actions
+Run ./.github/actions/npm-install
+Run Write-Host "Validating Node.js environment setup..."
+Validating Node.js environment setup...
+Node.js version: v20.19.5
+npm version: 10.8.2
+Run $d = Get-Date -Format 'yyyy-MM-dd'
+[npm-install] logs: logs/2025-10-13/npm-install | mode: lean
+Run $mode = 'lean'
+Starting npm install (mode=lean)...
+[npm-install] running: npm ci --ignore-scripts --omit=optional 
+WARNING: Attempt 1 failed (code=System.Object[]). Sleeping 15s...
+[npm-install] running: npm ci --ignore-scripts --omit=optional --maxsockets=5
+WARNING: Attempt 2 failed (code=System.Object[]). Sleeping 30s...
+[npm-install] running: npm ci --ignore-scripts --omit=optional --maxsockets=1
+WARNING: Attempt 3 failed (code=System.Object[]). Sleeping 45s...
+[npm-install] running: npm ci --ignore-scripts --omit=optional 
+WARNING: npm ci (lean) failed. Falling back to 'npm install --ignore-scripts --omit=optional'...
+[npm-install] running: npm install --ignore-scripts --omit=optional --no-audit --fund=false --prefer-offline
+Write-Error: npm install fallback (lean) failed (exit= removed 20 packages in 4s 0)
 Error: Process completed with exit code 1.
