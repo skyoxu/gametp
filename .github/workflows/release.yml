@@ -1,4 +1,4 @@
-﻿name: Release Pipeline - Dev to CI to Prod (Simplified)
+name: Release Pipeline - Dev to CI to Prod (Simplified)
 
 on:
   push:
@@ -67,10 +67,18 @@ jobs:
       - name: Install dependencies (with postinstall)
         uses: ./.github/actions/npm-install
         env:
-          # Prefer skipping optional native deps to reduce flakiness; we'll ensure rollup native explicitly
           npm_config_omit: optional
       - name: Strip BOMs in config files
         run: node scripts/ci/fix-bom.cjs
+      - name: Prepare release logs dir
+        id: release_logs
+        run: |
+          $d = Get-Date -Format 'yyyy-MM-dd'
+          $p = "logs/$d/release"
+          New-Item -ItemType Directory -Force -Path $p | Out-Null
+          "dir=$p" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+      - name: Initialize template (ensure builder config)
+        run: npm run init:template
       - name: Ensure rollup native package (win32-x64)
         shell: pwsh
         run: |
@@ -82,15 +90,6 @@ jobs:
           } else {
             Write-Host "rollup native package available."
           }
-      - name: Prepare release logs dir
-        id: release_logs
-        run: |
-          $d = Get-Date -Format 'yyyy-MM-dd'
-          $p = "logs/$d/release"
-          New-Item -ItemType Directory -Force -Path $p | Out-Null
-          "dir=$p" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
-      - name: Initialize template (ensure builder config)
-        run: npm run init:template
       - name: Build (renderer + electron)
         run: |
           npm run build *>&1 | Tee-Object -FilePath "${{ steps.release_logs.outputs.dir }}/build.log"
@@ -136,8 +135,6 @@ jobs:
           Stop-Transcript | Out-Null
 
       # Windows Signing (Azure Trusted Signing / Key Vault) - Placeholder (disabled by default)
-      # Enable by setting SIGN_WINDOWS: true and provide the following secrets/envs:
-      #   AZURE_KV_VAULT_URL, AZURE_KV_TENANT_ID, AZURE_KV_CLIENT_ID, AZURE_KV_CLIENT_SECRET, AZURE_KV_CERT_NAME
       - name: Install AzureSignTool (if signing enabled)
         if: ${{ env.SIGN_WINDOWS == 'true' }}
         run: dotnet tool update --global AzureSignTool
@@ -206,7 +203,6 @@ jobs:
           echo "Sentry release: $REL"
           node_modules/.bin/sentry-cli releases new "$REL"
           node_modules/.bin/sentry-cli releases set-commits "$REL" --auto
-          # Upload renderer sourcemaps from Vite build output
           node_modules/.bin/sentry-cli sourcemaps upload --org "$env:SENTRY_ORG" --project "$env:SENTRY_PROJECT" --release "$REL" --rewrite --url-prefix "~/" dist
           node_modules/.bin/sentry-cli releases finalize "$REL"
       - name: Generate CycloneDX SBOM (full)
@@ -247,6 +243,7 @@ jobs:
             electron-dist/**
             dist-electron/**
           retention-days: 14
+
   summary:
     name: Summary
     runs-on: windows-latest
