@@ -185,6 +185,10 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+      - name: Setup Python 3.x (node-gyp builds)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
       - name: Detect changes for E2E
         id: changes-e2e
         uses: tj-actions/changed-files@v44
