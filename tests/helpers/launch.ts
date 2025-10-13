@@ -122,6 +122,30 @@ function buildApp(): void {
 }
 
 /**
+ * Ensure Electron binary is present. Some CI runners may install node modules
+ * with scripts skipped or the binary download may have failed. Attempt a
+ * recovery by invoking Electron's installer script.
+ */
+function ensureElectronBinary(): void {
+  try {
+    const electronModuleDir = resolve(process.cwd(), 'node_modules', 'electron');
+    const electronDistDir = resolve(electronModuleDir, 'dist');
+    if (existsSync(electronDistDir)) {
+      return;
+    }
+    console.warn('[launch] Electron dist not found; attempting install.js recovery...');
+    const installer = resolve(electronModuleDir, 'install.js');
+    if (!existsSync(installer)) {
+      throw new Error('electron/install.js not found');
+    }
+    execSync(`node "${installer}"`, { stdio: 'inherit', env: { ...process.env } });
+  } catch (e) {
+    console.error('[launch] Electron binary recovery failed');
+    throw e;
+  }
+}
+
+/**
  * Unified Electron app launch function - returns {app, page} structure
  * Official recommendation: app.firstWindow() -> page, all DOM operations execute on Page
  */
@@ -133,6 +157,8 @@ export async function launchApp(
 
   buildApp();
   validateEntryPath(entry);
+  // Ensure electron binary exists before launch (CI resilience)
+  ensureElectronBinary();
   const app = await electron.launch({
     // Launch by project root so Electron uses package.json.main; more robust on Windows
     args: ['.'],
@@ -160,6 +186,7 @@ export async function launchAppAndPage(
 
   buildApp();
   validateEntryPath(entry);
+  ensureElectronBinary();
   const app = await electron.launch({
     args: ['.'],
     env: {
@@ -190,6 +217,7 @@ export async function launchAppWithArgs(
     validateEntryPath(entryOrArgs);
     args = extraArgs ? ['.', ...extraArgs] : ['.'];
   }
+  ensureElectronBinary();
   const app = await electron.launch({
     args,
     env: {
@@ -212,6 +240,7 @@ export async function launchAppWithPage(
 
   buildApp();
   validateEntryPath(entry);
+  ensureElectronBinary();
   const app = await (electronOverride || electron).launch({
     args: ['.'],
     env: {
