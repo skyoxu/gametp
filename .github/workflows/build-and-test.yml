@@ -52,6 +52,17 @@ jobs:
           python-version: '3.x'
       - name: Run postinstall patches (explicit)
         run: node scripts/ci/patch-tree-sitter.js
+      - name: Ensure rollup native package (win32-x64)
+        shell: pwsh
+        run: |
+          Write-Host "Checking @rollup/rollup-win32-x64-msvc availability (unit job)..."
+          node -e "require('@rollup/rollup-win32-x64-msvc')" 2>$null
+          if ($LASTEXITCODE -ne 0) {
+            Write-Warning "@rollup/rollup-win32-x64-msvc missing; installing no-save..."
+            npm install @rollup/rollup-win32-x64-msvc --no-save --no-audit --fund=false
+          } else {
+            Write-Host "rollup native package available."
+          }
       - name: Strip BOMs in config files
         run: node scripts/ci/fix-bom.cjs
       - name: Ensure rollup native package (win32-x64)
