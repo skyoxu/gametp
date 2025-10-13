@@ -91,8 +91,17 @@ def main():
     print(f"[fetch] Downloading logs: {owner}/{repo} run_id={run_id}")
     r = requests.get(url, headers=headers, allow_redirects=True, timeout=60)
     if r.status_code != 200:
-        print(f"[fetch] Failed: {r.status_code} {r.text[:200]}")
-        sys.exit(3)
+        msg = f"[fetch] Failed to download logs (status={r.status_code}). Logs may be expired or inaccessible."
+        print(msg)
+        # Write advisory to step summary but do not fail the workflow
+        out = os.environ.get("GITHUB_STEP_SUMMARY")
+        if out:
+            try:
+                with open(out, "a", encoding="utf-8") as f:
+                    f.write(f"\n### Fetch Run Logs\n{msg}\n")
+            except Exception:
+                pass
+        return 0
 
     out_dir = today_dir()
     out_zip = out_dir / f"run-{run_id}.zip"
@@ -110,4 +119,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

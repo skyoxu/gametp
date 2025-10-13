@@ -91,8 +91,10 @@ def main():
     base = Path("logs")
     zpath = Path(args.zip_path) if args.zip_path else find_zip(base, args.run_id or None)
     if not zpath or not zpath.exists():
-        print("[parse] ZIP not found. Provide --zip or ensure logs/*/gh-logs/run-<id>.zip exists.")
-        sys.exit(2)
+        msg = "[parse] ZIP not found. Provide --zip or ensure logs/*/gh-logs/run-<id>.zip exists."
+        safe_print(msg)
+        write_summary(f"\n### Parse Run Logs\n{msg}")
+        sys.exit(0)
 
     files, tails, errors = parse_zip(zpath)
     header = f"\n## Parsed run logs: {zpath.name}\n"
