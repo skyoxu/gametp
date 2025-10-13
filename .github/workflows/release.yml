@@ -233,6 +233,10 @@ jobs:
           node_modules/.bin/sentry-cli sourcemaps upload --org "$env:SENTRY_ORG" --project "$env:SENTRY_PROJECT" --release "$REL" --rewrite --url-prefix "~/" dist
           node_modules/.bin/sentry-cli releases finalize "$REL"
       - name: Generate CycloneDX SBOM (full)
+        # On Windows, dev-only native/mac tools (e.g., dmg-license) can make `npm ls` return ELSPROBLEMS.
+        # Use production tree to stabilize and still provide a valid SBOM artifact.
+        env:
+          npm_config_omit: dev
         run: npx --yes @cyclonedx/cyclonedx-npm --output-file sbom.json --spec-version 1.5
       - name: Upload SBOM (CycloneDX)
         uses: actions/upload-artifact@v4
