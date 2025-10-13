@@ -64,10 +64,21 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-      - name: Install dependencies (omit optional)
-        run: npm ci --omit=optional
+      - name: Install dependencies (with postinstall)
+        uses: ./.github/actions/npm-install
       - name: Strip BOMs in config files
         run: node scripts/ci/fix-bom.cjs
+      - name: Ensure rollup native package (win32-x64)
+        shell: pwsh
+        run: |
+          Write-Host "Checking @rollup/rollup-win32-x64-msvc availability..."
+          node -e "require('@rollup/rollup-win32-x64-msvc')" 2>$null
+          if ($LASTEXITCODE -ne 0) {
+            Write-Warning "@rollup/rollup-win32-x64-msvc missing; installing no-save..."
+            npm install @rollup/rollup-win32-x64-msvc --no-save --no-audit --fund=false
+          } else {
+            Write-Host "rollup native package available."
+          }
       - name: Prepare release logs dir
         id: release_logs
         run: |
