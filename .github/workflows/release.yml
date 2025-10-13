@@ -68,8 +68,6 @@ jobs:
         uses: ./.github/actions/npm-install
         with:
           mode: full
-        env:
-          npm_config_omit: optional
       - name: Strip BOMs in config files
         run: node scripts/ci/fix-bom.cjs
       # Apply Electron Fuses early against node_modules/electron/dist/electron.exe
@@ -90,7 +88,6 @@ jobs:
       - name: Initialize template (ensure builder config)
         run: npm run init:template
       - name: Ensure rollup native package (win32-x64)
-        if: ${{ github.ref_type == 'tag' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production') }}
         shell: pwsh
         run: |
           Write-Host "Checking @rollup/rollup-win32-x64-msvc availability..."
