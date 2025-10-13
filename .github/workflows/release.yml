@@ -102,6 +102,8 @@ jobs:
           $dir = "${{ steps.release_logs.outputs.dir }}"
           if (-not (Test-Path -LiteralPath $dir)) { New-Item -ItemType Directory -Force -Path $dir | Out-Null }
           npm run build:win:dir *>&1 | Tee-Object -FilePath (Join-Path $dir 'package-dir.log')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Package (installer NSIS)
         shell: pwsh
         run: |
@@ -139,6 +141,8 @@ jobs:
             }
           }
           Stop-Transcript | Out-Null
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Windows Signing (Azure Trusted Signing / Key Vault) - Placeholder (disabled by default)
       - name: Install AzureSignTool (if signing enabled)
