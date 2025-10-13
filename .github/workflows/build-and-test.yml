@@ -164,6 +164,17 @@ jobs:
         continue-on-error: true
       - name: Typecheck
         run: npm run typecheck
+      - name: Ensure rollup native package (win32-x64) for tests
+        shell: pwsh
+        run: |
+          Write-Host "Checking @rollup/rollup-win32-x64-msvc availability (coverage job)..."
+          node -e "require('@rollup/rollup-win32-x64-msvc')" 2>$null
+          if ($LASTEXITCODE -ne 0) {
+            Write-Warning "@rollup/rollup-win32-x64-msvc missing; installing no-save..."
+            npm install @rollup/rollup-win32-x64-msvc --no-save --no-audit --fund=false
+          } else {
+            Write-Host "rollup native package available."
+          }
       - name: Unit tests with coverage gate
         env:
           COVERAGE_MODE: development
