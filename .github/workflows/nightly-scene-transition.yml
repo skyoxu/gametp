@@ -24,7 +24,7 @@ jobs:
       CI: 'true'
       E2E_SECURITY_TIMEOUT_MS: 300000
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20.x'

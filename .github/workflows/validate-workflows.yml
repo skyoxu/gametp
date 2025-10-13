@@ -35,7 +35,7 @@ jobs:
       run:
         shell: pwsh
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup Python 3.x
         uses: actions/setup-python@v5
         with:
@@ -98,7 +98,7 @@ jobs:
       run:
         shell: pwsh
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup Python 3.x
         uses: actions/setup-python@v5
         with:
@@ -162,7 +162,7 @@ jobs:
         shell: pwsh
     needs: [actionlint, actionlint-windows]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'
@@ -177,7 +177,7 @@ jobs:
         shell: pwsh
     needs: [actionlint, actionlint-windows]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: ASCII pre-fix (Python)
         id: ascii_prefx_enc
         uses: ./.github/actions/workflows-ascii-prefx
@@ -203,7 +203,7 @@ jobs:
         shell: pwsh
     needs: [actionlint, actionlint-windows]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: ASCII pre-fix (Python)
         id: ascii_prefx_enc_win
         uses: ./.github/actions/workflows-ascii-prefx
@@ -230,7 +230,7 @@ jobs:
     needs:
       [actionlint, actionlint-windows, encoding-guard, encoding-guard-windows]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'
@@ -245,7 +245,7 @@ jobs:
         shell: pwsh
     needs: [shell-guard]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'
@@ -265,7 +265,7 @@ jobs:
     needs:
       [actionlint, actionlint-windows, encoding-guard, encoding-guard-windows]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: ASCII pre-fix (Python)
         id: ascii_prefx_guard
         uses: ./.github/actions/workflows-ascii-prefx
@@ -291,7 +291,7 @@ jobs:
         shell: pwsh
     needs: [shell-guard]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'
@@ -307,7 +307,7 @@ jobs:
         shell: pwsh
     needs: [shell-guard]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'

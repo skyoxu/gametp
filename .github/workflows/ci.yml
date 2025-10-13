@@ -80,7 +80,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Step
         uses: raven-actions/actionlint@v2
@@ -136,7 +136,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -240,7 +240,7 @@ jobs:
       EVTBUS_100_PUBS_MS: '1000'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup Node.js
         uses: actions/setup-node@v5.0.0
         with:
@@ -283,7 +283,7 @@ jobs:
       NPM_CONFIG_PRODUCTION: 'false'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup Node.js
         uses: actions/setup-node@v5.0.0
         with:
@@ -321,7 +321,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Setup Node.js
@@ -393,7 +393,7 @@ jobs:
       NPM_CONFIG_PRODUCTION: 'false'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup Node.js
         uses: actions/setup-node@v5.0.0
         with:
@@ -468,7 +468,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup Node.js
         uses: actions/setup-node@v5.0.0
         with:
@@ -524,7 +524,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -579,7 +579,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
         uses: actions/setup-node@v5.0.0
@@ -691,7 +691,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
         uses: actions/setup-node@v5.0.0
@@ -733,7 +733,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
         uses: actions/setup-node@v5.0.0
@@ -760,7 +760,7 @@ jobs:
         shell: pwsh
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup Node.js
         uses: actions/setup-node@v5.0.0
         with:
@@ -863,7 +863,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Deployment summary
         run: echo "Deployment readiness checklist will be attached."
@@ -884,7 +884,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup Node.js
         uses: actions/setup-node@v5.0.0
         with:
@@ -910,7 +910,7 @@ jobs:
     needs: electron-security-gate
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Download Snyk report
         uses: actions/download-artifact@v4
         continue-on-error: true
