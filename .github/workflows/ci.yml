@@ -94,12 +94,6 @@ jobs:
         uses: ./.github/actions/npm-install
         with:
           mode: lean
-        with:
-          mode: lean
-        with:
-          mode: lean
-        with:
-          mode: lean
 
       # Non-blocking ESLint pre-fix (Windows-only). Writes logs to logs/<date>/eslint/
       - name: ESLint pre-fix (non-blocking)
@@ -149,12 +143,6 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/npm-install
-        with:
-          mode: lean
-        with:
-          mode: lean
-        with:
-          mode: lean
         with:
           mode: lean
 
@@ -256,12 +244,6 @@ jobs:
         uses: ./.github/actions/npm-install
         with:
           mode: lean
-        with:
-          mode: lean
-        with:
-          mode: lean
-        with:
-          mode: lean
 
       - name: Step
         uses: ./.github/actions/run-tests
@@ -302,12 +284,6 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         uses: ./.github/actions/npm-install
-        with:
-          mode: lean
-        with:
-          mode: lean
-        with:
-          mode: lean
         with:
           mode: lean
       - name: Validate (coverage config)
