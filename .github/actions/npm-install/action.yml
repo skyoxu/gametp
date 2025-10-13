@@ -73,51 +73,25 @@ runs:
           throw 'npm executable not found on PATH (required for npm ci)'
         }
 
-        function Invoke-NpmCiAttempt([int]$timeoutSec, [string]$extraArgs) {
-          $psi = New-Object System.Diagnostics.ProcessStartInfo
-          $psi.FileName = $npmExecutable
-          $psi.WorkingDirectory = (Get-Location).Path
-          # Allow postinstall scripts to run unless overridden
-          $psi.Arguments = "ci $extraArgs"
-          $psi.RedirectStandardOutput = $true
-          $psi.RedirectStandardError = $true
-          $psi.UseShellExecute = $false
-          $psi.CreateNoWindow = $true
-          $proc = New-Object System.Diagnostics.Process
-          $proc.StartInfo = $psi
-          [void]$proc.Start()
-          $start = Get-Date
-          $completed = $false
-          while (-not $proc.HasExited) {
-            Start-Sleep -Seconds 15
-            $elapsed = [int]((Get-Date) - $start).TotalSeconds
-            Write-Host ("[npm-install] still running... {0}s (timeout {1}s)" -f $elapsed, $timeoutSec)
-            if ($elapsed -ge $timeoutSec) {
-              Write-Warning "[npm-install] timeout reached; terminating npm ci"
-              try { Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue } catch {}
-              break
-            }
-          }
-          if ($proc.HasExited) { $completed = $true }
-          $out = $proc.StandardOutput.ReadToEnd()
-          $err = $proc.StandardError.ReadToEnd()
-          ($out + $err) | Out-File -FilePath npm_install.log -Append -Encoding UTF8
-          if (-not $completed) { return @{ Ok=$false; TimedOut=$true; Code=-1 } }
-          return @{ Ok = ($proc.ExitCode -eq 0); TimedOut=$false; Code=$proc.ExitCode }
+        function Invoke-NpmCiAttempt([string]$extraArgs) {
+          $global:LASTEXITCODE = 0
+          Write-Host ("[npm-install] running: npm ci {0}" -f $extraArgs)
+          npm ci $extraArgs 2>&1 | Tee-Object -FilePath npm_install.log -Append
+          return @{ Ok = ($LASTEXITCODE -eq 0); TimedOut=$false; Code=$LASTEXITCODE }
         }
 
         $attempts = @(
-          @{ Timeout=480; Args='' },
-          @{ Timeout=720; Args='--maxsockets=5' },
-          @{ Timeout=900; Args='--maxsockets=1' },
-          @{ Timeout=900; Args='' }
+          @{ Args='' },
+          @{ Args='--maxsockets=5' },
+          @{ Args='--maxsockets=1' },
+          @{ Args='' }
         )
 
         $success = $false
         for ($i=0; $i -lt $attempts.Count; $i++) {
           $a = $attempts[$i]
-          Write-Host ("Attempt {0} (timeout={1}s args='{2}')" -f ($i+1), $a.Timeout, $a.Args)
-          $res = Invoke-NpmCiAttempt -timeoutSec $a.Timeout -extraArgs $a.Args
+          Write-Host ("Attempt {0} (args='{1}')" -f ($i+1), $a.Args)
+          $res = Invoke-NpmCiAttempt -extraArgs $a.Args
           if ($res.Ok) { $success = $true; break } else {
             if ($i -lt ($attempts.Count-1)) {
               $sleep = 15 * ($i+1)
