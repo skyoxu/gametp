@@ -100,6 +100,8 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
 
       - name: Install jq tool
         shell: pwsh
@@ -288,6 +290,8 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
 
       - name: Build Electron application (Windows)
         run: |
@@ -375,6 +379,8 @@ jobs:
 
       - name: Install dev dependencies (for Playwright)
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
 
       - name: Install Playwright browsers
         run: npx playwright install
@@ -498,6 +504,8 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
 
       - name: Ensure logs directory exists
         run: |

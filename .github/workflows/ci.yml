@@ -92,6 +92,14 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
+        with:
+          mode: lean
+        with:
+          mode: lean
+        with:
+          mode: lean
 
       # Non-blocking ESLint pre-fix (Windows-only). Writes logs to logs/<date>/eslint/
       - name: ESLint pre-fix (non-blocking)
@@ -141,6 +149,14 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
+        with:
+          mode: lean
+        with:
+          mode: lean
+        with:
+          mode: lean
 
       # Non-blocking ESLint pre-fix (Windows-only). Writes logs to logs/<date>/eslint/
       - name: ESLint pre-fix (non-blocking)
@@ -238,6 +254,14 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
+        with:
+          mode: lean
+        with:
+          mode: lean
+        with:
+          mode: lean
 
       - name: Step
         uses: ./.github/actions/run-tests
@@ -278,6 +302,14 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
+        with:
+          mode: lean
+        with:
+          mode: lean
+        with:
+          mode: lean
       - name: Validate (coverage config)
         run: node scripts/ci/coverage-config.cjs --verify-only
       - name: Step
@@ -321,6 +353,8 @@ jobs:
           java-version: '17'
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
       - name: Run tests with coverage (lcov)
         if: ${{ env.SONAR_TOKEN != '' }}
         run: npm run test:coverage
@@ -384,6 +418,8 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
       - name: Build application (capture log)
         run: |
           $d = Get-Date -Format 'yyyy-MM-dd'
@@ -457,6 +493,8 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
       - name: Setup Playwright browsers cache
         uses: microsoft/playwright-github-action@v1
       - name: Check Sentry token
@@ -568,6 +606,8 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
 
       # Ensure Playwright browsers are available (Windows runners)
       - name: Setup Playwright browsers cache
@@ -678,6 +718,8 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
 
       - name: Validate
         id: observability
@@ -718,6 +760,8 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
 
       - name: Event loop latency benchmark
         run: node scripts/ci/run-event-loop-benchmark.mjs
@@ -741,6 +785,8 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
       - name: Run perf smoke and capture output
         env:
           START_TTI_WARN_MS: ${{ vars.START_TTI_WARN_MS || '2500' }}

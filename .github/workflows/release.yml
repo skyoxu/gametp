@@ -66,10 +66,20 @@ jobs:
           python-version: '3.x'
       - name: Install dependencies (with postinstall)
         uses: ./.github/actions/npm-install
+        with:
+          mode: full
         env:
           npm_config_omit: optional
       - name: Strip BOMs in config files
         run: node scripts/ci/fix-bom.cjs
+      # Apply Electron Fuses early against node_modules/electron/dist/electron.exe
+      # to ensure packaged binaries inherit production fuses. Only run on tags or
+      # manual production dispatches to avoid slowing down normal pushes.
+      - name: Apply Electron fuses (pre-package)
+        if: ${{ github.ref_type == 'tag' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production') }}
+        run: npm run security:fuses:prod
+        env:
+          NODE_ENV: production
       - name: Prepare release logs dir
         id: release_logs
         run: |
@@ -80,6 +90,7 @@ jobs:
       - name: Initialize template (ensure builder config)
         run: npm run init:template
       - name: Ensure rollup native package (win32-x64)
+        if: ${{ github.ref_type == 'tag' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production') }}
         shell: pwsh
         run: |
           Write-Host "Checking @rollup/rollup-win32-x64-msvc availability..."
@@ -98,6 +109,7 @@ jobs:
         env:
           NODE_ENV: ${{ needs.prepare.outputs.environment }}
       - name: Package (dir, unpacked)
+        if: ${{ github.ref_type == 'tag' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production') }}
         run: |
           $dir = "${{ steps.release_logs.outputs.dir }}"
           if (-not (Test-Path -LiteralPath $dir)) { New-Item -ItemType Directory -Force -Path $dir | Out-Null }
@@ -105,6 +117,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Package (installer NSIS)
+        if: ${{ github.ref_type == 'tag' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production') }}
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Continue'
@@ -183,8 +196,15 @@ jobs:
             Write-Host "Verifying $f"
             signtool.exe verify /pa /all "$f"
           }
-      - name: Apply Electron fuses (release)
-        run: npm run security:fuses:prod
+      # Fuses already applied pre-package when packaging is enabled.
+      # Keep a no-op summary when packaging is skipped for clarity.
+      - name: Packaging skipped summary
+        if: ${{ !(github.ref_type == 'tag' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')) }}
+        run: |
+          {
+            echo "## Packaging Skipped";
+            echo "No tag or production manual dispatch detected. Skipping Electron packaging and fuses.";
+          } >> $env:GITHUB_STEP_SUMMARY
       - name: Check Sentry credentials (optional)
         id: sentry_check
         run: node scripts/ci/sentry-verify.mjs
@@ -245,7 +265,7 @@ jobs:
           name: build-artifacts
           path: artifacts/build.zip
       - name: Upload packaged Electron artifacts
-        if: ${{ always() && (hashFiles('electron-dist/**') != '' || hashFiles('dist-electron/**') != '') }}
+        if: ${{ always() && (github.ref_type == 'tag' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')) && (hashFiles('electron-dist/**') != '' || hashFiles('dist-electron/**') != '') }}
         uses: actions/upload-artifact@v4
         with:
           name: dist-electron

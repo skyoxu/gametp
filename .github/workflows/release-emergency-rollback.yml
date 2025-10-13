@@ -81,6 +81,8 @@ jobs:
 
       - name: 'Install dependencies'
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
         env:
           NPM_CONFIG_PRODUCTION: 'true'
 

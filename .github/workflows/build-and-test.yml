@@ -44,6 +44,8 @@ jobs:
           cache: 'npm'
       - name: Install dependencies (hardened)
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
       - name: Setup Python 3.x (for pre-fix tools if needed)
         uses: actions/setup-python@v5
         with:
@@ -107,6 +109,8 @@ jobs:
           cache: 'npm'
       - name: Install dependencies (hardened)
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
       - name: Run postinstall patches (explicit)
         run: node scripts/ci/patch-tree-sitter.js
       - name: Setup Python 3.x (for pre-fix tools)
@@ -204,6 +208,8 @@ jobs:
       - name: Install deps (with postinstall)
         if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
       - name: Ensure rollup native package (win32-x64) present
         if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         shell: pwsh

@@ -77,6 +77,8 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
         # Must install devDependencies (scripts depend on js-yaml, etc.); do not prune for production
         env:
           NODE_ENV: development
