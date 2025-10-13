@@ -37,7 +37,7 @@ jobs:
     outputs:
       artifacts-available: ${{ steps.build-check.outputs.artifacts-available }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: 20
@@ -100,7 +100,7 @@ jobs:
       EVTBUS_1000_SUBS_MS: '2000'
       EVTBUS_100_PUBS_MS: '1000'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: 20
@@ -180,7 +180,7 @@ jobs:
       PERF_GATE_MODE: ${{ github.event_name == 'pull_request' && 'soft' || '' }}
       PERF_SAMPLE_COUNT: ${{ github.event_name == 'pull_request' && '10' || '20' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: 20

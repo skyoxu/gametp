@@ -40,7 +40,7 @@ jobs:
     outputs:
       environment: ${{ steps.env.outputs.environment }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - id: env
         run: node scripts/ci/detect-release-environment.mjs
         env:
@@ -55,7 +55,7 @@ jobs:
         shell: pwsh
     needs: prepare
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'
