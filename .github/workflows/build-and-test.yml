@@ -200,6 +200,18 @@ jobs:
       - name: Install deps (with postinstall)
         if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         uses: ./.github/actions/npm-install
+      - name: Ensure rollup native package (win32-x64) present
+        if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
+        shell: pwsh
+        run: |
+          Write-Host "Checking @rollup/rollup-win32-x64-msvc availability..."
+          node -e "require('@rollup/rollup-win32-x64-msvc')" 2>$null
+          if ($LASTEXITCODE -ne 0) {
+            Write-Warning "@rollup/rollup-win32-x64-msvc missing; installing no-save..."
+            npm install @rollup/rollup-win32-x64-msvc --no-save --no-audit --fund=false
+          } else {
+            Write-Host "rollup native package available."
+          }
       - name: Run postinstall patches (explicit)
         if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         run: node scripts/ci/patch-tree-sitter.js
