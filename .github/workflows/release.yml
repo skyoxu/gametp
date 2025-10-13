@@ -1,4 +1,4 @@
-name: Release Pipeline - Dev to CI to Prod (Simplified)
+﻿name: Release Pipeline - Dev to CI to Prod (Simplified)
 
 on:
   push:
@@ -68,7 +68,7 @@ jobs:
         uses: ./.github/actions/npm-install
         env:
           # Prefer skipping optional native deps to reduce flakiness; we'll ensure rollup native explicitly
-          NPM_CONFIG_OMIT: optional
+          npm_config_omit: optional
       - name: Strip BOMs in config files
         run: node scripts/ci/fix-bom.cjs
       - name: Ensure rollup native package (win32-x64)
@@ -256,3 +256,4 @@ jobs:
     needs: build
     steps:
       - run: Write-Output "Release build completed"
+
