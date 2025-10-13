@@ -60,6 +60,14 @@ runs:
         $env:NPM_CONFIG_AUDIT = 'false'
         $env:NPM_CONFIG_PROGRESS = 'false'
 
+        # Additional hardened npm configs to improve reliability on Windows CI
+        npm config set fund false --location=project | Out-Null
+        npm config set audit false --location=project | Out-Null
+        npm config set legacy-peer-deps true --location=project | Out-Null
+        npm config set fetch-retries 5 --location=project | Out-Null
+        npm config set fetch-retry-maxtimeout 600000 --location=project | Out-Null
+        npm config set fetch-retry-mintimeout 20000 --location=project | Out-Null
+
         $npmExecutable = (Get-Command npm -ErrorAction Stop).Source
         if (-not $npmExecutable) {
           throw 'npm executable not found on PATH (required for npm ci)'
@@ -108,9 +116,20 @@ runs:
         }
 
         if (-not $success) {
-          Write-Error "CRITICAL FAILURE: All Windows installation attempts failed!"
-          if (Test-Path npm_install.log) { Get-Content npm_install.log -Tail 80 | Write-Host }
-          exit 1
+          Write-Warning "npm ci failed after retries. Falling back to 'npm install'..."
+          try {
+            npm cache verify | Out-Null
+          } catch {}
+          $LASTEXITCODE = 0
+          npm install --no-audit --fund=false --prefer-offline 2>&1 | Tee-Object -FilePath npm_install.log -Append
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "CRITICAL FAILURE: npm install fallback failed (exit=$LASTEXITCODE)"
+            if (Test-Path npm_install.log) { Get-Content npm_install.log -Tail 120 | Write-Host }
+            exit 1
+          } else {
+            $success = $true
+            Write-Host "SUCCESS: npm install fallback completed"
+          }
         }
 
         Write-Host "SUCCESS: npm ci completed"
