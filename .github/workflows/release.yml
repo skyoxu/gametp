@@ -60,7 +60,12 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm ci
+      - name: Setup Python (for node-gyp)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install dependencies (omit optional)
+        run: npm ci --omit=optional
       - name: Strip BOMs in config files
         run: node scripts/ci/fix-bom.cjs
       - name: Prepare release logs dir
