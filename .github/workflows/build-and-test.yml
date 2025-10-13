@@ -191,7 +191,7 @@ jobs:
           python-version: '3.x'
       - name: Detect changes for E2E
         id: changes-e2e
-        uses: tj-actions/changed-files@v44
+        uses: tj-actions/changed-files@v47
         with:
           files: |
             src/**
