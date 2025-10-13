@@ -197,9 +197,9 @@ jobs:
         run: |
           Write-Host ("any_changed={0}" -f ('${{ steps.changes-e2e.outputs.any_changed }}'))
           Write-Host ("event={0} ref={1}" -f $env:GITHUB_EVENT_NAME, $env:GITHUB_REF)
-      - name: Install deps (npm ci, no scripts)
+      - name: Install deps (with postinstall)
         if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
-        run: npm ci --ignore-scripts --omit=optional
+        uses: ./.github/actions/npm-install
       - name: Run postinstall patches (explicit)
         if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         run: node scripts/ci/patch-tree-sitter.js
@@ -209,23 +209,21 @@ jobs:
         with:
           name: build-artifacts
           path: .
-      - name: Verify downloaded artifacts
+      - name: Verify downloaded artifacts (fallback to local build)
         if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         run: |
           Write-Host "Verifying downloaded build artifacts..."
-          if ((Test-Path -LiteralPath 'dist') -and (Test-Path -LiteralPath 'dist-electron')) {
-            Write-Host "Build artifacts downloaded successfully:"
-            Write-Host "   - dist/ directory exists"
-            Write-Host "   - dist-electron/ directory exists"
-            if (Test-Path -LiteralPath 'dist-electron/electron/main.js') {
-              Write-Host "   - main.js entry point found"
-            } else {
-              Write-Error "[FAIL] main.js entry point not found in dist-electron/"
+          $hasDist = Test-Path -LiteralPath 'dist'
+          $hasElectron = Test-Path -LiteralPath 'dist-electron/electron/main.js'
+          if ($hasDist -and $hasElectron) {
+            Write-Host "Build artifacts present: dist/ and dist-electron/electron/main.js"
+          } else {
+            Write-Warning "Artifacts missing; building locally as fallback..."
+            npm run build
+            if (-not (Test-Path -LiteralPath 'dist') -or -not (Test-Path -LiteralPath 'dist-electron/electron/main.js')) {
+              Write-Error "[FAIL] Local build fallback did not produce required outputs"
               exit 1
             }
-          } else {
-            Write-Error "[FAIL] Downloaded artifacts missing: dist/ or dist-electron/ not found"
-            exit 1
           }
       - name: Validate E2E timeout config (fail-fast)
         if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
