@@ -137,6 +137,19 @@ runs:
         if ($env:GITHUB_OUTPUT) { "install_duration_seconds=$dur" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8 }
         exit 0
 
+    - name: Ensure Rollup native package (win32-x64)
+      shell: pwsh
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        Write-Host "Checking @rollup/rollup-win32-x64-msvc availability..."
+        node -e "require('@rollup/rollup-win32-x64-msvc')" 2>$null
+        if ($LASTEXITCODE -ne 0) {
+          Write-Warning "@rollup/rollup-win32-x64-msvc missing; installing no-save..."
+          npm install @rollup/rollup-win32-x64-msvc --no-save --no-audit --fund=false
+        } else {
+          Write-Host "Rollup native package available."
+        }
+
 branding:
   icon: 'download'
   color: 'green'
