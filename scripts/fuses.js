@@ -26,6 +26,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
 
 const require = createRequire(import.meta.url)
 const { flipFuses, readFuses, FuseVersion } = require('@electron/fuses')
@@ -59,8 +60,12 @@ export const DEVELOPMENT_FUSES_CONFIG = {
 }
 
 export async function applyFusesConfig(isProduction = process.env.NODE_ENV === 'production') {
-  const root = path.join(path.dirname(new URL(import.meta.url).pathname), '..')
-  const candidates = [
+  const __filename = fileURLToPath(import.meta.url)
+  const __dirname = path.dirname(__filename)
+  const root = path.join(__dirname, '..')
+
+  // Preferred candidates (exact electron.exe)
+  const exactCandidates = [
     path.join(root, 'dist-electron', 'win-unpacked', 'electron.exe'),
     path.join(root, 'dist-electron', 'electron.exe'),
     path.join(root, 'electron-dist', 'win-unpacked', 'electron.exe'),
@@ -68,9 +73,25 @@ export async function applyFusesConfig(isProduction = process.env.NODE_ENV === '
     path.join(root, 'node_modules', 'electron', 'dist', 'electron.exe'),
   ]
 
-  const electronBinary = candidates.find(p => {
+  let electronBinary = exactCandidates.find(p => {
     try { return fs.existsSync(p) && fs.statSync(p).isFile() } catch { return false }
   })
+
+  // Fallback: search for any .exe in win-unpacked (electron-builder renames electron.exe to <ProductName>.exe)
+  if (!electronBinary) {
+    const fallbackDirs = [
+      path.join(root, 'electron-dist', 'win-unpacked'),
+      path.join(root, 'dist-electron', 'win-unpacked'),
+    ]
+    for (const dir of fallbackDirs) {
+      try {
+        if (fs.existsSync(dir) && fs.statSync(dir).isDirectory()) {
+          const exe = fs.readdirSync(dir).find(n => /\.exe$/i.test(n))
+          if (exe) { electronBinary = path.join(dir, exe); break }
+        }
+      } catch {}
+    }
+  }
 
   const config = isProduction ? PRODUCTION_FUSES_CONFIG : DEVELOPMENT_FUSES_CONFIG
   console.log(`Applying Electron Fuses for ${isProduction ? 'production' : 'development'}...`)
@@ -151,4 +172,3 @@ try {
     applyFusesConfig(isProd)
   }
 } catch {}
-
