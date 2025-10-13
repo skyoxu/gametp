@@ -1,0 +1,64 @@
+name: Fetch Run Logs (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_url:
+        description: 'Run URL (e.g., https://github.com/<owner>/<repo>/actions/runs/<id>)'
+        required: false
+        type: string
+      run_id:
+        description: 'Run ID (if run_url not provided)'
+        required: false
+        type: string
+      owner:
+        description: 'Owner (optional when run_url provided)'
+        required: false
+        type: string
+      repo:
+        description: 'Repo (optional when run_url provided)'
+        required: false
+        type: string
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  fetch:
+    name: Fetch Logs
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.x
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Fetch run logs (GITHUB_TOKEN)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          $args = @()
+          if ('${{ inputs.run_url }}' -ne '') { $args += '--run-url'; $args += '${{ inputs.run_url }}' }
+          if ('${{ inputs.run_id }}' -ne '') { $args += '--run-id'; $args += '${{ inputs.run_id }}' }
+          if ('${{ inputs.owner }}' -ne '') { $args += '--owner'; $args += '${{ inputs.owner }}' }
+          if ('${{ inputs.repo }}' -ne '') { $args += '--repo'; $args += '${{ inputs.repo }}' }
+          if ($args.Count -eq 0) { Write-Error 'Provide run_url or run_id'; exit 1 }
+          py -3 scripts/python/fetch_run_logs_with_token.py @args
+
+      - name: Upload fetched logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: fetched-run-logs
+          path: |
+            logs/*/gh-logs/**
+          if-no-files-found: error
+          retention-days: 7
+

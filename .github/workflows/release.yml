@@ -63,18 +63,28 @@ jobs:
       - run: npm ci
       - name: Strip BOMs in config files
         run: node scripts/ci/fix-bom.cjs
+      - name: Prepare release logs dir
+        id: release_logs
+        run: |
+          $d = Get-Date -Format 'yyyy-MM-dd'
+          $p = "logs/$d/release"
+          New-Item -ItemType Directory -Force -Path $p | Out-Null
+          "dir=$p" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
       - name: Initialize template (ensure builder config)
         run: npm run init:template
       - name: Build (renderer + electron)
-        run: npm run build
+        run: |
+          npm run build *>&1 | Tee-Object -FilePath "${{ steps.release_logs.outputs.dir }}/build.log"
         env:
           NODE_ENV: ${{ needs.prepare.outputs.environment }}
       - name: Package (dir, unpacked)
-        run: npm run build:win:dir
+        run: |
+          npm run build:win:dir *>&1 | Tee-Object -FilePath "${{ steps.release_logs.outputs.dir }}/package-dir.log"
       - name: Package (installer NSIS)
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Continue'
+          Start-Transcript -Path "${{ steps.release_logs.outputs.dir }}/nsis.log" -Append | Out-Null
           Write-Host "[release] Pre-installing NSIS to stabilize packaging..."
           try {
             choco install nsis -y --no-progress | Out-Host
@@ -104,6 +114,7 @@ jobs:
               exit $LASTEXITCODE
             }
           }
+          Stop-Transcript | Out-Null
 
       # Windows Signing (Azure Trusted Signing / Key Vault) - Placeholder (disabled by default)
       # Enable by setting SIGN_WINDOWS: true and provide the following secrets/envs:
@@ -195,17 +206,26 @@ jobs:
           name: sbom-runtime-cyclonedx
           path: sbom-runtime.json
           retention-days: 14
+      - name: Upload release logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-logs
+          path: |
+            ${{ steps.release_logs.outputs.dir }}/**
+          retention-days: 14
       - run: node scripts/ci/archive-build-artifacts.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: artifacts/build.zip
       - name: Upload packaged Electron artifacts
-        if: ${{ always() && hashFiles('dist-electron/**') != '' }}
+        if: ${{ always() && (hashFiles('electron-dist/**') != '' || hashFiles('dist-electron/**') != '') }}
         uses: actions/upload-artifact@v4
         with:
           name: dist-electron
           path: |
+            electron-dist/**
             dist-electron/**
           retention-days: 14
   summary:

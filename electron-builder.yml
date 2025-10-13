@@ -1,9 +1,9 @@
 appId: com.example.gametp
 productName: Game TP
 directories:
-  output: dist-electron
+  output: electron-dist
 files:
   - dist/**
-  - dist-electron/**
+  - dist-electron/electron/**
 win:
   target: nsis

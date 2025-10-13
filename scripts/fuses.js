@@ -47,6 +47,9 @@ async function applyFusesConfig(
     // Windows-only
     path.join(root, 'dist-electron', 'win-unpacked', 'electron.exe'),
     path.join(root, 'dist-electron', 'electron.exe'),
+    // Release packaging output (electron-builder.yml -> directories.output)
+    path.join(root, 'electron-dist', 'win-unpacked', 'electron.exe'),
+    path.join(root, 'electron-dist', 'electron.exe'),
     // Local dev binary
     path.join(root, 'node_modules', 'electron', 'dist', 'electron.exe'),
   ];
