@@ -77,7 +77,7 @@ runs:
           $psi = New-Object System.Diagnostics.ProcessStartInfo
           $psi.FileName = $npmExecutable
           $psi.WorkingDirectory = (Get-Location).Path
-          # Align with stable template (vitegame): allow postinstall scripts to run unless overridden
+          # Allow postinstall scripts to run unless overridden
           $psi.Arguments = "ci $extraArgs"
           $psi.RedirectStandardOutput = $true
           $psi.RedirectStandardError = $true
@@ -86,11 +86,23 @@ runs:
           $proc = New-Object System.Diagnostics.Process
           $proc.StartInfo = $psi
           [void]$proc.Start()
-          $completed = $proc.WaitForExit($timeoutSec * 1000)
+          $start = Get-Date
+          $completed = $false
+          while (-not $proc.HasExited) {
+            Start-Sleep -Seconds 15
+            $elapsed = [int]((Get-Date) - $start).TotalSeconds
+            Write-Host ("[npm-install] still running... {0}s (timeout {1}s)" -f $elapsed, $timeoutSec)
+            if ($elapsed -ge $timeoutSec) {
+              Write-Warning "[npm-install] timeout reached; terminating npm ci"
+              try { Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue } catch {}
+              break
+            }
+          }
+          if ($proc.HasExited) { $completed = $true }
           $out = $proc.StandardOutput.ReadToEnd()
           $err = $proc.StandardError.ReadToEnd()
           ($out + $err) | Out-File -FilePath npm_install.log -Append -Encoding UTF8
-          if (-not $completed) { try { Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue } catch {}; return @{ Ok=$false; TimedOut=$true; Code=-1 } }
+          if (-not $completed) { return @{ Ok=$false; TimedOut=$true; Code=-1 } }
           return @{ Ok = ($proc.ExitCode -eq 0); TimedOut=$false; Code=$proc.ExitCode }
         }
 
