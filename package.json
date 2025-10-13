@@ -5,7 +5,7 @@
   "author": "ViteGame Studio",
   "private": true,
   "version": "0.1.0",
-  "_trigger_ci": "Activate CI at 2025-10-13T23:58:00",
+  "_trigger_ci": "Activate CI at 2025-10-13T23:59:45",
   "type": "module",
   "main": "dist-electron/electron/main.js",
   "scripts": {
