@@ -44,6 +44,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          PYTHONIOENCODING: 'utf-8'
         run: |
           $args = @()
           if ('${{ inputs.run_url }}' -ne '') { $args += '--run-url'; $args += '${{ inputs.run_url }}' }
@@ -64,6 +65,8 @@ jobs:
 
       - name: Parse and summarize logs
         shell: pwsh
+        env:
+          PYTHONIOENCODING: 'utf-8'
         run: |
           $id = '${{ inputs.run_id }}'
           $url = '${{ inputs.run_url }}'

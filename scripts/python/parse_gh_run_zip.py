@@ -70,6 +70,18 @@ def write_summary(text: str):
         pass
 
 
+def safe_print(text: str):
+    """Print text safely on Windows consoles (cp1252) without crashing.
+    Replaces un-encodable characters with '?' and avoids UnicodeEncodeError.
+    """
+    enc = sys.stdout.encoding or "utf-8"
+    try:
+        sys.stdout.write(text + ("" if text.endswith("\n") else "\n"))
+    except UnicodeEncodeError:
+        safe = text.encode(enc, errors="replace").decode(enc, errors="replace")
+        sys.stdout.write(safe + ("" if text.endswith("\n") else "\n"))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--zip", dest="zip_path", default="")
@@ -84,39 +96,38 @@ def main():
 
     files, tails, errors = parse_zip(zpath)
     header = f"\n## Parsed run logs: {zpath.name}\n"
-    print(header)
+    safe_print(header)
     write_summary(header)
 
     # File list
     flines = ["### Files", *[f"- {n}" for n in files[:50]]]
-    print("\n".join(flines))
+    safe_print("\n".join(flines))
     write_summary("\n".join(flines))
 
     # Errors
     if errors:
         elines = ["\n### Error markers (last ~1000 lines per log)"]
         elines.extend([f"- {ln}" for ln in errors[:100]])
-        print("\n".join(elines))
+        safe_print("\n".join(elines))
         write_summary("\n".join(elines))
 
     # Tails
-    print("\n### Log tails (last 200 lines per *.txt)\n")
+    safe_print("\n### Log tails (last 200 lines per *.txt)\n")
     write_summary("\n### Log tails (last 200 lines per *.txt)\n")
     count = 0
     for name, tail_lines in tails.items():
         count += 1
         hdr = f"\n#### {name}\n"
-        print(hdr)
+        safe_print(hdr)
         write_summary(hdr)
         chunk = "\n".join(tail_lines)
         # Avoid flooding summary; still print to console for raw logs
-        print(chunk)
+        safe_print(chunk)
         # Summary truncation: only first 80 lines per file
         write_summary("\n".join(tail_lines[:80]))
 
-    print(f"\n[parse] Done. Files={len(files)}, txt={len(tails)}, errors~={len(errors)}")
+    safe_print(f"\n[parse] Done. Files={len(files)}, txt={len(tails)}, errors~={len(errors)}")
 
 
 if __name__ == "__main__":
     main()
-

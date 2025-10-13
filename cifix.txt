@@ -1,0 +1,118 @@
+Run $id = '18454625601'
+
+## Parsed run logs: run-18454625601.zip
+
+### Files
+- 0_e2e-perf-smoke.txt
+- e2e-perf-smoke/system.txt
+- 1_build-and-unit.txt
+- build-and-unit/system.txt
+- 2_build-artifacts.txt
+- build-artifacts/system.txt
+
+### Error markers (last ~1000 lines per log)
+- 0_e2e-perf-smoke.txt: 2025-10-13T04:03:24.7631869Z     Write-Error "[FAIL] main.js entry point not found in dist-electron/"
+- 0_e2e-perf-smoke.txt: 2025-10-13T04:03:24.7632864Z   Write-Error "[FAIL] Downloaded artifacts missing: dist/ or dist-electron/ not found"
+- 0_e2e-perf-smoke.txt: 2025-10-13T04:03:44.7567709Z Error: Cannot find module @rollup/rollup-win32-x64-msvc. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+- 0_e2e-perf-smoke.txt: 2025-10-13T04:03:44.7575079Z   [cause]: Error: Cannot find module '@rollup/rollup-win32-x64-msvc'
+- 0_e2e-perf-smoke.txt: 2025-10-13T04:03:44.7783124Z [launch] build failed before E2E launch
+- 0_e2e-perf-smoke.txt: 2025-10-13T04:03:44.8721763Z     Error: Command failed: npm run build
+- 0_e2e-perf-smoke.txt: 2025-10-13T04:03:44.8866442Z   1 failed
+- 0_e2e-perf-smoke.txt: 2025-10-13T04:03:44.8950015Z                       "status": "failed",
+- 0_e2e-perf-smoke.txt: 2025-10-13T04:03:44.8951290Z                         "message": "Error: Command failed: npm run build",
+- 0_e2e-perf-smoke.txt: 2025-10-13T04:03:44.8952240Z                         "stack": "Error: Command failed: npm run build\n    at buildApp (D:\\a\\gametp\\gametp\\tests\\helpers\\launch.ts:108:5)\n    at launchApp (D:\\a\\gametp\\gametp\\tests\\helpers\\launch.ts:134:3)\n    at D:\\a\\gametp\\gametp\\tests\\e2e\\smoke\\perf.spec.ts:48:26",
+- 0_e2e-perf-smoke.txt: 2025-10-13T04:03:44.8968671Z                           "message": "Error: Command failed: npm run build\n\n   at ..\\helpers\\launch.ts:108\n\n  106 |   try {\n  107 |     console.log('[launch] building application (npm run build)...');\n> 108 |     execSync('npm run build', {\n      |     ^\n  109 |       stdio: 'inherit',\n  110 |       env: {\n  111 |         ...process.env,\n    at buildApp (D:\\a\\gametp\\gametp\\tests\\helpers\\launch.ts:108:5)\n    at launchApp (D:\\a\\gametp\\gametp\\tests\\helpers\\launch.ts:134:3)\n    at D:\\a\\gametp\\gametp\\tests\\e2e\\smoke\\perf.spec.ts:48:26"
+- 0_e2e-perf-smoke.txt: 2025-10-13T04:03:44.9171213Z                           "text": "[launch] build failed before E2E launch\n"
+- 2_build-artifacts.txt: 2025-10-13T03:55:00.4281997Z       Write-Warning ("Attempt {0} failed (code={1}, timeout={2}). Sleeping {3}s before retry..." -f ($i+1), $res.Code, $res.TimedOut, $sleep)
+- 2_build-artifacts.txt: 2025-10-13T03:55:00.4283771Z   Write-Error "CRITICAL FAILURE: All Windows installation attempts failed!"
+- 2_build-artifacts.txt: 2025-10-13T03:55:00.4294648Z   Write-Error 'node_modules structure verification failed'
+- 2_build-artifacts.txt: 2025-10-13T03:56:54.1328927Z   Write-Error "[FAIL] Build artifacts missing: dist/ or dist-electron/ not found"
+
+### Log tails (last 200 lines per *.txt)
+
+
+#### 0_e2e-perf-smoke.txt
+
+2025-10-13T04:03:44.9195481Z       ]
+2025-10-13T04:03:44.9195622Z     }
+2025-10-13T04:03:44.9195761Z   ],
+2025-10-13T04:03:44.9195904Z   "errors": [],
+2025-10-13T04:03:44.9196067Z   "stats": {
+2025-10-13T04:03:44.9196264Z     "startTime": "2025-10-13T04:03:31.430Z",
+2025-10-13T04:03:44.9196516Z     "duration": 13454.240000000002,
+2025-10-13T04:03:44.9196731Z     "expected": 0,
+2025-10-13T04:03:44.9196910Z     "skipped": 1,
+2025-10-13T04:03:44.9197082Z     "unexpected": 1,
+2025-10-13T04:03:44.9197257Z     "flaky": 0
+2025-10-13T04:03:44.9197414Z   }
+2025-10-13T04:03:44.9197743Z }
+Error: Process completed with exit code 1.
+Run npm run collect:traces
+2025-10-13T04:03:45.6537843Z 
+2025-10-13T04:03:45.6538329Z > gametp@0.1.0 collect:traces
+2025-10-13T04:03:45.6538845Z > node scripts/ci/collect-playwright-traces.mjs
+2025-10-13T04:03:45.6539180Z 
+2025-10-13T04:03:45.7614225Z [trace-collect] No artifacts directory: test-results\artifacts
+Run actions/upload-artifact@v4
+2025-10-13T04:03:46.2027206Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2025-10-13T04:03:46.2032831Z The least common ancestor is D:\a\gametp\gametp\logs. This will be the root directory of the artifact
+Warning: No files were found with the provided path: logs/perf/
+logs/playwright-traces/. No artifacts will be uploaded.
+Run if (Test-Path -LiteralPath 'test-results/test-results.json') {
+Run npm run collect:traces
+2025-10-13T04:03:47.3815784Z 
+2025-10-13T04:03:47.3816481Z > gametp@0.1.0 collect:traces
+2025-10-13T04:03:47.3817095Z > node scripts/ci/collect-playwright-traces.mjs
+2025-10-13T04:03:47.3817741Z 
+2025-10-13T04:03:47.4751688Z [trace-collect] No artifacts directory: test-results\artifacts
+Run actions/upload-artifact@v4
+Warning: No files were found with the provided path: logs/playwright-traces/. No artifacts will be uploaded.
+Run actions/upload-artifact@v4
+2025-10-13T04:03:48.2422116Z With the provided path, there will be 1 file uploaded
+2025-10-13T04:03:48.2428659Z Artifact name is valid!
+2025-10-13T04:03:48.2433739Z Root directory input is valid!
+2025-10-13T04:03:48.4164673Z Beginning upload of artifact content to blob storage
+2025-10-13T04:03:48.5286605Z Uploaded bytes 2660
+2025-10-13T04:03:48.5600711Z Finished uploading artifact content to blob storage!
+2025-10-13T04:03:48.5604785Z SHA256 digest of uploaded artifact zip is 285e6db191dc1a470c39f275fd3fef6aa7577bd58f56d0009bbc3b6efca676fe
+2025-10-13T04:03:48.5606966Z Finalizing artifact upload
+2025-10-13T04:03:48.6488284Z Artifact playwright-results.zip successfully finalized. Artifact ID 4250889346
+2025-10-13T04:03:48.6489679Z Artifact playwright-results has been successfully uploaded! Final size is 2660 bytes. Artifact ID is 4250889346
+2025-10-13T04:03:48.6502847Z Artifact download URL: https://github.com/skyoxu/gametp/actions/runs/18454625601/artifacts/4250889346
+2025-10-13T04:03:48.6786124Z Post job cleanup.
+2025-10-13T04:03:48.9035712Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-10-13T04:03:48.9320073Z git version 2.51.0.windows.2
+2025-10-13T04:03:48.9390443Z Copying 'C:\Users\runneradmin\.gitconfig' to 'D:\a\_temp\1ecb9ce5-32cf-40fd-b743-68fdd5f79654\.gitconfig'
+2025-10-13T04:03:48.9412603Z Temporarily overriding HOME='D:\a\_temp\1ecb9ce5-32cf-40fd-b743-68fdd5f79654' before making global git config changes
+2025-10-13T04:03:48.9413464Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-13T04:03:48.9424326Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\gametp\gametp
+2025-10-13T04:03:48.9744899Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-10-13T04:03:49.0068307Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-10-13T04:03:49.5682348Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-13T04:03:49.5990422Z http.https://github.com/.extraheader
+2025-10-13T04:03:49.6044215Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+2025-10-13T04:03:49.6378415Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-10-13T04:03:50.1741953Z Cleaning up orphan processes
+
+#### e2e-perf-smoke/system.txt
+
+2025-10-13T04:00:55.2090000Z Requested labels: windows-latest
+2025-10-13T04:00:55.2090000Z Job defined at: skyoxu/gametp/.github/workflows/build-and-test.yml@refs/heads/main
+2025-10-13T04:00:55.2090000Z Waiting for a runner to pick up this job...
+2025-10-13T04:00:55.2180000Z Job is about to start running on the hosted runner: GitHub Actions 1000023763
+2025-10-13T04:00:55.2170000Z Job is waiting for a hosted runner to come online.
+
+#### 1_build-and-unit.txt
+
+Traceback (most recent call last):
+  File "D:\a\gametp\gametp\scripts\python\parse_gh_run_zip.py", line 121, in <module>
+    main()
+    ~~~~^^
+  File "D:\a\gametp\gametp\scripts\python\parse_gh_run_zip.py", line 113, in main
+    print(chunk)
+    ~~~~~^^^^^^^
+  File "C:\hostedtoolcache\windows\Python\3.13.7\x64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 66: character maps to <undefined>
+Error: Process completed with exit code 1.
