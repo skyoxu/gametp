@@ -3,7 +3,7 @@ name: Release Pipeline - Dev to CI to Prod (Simplified)
 on:
   push:
     branches: [main, release/*]
-    tags: ['v*']
+    tags: ['v*', 'ci-*']
   workflow_dispatch:
     inputs:
       environment:
