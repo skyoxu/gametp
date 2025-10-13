@@ -62,3 +62,11 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+      - name: Parse and summarize logs
+        shell: pwsh
+        run: |
+          $id = '${{ inputs.run_id }}'
+          $url = '${{ inputs.run_url }}'
+          if ($id -eq '' -and $url -ne '') { if ($url -match '/runs/(\d+)') { $id = $Matches[1] } }
+          if ($id -eq '') { Write-Warning 'No run_id to parse; skipping summary.'; exit 0 }
+          py -3 scripts/python/parse_gh_run_zip.py --run-id $id
