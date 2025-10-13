@@ -8,6 +8,8 @@ module.exports = {
     'subject-case': [0, 'always', []],
     // Increase allowed header length to accommodate detailed CI commit messages
     'header-max-length': [2, 'always', 160],
+    // Allow longer lines in body (CI logs / ADR refs often exceed 100 chars)
+    'body-max-line-length': [0, 'always'],
     'scope-enum': [
       2,
       'always',
@@ -29,6 +31,9 @@ module.exports = {
         'docs',
         'guide',
         'tests',
+        'test',
+        'e2e',
+        'npm-install',
         'security',
         'build',
         'deps',
