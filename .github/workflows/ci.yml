@@ -61,8 +61,8 @@ defaults:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  # Avoid cancelling in-progress PR runs (keeps long jobs stable)
-  cancel-in-progress: ${{ github.event_name == 'push' }}
+  # Keep runs stable: do not cancel in-progress runs on push (avoid Operation was canceled)
+  cancel-in-progress: false
 
 jobs:
   # ==================== Guardian Self-Check ====================
