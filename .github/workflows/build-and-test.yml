@@ -260,7 +260,7 @@ jobs:
         run: node scripts/ci/patch-tree-sitter.js
       - name: Download build artifacts
         if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: build-artifacts
           path: .
