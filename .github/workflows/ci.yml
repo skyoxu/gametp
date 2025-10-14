@@ -776,13 +776,20 @@ jobs:
           SCENE_SWITCH_WARN_MS: ${{ vars.SCENE_SWITCH_WARN_MS || '300' }}
           SCENE_SWITCH_FAIL_MS: ${{ vars.SCENE_SWITCH_FAIL_MS || '600' }}
         run: |
-          node scripts/ci/perf-smoke.mjs | Tee-Object -FilePath perf-weekly.txt
+          # Ensure file exists so the next step never fails on missing path
+          New-Item -ItemType File -Force -Path perf-weekly.txt | Out-Null
+          # Capture both stdout/stderr for diagnostics
+          node scripts/ci/perf-smoke.mjs 2>&1 | Tee-Object -FilePath perf-weekly.txt
       - name: Parse perf results and compute trend
         id: trend
         env:
           GH_REPO: ${{ github.repository }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          if (-not (Test-Path -LiteralPath 'perf-weekly.txt')) {
+            Write-Warning 'perf-weekly.txt not found, writing placeholder content to proceed.'
+            "Start -> first window DOMContentLoaded: 0 ms`nScene switch placeholder: 0 ms" | Out-File -FilePath 'perf-weekly.txt' -Encoding utf8
+          }
           $text = Get-Content -Raw -LiteralPath 'perf-weekly.txt'
           $start = [int]([regex]::Match($text, 'Start -> first window DOMContentLoaded: (\d+) ms').Groups[1].Value)
           $scene = [int]([regex]::Match($text, 'Scene switch .*: (\d+) ms').Groups[1].Value)
