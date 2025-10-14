@@ -109,6 +109,8 @@ jobs:
         uses: ./.github/actions/npm-install
         with:
           mode: lean
+        env:
+          npm_config_omit: dev
 
       - name: Install jq tool
         shell: pwsh
