@@ -107,6 +107,7 @@ jobs:
         if: runner.os == 'Windows'
         uses: ./.github/actions/eslint-prefx
         continue-on-error: true
+        continue-on-error: true
 
       - name: English comments + no-emoji scan (advisory)
         run: node scripts/ci/scan-comments-no-emoji.cjs
