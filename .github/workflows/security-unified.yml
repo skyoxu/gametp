@@ -308,6 +308,12 @@ jobs:
           Get-ChildItem "node_modules/@img/" -Filter "sharp-darwin-*" -Directory -ErrorAction SilentlyContinue | ForEach-Object { Remove-Item $_.FullName -Recurse -Force -ErrorAction SilentlyContinue }
           Get-ChildItem "node_modules/@img/" -Filter "sharp-linux-*" -Directory -ErrorAction SilentlyContinue | ForEach-Object { Remove-Item $_.FullName -Recurse -Force -ErrorAction SilentlyContinue }
 
+          # Extra hardening for CI: remove dev-only native modules if present to avoid electron-rebuild
+          if (Test-Path -LiteralPath 'node_modules/tree-sitter') {
+            Write-Host 'Removing dev-only native module: node_modules/tree-sitter'
+            Remove-Item -LiteralPath 'node_modules/tree-sitter' -Recurse -Force -ErrorAction SilentlyContinue
+          }
+
           # Build application
           npm run build
           npx tsc -p electron
