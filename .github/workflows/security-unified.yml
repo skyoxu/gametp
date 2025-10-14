@@ -313,6 +313,10 @@ jobs:
             Write-Host 'Removing dev-only native module: node_modules/tree-sitter'
             Remove-Item -LiteralPath 'node_modules/tree-sitter' -Recurse -Force -ErrorAction SilentlyContinue
           }
+          if (Test-Path -LiteralPath 'node_modules/@zilliz') {
+            Write-Host 'Removing problematic dependency namespace: node_modules/@zilliz (not required at runtime)'
+            Remove-Item -LiteralPath 'node_modules/@zilliz' -Recurse -Force -ErrorAction SilentlyContinue
+          }
 
           # Build application
           npm run build
