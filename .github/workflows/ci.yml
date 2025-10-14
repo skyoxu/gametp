@@ -315,9 +315,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-        with:
-          distribution: temurin
-          java-version: '17'
       - name: Install dependencies
         uses: ./.github/actions/npm-install
       - name: Run tests with coverage (lcov)
