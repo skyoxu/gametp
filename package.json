@@ -5,7 +5,7 @@
   "author": "ViteGame Studio",
   "private": true,
   "version": "0.1.0",
-  "_trigger_ci": "Activate CI at 2025-10-14T00:22:45",
+  "_trigger_ci": "Activate Security Gate at 2025-10-14T00:38:10",
   "type": "module",
   "main": "dist-electron/electron/main.js",
   "scripts": {
