@@ -1,8 +1,6 @@
 module.exports = {
   // Ignore specific legacy multi-scope header used during template bootstrap
-  ignores: [
-    (msg) => /;\s*ci\(/i.test(msg),
-  ],
+  ignores: [msg => /;\s*ci\(/i.test(msg)],
   extends: ['@commitlint/config-conventional'],
   rules: {
     'subject-case': [0, 'always', []],

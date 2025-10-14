@@ -13,11 +13,10 @@
  * @returns boolean true if allowed, otherwise false
  */
 export function _isAllowedNavigation(url: string): boolean {
-  const allowedProtocols = ['app://', 'file://']
-  const allowedDomains = ['localhost', '127.0.0.1']
+  const allowedProtocols = ['app://', 'file://'];
+  const allowedDomains = ['localhost', '127.0.0.1'];
   return (
-    allowedProtocols.some((p) => url.startsWith(p)) ||
-    allowedDomains.some((d) => url.includes(d))
-  )
+    allowedProtocols.some(p => url.startsWith(p)) ||
+    allowedDomains.some(d => url.includes(d))
+  );
 }
-
