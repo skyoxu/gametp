@@ -313,6 +313,9 @@ jobs:
       - name: Setup Java (for SonarScanner)
         uses: actions/setup-java@v4
         with:
+          distribution: 'temurin'
+          java-version: '17'
+        with:
           distribution: temurin
           java-version: '17'
       - name: Install dependencies
