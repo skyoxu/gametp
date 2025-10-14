@@ -5,7 +5,7 @@
   "author": "ViteGame Studio",
   "private": true,
   "version": "0.1.0",
-  "_trigger_ci": "Activate Security Gate at 2025-10-14T00:51:30",
+  "_trigger_ci": "Activate all workflows at 2025-10-14T01:03:40",
   "type": "module",
   "main": "dist-electron/electron/main.js",
   "scripts": {
