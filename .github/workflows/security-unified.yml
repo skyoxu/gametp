@@ -318,6 +318,9 @@ jobs:
             Remove-Item -LiteralPath 'node_modules/@zilliz' -Recurse -Force -ErrorAction SilentlyContinue
           }
 
+          # Adjust package.json dependencies for packaging-only (CI); revert not needed in ephemeral runner
+          node scripts/ci/prune-pack-deps.mjs
+
           # Build application
           npm run build
           npx tsc -p electron
