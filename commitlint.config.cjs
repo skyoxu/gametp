@@ -25,6 +25,7 @@ module.exports = {
         'validate-workflows',
         'build-and-test',
         'prefx',
+        'lint-prefx',
         'ci',
         'encoding',
         'concurrency',
