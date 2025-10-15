@@ -72,7 +72,7 @@ jobs:
     defaults:
       run:
         shell: pwsh
-    timeout-minutes: 5
+    timeout-minutes: 10
     # P0: ensure devDependencies installed for job
     env:
       NODE_ENV: development
@@ -104,7 +104,7 @@ jobs:
       # Non-blocking ESLint pre-fix (Windows-only). Writes logs to logs/<date>/eslint/
       - name: ESLint pre-fix (non-blocking)
         id: eslint_prefx
-        if: runner.os == 'Windows'
+        if: runner.os == 'Windows' && github.event_name != 'pull_request'
         uses: ./.github/actions/eslint-prefx
         env:
           CI_PREFX_TIMEOUT_SEC: '60'
