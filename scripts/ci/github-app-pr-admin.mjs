@@ -29,7 +29,7 @@ const pem=fs.readFileSync(keyFile,'utf8'); const jwt=signJwt(appId,pem);
 const inst=await req('GET','https://api.github.com/app/installations',{Authorization:`Bearer ${jwt}`});
 const i = Array.isArray(inst)? inst.find(x=>x.account?.login?.toLowerCase()===owner.toLowerCase())||inst[0]:null;
 if(!i){ console.error('[ERR] no installation'); process.exit(1)}
-const tok=await req('POST',`https://api.github.com/app/installations/${i.id}/access_tokens`,{Authorization:`Bearer ${jwt}`},{repositories:[repo],permissions:{pull_requests:'write',contents:'write',administration:'write'}});
+const tok=await req('POST',`https://api.github.com/app/installations/${i.id}/access_tokens`,{Authorization:`Bearer ${jwt}`},{repositories:[repo],permissions:{pull_requests:'write',contents:'write'}});
 const token=tok.token;
 
 if(p.close){
@@ -44,4 +44,3 @@ if(p['delete-branch']){
     console.log(`[OK] deleted branch ${br}`)
   }catch(e){ console.error('[WARN] delete branch failed', e.statusCode||'', e.body||'') }
 }
-
