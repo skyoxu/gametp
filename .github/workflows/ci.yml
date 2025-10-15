@@ -98,6 +98,8 @@ jobs:
         id: eslint_prefx
         if: runner.os == 'Windows'
         uses: ./.github/actions/eslint-prefx
+        env:
+          CI_PREFX_TIMEOUT_SEC: '60'
         continue-on-error: true
 
       - name: English comments + no-emoji scan (advisory)
