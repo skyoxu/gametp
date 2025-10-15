@@ -343,8 +343,6 @@ jobs:
         env:
           SONAR_HOST_URL: https://sonarcloud.io
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          timeout-minutes: 10
       - name: Sonar summary
         if: always()
         run: |
