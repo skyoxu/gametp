@@ -1,5 +1,5 @@
 name: 'Windows-Focused npm Install'
-description: 'Optimized npm installation for Windows-based CI/CD systems'
+description: 'Optimized npm installation for Windows-based CI/CD systems (lean/full modes with logs)'
 author: 'CI/CD Team'
 
 inputs:
@@ -11,9 +11,18 @@ inputs:
     description: 'Node.js version'
     required: false
     default: '20.x'
+  mode:
+    description: 'Install mode: lean or full'
+    required: false
+    default: ''
 
-# Outputs removed to avoid referencing non-existent step IDs
-# Use npm --version and node --version if version info is needed
+outputs:
+  logs-dir:
+    description: 'Logs directory for this run'
+    value: ${{ steps.meta.outputs.logs-dir }}
+  mode:
+    description: 'Resolved install mode'
+    value: ${{ steps.meta.outputs.mode }}
 
 runs:
   using: 'composite'
@@ -34,125 +43,112 @@ runs:
         Write-Host ("Node.js version: {0}" -f (node --version))
         Write-Host ("npm version: {0}" -f (npm --version))
 
-    - name: Validate environment variables
+    - name: Compute logs dir and mode
+      id: meta
       shell: pwsh
       working-directory: ${{ inputs.working-directory }}
       run: |
-        Write-Host "Validating critical environment variables..."
-        Write-Host ("NODE_ENV: {0}" -f ($env:NODE_ENV ?? 'not set'))
-        Write-Host ("NPM_CONFIG_PRODUCTION: {0}" -f ($env:NPM_CONFIG_PRODUCTION ?? 'not set'))
-        if ($env:NODE_ENV -ne 'development' -or $env:NPM_CONFIG_PRODUCTION -ne 'false') {
-          Write-Warning "Environment vars may prevent devDependencies installation. Recommended: NODE_ENV=development, NPM_CONFIG_PRODUCTION=false"
-        }
+        $d = Get-Date -Format 'yyyy-MM-dd'
+        $logs = "logs/$d/npm-install"
+        New-Item -ItemType Directory -Force -Path $logs | Out-Null
+        "logs-dir=$logs" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+        # Decide mode: explicit input > tag/production dispatch > lean
+        $modeIn = '${{ inputs.mode }}'
+        $isTag = ($env:GITHUB_REF_TYPE -eq 'tag')
+        $isProdDispatch = ($env:GITHUB_EVENT_NAME -eq 'workflow_dispatch' -and $env:INPUT_ENVIRONMENT -eq 'production')
+        $mode = if ($modeIn -ne '') { $modeIn } elseif ($isTag -or $isProdDispatch) { 'full' } else { 'lean' }
+        "mode=$mode" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+        Write-Host ("[npm-install] logs: {0} | mode: {1}" -f $logs, $mode)
 
-    - name: Hardened npm install with ESM support
+    - name: Install (lean/full with retries)
       shell: pwsh
       working-directory: ${{ inputs.working-directory }}
       run: |
-        Write-Host "Starting Windows-focused npm installation..."
-        Write-Host ("Runner: {0}" -f $env:RUNNER_OS)
-        Write-Host "Current npm configuration (subset):"
-        try { npm config list | Select-String -Pattern 'fetch-retries|registry|fund|audit' -SimpleMatch | ForEach-Object { $_.Line } } catch {}
-
-        # ESM-friendly npm environment variables
+        $mode = '${{ steps.meta.outputs.mode }}'
+        $logs = '${{ steps.meta.outputs.logs-dir }}'
+        $logFile = Join-Path $logs 'npm_install.log'
+        Write-Host ("Starting npm install (mode={0})..." -f $mode)
+        # Baseline npm environment
         $env:NPM_CONFIG_MAXSOCKETS = '8'
         $env:NPM_CONFIG_FUND = 'false'
         $env:NPM_CONFIG_AUDIT = 'false'
         $env:NPM_CONFIG_PROGRESS = 'false'
+        npm config set fund false --location=project | Out-Null
+        npm config set audit false --location=project | Out-Null
+        npm config set legacy-peer-deps true --location=project | Out-Null
+        npm config set fetch-retries 5 --location=project | Out-Null
+        npm config set fetch-retry-maxtimeout 600000 --location=project | Out-Null
+        npm config set fetch-retry-mintimeout 20000 --location=project | Out-Null
 
-        $npmExecutable = (Get-Command npm -ErrorAction Stop).Source
-        if (-not $npmExecutable) {
-          throw 'npm executable not found on PATH (required for npm ci)'
+        $npmPath = (Get-Command npm -ErrorAction Stop).Source
+        function Invoke-Npm([string[]]$argv) {
+          $global:LASTEXITCODE = 0
+          Write-Host ("[npm-install] running: npm {0}" -f ($argv -join ' '))
+          & $npmPath @argv 2>&1 | Tee-Object -FilePath $logFile -Append | Out-Host
+          if ($null -eq $LASTEXITCODE) { return 0 }
+          return [int]$LASTEXITCODE
         }
 
-        function Invoke-NpmCiAttempt([int]$timeoutSec, [string]$extraArgs) {
-          $psi = New-Object System.Diagnostics.ProcessStartInfo
-          $psi.FileName = $npmExecutable
-          $psi.WorkingDirectory = (Get-Location).Path
-          # Align with stable template (vitegame): allow postinstall scripts to run unless overridden
-          $psi.Arguments = "ci $extraArgs"
-          $psi.RedirectStandardOutput = $true
-          $psi.RedirectStandardError = $true
-          $psi.UseShellExecute = $false
-          $psi.CreateNoWindow = $true
-          $proc = New-Object System.Diagnostics.Process
-          $proc.StartInfo = $psi
-          [void]$proc.Start()
-          $completed = $proc.WaitForExit($timeoutSec * 1000)
-          $out = $proc.StandardOutput.ReadToEnd()
-          $err = $proc.StandardError.ReadToEnd()
-          ($out + $err) | Out-File -FilePath npm_install.log -Append -Encoding UTF8
-          if (-not $completed) { try { Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue } catch {}; return @{ Ok=$false; TimedOut=$true; Code=-1 } }
-          return @{ Ok = ($proc.ExitCode -eq 0); TimedOut=$false; Code=$proc.ExitCode }
-        }
-
-        $attempts = @(
-          @{ Timeout=480; Args='' },
-          @{ Timeout=720; Args='--maxsockets=5' },
-          @{ Timeout=900; Args='--maxsockets=1' },
-          @{ Timeout=900; Args='' }
-        )
-
+        $attempts = @('', '--maxsockets=5', '--maxsockets=1', '')
         $success = $false
-        for ($i=0; $i -lt $attempts.Count; $i++) {
-          $a = $attempts[$i]
-          Write-Host ("Attempt {0} (timeout={1}s args='{2}')" -f ($i+1), $a.Timeout, $a.Args)
-          $res = Invoke-NpmCiAttempt -timeoutSec $a.Timeout -extraArgs $a.Args
-          if ($res.Ok) { $success = $true; break } else {
+        $start = Get-Date
+
+        if ($mode -eq 'full') {
+          for ($i=0; $i -lt $attempts.Count; $i++) {
+            $arg = $attempts[$i]
+            $common = @('ci')
+            if ($arg) { $common = $common + @($arg) }
+            $code = Invoke-Npm $common
+            if ($code -eq 0) { $success = $true; break }
             if ($i -lt ($attempts.Count-1)) {
               $sleep = 15 * ($i+1)
-              Write-Warning ("Attempt {0} failed (code={1}, timeout={2}). Sleeping {3}s before retry..." -f ($i+1), $res.Code, $res.TimedOut, $sleep)
+              Write-Warning ("Attempt {0} failed (code={1}). Sleeping {2}s..." -f ($i+1), $code, $sleep)
               Start-Sleep -Seconds $sleep
             }
           }
-        }
-
-        if (-not $success) {
-          Write-Error "CRITICAL FAILURE: All Windows installation attempts failed!"
-          if (Test-Path npm_install.log) { Get-Content npm_install.log -Tail 80 | Write-Host }
-          exit 1
-        }
-
-        Write-Host "SUCCESS: npm ci completed"
-
-        # Verification
-        $verificationErrors = 0
-        $tools = @('eslint','tsc','vitest','playwright','tsx')
-        foreach ($t in $tools) {
-          $binPath = Join-Path 'node_modules/.bin' $t
-          $binCmdPath = Join-Path 'node_modules/.bin' ("{0}.cmd" -f $t)
-          $hasTool = Test-Path $binPath
-          if (-not $hasTool) {
-            $hasTool = Test-Path $binCmdPath
+          if (-not $success) {
+            Write-Warning "npm ci failed after retries. Falling back to 'npm install' (full)..."
+            $code = Invoke-Npm @('install','--no-audit','--fund=false','--prefer-offline')
+            if ($code -ne 0) { Write-Error "npm install fallback failed (exit=$code)"; exit $code } else { $success = $true }
           }
-          if ($hasTool) {
-            Write-Host ("SUCCESS: {0} available in node_modules/.bin" -f $t)
-          } elseif ((npm list $t | Out-Null) -ne $true) {
-            Write-Warning ("{0} not detected in node_modules" -f $t)
-            $verificationErrors++
-          }
-        }
-
-        Write-Host "Verifying Rollup native platform package for Windows..."
-        node -e "require('@rollup/rollup-win32-x64-msvc')" 2>$null
-        if ($LASTEXITCODE -eq 0) { Write-Host "SUCCESS: rollup native ok" } else { Write-Warning "rollup native package not found (non-critical)" }
-
-        $hasNodeModules = Test-Path 'node_modules'
-        $hasNodeModulesBin = Test-Path 'node_modules/.bin'
-        if ($hasNodeModules -and $hasNodeModulesBin) {
-          $pkgCount = (Get-ChildItem 'node_modules' -Directory | Measure-Object).Count
-          Write-Host ("SUCCESS: node_modules verification passed ({0} top-level packages)" -f $pkgCount)
         } else {
-          Write-Error 'node_modules structure verification failed'
-          $verificationErrors++
+          # lean mode: ignore-scripts and omit optional to avoid heavy postinstalls
+          for ($i=0; $i -lt $attempts.Count; $i++) {
+            $arg = $attempts[$i]
+            $common = @('ci','--ignore-scripts','--omit=optional')
+            if ($arg) { $common = $common + @($arg) }
+            $code = Invoke-Npm $common
+            if ($code -eq 0) { $success = $true; break }
+            if ($i -lt ($attempts.Count-1)) {
+              $sleep = 15 * ($i+1)
+              Write-Warning ("Attempt {0} failed (code={1}). Sleeping {2}s..." -f ($i+1), $code, $sleep)
+              Start-Sleep -Seconds $sleep
+            }
+          }
+          if (-not $success) {
+            Write-Warning "npm ci (lean) failed. Falling back to 'npm install --ignore-scripts --omit=optional'..."
+            $code = Invoke-Npm @('install','--ignore-scripts','--omit=optional','--no-audit','--fund=false','--prefer-offline')
+            if ($code -ne 0) { Write-Error "npm install fallback (lean) failed (exit=$code)"; exit $code } else { $success = $true }
+          }
         }
 
-        try {
-          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
-          if ($pkg.type -eq 'module') { Write-Host 'SUCCESS: ESM module system verification passed' }
-        } catch {}
+        $dur = [int]((Get-Date) - $start).TotalSeconds
+        Write-Host ("SUCCESS: npm install completed (mode={0}) in {1}s" -f $mode, $dur)
+        if ($env:GITHUB_OUTPUT) { "install_duration_seconds=$dur" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8 }
+        exit 0
 
-        if ($verificationErrors -gt 0) { Write-Warning ("Found {0} verification issues (non-blocking)" -f $verificationErrors) }
+    - name: Ensure Rollup native package (win32-x64)
+      shell: pwsh
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        Write-Host "Checking @rollup/rollup-win32-x64-msvc availability..."
+        node -e "require('@rollup/rollup-win32-x64-msvc')" 2>$null
+        if ($LASTEXITCODE -ne 0) {
+          Write-Warning "@rollup/rollup-win32-x64-msvc missing; installing no-save..."
+          npm install @rollup/rollup-win32-x64-msvc --no-save --no-audit --fund=false
+        } else {
+          Write-Host "Rollup native package available."
+        }
 
 branding:
   icon: 'download'

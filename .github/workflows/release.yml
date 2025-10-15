@@ -3,7 +3,7 @@ name: Release Pipeline - Dev to CI to Prod (Simplified)
 on:
   push:
     branches: [main, release/*]
-    tags: ['v*']
+    tags: ['v*', 'ci-*']
   workflow_dispatch:
     inputs:
       environment:
@@ -40,7 +40,7 @@ jobs:
     outputs:
       environment: ${{ steps.env.outputs.environment }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - id: env
         run: node scripts/ci/detect-release-environment.mjs
         env:
@@ -55,26 +55,72 @@ jobs:
         shell: pwsh
     needs: prepare
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm ci
+      - name: Setup Python (for node-gyp)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install dependencies (with postinstall)
+        uses: ./.github/actions/npm-install
+        with:
+          mode: full
       - name: Strip BOMs in config files
         run: node scripts/ci/fix-bom.cjs
+      # Apply Electron Fuses early against node_modules/electron/dist/electron.exe
+      # to ensure packaged binaries inherit production fuses. Only run on tags or
+      # manual production dispatches to avoid slowing down normal pushes.
+      - name: Apply Electron fuses (pre-package)
+        if: ${{ github.ref_type == 'tag' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production') }}
+        run: npm run security:fuses:prod
+        env:
+          NODE_ENV: production
+      - name: Prepare release logs dir
+        id: release_logs
+        run: |
+          $d = Get-Date -Format 'yyyy-MM-dd'
+          $p = "logs/$d/release"
+          New-Item -ItemType Directory -Force -Path $p | Out-Null
+          "dir=$p" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
       - name: Initialize template (ensure builder config)
         run: npm run init:template
+      - name: Ensure rollup native package (win32-x64)
+        shell: pwsh
+        run: |
+          Write-Host "Checking @rollup/rollup-win32-x64-msvc availability..."
+          node -e "require('@rollup/rollup-win32-x64-msvc')" 2>$null
+          if ($LASTEXITCODE -ne 0) {
+            Write-Warning "@rollup/rollup-win32-x64-msvc missing; installing no-save..."
+            npm install @rollup/rollup-win32-x64-msvc --no-save --no-audit --fund=false
+          } else {
+            Write-Host "rollup native package available."
+          }
       - name: Build (renderer + electron)
-        run: npm run build
+        run: |
+          $dir = "${{ steps.release_logs.outputs.dir }}"
+          if (-not (Test-Path -LiteralPath $dir)) { New-Item -ItemType Directory -Force -Path $dir | Out-Null }
+          npm run build *>&1 | Tee-Object -FilePath (Join-Path $dir 'build.log')
         env:
           NODE_ENV: ${{ needs.prepare.outputs.environment }}
       - name: Package (dir, unpacked)
-        run: npm run build:win:dir
+        if: ${{ github.ref_type == 'tag' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production') }}
+        run: |
+          $dir = "${{ steps.release_logs.outputs.dir }}"
+          if (-not (Test-Path -LiteralPath $dir)) { New-Item -ItemType Directory -Force -Path $dir | Out-Null }
+          npm run build:win:dir *>&1 | Tee-Object -FilePath (Join-Path $dir 'package-dir.log')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Package (installer NSIS)
+        if: ${{ github.ref_type == 'tag' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production') }}
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Continue'
+          $dir = "${{ steps.release_logs.outputs.dir }}"
+          if (-not (Test-Path -LiteralPath $dir)) { New-Item -ItemType Directory -Force -Path $dir | Out-Null }
+          Start-Transcript -Path (Join-Path $dir 'nsis.log') -Append | Out-Null
           Write-Host "[release] Pre-installing NSIS to stabilize packaging..."
           try {
             choco install nsis -y --no-progress | Out-Host
@@ -104,10 +150,11 @@ jobs:
               exit $LASTEXITCODE
             }
           }
+          Stop-Transcript | Out-Null
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Windows Signing (Azure Trusted Signing / Key Vault) - Placeholder (disabled by default)
-      # Enable by setting SIGN_WINDOWS: true and provide the following secrets/envs:
-      #   AZURE_KV_VAULT_URL, AZURE_KV_TENANT_ID, AZURE_KV_CLIENT_ID, AZURE_KV_CLIENT_SECRET, AZURE_KV_CERT_NAME
       - name: Install AzureSignTool (if signing enabled)
         if: ${{ env.SIGN_WINDOWS == 'true' }}
         run: dotnet tool update --global AzureSignTool
@@ -146,8 +193,15 @@ jobs:
             Write-Host "Verifying $f"
             signtool.exe verify /pa /all "$f"
           }
-      - name: Apply Electron fuses (release)
-        run: npm run security:fuses:prod
+      # Fuses already applied pre-package when packaging is enabled.
+      # Keep a no-op summary when packaging is skipped for clarity.
+      - name: Packaging skipped summary
+        if: ${{ !(github.ref_type == 'tag' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')) }}
+        run: |
+          {
+            echo "## Packaging Skipped";
+            echo "No tag or production manual dispatch detected. Skipping Electron packaging and fuses.";
+          } >> $env:GITHUB_STEP_SUMMARY
       - name: Check Sentry credentials (optional)
         id: sentry_check
         run: node scripts/ci/sentry-verify.mjs
@@ -176,10 +230,13 @@ jobs:
           echo "Sentry release: $REL"
           node_modules/.bin/sentry-cli releases new "$REL"
           node_modules/.bin/sentry-cli releases set-commits "$REL" --auto
-          # Upload renderer sourcemaps from Vite build output
           node_modules/.bin/sentry-cli sourcemaps upload --org "$env:SENTRY_ORG" --project "$env:SENTRY_PROJECT" --release "$REL" --rewrite --url-prefix "~/" dist
           node_modules/.bin/sentry-cli releases finalize "$REL"
       - name: Generate CycloneDX SBOM (full)
+        # On Windows, dev-only native/mac tools (e.g., dmg-license) can make `npm ls` return ELSPROBLEMS.
+        # Use production tree to stabilize and still provide a valid SBOM artifact.
+        env:
+          npm_config_omit: dev
         run: npx --yes @cyclonedx/cyclonedx-npm --output-file sbom.json --spec-version 1.5
       - name: Upload SBOM (CycloneDX)
         uses: actions/upload-artifact@v4
@@ -195,19 +252,29 @@ jobs:
           name: sbom-runtime-cyclonedx
           path: sbom-runtime.json
           retention-days: 14
+      - name: Upload release logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-logs
+          path: |
+            ${{ steps.release_logs.outputs.dir }}/**
+          retention-days: 14
       - run: node scripts/ci/archive-build-artifacts.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: artifacts/build.zip
       - name: Upload packaged Electron artifacts
-        if: ${{ always() && hashFiles('dist-electron/**') != '' }}
+        if: ${{ always() && (github.ref_type == 'tag' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')) && (hashFiles('electron-dist/**') != '' || hashFiles('dist-electron/**') != '') }}
         uses: actions/upload-artifact@v4
         with:
           name: dist-electron
           path: |
+            electron-dist/**
             dist-electron/**
           retention-days: 14
+
   summary:
     name: Summary
     runs-on: windows-latest

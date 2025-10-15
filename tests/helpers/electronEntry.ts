@@ -3,14 +3,29 @@ import { existsSync } from 'node:fs';
 
 /**
  * Returns the Electron main process entry path (absolute path).
- * Prioritizes environment variable ELECTRON_MAIN_PATH; otherwise falls back to dist-electron/electron/main.js.
+ * Priority order:
+ * 1) ELECTRON_MAIN_PATH if set AND exists
+ * 2) dist-electron/electron/main.js
+ * 3) dist-electron/main.js
+ * 4) electron/main.js
  */
 export function getElectronEntry(): string {
+  const cwd = process.cwd();
   const hinted = process.env.ELECTRON_MAIN_PATH;
+  const candidates: string[] = [];
   if (hinted && hinted.trim().length > 0) {
-    return resolve(process.cwd(), hinted);
+    candidates.push(resolve(cwd, hinted));
   }
-  return resolve(process.cwd(), 'dist-electron', 'electron', 'main.js');
+  candidates.push(
+    resolve(cwd, 'dist-electron', 'electron', 'main.js'),
+    resolve(cwd, 'dist-electron', 'main.js'),
+    resolve(cwd, 'electron', 'main.js')
+  );
+  for (const p of candidates) {
+    if (existsSync(p)) return p;
+  }
+  // Return first candidate for helpful error context
+  return candidates[0] || resolve(cwd, 'dist-electron', 'electron', 'main.js');
 }
 
 /**
@@ -25,3 +40,4 @@ export function assertElectronEntry(): string {
   }
   return entry;
 }
+

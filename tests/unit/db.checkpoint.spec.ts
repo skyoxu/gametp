@@ -113,9 +113,26 @@ async function createTestWALDatabase(dbPath: string) {
 /**
  *
  */
-function cleanupTestFiles() {
-  if (fs.existsSync(TEST_DATA_DIR)) {
-    fs.rmSync(TEST_DATA_DIR, { recursive: true, force: true });
+function cleanupTestFiles(maxRetries = 8) {
+  if (!fs.existsSync(TEST_DATA_DIR)) return;
+  let attempt = 0;
+  // Windows may keep handles open briefly; retry with backoff on EBUSY/EPERM
+  while (attempt <= maxRetries) {
+    try {
+      fs.rmSync(TEST_DATA_DIR, { recursive: true, force: true });
+      return;
+    } catch (err: unknown) {
+      const code = (err as any)?.code || '';
+      if (code === 'EBUSY' || code === 'EPERM' || code === 'ENOENT') {
+        // Backoff and retry
+        const waitMs = Math.min(50 * Math.pow(2, attempt), 1000);
+        Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, waitMs);
+        attempt++;
+        continue;
+      }
+      // Other errors: rethrow to surface real issues
+      throw err;
+    }
   }
 }
 

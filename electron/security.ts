@@ -8,6 +8,7 @@
  * 3. CSP and headers: Content Security Policy + COOP/COEP/Permissions Policy
  */
 import { BrowserWindow, session, app, shell } from 'electron';
+import { _isAllowedNavigation } from './security-helpers';
 // See ADR-0002 for policy details
 function assertBrowserWindow(win: unknown): asserts win is BrowserWindow {
   if (!win || typeof (win as any).webContents?.on !== 'function') {
@@ -24,14 +25,7 @@ function assertSession(
     throw new TypeError('Security: invalid session provided');
   }
 }
-export function _isAllowedNavigation(url: string): boolean {
-  const allowedProtocols = ['app://', 'file://'];
-  const allowedDomains = ['localhost', '127.0.0.1'];
-  return (
-    allowedProtocols.some(p => url.startsWith(p)) ||
-    allowedDomains.some(d => url.includes(d))
-  );
-}
+export { _isAllowedNavigation };
 
 /**
  * Create a BrowserWindow with hardened defaults

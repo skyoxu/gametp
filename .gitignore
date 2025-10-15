@@ -40,3 +40,6 @@ commit-msg*.txt
 # GitHub App private keys (DO NOT COMMIT)
 gametp-ai-bot.*.private-key.pem
 *.private-key.pem
+
+# test artifacts
+/test-checkpoint-data/

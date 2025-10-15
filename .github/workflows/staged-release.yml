@@ -43,7 +43,7 @@ jobs:
     outputs:
       can_proceed: ${{ steps.validation.outputs.can_proceed }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - id: validation
         run: node scripts/ci/precheck-can-proceed.mjs
 
@@ -56,7 +56,7 @@ jobs:
     if: ${{ inputs.run_e2e == 'true' }}
     needs: pre-check
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: '20'

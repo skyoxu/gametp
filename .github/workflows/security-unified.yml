@@ -49,6 +49,13 @@ concurrency:
 
 env:
   NODE_VERSION: '20.x'
+  # Ensure native rebuilds (node-gyp) find MSVC 2022 and use C++20 on Windows runners (ADR-0005)
+  CL: '/std:c++20 /EHsc'
+  CXXFLAGS: '-std=c++20'
+  GYP_MSVS_ARGS: '/std:c++20'
+  GYP_CXXFLAGS: '-std=c++20'
+  GYP_MSVS_VERSION: '2022'
+  npm_config_msvs_version: '2022'
 
 jobs:
   # Stage 1: Static Security Scan (fast, parallel execution)
@@ -70,7 +77,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -100,6 +107,10 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
+        env:
+          npm_config_omit: dev
 
       - name: Install jq tool
         shell: pwsh
@@ -276,7 +287,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -288,6 +299,8 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
 
       - name: Build Electron application (Windows)
         run: |
@@ -295,28 +308,49 @@ jobs:
           Get-ChildItem "node_modules/@img/" -Filter "sharp-darwin-*" -Directory -ErrorAction SilentlyContinue | ForEach-Object { Remove-Item $_.FullName -Recurse -Force -ErrorAction SilentlyContinue }
           Get-ChildItem "node_modules/@img/" -Filter "sharp-linux-*" -Directory -ErrorAction SilentlyContinue | ForEach-Object { Remove-Item $_.FullName -Recurse -Force -ErrorAction SilentlyContinue }
 
+          # Extra hardening for CI: remove dev-only native modules if present to avoid electron-rebuild
+          if (Test-Path -LiteralPath 'node_modules/tree-sitter') {
+            Write-Host 'Removing dev-only native module: node_modules/tree-sitter'
+            Remove-Item -LiteralPath 'node_modules/tree-sitter' -Recurse -Force -ErrorAction SilentlyContinue
+          }
+          if (Test-Path -LiteralPath 'node_modules/@zilliz') {
+            Write-Host 'Removing problematic dependency namespace: node_modules/@zilliz (not required at runtime)'
+            Remove-Item -LiteralPath 'node_modules/@zilliz' -Recurse -Force -ErrorAction SilentlyContinue
+          }
+
+          # Adjust package.json dependencies for packaging-only (CI); revert not needed in ephemeral runner
+          node scripts/ci/prune-pack-deps.mjs
+
           # Build application
           npm run build
           npx tsc -p electron
           npx electron-builder --dir
 
           # Adapt artifact path for GitHub Actions compatibility
-          # electron-builder outputs to release/${version}/win-unpacked/
-          # GitHub Actions expects dist/win-unpacked/
+          # electron-builder outputs to electron-dist/win-unpacked (our config)
+          # or release/${version}/win-unpacked (default); we normalize to dist/win-unpacked/
           $target = "dist/win-unpacked"
           if (Test-Path $target) {
             Write-Host "Electron builder output already present at $target"
           } else {
-            $dir = Get-ChildItem -Path release -Recurse -Directory -Filter "win-unpacked" -ErrorAction SilentlyContinue | Select-Object -First 1
-            if ($dir) {
-              Write-Host "Found electron-builder output: $($dir.FullName)"
+            $edist = Join-Path 'electron-dist' 'win-unpacked'
+            if (Test-Path -LiteralPath $edist) {
+              Write-Host "Found electron-dist output: $edist"
               New-Item -ItemType Directory -Force -Path $target | Out-Null
-              Copy-Item -Path (Join-Path $dir.FullName '*') -Destination $target -Recurse -Force
-              Write-Host "Adapted artifact path for GitHub Actions: $target/"
+              Copy-Item -Path (Join-Path $edist '*') -Destination $target -Recurse -Force
+              Write-Host "Adapted artifact path from electron-dist to: $target/"
             } else {
-              Write-Host "electron-builder output not found in release/ directory"
-              Get-ChildItem -Path release -Recurse -Include *.exe -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.FullName }
-              exit 1
+              $dir = Get-ChildItem -Path release -Recurse -Directory -Filter "win-unpacked" -ErrorAction SilentlyContinue | Select-Object -First 1
+              if ($dir) {
+                Write-Host "Found release output: $($dir.FullName)"
+                New-Item -ItemType Directory -Force -Path $target | Out-Null
+                Copy-Item -Path (Join-Path $dir.FullName '*') -Destination $target -Recurse -Force
+                Write-Host "Adapted artifact path for GitHub Actions: $target/"
+              } else {
+                Write-Host "electron-builder output not found in electron-dist/ or release/"
+                Get-ChildItem -Path electron-dist,release -Recurse -Include *.exe -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.FullName }
+                exit 1
+              }
             }
           }
 
@@ -345,7 +379,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -375,12 +409,14 @@ jobs:
 
       - name: Install dev dependencies (for Playwright)
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
 
       - name: Install Playwright browsers
         run: npx playwright install
 
       - name: Download pre-built application
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: electron-app-windows
           path: dist/win-unpacked/
@@ -486,7 +522,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -498,6 +534,8 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/npm-install
+        with:
+          mode: lean
 
       - name: Ensure logs directory exists
         run: |
@@ -523,21 +561,21 @@ jobs:
           Write-Host "Unified security gate pre-checks passed (static scan + E2E outputs)"
 
       - name: Download E2E results (merged)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           pattern: e2e-security-test-results-shard-*
           merge-multiple: true
           path: artifacts/e2e-results
 
       - name: Download Playwright traces (merged)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           pattern: playwright-traces-shard-*
           merge-multiple: true
           path: artifacts/playwright-traces
 
       - name: Download static scan reports
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: static-security-reports
           path: artifacts/static

@@ -24,19 +24,26 @@ const DEFAULT_ENTRY_PATH = resolve(
  * Only accepts explicitly passed entry parameter or ELECTRON_MAIN_PATH environment variable
  */
 function validateEntryPath(entry?: string): string {
-  const entryPath =
-    entry || process.env.ELECTRON_MAIN_PATH || DEFAULT_ENTRY_PATH;
+  const preferred = entry || process.env.ELECTRON_MAIN_PATH || '';
+  const fallbacks = [
+    preferred,
+    DEFAULT_ENTRY_PATH,
+    resolve(process.cwd(), 'dist-electron', 'main.js'),
+    resolve(process.cwd(), 'electron', 'main.js'),
+  ].filter(Boolean);
 
-  if (!existsSync(entryPath)) {
-    throw new Error(
-      `Electron entry point not found at "${entryPath}". ` +
-        `Please build the application before running tests (npm run build) ` +
-        `or set ELECTRON_MAIN_PATH environment variable to a valid path.`
-    );
+  for (const candidate of fallbacks) {
+    if (candidate && existsSync(candidate)) {
+      console.log(`[launch] using Electron entry: ${candidate}`);
+      return candidate;
+    }
   }
 
-  console.log(`[launch] using Electron entry: ${entryPath}`);
-  return entryPath;
+  const tried = fallbacks.filter(Boolean).join(', ');
+  throw new Error(
+    `Electron entry point not found. Tried: ${tried}. ` +
+      `Please build the application (npm run build) or set ELECTRON_MAIN_PATH.`
+  );
 }
 
 // Build cache mechanism: avoid repeated builds in CI environment
@@ -122,6 +129,30 @@ function buildApp(): void {
 }
 
 /**
+ * Ensure Electron binary is present. Some CI runners may install node modules
+ * with scripts skipped or the binary download may have failed. Attempt a
+ * recovery by invoking Electron's installer script.
+ */
+function ensureElectronBinary(): void {
+  try {
+    const electronModuleDir = resolve(process.cwd(), 'node_modules', 'electron');
+    const electronDistDir = resolve(electronModuleDir, 'dist');
+    if (existsSync(electronDistDir)) {
+      return;
+    }
+    console.warn('[launch] Electron dist not found; attempting install.js recovery...');
+    const installer = resolve(electronModuleDir, 'install.js');
+    if (!existsSync(installer)) {
+      throw new Error('electron/install.js not found');
+    }
+    execSync(`node "${installer}"`, { stdio: 'inherit', env: { ...process.env } });
+  } catch (e) {
+    console.error('[launch] Electron binary recovery failed');
+    throw e;
+  }
+}
+
+/**
  * Unified Electron app launch function - returns {app, page} structure
  * Official recommendation: app.firstWindow() -> page, all DOM operations execute on Page
  */
@@ -133,6 +164,8 @@ export async function launchApp(
 
   buildApp();
   validateEntryPath(entry);
+  // Ensure electron binary exists before launch (CI resilience)
+  ensureElectronBinary();
   const app = await electron.launch({
     // Launch by project root so Electron uses package.json.main; more robust on Windows
     args: ['.'],
@@ -160,6 +193,7 @@ export async function launchAppAndPage(
 
   buildApp();
   validateEntryPath(entry);
+  ensureElectronBinary();
   const app = await electron.launch({
     args: ['.'],
     env: {
@@ -190,6 +224,7 @@ export async function launchAppWithArgs(
     validateEntryPath(entryOrArgs);
     args = extraArgs ? ['.', ...extraArgs] : ['.'];
   }
+  ensureElectronBinary();
   const app = await electron.launch({
     args,
     env: {
@@ -212,6 +247,7 @@ export async function launchAppWithPage(
 
   buildApp();
   validateEntryPath(entry);
+  ensureElectronBinary();
   const app = await (electronOverride || electron).launch({
     args: ['.'],
     env: {

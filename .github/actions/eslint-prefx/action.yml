@@ -20,8 +20,10 @@ runs:
       shell: pwsh
       run: |
         $d = Get-Date -Format 'yyyy-MM-dd'
-        "dir=logs/$d/eslint" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
-        Write-Host "logs dir: logs/$d/eslint"
+        $p = "logs/$d/eslint"
+        New-Item -ItemType Directory -Force -Path $p | Out-Null
+        "dir=$p" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+        Write-Host "logs dir: $p"
     - id: run
       shell: pwsh
       run: |
