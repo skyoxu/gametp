@@ -313,6 +313,16 @@ jobs:
       - name: Setup Playwright browsers cache
         if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         uses: microsoft/playwright-github-action@v1
+      - name: Prewarm Electron binary (Windows)
+        if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
+        shell: pwsh
+        run: |
+          Write-Host "Prewarming Electron binary to avoid install.js recovery path..."
+          node -e "require('electron'); console.log('electron ok')" 2>$null
+          if ($LASTEXITCODE -ne 0) {
+            Write-Warning "electron module not pre-resolved; invoking npx electron --version to warm cache..."
+            npx --yes electron --version | Out-Null
+          }
       - name: Run perf smoke (Electron)
         if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         run: npm run test:e2e:perf-smoke

@@ -286,19 +286,30 @@ export async function launchAppWithPage(
 }
 
 export async function prepareWindowForInteraction(page: Page): Promise<Page> {
-  // Following ciinfo.md rules: Use document.readyState instead of domcontentloaded
-  await page.waitForFunction(() => document.readyState === 'complete', {
-    timeout: 15000,
-  });
+  // Following ciinfo.md rules: prefer document.readyState based readiness
+  // Step 1: allow 'interactive' or 'complete' quickly (15s), improves resilience on fresh Electron boots
+  await page.waitForFunction(
+    () => ['interactive', 'complete'].includes(document.readyState as any),
+    { timeout: 15000 }
+  );
+
+  // Step 2 (CI only): enforce full 'complete' with a higher ceiling to tolerate first-launch recovery paths
+  if (process.env.CI === 'true') {
+    await page.waitForFunction(() => document.readyState === 'complete', {
+      timeout: 45000,
+    });
+  }
 
   // Additionally wait for React root to be present (less strict to avoid flakiness)
   try {
     await page.waitForSelector('[data-testid="app-root"], #root', {
-      timeout: 15000,
+      timeout: process.env.CI === 'true' ? 30000 : 15000,
     });
   } catch {
     // Fallback to a lightweight DOMContentLoaded-based settle; tests will assert as needed
-    await page.waitForLoadState('domcontentloaded', { timeout: 15000 });
+    await page.waitForLoadState('domcontentloaded', {
+      timeout: process.env.CI === 'true' ? 30000 : 15000,
+    });
   }
 
   if (process.env.CI === 'true' || process.env.NODE_ENV === 'test') {
