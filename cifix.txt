@@ -1,5 +1,23 @@
 Run npx --no-install commitlint --from=HEAD~20 --to=HEAD --verbose
 npm warn config production Use `--omit=dev` instead.
+⧗   input: ci: retrigger pipeline after commitlint fix
+⚠   scope may not be empty [scope-empty]
+
+⚠   found 0 problems, 1 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
+⧗   input: ci: trigger pipeline after commitlint rule update
+⚠   scope may not be empty [scope-empty]
+
+⚠   found 0 problems, 1 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
+⧗   input: ci(commitlint): allow additional types deps and scripts (ADR-0005)
+✖   scope must be one of [core, renderer, electron, i18n, prettier, lint, scripts, release, actionlint, quality-gates, validate-workflows, build-and-test, prefx, lint-prefx, ci, e2e-perf, encoding, concurrency, perf-weekly, docs, guide, tests, test, e2e, npm-install, security, build, deps, infra] [scope-enum]
+
+✖   found 1 problems, 0 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
 ⧗   input: ci: trigger pipeline (no-op marker under scripts/ci/trigger-ci.txt)
 ⚠   scope may not be empty [scope-empty]
 
@@ -7,19 +25,11 @@ npm warn config production Use `--omit=dev` instead.
 ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
 
 ⧗   input: scripts(infra): fix GH App logs fetcher headers, API version and redirect handling; use UTC-aware datetimes (ADR-0005)
-✖   type must be one of [build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test] [type-enum]
-
-✖   found 1 problems, 0 warnings
-ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
-
+✔   found 0 problems, 0 warnings
 ⧗   input: scripts(infra): add GH App fetcher to download run logs via App key (ADR-0005)
 
 Generates JWT from private key, resolves installation for repo, creates installation token, downloads run logs to logs/<date>/gh-logs/ and optionally parses.
-✖   type must be one of [build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test] [type-enum]
-
-✖   found 1 problems, 0 warnings
-ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
-
+✔   found 0 problems, 0 warnings
 ⧗   input: deps: bump @commitlint/cli from 19.8.1 to 20.1.0
 
 Bumps [@commitlint/cli](https://github.com/conventional-changelog/commitlint/tree/HEAD/@commitlint/cli) from 19.8.1 to 20.1.0.
@@ -36,10 +46,9 @@ updated-dependencies:
 ...
 
 Signed-off-by: dependabot[bot] <support@github.com>
-✖   type must be one of [build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test] [type-enum]
 ⚠   scope may not be empty [scope-empty]
 
-✖   found 1 problems, 1 warnings
+⚠   found 0 problems, 1 warnings
 ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
 
 ⧗   input: ci(build-and-test): trigger ci.yml via package.json touch (_trigger_ci)
@@ -151,18 +160,4 @@ Signed-off-by: dependabot[bot] <support@github.com>
 ⚠   found 0 problems, 1 warnings
 ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
 
-⧗   input: ci: trigger all main-branch workflows (update package.json, add workflows/TOUCH.md, scripts/ci/_trigger_all_workflows.txt)
-⚠   scope may not be empty [scope-empty]
-
-⚠   found 0 problems, 1 warnings
-ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
-
-⧗   input: ci: allow commit scope lint-prefx to avoid regressions from pre-fix step updates (ADR-0005)
-⚠   scope may not be empty [scope-empty]
-
-⚠   found 0 problems, 1 warnings
-ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
-
-⧗   input: ci(security): trigger Security Gate (Unified) via package.json touch
-✔   found 0 problems, 0 warnings
 Error: Process completed with exit code 1.
