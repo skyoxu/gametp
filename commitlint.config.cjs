@@ -27,6 +27,8 @@ module.exports = {
         'prefx',
         'lint-prefx',
         'ci',
+        // Allow CI E2E perf-related commits (main history)
+        'e2e-perf',
         'encoding',
         'concurrency',
         'perf-weekly',
