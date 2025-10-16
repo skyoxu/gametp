@@ -50,18 +50,20 @@ jwt = ensure("jwt", pkg="pyjwt[crypto]")
 
 
 def today_dir() -> Path:
-    d = dt.datetime.utcnow().strftime("%Y-%m-%d")
+    # Use timezone-aware UTC date to avoid deprecation warnings
+    d = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")
     p = Path("logs") / d / "gh-logs"
     p.mkdir(parents=True, exist_ok=True)
     return p
 
 
 def make_jwt(app_id: str, key_pem: str) -> str:
-    now = dt.datetime.utcnow()
+    # Use timezone-aware UTC now to avoid naive datetime pitfalls
+    now = dt.datetime.now(dt.timezone.utc)
     payload = {
         "iat": int((now - dt.timedelta(seconds=60)).timestamp()),
         "exp": int((now + dt.timedelta(minutes=9)).timestamp()),
-        "iss": app_id,
+        "iss": int(app_id),
     }
     token: str = jwt.encode(payload, key_pem, algorithm="RS256")  # type: ignore
     return token
@@ -72,8 +74,15 @@ def get_installation_token(app_jwt: str, owner: str, repo: str) -> Tuple[str, in
     headers = {
         "Authorization": f"Bearer {app_jwt}",
         "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "gametp-gh-app-fetcher",
     }
     # Find installation for this repository
+    # Optional: validate JWT by calling /app
+    app_resp = requests.get("https://api.github.com/app", headers=headers, timeout=30)
+    if app_resp.status_code != 200:
+        raise RuntimeError(f"JWT validation failed at /app (HTTP {app_resp.status_code})")
+
     install_resp = requests.get(f"https://api.github.com/repos/{owner}/{repo}/installation", headers=headers, timeout=30)
     if install_resp.status_code != 200:
         raise RuntimeError(f"Cannot resolve installation for {owner}/{repo} (HTTP {install_resp.status_code})")
@@ -112,18 +121,40 @@ def fetch_run_logs(owner: str, repo: str, run_id: str, token: str, out_dir: Path
     headers = {
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
         "User-Agent": "gametp-gh-app-fetcher",
     }
-    r = requests.get(url, headers=headers, allow_redirects=True, timeout=60)
-    if r.status_code != 200:
-        raise RuntimeError(f"Failed to download logs (HTTP {r.status_code}). Logs may be expired.")
+    # First request hits GitHub API and may redirect to storage (S3). We handle redirects manually
+    # to ensure Authorization header is not forwarded to a different host.
+    r = requests.get(url, headers=headers, allow_redirects=False, timeout=60)
+    if r.status_code in (302, 303, 307, 308):
+        loc = r.headers.get("Location")
+        if not loc:
+            raise RuntimeError("Redirect received without Location header when fetching logs")
+        # Follow redirect without Authorization header
+        r2 = requests.get(
+            loc,
+            headers={
+                "Accept": "application/zip, application/octet-stream",
+                "User-Agent": "gametp-gh-app-fetcher",
+            },
+            timeout=120,
+        )
+        if r2.status_code != 200:
+            raise RuntimeError(f"Failed to download redirected logs (HTTP {r2.status_code})")
+        content = r2.content
+    elif r.status_code == 200:
+        content = r.content
+    else:
+        raise RuntimeError(f"Failed to initiate logs download (HTTP {r.status_code}). Logs may be expired.")
+
     out_zip = out_dir / f"run-{run_id}.zip"
-    out_zip.write_bytes(r.content)
+    out_zip.write_bytes(content)
     # Also write a text file listing entries (lazy; parse script does this too)
     try:
         import zipfile
 
-        with zipfile.ZipFile(io.BytesIO(r.content)) as zf:
+        with zipfile.ZipFile(io.BytesIO(content)) as zf:
             names = zf.namelist()
         (out_dir / f"run-{run_id}-filelist.txt").write_text("\n".join(names), encoding="utf-8")
     except Exception:
@@ -198,4 +229,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
