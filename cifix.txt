@@ -1,5 +1,7 @@
 Run npx --no-install commitlint --from=HEAD~20 --to=HEAD --verbose
 npm warn config production Use `--omit=dev` instead.
+⧗   input: ci(ci): touch ci.yml to re-enable and add GH App workflow dispatcher (ADR-0005)
+✔   found 0 problems, 0 warnings
 ⧗   input: ci: retrigger pipeline after commitlint fix
 ⚠   scope may not be empty [scope-empty]
 
@@ -128,27 +130,6 @@ Bumps [actions/download-artifact](https://github.com/actions/download-artifact) 
 ---
 updated-dependencies:
 - dependency-name: actions/download-artifact
-  dependency-version: '5'
-  dependency-type: direct:production
-  update-type: version-update:semver-major
-...
-
-Signed-off-by: dependabot[bot] <support@github.com>
-⚠   scope may not be empty [scope-empty]
-
-⚠   found 0 problems, 1 warnings
-ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
-
-⧗   input: ci: bump actions/checkout from 4 to 5
-
-Bumps [actions/checkout](https://github.com/actions/checkout) from 4 to 5.
-- [Release notes](https://github.com/actions/checkout/releases)
-- [Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)
-- [Commits](https://github.com/actions/checkout/compare/v4...v5)
-
----
-updated-dependencies:
-- dependency-name: actions/checkout
   dependency-version: '5'
   dependency-type: direct:production
   update-type: version-update:semver-major

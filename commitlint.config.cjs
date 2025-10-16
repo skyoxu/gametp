@@ -64,7 +64,7 @@ module.exports = {
         'infra',
       ],
     ],
-    // Warn on empty scope to avoid breaking historical commits in template
-    'scope-empty': [1, 'never'],
+    // Do not fail on empty scope (historical commits & Dependabot often omit scope)
+    'scope-empty': [0, 'never'],
   },
 };
