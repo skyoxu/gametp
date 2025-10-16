@@ -313,15 +313,40 @@ jobs:
       - name: Setup Playwright browsers cache
         if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         uses: microsoft/playwright-github-action@v1
-      - name: Prewarm Electron binary (Windows)
+      - name: Repair/Prewarm Electron binary (Windows)
         if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
         shell: pwsh
         run: |
-          Write-Host "Prewarming Electron binary to avoid install.js recovery path..."
+          Write-Host "[prewarm] Ensuring Electron is correctly installed (no install.js recovery at runtime)."
+          # Resolve requested version from package.json (dev or prod deps)
+          $ver = node -p "(()=>{try{const p=require('./package.json');return (p.devDependencies&&p.devDependencies.electron)||p.dependencies.electron||''}catch(e){return ''}})()"
+          if ([string]::IsNullOrWhiteSpace($ver)) { $ver = 'latest' }
+          
+          function Ensure-Electron {
+            Write-Host "[prewarm] Running electron/install.js ..."
+            node node_modules/electron/install.js 2>$null
+            node -e "require('electron'); console.log('electron ok')" 2>$null
+            return $LASTEXITCODE -eq 0
+          }
+          
+          $ok = $false
+          # Initial try: if require('electron') fails, attempt install.js
           node -e "require('electron'); console.log('electron ok')" 2>$null
-          if ($LASTEXITCODE -ne 0) {
-            Write-Warning "electron module not pre-resolved; invoking npx electron --version to warm cache..."
-            npx --yes electron --version | Out-Null
+          if ($LASTEXITCODE -eq 0) { $ok = $true } else { $ok = (Ensure-Electron) }
+          
+          # If still not ok, reinstall electron package (no-save) and run install.js again
+          if (-not $ok) {
+            Write-Warning "[prewarm] Electron not healthy; reinstalling electron@$ver (no-save)..."
+            try { Remove-Item -Recurse -Force node_modules/electron -ErrorAction SilentlyContinue } catch {}
+            npm install electron@$ver --no-save --no-audit --fund=false
+            $ok = (Ensure-Electron)
+          }
+          
+          if (-not $ok) {
+            Write-Error "[prewarm] Electron installation could not be repaired. Aborting e2e perf smoke."
+            exit 1
+          } else {
+            Write-Host "[prewarm] Electron ready."
           }
       - name: Run perf smoke (Electron)
         if: steps.changes-e2e.outputs.any_changed == 'true' || github.ref == 'refs/heads/main'
