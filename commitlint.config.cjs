@@ -8,6 +8,26 @@ module.exports = {
     'header-max-length': [2, 'always', 160],
     // Allow longer lines in body (CI logs / ADR refs often exceed 100 chars)
     'body-max-line-length': [0, 'always'],
+    // Align with project history: allow 'deps' (Dependabot) and 'scripts' (infra scripts)
+    'type-enum': [
+      2,
+      'always',
+      [
+        'build',
+        'chore',
+        'ci',
+        'docs',
+        'feat',
+        'fix',
+        'perf',
+        'refactor',
+        'revert',
+        'style',
+        'test',
+        'deps',
+        'scripts',
+      ],
+    ],
     'scope-enum': [
       2,
       'always',

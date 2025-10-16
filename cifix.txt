@@ -1,21 +1,168 @@
-Prepare all required actions
-Run ./.github/actions/npm-install
-Run Write-Host "Validating Node.js environment setup..."
-Validating Node.js environment setup...
-Node.js version: v20.19.5
-npm version: 10.8.2
-Run $d = Get-Date -Format 'yyyy-MM-dd'
-[npm-install] logs: logs/2025-10-13/npm-install | mode: lean
-Run $mode = 'lean'
-Starting npm install (mode=lean)...
-[npm-install] running: npm ci --ignore-scripts --omit=optional 
-WARNING: Attempt 1 failed (code=System.Object[]). Sleeping 15s...
-[npm-install] running: npm ci --ignore-scripts --omit=optional --maxsockets=5
-WARNING: Attempt 2 failed (code=System.Object[]). Sleeping 30s...
-[npm-install] running: npm ci --ignore-scripts --omit=optional --maxsockets=1
-WARNING: Attempt 3 failed (code=System.Object[]). Sleeping 45s...
-[npm-install] running: npm ci --ignore-scripts --omit=optional 
-WARNING: npm ci (lean) failed. Falling back to 'npm install --ignore-scripts --omit=optional'...
-[npm-install] running: npm install --ignore-scripts --omit=optional --no-audit --fund=false --prefer-offline
-Write-Error: npm install fallback (lean) failed (exit= removed 20 packages in 4s 0)
+Run npx --no-install commitlint --from=HEAD~20 --to=HEAD --verbose
+npm warn config production Use `--omit=dev` instead.
+⧗   input: ci: trigger pipeline (no-op marker under scripts/ci/trigger-ci.txt)
+⚠   scope may not be empty [scope-empty]
+
+⚠   found 0 problems, 1 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
+⧗   input: scripts(infra): fix GH App logs fetcher headers, API version and redirect handling; use UTC-aware datetimes (ADR-0005)
+✖   type must be one of [build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test] [type-enum]
+
+✖   found 1 problems, 0 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
+⧗   input: scripts(infra): add GH App fetcher to download run logs via App key (ADR-0005)
+
+Generates JWT from private key, resolves installation for repo, creates installation token, downloads run logs to logs/<date>/gh-logs/ and optionally parses.
+✖   type must be one of [build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test] [type-enum]
+
+✖   found 1 problems, 0 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
+⧗   input: deps: bump @commitlint/cli from 19.8.1 to 20.1.0
+
+Bumps [@commitlint/cli](https://github.com/conventional-changelog/commitlint/tree/HEAD/@commitlint/cli) from 19.8.1 to 20.1.0.
+- [Release notes](https://github.com/conventional-changelog/commitlint/releases)
+- [Changelog](https://github.com/conventional-changelog/commitlint/blob/master/@commitlint/cli/CHANGELOG.md)
+- [Commits](https://github.com/conventional-changelog/commitlint/commits/v20.1.0/@commitlint/cli)
+
+---
+updated-dependencies:
+- dependency-name: "@commitlint/cli"
+  dependency-version: 20.1.0
+  dependency-type: direct:development
+  update-type: version-update:semver-major
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+✖   type must be one of [build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test] [type-enum]
+⚠   scope may not be empty [scope-empty]
+
+✖   found 1 problems, 1 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
+⧗   input: ci(build-and-test): trigger ci.yml via package.json touch (_trigger_ci)
+
+Path-filtered push trigger for .github/workflows/ci.yml
+✔   found 0 problems, 0 warnings
+⧗   input: ci(quality-gates): allow e2e-perf scope for commitlint range check on main (ADR-0005)
+
+Fix CI failure on main caused by commitlint scope-enum rejecting historical commit ci(e2e-perf). Add e2e-perf to allowed scopes to keep history green while maintaining gating. No other behavior changed. Logs: cifix.txt.
+✔   found 0 problems, 0 warnings
+⧗   input: ci(e2e-perf): repair/prewarm Electron in CI (install.js + reinstall fallback) to prevent install failure
+✔   found 0 problems, 0 warnings
+⧗   input: ci(e2e-perf): prewarm Electron binary and increase CI readiness tolerance (readyState, selectors) to avoid perf smoke timeout
+✔   found 0 problems, 0 warnings
+⧗   input: ci(quality-gates): avoid PR timeouts by skipping ESLint pre-fix on PR and increasing job timeout to 10m (non-blocking step)
+✔   found 0 problems, 0 warnings
+⧗   input: ci(infra): adjust GitHub App token scope (remove administration)
+✔   found 0 problems, 0 warnings
+⧗   input: ci(infra): add PR admin helper (close PR / delete branch via GitHub App)
+✔   found 0 problems, 0 warnings
+⧗   input: ci(infra): add GitHub App helpers to automate PR creation (Windows-friendly)
+✔   found 0 problems, 0 warnings
+⧗   input: ci: make PR branch rebaseable and stable (ESLint pre-fix timeout; SonarCloud v5; remove duplicate 'with')
+⚠   scope may not be empty [scope-empty]
+
+⚠   found 0 problems, 1 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
+⧗   input: ci: bump tj-actions/changed-files from 44 to 47
+
+Bumps [tj-actions/changed-files](https://github.com/tj-actions/changed-files) from 44 to 47.
+- [Release notes](https://github.com/tj-actions/changed-files/releases)
+- [Changelog](https://github.com/tj-actions/changed-files/blob/main/HISTORY.md)
+- [Commits](https://github.com/tj-actions/changed-files/compare/v44...v47)
+
+---
+updated-dependencies:
+- dependency-name: tj-actions/changed-files
+  dependency-version: '47'
+  dependency-type: direct:production
+  update-type: version-update:semver-major
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+⚠   scope may not be empty [scope-empty]
+
+⚠   found 0 problems, 1 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
+⧗   input: ci: bump actions/cache from 4.2.4 to 4.3.0
+
+Bumps [actions/cache](https://github.com/actions/cache) from 4.2.4 to 4.3.0.
+- [Release notes](https://github.com/actions/cache/releases)
+- [Changelog](https://github.com/actions/cache/blob/main/RELEASES.md)
+- [Commits](https://github.com/actions/cache/compare/v4.2.4...v4.3.0)
+
+---
+updated-dependencies:
+- dependency-name: actions/cache
+  dependency-version: 4.3.0
+  dependency-type: direct:production
+  update-type: version-update:semver-minor
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+⚠   scope may not be empty [scope-empty]
+
+⚠   found 0 problems, 1 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
+⧗   input: ci: bump actions/download-artifact from 4 to 5
+
+Bumps [actions/download-artifact](https://github.com/actions/download-artifact) from 4 to 5.
+- [Release notes](https://github.com/actions/download-artifact/releases)
+- [Commits](https://github.com/actions/download-artifact/compare/v4...v5)
+
+---
+updated-dependencies:
+- dependency-name: actions/download-artifact
+  dependency-version: '5'
+  dependency-type: direct:production
+  update-type: version-update:semver-major
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+⚠   scope may not be empty [scope-empty]
+
+⚠   found 0 problems, 1 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
+⧗   input: ci: bump actions/checkout from 4 to 5
+
+Bumps [actions/checkout](https://github.com/actions/checkout) from 4 to 5.
+- [Release notes](https://github.com/actions/checkout/releases)
+- [Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)
+- [Commits](https://github.com/actions/checkout/compare/v4...v5)
+
+---
+updated-dependencies:
+- dependency-name: actions/checkout
+  dependency-version: '5'
+  dependency-type: direct:production
+  update-type: version-update:semver-major
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+⚠   scope may not be empty [scope-empty]
+
+⚠   found 0 problems, 1 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
+⧗   input: ci: trigger all main-branch workflows (update package.json, add workflows/TOUCH.md, scripts/ci/_trigger_all_workflows.txt)
+⚠   scope may not be empty [scope-empty]
+
+⚠   found 0 problems, 1 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
+⧗   input: ci: allow commit scope lint-prefx to avoid regressions from pre-fix step updates (ADR-0005)
+⚠   scope may not be empty [scope-empty]
+
+⚠   found 0 problems, 1 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
+⧗   input: ci(security): trigger Security Gate (Unified) via package.json touch
+✔   found 0 problems, 0 warnings
 Error: Process completed with exit code 1.
