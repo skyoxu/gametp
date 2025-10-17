@@ -66,10 +66,17 @@ jobs:
       - name: Generate baseline performance data (if missing)
         run: node scripts/ci/perf-generate-baseline.mjs
 
-      - name: Generate current performance data
+      - name: Generate current performance data (PR)
+        if: github.event_name == 'pull_request'
         run: node scripts/ci/perf-generate-current.mjs
         env:
-          PR_NUMBER: ${{ github.event.number || inputs.pr_number }}
+          PR_NUMBER: ${{ github.event.number }}
+
+      - name: Generate current performance data (manual)
+        if: github.event_name == 'workflow_dispatch'
+        run: node scripts/ci/perf-generate-current.mjs
+        env:
+          PR_NUMBER: ${{ inputs.pr_number }}
 
       - name: Run PR integration analysis
         run: node scripts/pr-integration.mjs analyze
@@ -128,5 +135,5 @@ jobs:
         run: node scripts/ci/perf-gates-check.mjs
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
