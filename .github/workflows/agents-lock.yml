@@ -1,6 +1,7 @@
 name: Agents File Lock
 
 on:
+  workflow_dispatch:
   pull_request:
     branches: [main, develop]
     paths:
