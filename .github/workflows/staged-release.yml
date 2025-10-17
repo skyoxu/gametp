@@ -11,7 +11,6 @@ defaults:
 
 on:
   workflow_dispatch:
-  workflow_dispatch:
     inputs:
       run_e2e:
         description: 'Run optional E2E perf smoke after build'
