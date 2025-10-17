@@ -58,6 +58,7 @@ module.exports = {
         'perf-weekly',
         'docs',
         'guide',
+        'cleanup',
         'tests',
         'test',
         'e2e',
