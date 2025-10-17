@@ -190,6 +190,9 @@ jobs:
       - name: Guard build artifacts are not tracked
         run: node scripts/ci/guard-artifacts.mjs
 
+      - name: Guard no cifix references (workflows/scripts/tests)
+        run: node scripts/ci/guard-no-cifix.mjs
+
       - name: Commit message lint (push - last 20)
         if: ${{ github.event_name != 'pull_request' && github.actor != 'dependabot[bot]' && !startsWith(github.ref, 'refs/heads/dependabot/') }}
         run: |
