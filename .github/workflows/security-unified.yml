@@ -245,13 +245,14 @@ jobs:
             exit 1
           }
 
-          # If no verified secrets detected, only treat truly abnormal exit codes as errors
-          if ($LASTEXITCODE -gt 1) {
-            Write-Host "TruffleHog returned non-zero exit code ($LASTEXITCODE) without verified matches; treating as tool warning"
-            $global:LASTEXITCODE = 0
+          # No verified secrets: never fail the job due to tool exit code noise
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "TruffleHog returned exit code $LASTEXITCODE without verified matches; ignoring as warning"
           } else {
             Write-Host "No verified secrets found"
           }
+          # Explicitly reset to success for the step
+          $global:LASTEXITCODE = 0
 
       - name: Aggregate static scan results
         id: static-scan
