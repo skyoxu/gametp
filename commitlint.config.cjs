@@ -39,6 +39,7 @@ module.exports = {
         'prettier',
         'lint',
         'commitlint',
+        'config',
         'scripts',
         'release',
         'actionlint',
