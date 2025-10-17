@@ -43,6 +43,8 @@ module.exports = {
         'scripts',
         'release',
         'actionlint',
+        // Allow CI changes targeting workflows directory/naming
+        'workflows',
         'quality-gates',
         'validate-workflows',
         'build-and-test',
