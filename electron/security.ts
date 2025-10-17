@@ -134,9 +134,7 @@ export function hardenWindow(
 }
 
 /**
- * :CSP
- * , CSP, COOP, COEP, Permissions-Policy
- * cifix1.txt:Session, ready
+ * Security headers: CSP, COOP, COEP, Permissions-Policy
  */
 export function installSecurityHeaders(
   ses: typeof session.defaultSession
