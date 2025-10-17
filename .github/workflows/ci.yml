@@ -281,8 +281,7 @@ jobs:
       run:
         shell: pwsh
     needs: unit-tests-core
-    timeout-minutes:
-      5
+    timeout-minutes: 5
       # P0: ensure devDependencies installed for job
     env:
       NODE_ENV: development
