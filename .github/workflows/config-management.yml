@@ -19,6 +19,8 @@ on:
   pull_request:
     branches: [main]
 
+  workflow_dispatch:
+
 env:
   NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
   RELEASE_PREFIX: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
