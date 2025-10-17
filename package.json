@@ -257,7 +257,7 @@
     "vite": "^7.0.4",
     "vitest": "^3.2.4",
     "@size-limit/file": "^11.2.0",
-    "size-limit": "^10.0.3",
+    "size-limit": "^11.2.0",
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^19.6.0"
   },
