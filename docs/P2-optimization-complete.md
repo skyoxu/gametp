@@ -81,7 +81,7 @@ sourcemap:
   process.env.GENERATE_SOURCEMAP === 'true',
 ```
 
-> 馃敡 **浼樺寲璇存槑**锛氬綋鍓嶉厤缃瘮cifix.txt寤鸿鏇寸伒娲伙紝鏀寔閫氳繃鐜鍙橀噺GENERATE_SOURCEMAP鎺у埗锛屼繚鎸佺幇鏈夊疄鐜般€?
+> 馃敡 **浼樺寲璇存槑**锛氬綋鍓嶉厤缃瘮临时建议清单（已清理）寤鸿鏇寸伒娲伙紝鏀寔閫氳繃鐜鍙橀噺GENERATE_SOURCEMAP鎺у埗锛屼繚鎸佺幇鏈夊疄鐜般€?
 
 ---
 
