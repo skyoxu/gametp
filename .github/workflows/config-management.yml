@@ -27,7 +27,8 @@ env:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Do not cancel in-progress runs on main; allow re-triggers to complete
+  cancel-in-progress: ${{ !contains(github.ref, 'refs/heads/main') }}
 
 jobs:
   config-validation-and-docs:
