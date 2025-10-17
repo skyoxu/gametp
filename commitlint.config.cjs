@@ -38,6 +38,7 @@ module.exports = {
         'i18n',
         'prettier',
         'lint',
+        'commitlint',
         'scripts',
         'release',
         'actionlint',
