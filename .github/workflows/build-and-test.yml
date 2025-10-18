@@ -47,7 +47,7 @@ jobs:
         with:
           mode: lean
       - name: Setup Python 3.x (for pre-fix tools if needed)
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.x'
       - name: Run postinstall patches (explicit)
@@ -136,7 +136,7 @@ jobs:
       - name: Run postinstall patches (explicit)
         run: node scripts/ci/patch-tree-sitter.js
       - name: Setup Python 3.x (for pre-fix tools)
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.x'
       - name: ESLint pre-fix (non-blocking)
@@ -223,7 +223,7 @@ jobs:
           node-version: 20
           cache: 'npm'
       - name: Setup Python 3.x (node-gyp builds)
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.x'
       - name: Detect changes for E2E
