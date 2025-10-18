@@ -148,7 +148,7 @@ jobs:
           retention-days: 30
 
       - name: Create neutral status check
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         if: always()
         continue-on-error: true # Soft gates should not block, continue even if checks creation fails
         with:
