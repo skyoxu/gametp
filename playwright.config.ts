@@ -1,4 +1,4 @@
-﻿import { createRequire } from 'module';
+import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 try {
   require('tsconfig-paths/register');
@@ -27,6 +27,11 @@ export default defineConfig({
       name: 'scene-transition',
       testDir: 'tests/e2e',
       testMatch: ['**/scene-transition.*.spec.ts'],
+    },
+    {
+      name: 'framerate-stability',
+      testDir: 'tests/e2e',
+      testMatch: ['**/framerate-stability.*.spec.ts'],
     },
   ],
 });

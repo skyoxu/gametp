@@ -12,6 +12,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { webcrypto as crypto } from 'crypto';
 import { fileURLToPath } from 'url';
 import { loadQualityGatesConfig } from './utils/config-loader.mjs';
 
@@ -46,6 +47,13 @@ const GATE_CONFIG = {
     baselineKey: 'web-vitals-data-baseline',
   },
 };
+
+// Secure random float [0,1)
+function secureRandomFloat() {
+  const arr = new Uint32Array(1);
+  crypto.getRandomValues(arr);
+  return arr[0] / 2 ** 32;
+}
 
 /**
  * 日志输出
@@ -105,18 +113,18 @@ function generateMockData() {
     const dayStart = now - i * dayMs;
 
     // 每天生成5-15个数据点
-    const pointsPerDay = Math.floor(Math.random() * 10) + 5;
+    const pointsPerDay = Math.floor(secureRandomFloat() * 10) + 5;
 
     for (let j = 0; j < pointsPerDay; j++) {
-      const timestamp = dayStart + Math.random() * dayMs;
+      const timestamp = dayStart + secureRandomFloat() * dayMs;
       const sessionId = `session-${i}-${j}`;
 
       // 基准值 + 随机波动
-      const baseLCP = 2200 + Math.random() * 800; // 2200-3000ms
-      const baseINP = 120 + Math.random() * 100; // 120-220ms
-      const baseCLS = 0.08 + Math.random() * 0.05; // 0.08-0.13
-      const baseFCP = 1600 + Math.random() * 400; // 1600-2000ms
-      const baseTTFB = 600 + Math.random() * 300; // 600-900ms
+      const baseLCP = 2200 + secureRandomFloat() * 800; // 2200-3000ms
+      const baseINP = 120 + secureRandomFloat() * 100; // 120-220ms
+      const baseCLS = 0.08 + secureRandomFloat() * 0.05; // 0.08-0.13
+      const baseFCP = 1600 + secureRandomFloat() * 400; // 1600-2000ms
+      const baseTTFB = 600 + secureRandomFloat() * 300; // 600-900ms
 
       // 模拟一些性能回归（最近几天稍差）
       const regressionFactor = i < 3 ? 1.15 : 1.0; // 最近3天性能稍差

@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-10-19T00:00:00.000Z",
+  "environments": {
+    "default": {
+      "security": {
+        "audit": {
+          "level": "high",
+          "allowedVulnerabilities": []
+        }
+      }
+    }
+  }
+}
+

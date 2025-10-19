@@ -9,6 +9,7 @@
  */
 
 import * as Sentry from '@sentry/browser';
+import { secureRandomBase36 } from '../utils/secure-random';
 import {
   getWebVitalsMonitor,
   type WebVitalsMetrics,
@@ -122,7 +123,7 @@ class WebVitalsCollector {
   }
 
   private generateSessionId(): string {
-    return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `${Date.now()}-${secureRandomBase36(9)}`;
   }
 
   private collectData(metrics: WebVitalsMetrics) {

@@ -240,8 +240,9 @@ class PRDChunkFixer {
     }
 
     // 查找 Release_Gates 的结束位置
-    const gatesRegex =
-      /(Release_Gates:\s*\n(?:\s+\w+_Gate:[\s\S]*?)*?)(\nContract_Definitions:)/;
+    // Simplified linear-time pattern to capture the entire Release_Gates block
+    // up to the next Contract_Definitions header. Avoids nested lazy quantifiers.
+    const gatesRegex = /(Release_Gates:\s*\n[\s\S]*?)\n(Contract_Definitions:)/;
     const match = content.match(gatesRegex);
 
     if (!match) {

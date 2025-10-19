@@ -9,6 +9,11 @@ logs/
 job-*.log
 run-*.zip
 pulls.html
+frame-report.json
+tests/artifacts/
+invalid-path.db
+non-existent.db
+gametp-ai-bot.pem
 
 # Dependencies & caches
 node_modules/

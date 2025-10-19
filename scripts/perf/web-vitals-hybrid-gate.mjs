@@ -14,6 +14,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { webcrypto as crypto } from 'crypto';
 import { fileURLToPath } from 'url';
 import { loadQualityGatesConfig } from '../utils/config-loader.mjs';
 
@@ -105,6 +106,13 @@ const HYBRID_GATE_CONFIG = {
   },
 };
 
+// Secure random float [0,1)
+function secureRandomFloat() {
+  const arr = new Uint32Array(1);
+  crypto.getRandomValues(arr);
+  return arr[0] / 2 ** 32;
+}
+
 /**
  * 日志输出
  */
@@ -171,10 +179,10 @@ function generateEnhancedMockData() {
     const regressionFactor = Math.max(1.0, 1.0 + (90 - i) * 0.002);
 
     // 每天生成10-20个数据点
-    const pointsPerDay = Math.floor(Math.random() * 10) + 10;
+    const pointsPerDay = Math.floor(secureRandomFloat() * 10) + 10;
 
     for (let j = 0; j < pointsPerDay; j++) {
-      const timestamp = dayStart + Math.random() * dayMs;
+      const timestamp = dayStart + secureRandomFloat() * dayMs;
 
       // 基准性能值
       const baseLCP = 2300;
@@ -187,12 +195,12 @@ function generateEnhancedMockData() {
       const combinedFactor = weekendFactor * monthEndFactor * regressionFactor;
 
       // 添加随机噪音
-      const noise = 0.8 + Math.random() * 0.4; // 80%-120%
+      const noise = 0.8 + secureRandomFloat() * 0.4; // 80%-120%
 
       data.push({
         timestamp,
         sessionId: `session-${i}-${j}`,
-        userId: `user-${Math.floor(Math.random() * 500)}`,
+      userId: `user-${Math.floor(secureRandomFloat() * 500)}`,
         metrics: {
           lcp: {
             id: `lcp-${timestamp}`,
@@ -231,8 +239,8 @@ function generateEnhancedMockData() {
           viewport: { width: 1920, height: 1080 },
           navigation: { type: 'navigate', redirectCount: 0 },
           // 添加更多上下文信息
-          deviceType: Math.random() > 0.7 ? 'mobile' : 'desktop',
-          connectionType: Math.random() > 0.5 ? '4g' : 'wifi',
+    deviceType: secureRandomFloat() > 0.7 ? 'mobile' : 'desktop',
+    connectionType: secureRandomFloat() > 0.5 ? '4g' : 'wifi',
           timeOfDay: new Date(timestamp).getHours(),
           dayOfWeek: dayOfWeek,
         },

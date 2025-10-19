@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/electron/main';
+import { secureRandomBase36 } from '../utils/secure-random';
 import { app } from 'electron';
 
 // Release Health threshold configuration
@@ -557,7 +558,7 @@ export class ReleaseHealthManager {
    * ID
    */
   private generateSessionId(): string {
-    return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `session_${Date.now()}_${secureRandomBase36(9)}`;
   }
 
   /**

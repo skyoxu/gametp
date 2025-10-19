@@ -135,17 +135,26 @@ function buildApp(): void {
  */
 function ensureElectronBinary(): void {
   try {
-    const electronModuleDir = resolve(process.cwd(), 'node_modules', 'electron');
+    const electronModuleDir = resolve(
+      process.cwd(),
+      'node_modules',
+      'electron'
+    );
     const electronDistDir = resolve(electronModuleDir, 'dist');
     if (existsSync(electronDistDir)) {
       return;
     }
-    console.warn('[launch] Electron dist not found; attempting install.js recovery...');
+    console.warn(
+      '[launch] Electron dist not found; attempting install.js recovery...'
+    );
     const installer = resolve(electronModuleDir, 'install.js');
     if (!existsSync(installer)) {
       throw new Error('electron/install.js not found');
     }
-    execSync(`node "${installer}"`, { stdio: 'inherit', env: { ...process.env } });
+    execSync(`node "${installer}"`, {
+      stdio: 'inherit',
+      env: { ...process.env },
+    });
   } catch (e) {
     console.error('[launch] Electron binary recovery failed');
     throw e;
@@ -289,7 +298,7 @@ export async function prepareWindowForInteraction(page: Page): Promise<Page> {
   // Following ciinfo.md rules: prefer document.readyState based readiness
   // Step 1: allow 'interactive' or 'complete' quickly (15s), improves resilience on fresh Electron boots
   await page.waitForFunction(
-    () => ['interactive', 'complete'].includes(document.readyState as any),
+    () => ['interactive', 'complete'].includes(document.readyState),
     { timeout: 15000 }
   );
 

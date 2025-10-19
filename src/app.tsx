@@ -110,6 +110,15 @@ function App() {
     }
   }, [isPerfSmoke]);
 
+  // Preload heavy modules to avoid blocking interaction path in perf smoke
+  useEffect(() => {
+    if (isPerfSmoke) {
+      // Warm up GameCanvas bundle so clicking start-game does not stall
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      import('./components/GameCanvas').catch(() => void 0);
+    }
+  }, [isPerfSmoke]);
+
   const handleVerticalSliceComplete = (result: any) => {
     console.log('[vertical-slice] completed:', result);
     setVerticalSliceCompleted(true);

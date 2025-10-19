@@ -13,10 +13,35 @@
  * @returns boolean true if allowed, otherwise false
  */
 export function _isAllowedNavigation(url: string): boolean {
-  const allowedProtocols = ['app://', 'file://'];
-  const allowedDomains = ['localhost', '127.0.0.1'];
-  return (
-    allowedProtocols.some(p => url.startsWith(p)) ||
-    allowedDomains.some(d => url.includes(d))
-  );
+  if (!url || typeof url !== 'string') return false;
+  const raw = url.trim();
+  const lower = raw.toLowerCase();
+
+  // Disallow dangerous schemes outright
+  if (
+    lower.startsWith('javascript:') ||
+    lower.startsWith('vbscript:') ||
+    lower.startsWith('data:')
+  ) {
+    return false;
+  }
+
+  // Allow packaged/bundled resources and local files
+  if (lower.startsWith('app://') || lower.startsWith('file://')) {
+    return true;
+  }
+
+  // Strictly allow local dev servers over http/https
+  try {
+    const u = new URL(raw);
+    if (u.protocol === 'http:' || u.protocol === 'https:') {
+      const host = u.hostname; // normalized hostname (no brackets)
+      return host === 'localhost' || host === '127.0.0.1' || host === '::1';
+    }
+  } catch {
+    // If URL parsing fails, deny by default
+    return false;
+  }
+
+  return false;
 }

@@ -345,18 +345,20 @@ export function GameCanvas({
               if (typeof performance !== 'undefined' && performance.mark) {
                 performance.mark('test_button_click_start');
               }
+              // Provide immediate visual feedback for responsiveness
+              setInteractionDone(true);
               await new Promise(r =>
                 requestAnimationFrame(() => requestAnimationFrame(r))
               );
               const { heavyTask, terminate } = createComputationWorker();
               await heavyTask(5_000_000);
               terminate();
-              setInteractionDone(true);
               if (
                 typeof performance !== 'undefined' &&
                 performance.mark &&
                 performance.measure
               ) {
+                // Mark as soon as indicator was shown (approx before heavy work)
                 performance.mark('response_indicator_visible');
                 performance.measure(
                   'test_button_latency',

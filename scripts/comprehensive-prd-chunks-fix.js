@@ -324,8 +324,9 @@ class ComprehensivePRDChunksFixer {
    */
   reconstructReleaseGates(content) {
     // 检查Release_Gates部分是否存在结构问题
-    const gatesRegex =
-      /Release_Gates:\s*\n((?:.*\n)*?)(?=Contract_Definitions:)/s;
+    // Avoid nested quantified patterns that may cause catastrophic backtracking.
+    // Capture everything after Release_Gates: up to the next Contract_Definitions: header in a single lazy class.
+    const gatesRegex = /Release_Gates:\s*\n([\s\S]*?)\n(?=Contract_Definitions:)/;
     const match = content.match(gatesRegex);
 
     if (!match) {

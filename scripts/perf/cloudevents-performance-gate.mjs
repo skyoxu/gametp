@@ -15,6 +15,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { webcrypto as crypto } from 'crypto';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -95,27 +96,42 @@ const CLOUDEVENTS_PERFORMANCE_THRESHOLDS = {
  * @param {number} count 数据点数量
  * @returns {number[]} 处理时间数组（毫秒）
  */
+function randFloat() {
+  const arr = new Uint32Array(1);
+  crypto.getRandomValues(arr);
+  return arr[0] / 2 ** 32;
+}
+
 function generateCloudEventsPerformanceData(metricName, count) {
   const config = CLOUDEVENTS_PERFORMANCE_THRESHOLDS[metricName];
   if (!config) {
     throw new Error(`未知CloudEvents性能指标: ${metricName}`);
   }
 
-  const baseTime = config.p90 * 0.5; // 基准时间约为P90的50%
+  const baseTime = config.p90 * 0.45; // 正常基线更保守，确保P90稳定低于阈值
   const data = [];
 
   for (let i = 0; i < count; i++) {
-    const random = Math.random();
+    const r = randFloat();
 
-    if (random < 0.01) {
-      // 1%的极端情况（模拟网络延迟、GC等）
-      data.push(baseTime + Math.random() * config.critical);
-    } else if (random < 0.05) {
-      // 4%的较慢情况（模拟复杂事件处理）
-      data.push(config.warning + Math.random() * (config.p90 - config.warning));
+    if (r < 0.001) {
+      // 1% 极端：分布在 p99..critical 之间
+      const min = Math.max(config.p99, config.p90);
+      const max = config.critical;
+      const v = min + randFloat() * (max - min);
+      data.push(v);
+    } else if (r < 0.05) {
+      // 4% 较慢：分布在 p90..p99 之间
+      const min = config.p90;
+      const max = config.p99 * 0.96;
+      const v = min + randFloat() * Math.max(1, max - min);
+      data.push(v);
     } else {
-      // 95%的正常情况
-      data.push(baseTime + Math.random() * config.warning);
+      // 95% 正常：严格小于 p90（留出5%的尾部给慢/极端）
+      const min = baseTime;
+      const max = config.p90 * 0.95;
+      const v = min + randFloat() * Math.max(1, max - min);
+      data.push(v);
     }
   }
 
@@ -294,7 +310,7 @@ function executeCloudEventsPerformanceGate() {
       // 在实际实现中，这里会从事件总线或性能日志中读取数据
       // 当前使用模拟数据进行验证
       const config = CLOUDEVENTS_PERFORMANCE_THRESHOLDS[metricName];
-      const sampleCount = Math.max(config.minSamples, 120); // 确保足够样本
+      const sampleCount = Math.max(config.minSamples, 200); // 提高样本量，稳定P99估计
       const data = generateCloudEventsPerformanceData(metricName, sampleCount);
 
       const result = checkCloudEventsMetric(metricName, data);

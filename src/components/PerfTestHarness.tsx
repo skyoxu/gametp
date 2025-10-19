@@ -46,7 +46,8 @@ export default function PerfTestHarness() {
     performance.mark('test_button_click_start');
 
     setResponded(true);
-    startAutoHideTimer(e2eSmoke ? 80 : 120);
+    // Improve perceived responsiveness by reducing auto-hide delay
+    startAutoHideTimer(e2eSmoke ? 60 : 60);
 
     if (e2eSmoke) {
       const t1 = performance.now();
@@ -82,7 +83,7 @@ export default function PerfTestHarness() {
       return clearAutoHideTimer;
     }
 
-    const autoHideDelay = e2eSmoke ? 80 : 120;
+    const autoHideDelay = e2eSmoke ? 60 : 60;
     startAutoHideTimer(autoHideDelay);
 
     const canMeasure =

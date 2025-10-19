@@ -122,7 +122,7 @@ function cleanupTestFiles(maxRetries = 8) {
       fs.rmSync(TEST_DATA_DIR, { recursive: true, force: true });
       return;
     } catch (err: unknown) {
-      const code = (err as any)?.code || '';
+      const code = (err as NodeJS.ErrnoException)?.code || '';
       if (code === 'EBUSY' || code === 'EPERM' || code === 'ENOENT') {
         // Backoff and retry
         const waitMs = Math.min(50 * Math.pow(2, attempt), 1000);

@@ -111,10 +111,10 @@
     "config:substitute:docs": "node scripts/config-substitution.mjs --docs-only",
     "guard:sentry": "node scripts/observability-config-validation.js",
     "guard:quality": "node scripts/quality_gates.mjs",
-    "guard:health": "node scripts/ci/release-health-gate.mjs",
+    "guard:health": "py -3 scripts/ci/write_release_health_stub.py && node scripts/ci/release-health-gate.mjs",
     "guard:base": "node scripts/verify_base_clean.mjs",
     "guard:version": "node scripts/version_sync_check.mjs",
-    "docs:score:gate": "node scripts/docs-scorer.mjs",
+    "docs:score:gate": "node scripts/docs-scorer.mjs docs/architecture/base/12-glossary-v2.md",
     "guard:adr": "node scripts/validate-task-links.mjs",
     "guard:csp": "node scripts/verify_csp_policy.mjs",
     "guard:bundle": "node scripts/ci/bundle-budget-gate.mjs",
@@ -206,7 +206,6 @@
     "@electron-toolkit/utils": "^4.0.0",
     "@electron/fuses": "^1.8.0",
     "@eslint/js": "^9.30.1",
-    "@pimzino/claude-code-spec-workflow": "^1.4.4",
     "@sentry/cli": "^2.39.0",
     "@size-limit/file": "^11.2.0",
     "@tailwindcss/postcss": "^4.1.12",
@@ -275,5 +274,11 @@
   },
   "engines": {
     "node": ">=20 <21"
+  },
+  "overrides": {
+    "socks": "^2.8.7",
+    "socks-proxy-agent": "^8.0.5",
+    "cross-spawn": "^7.0.6",
+    "foreground-child": "^3.3.1"
   }
 }

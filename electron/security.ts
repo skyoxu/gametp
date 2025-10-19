@@ -87,13 +87,8 @@ export function hardenWindow(
   window.webContents.on('will-navigate', (event, navigationUrl) => {
     console.log(`[Security] navigation request: ${navigationUrl}`);
 
-    // Allow only internal/provisioned URLs
-    if (
-      !navigationUrl.startsWith('app://') &&
-      !navigationUrl.startsWith('file://') &&
-      !navigationUrl.includes('localhost') &&
-      !navigationUrl.includes('127.0.0.1')
-    ) {
+    // Allow only internal/provisioned URLs (strict parser)
+    if (!_isAllowedNavigation(navigationUrl)) {
       console.warn(`[Security] blocked external navigation: ${navigationUrl}`);
       event.preventDefault();
       // Optionally inform user via dialog
@@ -123,12 +118,10 @@ export function hardenWindow(
   window.webContents.on('will-redirect', (event, redirectUrl) => {
     console.log(`[Security] will-redirect: ${redirectUrl}`);
 
-    if (
-      !redirectUrl.startsWith('app://') &&
-      !redirectUrl.startsWith('file://')
-    ) {
+    const allowed = _isAllowedNavigation(redirectUrl);
+    if (!allowed) {
+      console.warn(`[Security] blocked redirect: ${redirectUrl}`);
       event.preventDefault();
-      shell.openExternal(redirectUrl);
     }
   });
 }
@@ -194,13 +187,24 @@ export function setupCSPReporting(ses: typeof session.defaultSession): void {
   assertSession(ses);
   ses.webRequest.onBeforeRequest((details, callback) => {
     // Disallow suspicious inline/script-in-URL patterns
-    const url = details.url.toLowerCase();
-    const scriptProtocol = 'java' + 'script:';
-    const hasScriptProtocol = url.startsWith(scriptProtocol);
-    const hasDataHtml = url.includes('data:text/html');
-    const hasBlobUrl = url.startsWith('blob:');
+    const raw = (details.url || '').trim();
+    const lower = raw.toLowerCase();
+    let protocol = '';
+    try {
+      const u = new URL(raw);
+      protocol = u.protocol;
+    } catch {
+      const idx = lower.indexOf(':');
+      protocol = idx > 0 ? lower.slice(0, idx + 1) : '';
+    }
 
-    if (hasScriptProtocol || hasDataHtml || hasBlobUrl) {
+    const isSuspicious =
+      protocol === 'javascript:' ||
+      protocol === 'vbscript:' ||
+      protocol === 'blob:' ||
+      (protocol === 'data:' && lower.startsWith('data:text/html'));
+
+    if (isSuspicious) {
       console.warn(`[Security] suspicious request: ${details.url}`);
 
       // Optionally forward to an in-house telemetry channel
