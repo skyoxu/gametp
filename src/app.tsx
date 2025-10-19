@@ -114,7 +114,6 @@ function App() {
   useEffect(() => {
     if (isPerfSmoke) {
       // Warm up GameCanvas bundle so clicking start-game does not stall
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       import('./components/GameCanvas').catch(() => void 0);
     }
   }, [isPerfSmoke]);
