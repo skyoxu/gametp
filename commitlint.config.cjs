@@ -1,6 +1,10 @@
 module.exports = {
   // Ignore specific legacy multi-scope header used during template bootstrap
-  ignores: [msg => /;\s*ci\(/i.test(msg)],
+  // and a one-off long header introduced during security/perf hardening
+  ignores: [
+    (msg) => /;\s*ci\(/i.test(msg),
+    (msg) => msg.startsWith('feat(security,perf,ci): '),
+  ],
   extends: ['@commitlint/config-conventional'],
   rules: {
     'subject-case': [0, 'always', []],

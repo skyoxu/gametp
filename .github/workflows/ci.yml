@@ -193,6 +193,12 @@ jobs:
       - name: Guard no cifix references (workflows/scripts/tests)
         run: node scripts/ci/guard-no-cifix.mjs
 
+      - name: Clean caches for fresh reads
+        run: |
+          git fetch --prune --unshallow || echo "Repo already unshallow"
+          git gc --prune=now || echo "GC not required"
+          npm cache clean --force
+
       - name: Commit message lint (push - last 20)
         if: ${{ github.event_name != 'pull_request' && github.actor != 'dependabot[bot]' && !startsWith(github.ref, 'refs/heads/dependabot/') }}
         run: |
