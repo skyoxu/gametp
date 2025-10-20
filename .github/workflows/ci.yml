@@ -271,7 +271,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: 'npm'
 
       - name: Install dependencies
@@ -313,7 +313,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: 'npm'
       - name: Install dependencies
         uses: ./.github/actions/npm-install
@@ -353,7 +353,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: 'npm'
       - name: Setup Java (for SonarScanner)
         uses: actions/setup-java@v5
@@ -421,7 +421,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: 'npm'
       - name: Install dependencies
         uses: ./.github/actions/npm-install
@@ -496,7 +496,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: 'npm'
       - name: Install dependencies
         uses: ./.github/actions/npm-install
@@ -543,7 +543,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: ['20.x']
+        node-version: ['22.x']
         # Align with engines: Node >=20 <21
 
     steps:
@@ -608,7 +608,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: 'npm'
 
       - name: Install dependencies
@@ -720,7 +720,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: 'npm'
 
       - name: Install dependencies
@@ -762,7 +762,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: 'npm'
 
       - name: Install dependencies
@@ -788,7 +788,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: 'npm'
       - name: Install dependencies
         uses: ./.github/actions/npm-install
@@ -912,7 +912,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: 'npm'
       - name: Install (prod only, no scripts)
         run: npm ci --omit=dev --ignore-scripts

@@ -165,7 +165,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v6.0.0
         with:
-          node-version: '22'
+          node-version: '22.x'
       - name: Step
         run: node scripts/ci/workflow-consistency-check.mjs
 
@@ -191,7 +191,7 @@ jobs:
           retention-days: 7
       - uses: actions/setup-node@v6.0.0
         with:
-          node-version: '22'
+          node-version: '22.x'
       - name: Check workflow encodings and EOL
         run: node scripts/ci/check-workflows-encoding.mjs
 
@@ -217,7 +217,7 @@ jobs:
           retention-days: 7
       - uses: actions/setup-node@v6.0.0
         with:
-          node-version: '22'
+          node-version: '22.x'
       - name: Check workflow encodings and EOL (Windows)
         run: node scripts/ci/check-workflows-encoding.mjs
 
@@ -233,7 +233,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v6.0.0
         with:
-          node-version: '22'
+          node-version: '22.x'
       - name: Check pwsh defaults on Windows jobs and POSIX test misuse
         run: node scripts/ci/workflow-shell-guard.mjs
 
@@ -248,7 +248,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v6.0.0
         with:
-          node-version: '22'
+          node-version: '22.x'
       - name: Scan for bash/shell scripts/non-Windows runners
         run: node scripts/ci/windows-only-guard.mjs
         env:
@@ -279,7 +279,7 @@ jobs:
           retention-days: 7
       - uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20'
+          node-version: '22.x'
       - name: Check non-ASCII characters in workflow files
         run: node scripts/ci/guard-workflows-ascii.mjs
 
@@ -294,7 +294,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20'
+          node-version: '22.x'
       - name: Scan docs for bash code fences
         run: node scripts/ci/docs-shell-scan.mjs
 
@@ -310,6 +310,6 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20'
+          node-version: '22.x'
       - name: Run docs shell light gate (PR)
         run: node scripts/ci/docs-shell-pr-gate.mjs

@@ -41,7 +41,7 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: '20.x'
+  NODE_VERSION: '22.x'
   # Infrastructure-level optimization: Enhanced error handling and caching
   CI_RETRY_COUNT: '3'
   CI_TIMEOUT_MINUTES: '20'

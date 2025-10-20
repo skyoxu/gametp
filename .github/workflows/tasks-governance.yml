@@ -10,7 +10,7 @@ defaults:
 
 # Infrastructure-level optimization: global environment variables
 env:
-  NODE_VERSION: '20.x'
+  NODE_VERSION: '22.x'
   CI_RETRY_COUNT: '3'
   CI_TIMEOUT_MINUTES: '15'
   CACHE_STRATEGY: 'aggressive'

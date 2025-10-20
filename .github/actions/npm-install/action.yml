@@ -10,7 +10,7 @@ inputs:
   node-version:
     description: 'Node.js version'
     required: false
-    default: '20.x'
+    default: '22.x'
   mode:
     description: 'Install mode: lean or full'
     required: false
