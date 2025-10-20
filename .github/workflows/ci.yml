@@ -94,6 +94,9 @@ jobs:
           node-version: '22.x'
           cache: 'npm'
 
+      - name: Guard JSON BOM (Windows/Python)
+        run: npm run guard:bom:json
+
       - name: Strip BOMs in config files
         run: node scripts/ci/fix-bom.cjs
 

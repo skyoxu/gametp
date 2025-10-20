@@ -1,4 +1,4 @@
-﻿{
+{
     "name":  "gametp",
     "productName":  "Game TP",
     "description":  "A desktop game built with Electron, React 19, Phaser 3, Vite, and TypeScript.",
@@ -92,6 +92,8 @@
                     "guard:ci-self-check":  "node scripts/ci-self-check.mjs",
                     "guard:encoding":  "node scripts/ci/check-workflows-encoding.mjs",
                     "guard:bom":  "node scripts/ci/check-bom.mjs",
+                    "guard:bom:json":  "py -3 scripts/ci/guard-json-bom.py",
+                    "fix:bom:json":  "py -3 scripts/ci/guard-json-bom.py --fix",
                     "guard:workflow-deps":  "node scripts/ci/workflow-dependency-check.cjs",
                     "guard:entry":  "node scripts/ci/check-electron-entry.cjs",
                     "guard:electron":  "node scripts/scan_electron_safety.mjs",

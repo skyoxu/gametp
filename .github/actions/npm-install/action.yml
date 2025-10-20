@@ -80,11 +80,11 @@ runs:
         npm config set fetch-retry-maxtimeout 600000 --location=project | Out-Null
         npm config set fetch-retry-mintimeout 20000 --location=project | Out-Null
 
-        $npmPath = (Get-Command npm -ErrorAction Stop).Source
-        function Invoke-Npm([string[]]$argv) {
+        function Invoke-Npm([string[]]$nargs) {
           $global:LASTEXITCODE = 0
-          Write-Host ("[npm-install] running: npm {0}" -f ($argv -join ' '))
-          & $npmPath @argv 2>&1 | Tee-Object -FilePath $logFile -Append | Out-Host
+          Write-Host ("[npm-install] running: npm {0}" -f ($nargs -join ' '))
+          # Call npm directly to avoid path/alias quirks; capture output to log
+          & npm @nargs 2>&1 | Tee-Object -FilePath $logFile -Append | Out-Host
           if ($null -eq $LASTEXITCODE) { return 0 }
           return [int]$LASTEXITCODE
         }
