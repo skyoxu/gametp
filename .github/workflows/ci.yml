@@ -217,13 +217,13 @@ jobs:
       - name: Commit message lint (push - last 20)
         if: ${{ github.event_name != 'pull_request' && github.actor != 'dependabot[bot]' && !startsWith(github.ref, 'refs/heads/dependabot/') }}
         run: |
-          npx --no-install commitlint --from=HEAD~20 --to=HEAD --verbose
+          node scripts/ci/commitlint-range-sanitized.mjs --from HEAD~20 --to HEAD
         # enforce commit message policy: disallow non-compliant messages
         continue-on-error: false
       - name: Commit message lint (PR - last commit only)
         if: ${{ github.event_name == 'pull_request' && github.actor != 'dependabot[bot]' && !startsWith(github.head_ref || '', 'dependabot/') }}
         run: |
-          npx --no-install commitlint --from=HEAD~1 --to=HEAD --verbose
+          node scripts/ci/commitlint-range-sanitized.mjs --from HEAD~1 --to HEAD
         continue-on-error: false
 
       - name: Step
