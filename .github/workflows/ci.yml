@@ -91,7 +91,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: 'npm'
 
       - name: Strip BOMs in config files
@@ -146,7 +146,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: 'npm'
       - name: Strip BOMs in config files
         run: node scripts/ci/fix-bom.cjs

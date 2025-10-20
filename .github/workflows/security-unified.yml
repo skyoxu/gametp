@@ -48,7 +48,7 @@ concurrency:
   cancel-in-progress: ${{ !contains(github.ref, 'refs/heads/main') }}
 
 env:
-  NODE_VERSION: '20.x'
+  NODE_VERSION: '22.x'
   # Ensure native rebuilds (node-gyp) find MSVC 2022 and use C++20 on Windows runners (ADR-0005)
   CL: '/std:c++20 /EHsc'
   CXXFLAGS: '-std=c++20'
