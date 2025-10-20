@@ -67,6 +67,20 @@ runs:
         $mode = '${{ steps.meta.outputs.mode }}'
         Write-Host ("[npm-install] invoking Node helper (mode={0})" -f $mode)
         node scripts/ci/npm-install.mjs --cwd . --mode $mode
+        $code = $LASTEXITCODE
+        if ($code -ne 0) {
+          $logs = '${{ steps.meta.outputs.logs-dir }}'
+          $p = Join-Path $logs 'npm-install.log'
+          if ($env:GITHUB_STEP_SUMMARY) {
+            $lines = @()
+            $lines += "## npm-install failed"
+            $lines += ("- Logs: {0}" -f $p)
+            $lines += ("- Mode: {0}" -f $mode)
+            $lines -join "`n" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+          }
+          Write-Error ("npm-install failed (exit={0}). See {1}" -f $code, $p)
+          exit $code
+        }
 
     - name: Ensure Rollup native package (win32-x64)
       shell: pwsh

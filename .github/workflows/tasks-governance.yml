@@ -60,11 +60,9 @@ jobs:
         run: node scripts/ci/npm-normalize-windows.mjs
 
       - name: Install deps (lean, no native builds)
-        env:
-          NPM_CONFIG_PRODUCTION: 'false'
-          NODE_ENV: 'development'
-          npm_config_build_from_source: 'false'
-        run: npm ci --no-audit --no-fund --ignore-scripts --omit=optional
+        uses: ./.github/actions/npm-install
+        with:
+          mode: lean
 
       - name: Verify ESLint availability
         run: npx -y eslint --version

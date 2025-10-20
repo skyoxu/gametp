@@ -78,7 +78,10 @@ jobs:
         with:
           node-version: '22.x'
           cache: 'npm'
-      - run: npm ci
+      - name: Install dependencies (full)
+        uses: ./.github/actions/npm-install
+        with:
+          mode: full
       - run: npx playwright install
       - run: npm run build
         env:
