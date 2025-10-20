@@ -49,7 +49,7 @@ function stripBomLines(text) {
   return text.replace(/^\uFEFF+/gm, '');
 }
 
-const { lint } = await import('@commitlint/lint');
+const lint = (await import('@commitlint/lint')).default;
 const load = (await import('@commitlint/load')).default;
 const loaded = await load();
 
@@ -64,7 +64,11 @@ let failures = 0;
 for (const sha of shas) {
   const raw = readMessage(sha);
   const msg = stripBomLines(raw);
-  const res = await lint(msg, loaded.rules, loaded);
+  const res = await lint(msg, loaded.rules || {}, {
+    parserOpts: loaded.parserPreset && loaded.parserPreset.parserOpts ? loaded.parserPreset.parserOpts : {},
+    plugins: loaded.plugins || {},
+    defaultIgnores: true,
+  });
   if (!res.valid) {
     failures += 1;
     console.log(`\n\x1b[31m✖\x1b[0m commit ${sha} failed commitlint:`);
@@ -83,4 +87,3 @@ if (failures > 0) {
 
 console.log(`\n[commitlint-range] All ${shas.length} commit(s) passed in ${range}.`);
 process.exit(0);
-
