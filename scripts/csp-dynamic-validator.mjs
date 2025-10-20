@@ -267,7 +267,8 @@ class CSPDynamicValidator {
     }
 
     // 验证 Sentry 集成
-    if (!values.connect.some(src => src.includes('sentry.io'))) {
+    const hasSentry = values.connect.some((src) => { try { const u = new URL(src, 'http://placeholder.local'); return typeof u.hostname === 'string' && u.hostname.endsWith('sentry.io'); } catch { return false; } });
+    if (!hasSentry) {
       this.warnings.push({
         type: 'missing_sentry',
         directive: 'connect-src',

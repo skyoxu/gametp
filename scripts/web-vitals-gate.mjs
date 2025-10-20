@@ -132,7 +132,8 @@ function generateMockData() {
       data.push({
         timestamp,
         sessionId,
-        userId: `user-${Math.floor(Math.random() * 100)}`,
+        // Use cryptographically secure randomness to avoid insecure-randomness finding
+        userId: `user-${(crypto.getRandomValues(new Uint32Array(1))[0] % 100)}`,
         metrics: {
           lcp: {
             id: `lcp-${timestamp}`,

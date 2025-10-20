@@ -106,8 +106,20 @@ class BatchChunkFixer {
   fixCloudEvents(content, filename) {
     const chunkNum = filename.match(/chunk_(\d{3})/)?.[1] || '000';
 
-    const eventsRegex =
-      /(\s+)events:\s*\n((?:\s+[^\n]+\s*\n)*?)(\s+interfaces:)/s;
+    // Safe line-based scanning to avoid ReDoS-prone regex
+    const lines = content.split('\n');
+    let start = -1;
+    let end = -1;
+    let indent = '';
+    for (let i = 0; i < lines.length; i++) {
+      const m = lines[i].match(/^(\s*)events:\s*$/);
+      if (m) { start = i; indent = m[1] || ''; break; }
+    }
+    if (start === -1) return content;
+    for (let j = start + 1; j < lines.length; j++) {
+      if (/^\s*interfaces:/.test(lines[j])) { end = j; break; }
+    }
+    if (end === -1) return content;
 
     const newEventsContent = `    specversion: "1.0"
     id: "guild-manager-chunk-${chunkNum}-${Date.now().toString(36)}"
@@ -183,10 +195,20 @@ class BatchChunkFixer {
         durationHours: 24
 `;
 
-    return content.replace(
-      /Release_Gates:\s*\n((?:.*\n)*?)(?=Contract_Definitions:)/s,
-      `Release_Gates:\n${standardGates}Contract_Definitions:`
-    );
+    // Replace Release_Gates block using line scanning
+    const lines = content.split('\n');
+    let s = -1; let e = -1;
+    for (let i = 0; i < lines.length; i++) {
+      if (/^\s*Release_Gates:\s*$/.test(lines[i])) { s = i; break; }
+    }
+    if (s === -1) return content;
+    for (let j = s + 1; j < lines.length; j++) {
+      if (/^\s*Contract_Definitions:/.test(lines[j])) { e = j; break; }
+    }
+    if (e === -1) return content;
+    const nl = lines.slice();
+    nl.splice(s + 1, e - (s + 1), standardGates.replace(/\n$/, ''));
+    return nl.join('\n');
   }
 
   printSummary() {
