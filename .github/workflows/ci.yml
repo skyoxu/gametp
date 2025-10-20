@@ -915,7 +915,11 @@ jobs:
           node-version: '22.x'
           cache: 'npm'
       - name: Install (prod only, no scripts)
-        run: npm ci --omit=dev --ignore-scripts
+        uses: ./.github/actions/npm-install
+        with:
+          mode: lean
+        env:
+          npm_config_omit: dev
       - name: Generate CycloneDX SBOM
         # Use production tree to avoid dev-only invalid packages on Windows (e.g., dmg-license)
         run: npx --yes @cyclonedx/cyclonedx-npm --output-file sbom.json --spec-version 1.5
