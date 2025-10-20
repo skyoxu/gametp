@@ -82,9 +82,11 @@ runs:
 
         function Invoke-Npm([string[]]$nargs) {
           $global:LASTEXITCODE = 0
+          # Resolve npm executable explicitly (prefer npm.cmd on Windows)
+          $npmExe = (Get-Command npm.cmd -ErrorAction SilentlyContinue).Source
+          if (-not $npmExe) { $npmExe = (Get-Command npm -ErrorAction Stop).Source }
           Write-Host ("[npm-install] running: npm {0}" -f ($nargs -join ' '))
-          # Call npm directly to avoid path/alias quirks; capture output to log
-          & npm @nargs 2>&1 | Tee-Object -FilePath $logFile -Append | Out-Host
+          & $npmExe @nargs 2>&1 | Tee-Object -FilePath $logFile -Append | Out-Host
           if ($null -eq $LASTEXITCODE) { return 0 }
           return [int]$LASTEXITCODE
         }
