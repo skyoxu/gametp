@@ -251,15 +251,26 @@ class ComprehensivePRDChunksFixer {
    */
   fixCloudEventsCompliance(content, filename) {
     // 匹配events部分（处理多种格式变体）
-    const eventsRegex =
-      /(\s+)events:\s*\n((?:\s+[^\n]+\s*\n)*?)(\s+interfaces:)/s;
-    const match = content.match(eventsRegex);
+    const lines = content.split('\n');
+    let start = -1;
+    let end = -1;
+    let indent = '';
+    for (let i = 0; i < lines.length; i++) {
+      const m = lines[i].match(/^(\s*)events:\s*$/);
+      if (m) { start = i; indent = m[1] || ''; break; }
+    }
+    if (start === -1) { return { modified: false }; }
+    for (let j = start + 1; j < lines.length; j++) {
+      if (/^\s*interfaces:/.test(lines[j])) { end = j; break; }
+    }
+    if (end === -1) { return { modified: false }; }
+    const eventsContent = lines.slice(start + 1, end).join('\n');
 
     if (!match) {
       return { modified: false };
     }
 
-    const [, indent, eventsContent, nextSection] = match;
+    // indent and eventsContent computed via line scanning above
     const modified = false;
     const fixedContent = eventsContent;
     const fixes = [];
@@ -306,10 +317,11 @@ class ComprehensivePRDChunksFixer {
     dataschema: "${requiredFields.dataschema}"
 `;
 
-    const newContent = content.replace(
-      eventsRegex,
-      `${indent}events:\n${newEventsContent}${nextSection}`
-    );
+    const newLines = lines.slice();
+    const insertion = newEventsContent.replace(/\n$/, '');
+    // Keep events: line; replace content until interfaces:
+    newLines.splice(start + 1, end - (start + 1), insertion);
+    const newContent = newLines.join('\n');
 
     return {
       modified: true,

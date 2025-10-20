@@ -149,12 +149,21 @@ class SQLiteHealthCollector {
       const { execSync } = await import('child_process');
 
       if (process.platform === 'win32') {
-        // Windows: 使用wmic获取磁盘空间
-        const drive = path.parse(filePath).root.replace('\\', '');
-        const result = execSync(
-          `wmic logicaldisk where caption="${drive}" get size,freespace /value`,
-          { encoding: 'utf8', timeout: 5000 }
-        );
+        // Windows: safely derive drive letter and use spawnSync-style arguments
+        const parsed = path.parse(filePath);
+        let drive = (parsed.root || 'C:\\').slice(0, 2).toUpperCase(); // e.g., 'C:'
+        if (!/^[A-Z]:$/.test(drive)) {
+          drive = 'C:'; // fallback to C: if unexpected
+        }
+        const { spawnSync } = await import('child_process');
+        const sp = spawnSync('wmic', ['logicaldisk', 'where', `caption="${drive}"`, 'get', 'size,freespace', '/value'], {
+          encoding: 'utf8',
+          timeout: 5000,
+        });
+        if (sp.error) {
+          throw sp.error;
+        }
+        const result = sp.stdout;
 
         const lines = result.split('\n').filter(line => line.includes('='));
         const freeSpace = lines.find(line => line.startsWith('FreeSpace='));
