@@ -64,11 +64,13 @@ let failures = 0;
 for (const sha of shas) {
   const raw = readMessage(sha);
   const msg = stripBomLines(raw);
-  const res = await lint(msg, loaded.rules || {}, {
-    parserOpts: loaded.parserPreset && loaded.parserPreset.parserOpts ? loaded.parserPreset.parserOpts : {},
-    plugins: loaded.plugins || {},
-    defaultIgnores: true,
-  });
+const res = await lint(msg, loaded.rules || {}, {
+  parserOpts: loaded.parserPreset && loaded.parserPreset.parserOpts ? loaded.parserPreset.parserOpts : {},
+  plugins: loaded.plugins || {},
+  // Respect project-specific ignore rules declared in commitlint config
+  ignores: Array.isArray(loaded.ignores) ? loaded.ignores : [],
+  defaultIgnores: true,
+});
   if (!res.valid) {
     failures += 1;
     console.log(`\n\x1b[31m✖\x1b[0m commit ${sha} failed commitlint:`);
