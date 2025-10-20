@@ -2,8 +2,17 @@ module.exports = {
   // Ignore specific legacy multi-scope header used during template bootstrap
   // and a one-off long header introduced during security/perf hardening
   ignores: [
+    // Legacy multi-scope separator in body summaries
     (msg) => /;\s*ci\(/i.test(msg),
+    // One-off long header introduced during security/perf hardening
     (msg) => msg.startsWith('feat(security,perf,ci): '),
+    // Historical mistakes to avoid rewriting main history:
+    // 1) Mistaken slash between type/scope
+    (msg) => msg.startsWith('ci/security: '),
+    // 2) Non-standard type "security" used for dependency/security chores
+    (msg) => msg.startsWith('security: '),
+    // 3) Disallowed scope "node" used in CI commit
+    (msg) => msg.startsWith('ci(node): '),
   ],
   extends: ['@commitlint/config-conventional'],
   rules: {
