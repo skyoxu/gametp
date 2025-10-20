@@ -44,6 +44,23 @@ jobs:
       can_proceed: ${{ steps.validation.outputs.can_proceed }}
     steps:
       - uses: actions/checkout@v5
+      - name: Setup Node.js
+        uses: actions/setup-node@v6.0.0
+        with:
+          node-version: '22.x'
+          cache: 'npm'
+      - name: Guard JSON BOM (Windows/Python)
+        run: npm run guard:bom:json
+      - name: Security audit snapshot (npm)
+        run: py -3 scripts/ci/run_npm_audit.py
+      - name: Upload security audit logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: staged-release-security-audit-logs
+          path: |
+            logs/**/security/*.json
+          retention-days: 7
       - id: validation
         run: node scripts/ci/precheck-can-proceed.mjs
 
@@ -59,7 +76,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v6.0.0
         with:
-          node-version: '20'
+          node-version: '22.x'
           cache: 'npm'
       - run: npm ci
       - run: npx playwright install

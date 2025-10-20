@@ -97,6 +97,18 @@ jobs:
       - name: Guard JSON BOM (Windows/Python)
         run: npm run guard:bom:json
 
+      - name: Security audit snapshot (npm)
+        run: py -3 scripts/ci/run_npm_audit.py
+
+      - name: Upload security audit logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-logs
+          path: |
+            logs/**/security/*.json
+          retention-days: 14
+
       - name: Strip BOMs in config files
         run: node scripts/ci/fix-bom.cjs
 

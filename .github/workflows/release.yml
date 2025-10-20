@@ -60,6 +60,10 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
+      - name: Guard JSON BOM (Windows/Python)
+        run: npm run guard:bom:json
+      - name: Security audit snapshot (npm)
+        run: py -3 scripts/ci/run_npm_audit.py
       - name: Setup Python (for node-gyp)
         uses: actions/setup-python@v6
         with:
@@ -259,6 +263,14 @@ jobs:
           name: release-logs
           path: |
             ${{ steps.release_logs.outputs.dir }}/**
+          retention-days: 14
+      - name: Upload security audit logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-logs
+          path: |
+            logs/**/security/*.json
           retention-days: 14
       - run: node scripts/ci/archive-build-artifacts.mjs
       - uses: actions/upload-artifact@v4
