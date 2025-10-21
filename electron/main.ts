@@ -107,7 +107,10 @@ function createWindow() {
   win.webContents.on('will-navigate', (evt, url) => {
     if (!url.startsWith('app://') && !url.startsWith('file://')) {
       evt.preventDefault();
-      shell.openExternal(url).catch(() => undefined);
+      // Only allow opening http/https links externally; deny other schemes
+      if (/^https?:\/\//i.test(url)) {
+        shell.openExternal(url).catch(() => undefined);
+      }
     }
   });
 
