@@ -1,4 +1,4 @@
-﻿import js from '@eslint/js';
+import js from '@eslint/js';
 import globals from 'globals';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
@@ -76,15 +76,14 @@ export default tseslint.config([
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
+      // Use flat config style: include the plugin object explicitly instead of legacy extends
       eslintConfigPrettier,
     ],
     languageOptions: {
       ecmaVersion: 2020,
       globals: { ...globals.browser, ...globals.node, ...globals.es2020 },
     },
-    plugins: { prettier, react },
+    plugins: { prettier, react, 'react-hooks': reactHooks, 'react-refresh': reactRefresh },
     settings: { react: { version: 'detect' } },
     rules: {
       'prettier/prettier': ['error', prettierOptions],
