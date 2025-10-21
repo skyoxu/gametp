@@ -846,7 +846,8 @@ jobs:
             $deltaScene = [math]::Round((($scene - $prev.scene_ms) / [double]$prev.scene_ms) * 100, 2)
           }
           $out = [pscustomobject]@{ timestamp=$now; start_ms=$start; scene_ms=$scene; delta_start_pct=$deltaStart; delta_scene_pct=$deltaScene }
-          $json = $out | ConvertTo-Json -Depth 3
+          # Produce single-line JSON to safely write to GITHUB_OUTPUT (avoid multiline format errors)
+          $json = $out | ConvertTo-Json -Depth 3 -Compress
           $json | Set-Content -LiteralPath perf-weekly.json -Encoding UTF8
           # Step Summary
           $lines = @()
