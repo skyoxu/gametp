@@ -417,7 +417,7 @@ jobs:
         run: npx playwright install
 
       - name: Download pre-built application
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: electron-app-windows
           path: dist/win-unpacked/
@@ -562,21 +562,21 @@ jobs:
           Write-Host "Unified security gate pre-checks passed (static scan + E2E outputs)"
 
       - name: Download E2E results (merged)
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           pattern: e2e-security-test-results-shard-*
           merge-multiple: true
           path: artifacts/e2e-results
 
       - name: Download Playwright traces (merged)
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           pattern: playwright-traces-shard-*
           merge-multiple: true
           path: artifacts/playwright-traces
 
       - name: Download static scan reports
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: static-security-reports
           path: artifacts/static

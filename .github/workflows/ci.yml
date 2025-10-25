@@ -322,7 +322,7 @@ jobs:
       - name: Validate (coverage config)
         run: node scripts/ci/coverage-config.cjs --verify-only
       - name: Step
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: coverage-summary
           path: coverage/
@@ -636,7 +636,7 @@ jobs:
           retention-days: 7
 
       - name: Download dist-electron artifact (if available)
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         continue-on-error: true
         with:
           name: dist-electron
@@ -941,13 +941,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
       - name: Download Snyk report
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         continue-on-error: true
         with:
           name: snyk-report
           path: .
       - name: Download npm audit report
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         continue-on-error: true
         with:
           name: npm-audit-report
