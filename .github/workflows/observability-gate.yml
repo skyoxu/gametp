@@ -47,7 +47,7 @@ jobs:
           cache: 'npm'
       - run: node scripts/ci/run-observability-validation.mjs
       - if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: observability-validation-report
           path: logs/observability-validation-report.json

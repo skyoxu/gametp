@@ -79,7 +79,7 @@ jobs:
         run: node scripts/ci/validate-package-json.mjs
 
       - name: Upload config reports
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: config-management-report
@@ -121,7 +121,7 @@ jobs:
         run: node scripts/ci/verify-generated-files.mjs
 
       - name: Upload documentation
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: processed-documentation
           path: |

@@ -55,7 +55,7 @@ jobs:
           py -3 scripts/python/fetch_run_logs_with_token.py @args
 
       - name: Upload fetched logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: fetched-run-logs
           path: |

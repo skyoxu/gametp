@@ -140,7 +140,7 @@ jobs:
       # Read soft gates output no longer needed: run-soft-gates sets defaults when missing
 
       - name: Upload soft gates report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: soft-gate-reports
