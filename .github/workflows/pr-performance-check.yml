@@ -92,7 +92,7 @@ jobs:
 
       - name: Upload Playwright traces (logs/playwright-traces)
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: playwright-traces
           path: logs/playwright-traces/
@@ -122,7 +122,7 @@ jobs:
 
       - name: Upload performance artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: performance-data-${{ github.run_number }}
           path: |

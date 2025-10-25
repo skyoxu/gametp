@@ -76,7 +76,7 @@ jobs:
         uses: raven-actions/actionlint@v2
       - name: Upload actionlint pre-fix logs
         if: always() && runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: actionlint-prefx-logs
           path: ${{ steps.actionlint_prefx.outputs.logs-dir }}
@@ -84,7 +84,7 @@ jobs:
           retention-days: 7
       - name: Upload actionlint logs (fallback glob)
         if: always() && runner.os == 'Windows' && steps.actionlint_prefx.outputs.logs-dir == ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: actionlint-prefx-logs-fallback
           path: logs/*/actionlint
@@ -139,7 +139,7 @@ jobs:
         uses: raven-actions/actionlint@v2
       - name: Upload actionlint pre-fix logs (Windows)
         if: always() && runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: actionlint-prefx-logs-windows
           path: ${{ steps.actionlint_prefx_win.outputs.logs-dir }}
@@ -147,7 +147,7 @@ jobs:
           retention-days: 7
       - name: Upload actionlint logs (fallback glob, Windows)
         if: always() && runner.os == 'Windows' && steps.actionlint_prefx_win.outputs.logs-dir == ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: actionlint-prefx-logs-windows-fallback
           path: logs/*/actionlint
@@ -183,7 +183,7 @@ jobs:
         uses: ./.github/actions/workflows-ascii-prefx
       - name: Upload workflows ASCII pre-fix logs
         if: always() && runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ascii-prefx-logs
           path: ${{ steps.ascii_prefx_enc.outputs.logs-dir }}
@@ -209,7 +209,7 @@ jobs:
         uses: ./.github/actions/workflows-ascii-prefx
       - name: Upload workflows ASCII pre-fix logs (Windows)
         if: always() && runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ascii-prefx-logs-windows
           path: ${{ steps.ascii_prefx_enc_win.outputs.logs-dir }}
@@ -271,7 +271,7 @@ jobs:
         uses: ./.github/actions/workflows-ascii-prefx
       - name: Upload workflows ASCII pre-fix logs (guard)
         if: always() && runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ascii-prefx-logs-guard
           path: ${{ steps.ascii_prefx_guard.outputs.logs-dir }}

@@ -102,7 +102,7 @@ jobs:
 
       - name: Upload security audit logs
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: security-audit-logs
           path: |
@@ -237,7 +237,7 @@ jobs:
       # Upload ESLint pre-fix logs for inspection
       - name: Upload ESLint pre-fix logs
         if: always() && runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: eslint-pre-fix-logs
           path: ${{ steps.eslint_prefx.outputs.logs-dir }}
@@ -288,7 +288,7 @@ jobs:
           EVTBUS_1000_SUBS_MS: '2000'
           EVTBUS_100_PUBS_MS: '1000'
       - name: Step
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: coverage-summary
@@ -434,7 +434,7 @@ jobs:
           npm run build *>&1 | Tee-Object -FilePath "logs/$d/build-ci/build.log"
       - name: Upload build logs (on failure)
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: build-ci-logs
           path: logs/*/build-ci/**
@@ -470,7 +470,7 @@ jobs:
         run: node scripts/ci/size-summary.mjs
       - name: Upload bundle analysis report
         if: ${{ success() && hashFiles('dist/bundle-analysis.html') != '' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: bundle-analysis
           path: dist/bundle-analysis.html
@@ -479,7 +479,7 @@ jobs:
         run: node scripts/ci/verify-dist-build.mjs
       - name: Upload dist-electron artifact
         if: ${{ success() && hashFiles('dist-electron/**') != '' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: dist-electron
           path: dist-electron/**
@@ -629,7 +629,7 @@ jobs:
         continue-on-error: true
       - name: Upload npm audit report
         if: ${{ always() && hashFiles('npm-audit.json') != '' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: npm-audit-report
           path: npm-audit.json
@@ -671,14 +671,14 @@ jobs:
           # Windows runner does not require xvfb for Electron
       - name: Upload Playwright report
         if: ${{ always() && hashFiles('playwright-report/**') != '' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: playwright-report
           path: playwright-report/**
           retention-days: 7
       - name: Upload Playwright traces
         if: ${{ always() && hashFiles('test-results/**') != '' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: playwright-traces
           path: test-results/**
@@ -699,7 +699,7 @@ jobs:
           SNYK_REPORT: snyk-report.json
       - name: Upload Snyk report
         if: ${{ always() && hashFiles('snyk-report.json') != '' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: snyk-report
           path: snyk-report.json
@@ -737,7 +737,7 @@ jobs:
 
       - name: Upload observability report
         if: ${{ always() && hashFiles('logs/observability-verification.json') != '' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: observability-report
           path: logs/observability-verification.json
@@ -858,13 +858,13 @@ jobs:
           $lines -join "`n" | Add-Content -Path $env:GITHUB_STEP_SUMMARY
           echo "json=$json" >> $env:GITHUB_OUTPUT
       - name: Upload weekly artifact (dated)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: perf-weekly-${{ github.run_id }}
           path: perf-weekly.json
           retention-days: 60
       - name: Upload weekly latest marker
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: perf-weekly-latest
           path: perf-weekly.json
@@ -897,7 +897,7 @@ jobs:
         run: node scripts/ci/generate-deployment-checklist.mjs
 
       - name: Step
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: deployment-checklist
           path: deployment-checklist.md
@@ -927,7 +927,7 @@ jobs:
         env:
           npm_config_omit: dev
       - name: Upload SBOM
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: sbom-cyclonedx
           path: sbom.json

@@ -45,7 +45,7 @@ jobs:
         run: npm run collect:traces
       - name: Upload perf logs
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: perf-logs-nightly
           path: |

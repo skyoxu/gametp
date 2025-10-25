@@ -243,7 +243,7 @@ jobs:
           npm_config_omit: dev
         run: npx --yes @cyclonedx/cyclonedx-npm --output-file sbom.json --spec-version 1.5
       - name: Upload SBOM (CycloneDX)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: sbom-cyclonedx
           path: sbom.json
@@ -251,14 +251,14 @@ jobs:
       - name: Generate CycloneDX SBOM (runtime only)
         run: npx --yes @cyclonedx/cyclonedx-npm --omit dev --output-file sbom-runtime.json --spec-version 1.5
       - name: Upload SBOM (runtime)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: sbom-runtime-cyclonedx
           path: sbom-runtime.json
           retention-days: 14
       - name: Upload release logs
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: release-logs
           path: |
@@ -266,20 +266,20 @@ jobs:
           retention-days: 14
       - name: Upload security audit logs
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: security-audit-logs
           path: |
             logs/**/security/*.json
           retention-days: 14
       - run: node scripts/ci/archive-build-artifacts.mjs
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: build-artifacts
           path: artifacts/build.zip
       - name: Upload packaged Electron artifacts
         if: ${{ always() && (github.ref_type == 'tag' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')) && (hashFiles('electron-dist/**') != '' || hashFiles('dist-electron/**') != '') }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: dist-electron
           path: |

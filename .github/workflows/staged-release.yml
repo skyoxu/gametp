@@ -55,7 +55,7 @@ jobs:
         run: py -3 scripts/ci/run_npm_audit.py
       - name: Upload security audit logs
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: staged-release-security-audit-logs
           path: |

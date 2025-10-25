@@ -259,7 +259,7 @@ jobs:
         run: node scripts/ci/static-security-summary.mjs
 
       - name: Upload static scan reports
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: static-security-reports
@@ -356,7 +356,7 @@ jobs:
           }
 
       - name: Upload application artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: electron-app-windows
           # Following citest/ciinfo.md rules, use standard output path
@@ -466,7 +466,7 @@ jobs:
 
       - name: Upload Playwright traces (logs/playwright-traces)
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: playwright-traces-shard-${{ matrix.shard }}
           path: logs/playwright-traces/
@@ -474,7 +474,7 @@ jobs:
           retention-days: 30
 
       - name: Upload E2E test reports
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: e2e-security-test-results-shard-${{ matrix.shard }}
@@ -594,7 +594,7 @@ jobs:
           RUN_ID: ${{ github.run_id }}
 
       - name: Upload unified security report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: unified-security-report
